@@ -10,6 +10,8 @@ class ShovelEvent
     use ShovelTrait;
     use ShovelParserTrait;
 
+    protected $url = 'https://www.usabmx.com/site';
+
     public $eventTypes = [
         'National' => [
             'section_id' => 228,

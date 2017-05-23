@@ -7,19 +7,6 @@ use Storage;
 trait ShovelTrait
 {
 
-    public $url = 'https://www.usabmx.com/site';
-
-    /**
-     * Remove leading, trailing white space and new new lines.
-     *
-     * @param  [type] $text [description]
-     * @return [type]       [description]
-     */
-    public function cleanText($text)
-    {
-        return trim(preg_replace('/\s\s+/', ' ', $text));
-    }
-
     /**
      * @SuppressWarnings(PHPMD) Needed so PHPMD allows for default Laravel usage of classes
      */
@@ -97,5 +84,10 @@ trait ShovelTrait
             'WI' => 'Wisconsin',
             'WY' => 'Wyoming',
         ];
+    }
+
+    public function aggressiveTrim($content = null): string
+    {
+        return trim(preg_replace('/\s\s+/', ' ', $content));
     }
 }

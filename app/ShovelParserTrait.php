@@ -6,6 +6,17 @@ use Storage;
 
 trait ShovelParserTrait
 {
+    /**
+     * Remove leading, trailing white space and new new lines.
+     *
+     * @param  [type] $text [description]
+     * @return [type]       [description]
+     */
+    public function cleanText($text)
+    {
+        return trim(preg_replace('/\s\s+/', ' ', $text));
+    }
+
     public function pageRange($pageRange)
     {
         $pageRange = [1,1];

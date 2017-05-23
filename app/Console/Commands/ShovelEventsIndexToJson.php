@@ -45,7 +45,7 @@ class ShovelEventsIndexToJson extends Command
         $year      = $this->choice('Event year? Press enter for:', $shovel->validYears(), 0);
         $pageRange = $this->ask('Page range? [1, 1-5, 5-10, etc.]');
 
-        list($initialPage, $endPage) = $shovel->parsedPageRange($pageRange);
+        list($initialPage, $endPage) = $shovel->pageRange($pageRange);
         if (in_array($event, array_keys($shovel->eventTypes))) {
             $bar      = $this->output->createProgressBar($endPage);
             $urls     = [];

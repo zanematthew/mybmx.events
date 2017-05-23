@@ -8,31 +8,27 @@ class ShovelEvent
 {
 
     use ShovelTrait;
+    use ShovelParserTrait;
 
     public $eventTypes = [
-            'National' => [
-                'section_id' => 228,
-            ],
-            'Earned Double' => [
-                'section_id' => 95,
-            ],
-            'Gold Cup' => [
-                'section_id' => 24,
-            ],
-            'Race for Life' => [
-                'section_id' => 19,
-            ],
-            'State' => [
-                'section_id' => 23,
-            ],
-        ];
+        'National' => [
+            'section_id' => 228,
+        ],
+        'Earned Double' => [
+            'section_id' => 95,
+        ],
+        'Gold Cup' => [
+            'section_id' => 24,
+        ],
+        'Race for Life' => [
+            'section_id' => 19,
+        ],
+        'State' => [
+            'section_id' => 23,
+        ],
+    ];
 
     private $slug = '/bmx_races';
-
-    public function parseTrackId($uri = null)
-    {
-        return last(explode('/', $uri));
-    }
 
     /**
      * Given an event ID retrieve the Type
@@ -99,24 +95,6 @@ class ShovelEvent
     }
 
     /**
-     * Parse the date based on the following format:
-     *     [some date] - [some other date]
-     *
-     * @param  string $date The date to parse
-     * @return mixed        If two dates returns an array, as start/end
-     */
-    public function parseDate($date)
-    {
-        if (strpos($date, '-') !== false) {
-            $date = array_map('trim', explode('-', $date));
-        } else {
-            $date = trim($date);
-        }
-
-        return $date;
-    }
-
-    /**
      * Gets start date
      *
      * @param  [type] $date [description]
@@ -124,7 +102,7 @@ class ShovelEvent
      */
     public function getStartDate($date)
     {
-        $date = $this->parseDate($date);
+        $date = $this->date($date);
         if (is_array($date)) {
             $date = current($date);
         }
@@ -139,7 +117,7 @@ class ShovelEvent
      */
     public function getEndDate($date)
     {
-        $date = $this->parseDate($date);
+        $date = $this->date($date);
         if (is_array($date)) {
             $date = last($date);
         }
@@ -168,7 +146,7 @@ class ShovelEvent
 
                 if ($node->filter('.event_title')->count()) {
                     $title = $this->cleanText($node->filter('.event_title')->text());
-                    $eventId = $this->parseIdFromUri($node->filter('.event_title a')->attr('href'));
+                    $eventId = $this->eventIdFromUri($node->filter('.event_title a')->attr('href'));
                 }
 
                 if ($node->filter('.event_date')->count()) {
@@ -178,7 +156,7 @@ class ShovelEvent
                 }
 
                 if ($node->filter('.event_location a')->count()) {
-                    $trackId = $this->parseTrackId($node->filter('.event_location a')->first()->attr('href'));
+                    $trackId = $this->venueId($node->filter('.event_location a')->first()->attr('href'));
                 }
 
                 return [
@@ -199,11 +177,5 @@ class ShovelEvent
     public function eventUrl()
     {
         return $this->url . $this->slug;
-    }
-
-    public function parseEventIdFromUrl($url = null)
-    {
-        $parsed = parse_url($url);
-        return last(explode('bmx_races/', $parsed['path']));
     }
 }

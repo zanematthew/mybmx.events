@@ -34,23 +34,12 @@ class ShovelEventTest extends TestCase
     }
 
     /**
-     * Given a specific structure determine the ID
-     *
-     * @return void
-     * @SuppressWarnings(PHPMD)
-     */
-    public function testParserTrackId()
-    {
-        $this->assertEquals('123', $this->event->parseTrackId('a/a/a/123'));
-    }
-
-    /**
      * Most important test, verifies that we can build specific query params.
      *
      * @return void
      * @SuppressWarnings(PHPMD)
      */
-    public function testUrlNational()
+    public function testBuildUrlNational()
     {
         $this->assertEquals(
             $this->url.'?section_id=228&year=UPCOMING&past_only=0&page=1&category=NATIONAL',
@@ -63,7 +52,7 @@ class ShovelEventTest extends TestCase
      * @return [type] [description]
      * @SuppressWarnings(PHPMD)
      */
-    public function testUrlNationalPast()
+    public function testBuildUrlNationalPast()
     {
         $this->assertEquals(
             $this->url.'?section_id=228&year=2005&past_only=1&page=1&category=NATIONAL',
@@ -76,7 +65,7 @@ class ShovelEventTest extends TestCase
      * @return [type] [description]
      * @SuppressWarnings(PHPMD)
      */
-    public function testUrlState()
+    public function testBuildUrlState()
     {
         $this->assertEquals(
             $this->url.'?section_id=23&year=UPCOMING&past_only=0&page=1&filter_state=1',
@@ -89,7 +78,7 @@ class ShovelEventTest extends TestCase
      * @return [type] [description]
      * @SuppressWarnings(PHPMD)
      */
-    public function testUrlEarnedDouble()
+    public function testBuildUrlEarnedDouble()
     {
         $this->assertEquals(
             $this->url.'?section_id=95&year=UPCOMING&past_only=0&page=1&series_race_type=Earned+Double',
@@ -102,7 +91,7 @@ class ShovelEventTest extends TestCase
      * @return [type] [description]
      * @SuppressWarnings(PHPMD)
      */
-    public function testUrlGoldCup()
+    public function testBuildUrlGoldCup()
     {
         $this->assertEquals(
             $this->url.'?section_id=24&year=UPCOMING&past_only=0&page=1&goldcup=1',
@@ -115,7 +104,7 @@ class ShovelEventTest extends TestCase
      * @return [type] [description]
      * @SuppressWarnings(PHPMD)
      */
-    public function testUrlRaceForLife()
+    public function testBuildUrlRaceForLife()
     {
         $this->assertEquals(
             $this->url.'?section_id=19&year=UPCOMING&past_only=0&page=1&series_race_type=Race+for+Life',
@@ -128,14 +117,8 @@ class ShovelEventTest extends TestCase
      * @return [type] [description]
      * @SuppressWarnings(PHPMD)
      */
-    public function testEventUrl()
+    public function testBuildEventUrl()
     {
         $this->assertEquals($this->url.'', $this->event->eventUrl());
-    }
-
-    public function testEventId()
-    {
-        $eventId = $this->event->parseEventIdFromUrl('https://www.usabmx.com/site/bmx_races/325850?section_id=228');
-        $this->assertEquals(325850, $eventId);
     }
 }

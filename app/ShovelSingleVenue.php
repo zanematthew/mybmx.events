@@ -37,10 +37,10 @@ class ShovelSingleVenue
 
     public function getCrawler()
     {
-          if (! $this->crawler) {
-               $this->crawler = $this->getClient()->request('GET', $this->url);
-          }
-          return $this->crawler;
+        if (! $this->crawler) {
+            $this->crawler = $this->getClient()->request('GET', $this->url);
+        }
+        return $this->crawler;
     }
 
     public function filter($selector)

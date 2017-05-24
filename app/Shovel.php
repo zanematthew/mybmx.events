@@ -4,7 +4,7 @@ namespace App;
 
 use Goutte\Client as GoutteClient;
 
-class Shovel
+abstract class Shovel
 {
     protected $url;
 
@@ -14,7 +14,6 @@ class Shovel
 
     public function __construct($url)
     {
-
         $this->url = $url;
     }
 
@@ -29,7 +28,6 @@ class Shovel
 
     public function setClient(GoutteClient $client)
     {
-
         $this->client = $client;
     }
 

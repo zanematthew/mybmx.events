@@ -108,4 +108,9 @@ class ShovelSingleVenueTest extends TestCase
             'long' => -76.681566,
         ], $this->venue->parseLatLongMapsUri());
     }
+
+    public function testParseName()
+    {
+        $this->assertEquals('Chesapeake BMX', $this->venue->parseName());
+    }
 }

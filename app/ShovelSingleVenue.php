@@ -153,4 +153,9 @@ class ShovelSingleVenue extends Shovel
             'long' => floatval($long),
         ];
     }
+
+    public function parseName(): string
+    {
+        return $this->aggressiveTrim(current(explode('<', $this->filter('#main_content h1')->html())));
+    }
 }

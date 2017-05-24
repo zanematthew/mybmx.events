@@ -29,7 +29,7 @@ class ShovelSingleVenueTest extends TestCase
         $goutte = new GoutteClient();
         $goutte->setClient($httpClient);
 
-        $venue = new ShovelSingleVenue('https://duckduckgo.com/html/?q=Laravel'); // URL can be anything
+        $venue = new ShovelSingleVenue('https://duckduckgo.com/html/?q=Laravel');
         $venue->setClient($goutte);
         $this->venue = $venue;
     }

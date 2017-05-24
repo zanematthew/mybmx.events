@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Goutte\Client as GoutteClient;
-
 class ShovelSingleVenue extends Shovel
 {
     use ShovelTrait;

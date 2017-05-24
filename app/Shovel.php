@@ -45,4 +45,11 @@ class Shovel
     {
         return $this->getCrawler()->filter($selector);
     }
+
+    public function getHttpResponse()
+    {
+        $this->getClient()->request('GET', $this->url);
+        $response = $this->getClient()->getResponse();
+        return $response->getStatus();
+    }
 }

@@ -34,6 +34,11 @@ class ShovelSingleVenueTest extends TestCase
         $this->venue = $venue;
     }
 
+    public function testHttpOkResonse()
+    {
+        $this->assertEquals(200, $this->venue->getHttpResponse());
+    }
+
     public function testContact()
     {
         $this->assertArraySubset([

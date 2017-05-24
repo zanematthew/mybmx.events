@@ -7,7 +7,7 @@ use Storage;
 trait ShovelTrait
 {
     protected $sourceUrl = 'https://www.usabmx.com/site';
-    protected $slug = '/bmx_tracks';
+    protected $sourceSlug = '/bmx_tracks';
 
     /**
      * @SuppressWarnings(PHPMD) Needed so PHPMD allows for default Laravel usage of classes
@@ -93,9 +93,16 @@ trait ShovelTrait
         return trim(preg_replace('/\s\s+/', ' ', $content));
     }
 
+    // @TODO needs test
     public function buildStateUrl($state)
     {
-        return $this->sourceUrl.$this->slug.'/by_state?section_id=12&state='.strtoupper($state);
+        return $this->sourceUrl.$this->sourceSlug.'/by_state?section_id=12&state='.strtoupper($state);
+    }
+
+    // @TODO needs test
+    public function buildVenueUrl($id = null): string
+    {
+        return $this->sourceUrl.$this->sourceSlug.'/'.$id;
     }
 
 }

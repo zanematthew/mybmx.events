@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\ShovelEventsIndexToJson::class,
         Commands\ShovelVenueIdsByStateAbbr::class,
+        Commands\ShovelSingleVenue::class,
     ];
 
     /**

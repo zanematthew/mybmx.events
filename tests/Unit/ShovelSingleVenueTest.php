@@ -19,7 +19,7 @@ class ShovelSingleVenueTest extends TestCase
 
         $venueHtml = file_get_contents(base_path('tests/Unit/data/venue.html'));
         $mock      = new MockHandler([
-            new Response(404, ['Content-type' => 'text/html'], $venueHtml),
+            new Response(200, ['Content-type' => 'text/html'], $venueHtml),
         ]);
 
         $httpClient = new GuzzleClient([

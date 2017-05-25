@@ -4,7 +4,7 @@ namespace App;
 
 use Goutte\Client as GoutteClient;
 
-abstract class Shovel
+abstract class AbstractShovel
 {
     protected $url;
 

@@ -2,7 +2,7 @@
 
 namespace App;
 
-class ShovelEventUsaBmxHosted extends Shovel
+class ShovelEventUsaBmxHosted extends AbstractShovel
 {
     // Only for nationals/USABMX hosted events
     public function date()

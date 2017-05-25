@@ -6,6 +6,20 @@ class ShovelSingleVenue extends AbstractShovel
 {
     use ShovelTrait;
 
+    private $venueId;
+
+    public function __construct($venueId = null)
+    {
+
+        $this->venueId = $venueId;
+        parent::__construct($this->url());
+    }
+
+    public function url()
+    {
+        return 'https://www.usabmx.com/site/bmx_tracks/'.$this->venueId;
+    }
+
     /**
      * Parse the Venue contact information.
      *

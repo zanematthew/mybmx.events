@@ -29,7 +29,7 @@ class ShovelSingleVenueTest extends TestCase
         $goutte = new GoutteClient();
         $goutte->setClient($httpClient);
 
-        $venue = new ShovelSingleVenue('https://duckduckgo.com/html/?q=Laravel');
+        $venue = new ShovelSingleVenue(123);
         $venue->setClient($goutte);
         $this->venue = $venue;
     }
@@ -117,5 +117,10 @@ class ShovelSingleVenueTest extends TestCase
     public function testParseName()
     {
         $this->assertEquals('Chesapeake BMX', $this->venue->parseName());
+    }
+
+    public function testBuildVenueUrl()
+    {
+        $this->assertEquals('https://www.usabmx.com/site/bmx_tracks/123', $this->venue->url());
     }
 }

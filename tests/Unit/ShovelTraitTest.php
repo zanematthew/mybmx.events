@@ -87,9 +87,4 @@ class ShovelTraitTest extends TestCase
             $this->mock->buildVenueStateUrl('md')
         );
     }
-
-    public function testBuildVenueUrl()
-    {
-        $this->assertEquals('https://www.usabmx.com/site/bmx_tracks/123', $this->mock->buildVenueUrl(123));
-    }
 }

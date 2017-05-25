@@ -41,13 +41,12 @@ class ShovelSingleVenue extends Command
     public function handle()
     {
         $venueIdAsk = $this->ask("Enter Venue ID?");
-        $url = $this->buildVenueUrl($venueIdAsk);
-        $venue = new VenueDetail($url);
+        $venue = new VenueDetail($venueIdAsk);
         $httpResponse = $venue->getHttpResponse();
 
         if ($httpResponse !== 200) {
             $this->error("HTTP Response: {$httpResponse}.");
-            $this->error("URL: {$url}.");
+            $this->error("URL: {$venue->url()}.");
             $this->error("Venue ID: {$venueIdAsk} may not exists. Needs manual inspection.");
             return;
         }
@@ -55,7 +54,7 @@ class ShovelSingleVenue extends Command
         $name = $venue->parseName();
 
         $this->info("HTTP Response: {$httpResponse}.");
-        $this->info("URL: {$url}.");
+        $this->info("URL: {$venue->url()}.");
         $this->info("Retrieved detail for: {$name}.");
 
         $detail = [

@@ -79,12 +79,4 @@ class ShovelTraitTest extends TestCase
     {
         $this->assertFalse($this->mock->isYearValid(2000));
     }
-
-    public function testBuildVenueStateUrl()
-    {
-        $this->assertEquals(
-            'https://www.usabmx.com/site/bmx_tracks/by_state?section_id=12&state=MD',
-            $this->mock->buildVenueStateUrl('md')
-        );
-    }
 }

@@ -8,9 +8,9 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use App\ShovelVenueIdByStateAbbr;
+use App\ShovelBulkVenueByState;
 
-class ShovelVenueIdByStateAbbrTest extends TestCase
+class ShovelBulkVenueByStateTest extends TestCase
 {
 
     public function setUp()
@@ -30,7 +30,7 @@ class ShovelVenueIdByStateAbbrTest extends TestCase
         $goutte = new GoutteClient();
         $goutte->setClient($httpClient);
 
-        $venueIdByStateAbbr = new ShovelVenueIdByStateAbbr('MD');
+        $venueIdByStateAbbr = new ShovelBulkVenueByState('MD');
         $venueIdByStateAbbr->setClient($goutte);
         $this->venueIdByStateAbbr = $venueIdByStateAbbr;
     }

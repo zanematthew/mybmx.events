@@ -2,7 +2,7 @@
 
 namespace App;
 
-class ShovelVenueIdByStateAbbr extends AbstractShovel
+class ShovelBulkVenueByState extends AbstractShovel
 {
     use ShovelTrait;
 

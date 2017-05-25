@@ -56,7 +56,7 @@ class ShovelVenueIdsByStateAbbr extends Command
         $bar        = $this->output->createProgressBar(count($states));
 
         foreach ($states as $state) {
-            $venueIdByStateAbbr = new VenueByState($this->buildVenueStateUrl($state));
+            $venueIdByStateAbbr = new VenueByState($state);
             $results             = $venueIdByStateAbbr->parseVenueId($state);
 
             if (!empty($results)) {

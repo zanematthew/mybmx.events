@@ -6,6 +6,20 @@ class ShovelVenueIdByStateAbbr extends AbstractShovel
 {
     use ShovelTrait;
 
+    private $stateAbbr;
+
+    public function __construct($stateAbbr = null)
+    {
+        $this->stateAbbr = $stateAbbr;
+        parent::__construct($this->url());
+    }
+
+    public function url()
+    {
+        // is valid state
+        return 'http://usabmx.com/site/bmx_tracks/by_state?section_id=12&state='.$this->stateAbbr;
+    }
+
     /**
      * Parses for the Venue ID, and Venue Title.
      *

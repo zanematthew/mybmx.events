@@ -30,7 +30,7 @@ class ShovelVenueIdByStateAbbrTest extends TestCase
         $goutte = new GoutteClient();
         $goutte->setClient($httpClient);
 
-        $venueIdByStateAbbr = new ShovelVenueIdByStateAbbr('https://duckduckgo.com/html/?q=Laravel'); // URL can be anything
+        $venueIdByStateAbbr = new ShovelVenueIdByStateAbbr('MD');
         $venueIdByStateAbbr->setClient($goutte);
         $this->venueIdByStateAbbr = $venueIdByStateAbbr;
     }
@@ -60,5 +60,13 @@ class ShovelVenueIdByStateAbbrTest extends TestCase
                 'title' => 'Chesapeake BMX',
             ],
         ], $this->venueIdByStateAbbr->parseVenueId());
+    }
+
+    public function testUrl()
+    {
+        $this->assertEquals(
+            'http://usabmx.com/site/bmx_tracks/by_state?section_id=12&state=MD',
+            $this->venueIdByStateAbbr->url()
+        );
     }
 }

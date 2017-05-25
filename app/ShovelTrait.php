@@ -125,20 +125,6 @@ trait ShovelTrait
         return trim(preg_replace('/\s\s+/', ' ', $content));
     }
 
-    public function buildVenueStateUrl($state): string
-    {
-        if ($this->isStateValid($state) === false) {
-            return '';
-        }
-
-        return $this->sourceUrl.$this->venueSlug.'/by_state?section_id=12&state='.strtoupper($state);
-    }
-
-    public function buildVenueUrl($venueId = null): string
-    {
-        return $this->sourceUrl.$this->venueSlug.'/'.$venueId;
-    }
-
     public function buildUrl($type, $year = null, $page = null): string
     {
         if ($this->isYearValid($year) === false) {

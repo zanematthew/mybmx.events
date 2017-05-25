@@ -14,10 +14,13 @@ class ShovelVenueIdByStateAbbr extends AbstractShovel
         parent::__construct($this->url());
     }
 
-    public function url()
+    public function url(): string
     {
-        // is valid state
-        return 'http://usabmx.com/site/bmx_tracks/by_state?section_id=12&state='.$this->stateAbbr;
+        if ($this->isStateValid($this->stateAbbr) === false) {
+            return '';
+        }
+
+        return 'http://usabmx.com/site/bmx_tracks/by_state?section_id=12&state='.strtoupper($this->stateAbbr);
     }
 
     /**

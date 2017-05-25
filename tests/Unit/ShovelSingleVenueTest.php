@@ -118,9 +118,4 @@ class ShovelSingleVenueTest extends TestCase
     {
         $this->assertEquals('Chesapeake BMX', $this->venue->parseName());
     }
-
-    public function testBuildVenueUrl()
-    {
-        $this->assertEquals('https://www.usabmx.com/site/bmx_tracks/123', $this->venue->url());
-    }
 }

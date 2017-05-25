@@ -2,9 +2,22 @@
 
 namespace App;
 
-class ShovelEvent extends AbstractShovel
+class ShovelSingleEvent extends AbstractShovel
 {
     use ShovelTrait;
+
+    private $eventId;
+
+    public function __construct($eventId = null)
+    {
+        $this->eventId = $eventId;
+        parent::__construct($this->url());
+    }
+
+    public function url()
+    {
+        return 'http://usabmx.com/site/bmx_races/'.$this->eventId;
+    }
 
     public function idFromShareLinks()
     {

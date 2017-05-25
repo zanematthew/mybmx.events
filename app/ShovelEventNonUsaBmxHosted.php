@@ -2,7 +2,7 @@
 
 namespace App;
 
-class ShovelEventNonUsaBmxHosted extends ShovelEvent
+class ShovelEventNonUsaBmxHosted extends ShovelSingleEvent
 {
     // Only for earned double, rfl, gcq, state race)(){}
     public function parseDescription($text = null): string

@@ -2,7 +2,7 @@
 
 namespace App;
 
-class ShovelEventUsaBmxHosted extends ShovelEvent
+class ShovelEventUsaBmxHosted extends ShovelSingleEvent
 {
 
     // Only for Nationals/USABMX hosted events

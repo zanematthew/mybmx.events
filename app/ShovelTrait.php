@@ -6,8 +6,30 @@ use Storage;
 
 trait ShovelTrait
 {
+
     protected $sourceUrl = 'https://www.usabmx.com/site';
-    protected $sourceSlug = '/bmx_tracks';
+
+    protected $venueSlug = '/bmx_tracks';
+
+    protected $eventSlug = '/bmx_races';
+
+    protected $eventTypes = [
+        'National' => [
+            'section_id' => 228,
+        ],
+        'Earned Double' => [
+            'section_id' => 95,
+        ],
+        'Gold Cup' => [
+            'section_id' => 24,
+        ],
+        'Race for Life' => [
+            'section_id' => 19,
+        ],
+        'State' => [
+            'section_id' => 23,
+        ],
+    ];
 
     /**
      * @SuppressWarnings(PHPMD) Needed so PHPMD allows for default Laravel usage of classes
@@ -29,6 +51,16 @@ trait ShovelTrait
         $years[] = 'Upcoming';
 
         return array_reverse($years);
+    }
+
+    public function isYearValid($year = null): bool
+    {
+        return (in_array($year, $this->validYears(), true));
+    }
+
+    public function isStateValid($state = null): bool
+    {
+        return (in_array(strtoupper($state), array_keys($this->states()), true));
     }
 
     public function states()
@@ -93,16 +125,87 @@ trait ShovelTrait
         return trim(preg_replace('/\s\s+/', ' ', $content));
     }
 
-    // @TODO needs test
-    public function buildStateUrl($state)
+    public function buildVenueStateUrl($state): string
     {
-        return $this->sourceUrl.$this->sourceSlug.'/by_state?section_id=12&state='.strtoupper($state);
+        if ($this->isStateValid($state) === false) {
+            return '';
+        }
+
+        return $this->sourceUrl.$this->venueSlug.'/by_state?section_id=12&state='.strtoupper($state);
     }
 
-    // @TODO needs test
-    public function buildVenueUrl($id = null): string
+    public function buildVenueUrl($venueId = null): string
     {
-        return $this->sourceUrl.$this->sourceSlug.'/'.$id;
+        return $this->sourceUrl.$this->venueSlug.'/'.$venueId;
     }
 
+    public function buildUrl($type, $year = null, $page = null): string
+    {
+        if ($this->isYearValid($year) === false) {
+            return '';
+        }
+
+        $sectionId = $this->eventTypes[$type]['section_id'];
+
+        switch ($sectionId) {
+            case 228:
+                $additionalParams = ['category' => strtoupper($type)];
+                break;
+            case 95:
+                $additionalParams = ['series_race_type' => $type];
+                break;
+            case 24:
+                $additionalParams = ['goldcup' => 1];
+                break;
+            case 19:
+                $additionalParams = ['series_race_type' => $type];
+                break;
+            case 23:
+                $additionalParams = ['filter_state' => 1];
+                break;
+            default:
+                $additionalParams = null;
+                break;
+        }
+
+        $pastOnly = 1;
+        $yearFix  = $year;
+
+        if ($year == 'Upcoming') {
+            $pastOnly = 0;
+            $yearFix  = 'UPCOMING';
+        }
+
+        return $this->sourceUrl . $this->eventSlug . '?' . http_build_query(array_merge([
+            'section_id' => $sectionId,
+            'year'       => $yearFix,
+            'past_only'  => $pastOnly,
+            'page'       => empty($page) ? 1 : $page,
+        ], $additionalParams));
+    }
+
+    public function nationalUrl($year = 'Upcoming', $page = 1): string
+    {
+        return $this->buildUrl('National', $year, $page);
+    }
+
+    public function stateUrl($year = 'Upcoming', $page = 1): string
+    {
+        return $this->buildUrl('State', $year, $page);
+    }
+
+    public function earnedDoubleUrl($year = 'Upcoming', $page = 1): string
+    {
+        return $this->buildUrl('Earned Double', $year, $page);
+    }
+
+    public function raceForLifeUrl($year = 'Upcoming', $page = 1): string
+    {
+        return $this->buildUrl('Race for Life', $year, $page);
+    }
+
+    public function goldCupUrl($year = 'Upcoming', $page = 1): string
+    {
+        return $this->buildUrl('Gold Cup', $year, $page);
+    }
 }

@@ -31,7 +31,7 @@ class ShovelEventNonUsaBmxHostedTest extends TestCase
         $goutte = new GoutteClient();
         $goutte->setClient($httpClient);
 
-        $eventNonUsaBmxHosted = new ShovelEventNonUsaBmxHosted('http://example.com');
+        $eventNonUsaBmxHosted = new ShovelEventNonUsaBmxHosted('https://www.usabmx.com/site/bmx_races');
         $eventNonUsaBmxHosted->setClient($goutte);
         $this->eventNonUsaBmxHosted = $eventNonUsaBmxHosted;
     }

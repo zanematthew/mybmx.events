@@ -2,9 +2,11 @@
 
 namespace App;
 
-class ShovelEventUsaBmxHosted extends AbstractShovel
+class ShovelEventUsaBmxHosted extends ShovelEvent
 {
-    // Only for nationals/USABMX hosted events
+
+    // Only for Nationals/USABMX hosted events
+    // These have a START DATE, and END DATE.
     public function date()
     {
         $date = $this->filter('#event_date')->eq(0)->text();

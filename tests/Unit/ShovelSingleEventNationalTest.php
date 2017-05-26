@@ -10,15 +10,15 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 
-use App\ShovelEventUsaBmxHosted;
+use App\ShovelSingleEvent;
 
-class ShovelEventUsaBmxHostedTest extends TestCase
+class ShovelSingleEventNationalTest extends TestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $eventHtml = file_get_contents(base_path('tests/Unit/data/event-national-us.html'));
+        $eventHtml = file_get_contents(base_path('tests/Unit/data/single-event-national.html'));
 
         $mock = new MockHandler([
             new Response(200, ['Content-type' => 'text/html'], $eventHtml),
@@ -31,26 +31,26 @@ class ShovelEventUsaBmxHostedTest extends TestCase
         $goutte = new GoutteClient();
         $goutte->setClient($httpClient);
 
-        $eventUsaBmxHosted = new ShovelEventUsaBmxHosted('https://www.usabmx.com/site/bmx_races');
-        $eventUsaBmxHosted->setClient($goutte);
-        $this->eventUsaBmxHosted = $eventUsaBmxHosted;
+        $event = new ShovelSingleEvent('https://www.usabmx.com/site/bmx_races');
+        $event->setClient($goutte);
+        $this->event = $event;
     }
 
     public function testStartDate()
     {
-        $this->assertEquals('June 09, 2017', $this->eventUsaBmxHosted->startDate());
+        $this->assertEquals('June 09, 2017', $this->event->startDate());
     }
 
     public function testEndDate()
     {
-        $this->assertEquals('June 11, 2017', $this->eventUsaBmxHosted->endDate());
+        $this->assertEquals('June 11, 2017', $this->event->endDate());
     }
 
     public function testFlyerUri()
     {
         $this->assertEquals(
             '//s3.amazonaws.com/bmxwebserverprod/attachments/210852/2017-EAST_COAST.pdf',
-            $this->eventUsaBmxHosted->flyerUri()
+            $this->event->flyerUri()
         );
     }
 
@@ -58,12 +58,12 @@ class ShovelEventUsaBmxHostedTest extends TestCase
     {
         $this->assertEquals(
             '//s3.amazonaws.com/bmxwebserverprod/attachments/204680/2017-3-DAY-SCHEDULE_A.pdf',
-            $this->eventUsaBmxHosted->eventScheduleUri()
+            $this->event->eventScheduleUri()
         );
     }
 
     public function testHotelUri()
     {
-        $this->assertEquals('/site/sections/160', $this->eventUsaBmxHosted->hotelUri());
+        $this->assertEquals('/site/sections/160', $this->event->hotelUri());
     }
 }

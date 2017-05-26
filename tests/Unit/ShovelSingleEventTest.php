@@ -18,7 +18,7 @@ class ShovelSingleEventTest extends TestCase
     {
         parent::setUp();
 
-        $eventHtml = file_get_contents(base_path('tests/Unit/data/event.html'));
+        $eventHtml = file_get_contents(base_path('tests/Unit/data/single-event.html'));
 
         $mock = new MockHandler([
             new Response(200, ['Content-type' => 'text/html'], $eventHtml),
@@ -54,5 +54,20 @@ class ShovelSingleEventTest extends TestCase
     public function testUrl()
     {
         $this->assertEquals('http://usabmx.com/site/bmx_races/123', $this->event->url());
+    }
+
+    public function testFee()
+    {
+        $this->assertEquals(25, $this->event->fee());
+    }
+
+    public function testRegistrationStartTime()
+    {
+        $this->assertEquals('9:00 AM', $this->event->registrationStartTime());
+    }
+
+    public function testRegistrationEndTime()
+    {
+        $this->assertEquals('11:00 AM', $this->event->registrationEndTime());
     }
 }

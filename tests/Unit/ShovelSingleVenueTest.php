@@ -17,7 +17,7 @@ class ShovelSingleVenueTest extends TestCase
     {
         parent::setUp();
 
-        $venueHtml = file_get_contents(base_path('tests/Unit/data/venue.html'));
+        $venueHtml = file_get_contents(base_path('tests/Unit/data/single-venue.html'));
         $mock      = new MockHandler([
             new Response(200, ['Content-type' => 'text/html'], $venueHtml),
         ]);

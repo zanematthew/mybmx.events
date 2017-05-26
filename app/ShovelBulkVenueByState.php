@@ -1,8 +1,8 @@
 <?php
-
+// @TODO needs test
 namespace App;
 
-class ShovelBulkVenueByState extends AbstractShovel
+class ShovelBulkVenueByState extends AbstractShovelClient
 {
     use ShovelTrait;
 

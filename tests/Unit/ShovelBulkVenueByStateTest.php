@@ -18,7 +18,7 @@ class ShovelBulkVenueByStateTest extends TestCase
         parent::setUp();
 
         // @TODO Move this into its own custom parent setUp(); ?
-        $venueHtml = file_get_contents(base_path('tests/Unit/data/venues-by-state-abbr.html'));
+        $venueHtml = file_get_contents(base_path('tests/Unit/data/bulk-venue.html'));
         $mock      = new MockHandler([
             new Response(404, ['Content-type' => 'text/html'], $venueHtml),
         ]);

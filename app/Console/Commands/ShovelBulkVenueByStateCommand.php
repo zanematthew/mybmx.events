@@ -14,7 +14,7 @@ class ShovelBulkVenueByStateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:bulk-venue-ids-by-state-abbr
+    protected $signature = 'shovel:bulk-venue-id-by-state
                             {--state= : State Abbreviation.}
                             {--s|save : Save to disk.}';
 
@@ -55,7 +55,7 @@ class ShovelBulkVenueByStateCommand extends Command
             return;
         }
 
-        $id = $venue->parseVenueId($state);
+        $id = $venue->parseVenueId();
         $results = [
             'url'    => $venue->url(),
             'count'  => count($id),
@@ -81,10 +81,10 @@ class ShovelBulkVenueByStateCommand extends Command
             date('d-M-Y-H:i:s'),
             str_slug("{$state} venue ids", '-')
         );
-        $saved = true;
+
         if (!$this->saveToJson($filename, $results, 'venues/bulk')) {
             $this->error("Failed to save file: {$filename}.");
-            $saved = false;
+            return;
         }
         $this->info('Saved.');
     }

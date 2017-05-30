@@ -16,10 +16,6 @@ class ShovelBulkVenueByState extends AbstractShovelClient
 
     public function url(): string
     {
-        if ($this->isStateValid($this->stateAbbr) === false) {
-            return '';
-        }
-
         return 'http://usabmx.com/site/bmx_tracks/by_state?section_id=12&state='.strtoupper($this->stateAbbr);
     }
 

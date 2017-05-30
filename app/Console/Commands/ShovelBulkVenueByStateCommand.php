@@ -14,7 +14,9 @@ class ShovelBulkVenueByStateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:venue-ids-by-state-abbr';
+    protected $signature = 'shovel:bulk-venue-ids-by-state-abbr
+                            {--state= : State Abbreviation.}
+                            {--s|save : Save to disk.}';
 
     /**
      * The console command description.
@@ -40,52 +42,50 @@ class ShovelBulkVenueByStateCommand extends Command
      */
     public function handle()
     {
-        $stateAsk       = $this->ask("Enter state by abbreviation, i.e., 'CA', 'MD PA', 'All'");
-        $statesAskArray = array_map('strtoupper', explode(' ', $stateAsk));
-        $allStates      = $this->states();
+        $state = $this->option('state') ?? $this->ask("Enter state by abbreviation, i.e., 'MD'");
 
-        if ($stateAsk == 'All') {
-            $states = array_keys($allStates);
-        } else {
-            $states = array_intersect($statesAskArray, array_keys($allStates));
+        $this->line("Sending request...");
+        $venue        = new VenueByState($state);
+        $httpResponse = $venue->getHttpResponse();
+
+        if ($httpResponse !== 200) {
+            $this->error("Error.");
+            $this->error("HTTP Response: {$httpResponse}.");
+            $this->error("URL: {$venue->url()}.");
+            return;
         }
 
-        $statesData = [];
-        $venueCount = [];
-        $venues     = [];
-        $bar        = $this->output->createProgressBar(count($states));
-
-        foreach ($states as $state) {
-            $venueIdByStateAbbr = new VenueByState($state);
-            $results             = $venueIdByStateAbbr->parseVenueId($state);
-
-            if (!empty($results)) {
-                $statesData[] = $state;
-                $venues       = array_merge($results, $venues);
-                $status       = count($results);
-
-                $filename = sprintf('%s-%s',
-                    date('d-M-Y-H:i:s'),
-                    str_slug("{$state} venue ids", '-')
-                );
-                $this->saveToJson($filename, $results, 'venues');
-            }
-
-            $savedTo[]  = $filename;
-            $statuses[] = $status;
-
-            $bar->advance();
-        }
-
-        $bar->finish();
-        $this->line("\n");
-
-        $data = [
-            'State'       => implode(PHP_EOL, $statesData),
-            'File(s)'     => implode(PHP_EOL, $savedTo),
-            'Count'       => implode(PHP_EOL, $statuses),
+        $id = $venue->parseVenueId($state);
+        $results = [
+            'url'    => $venue->url(),
+            'count'  => count($id),
+            'venues' => $id,
         ];
 
-        $this->table(array_keys($data), [$data]);
+        $this->line("Requested results.");
+        $this->line("State: {$state}");
+        $this->line("Count: {$results['count']}");
+        $this->line("URL: {$results['url']}");
+        $this->table(['Venue(s)'], [
+            ['Venue' => implode(PHP_EOL, array_pluck($results['venues'], 'title'))]
+        ]);
+
+        $save = $this->option('save') ?: $this->choice("Save to disk?", ['Y', 'N'], 1);
+        if ($save === "N") {
+            $this->info('Done.');
+            return;
+        }
+
+        $filename = sprintf(
+            '%s-%s',
+            date('d-M-Y-H:i:s'),
+            str_slug("{$state} venue ids", '-')
+        );
+        $saved = true;
+        if (!$this->saveToJson($filename, $results, 'venues/bulk')) {
+            $this->error("Failed to save file: {$filename}.");
+            $saved = false;
+        }
+        $this->info('Saved.');
     }
 }

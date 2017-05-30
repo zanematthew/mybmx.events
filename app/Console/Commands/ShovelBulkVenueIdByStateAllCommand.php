@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\ShovelBulkVenueByState as VenueByState;
 
-class ShovelBulkVenueByStateAllCommand extends Command
+class ShovelBulkVenueIdByStateAllCommand extends Command
 {
 
     use \App\ShovelTrait;

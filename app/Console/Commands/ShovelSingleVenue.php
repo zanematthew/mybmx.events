@@ -14,7 +14,9 @@ class ShovelSingleVenue extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:single-venue-by-id';
+    protected $signature = 'shovel:single-venue-by-id
+                            {--i|venue_id= : The ID of a venue.}
+                            {--s|save : Save to disk.}';
 
     /**
      * The console command description.
@@ -40,15 +42,15 @@ class ShovelSingleVenue extends Command
      */
     public function handle()
     {
-        $venueIdAsk = $this->ask("Enter Venue ID?");
 
-        $venue        = new VenueDetail($venueIdAsk);
+        $venueId      = $this->option('venue_id') ?? $this->ask("Enter Venue ID?");
+        $venue        = new VenueDetail($venueId);
         $httpResponse = $venue->getHttpResponse();
 
         if ($httpResponse !== 200) {
             $this->error("HTTP Response: {$httpResponse}.");
             $this->error("URL: {$venue->url()}.");
-            $this->error("Venue ID: {$venueIdAsk} may not exists. Needs manual inspection.");
+            $this->error("Venue ID: {$venueId} may not exists. Needs manual inspection.");
             return;
         }
 
@@ -93,9 +95,9 @@ class ShovelSingleVenue extends Command
         $this->info("\nLinks:");
         $this->table(array_keys($links), [$links]);
 
-        $saveAsk = $this->choice("Save to disk?", ['Y','N'], 1);
+        $save = $this->option('save') ?: $this->choice("Save to disk?", ['Y','N'], 1);
 
-        if ($saveAsk === "N") {
+        if ($save === "N") {
             $this->info("Done.");
             return;
         }
@@ -106,7 +108,7 @@ class ShovelSingleVenue extends Command
             '%s-%s-%d',
             date('d-M-Y-H:i:s'),
             str_slug($name, '-'),
-            $venueIdAsk
+            $venueId
         );
 
         $saved = $this->saveToJson($filename, $venueDetail, 'venues/detail');

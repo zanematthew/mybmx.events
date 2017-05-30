@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\ShovelEventsIndexToJson::class,
         Commands\ShovelBulkVenueByStateCommand::class,
         Commands\ShovelSingleVenue::class,
+        Commands\ShovelSingleEventCommand::class,
     ];
 
     /**

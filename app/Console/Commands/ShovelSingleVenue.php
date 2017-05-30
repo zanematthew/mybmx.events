@@ -41,7 +41,8 @@ class ShovelSingleVenue extends Command
     public function handle()
     {
         $venueIdAsk = $this->ask("Enter Venue ID?");
-        $venue = new VenueDetail($venueIdAsk);
+
+        $venue        = new VenueDetail($venueIdAsk);
         $httpResponse = $venue->getHttpResponse();
 
         if ($httpResponse !== 200) {
@@ -101,11 +102,13 @@ class ShovelSingleVenue extends Command
 
         $venueDetail = array_merge($detail, $location, $links);
 
-        $filename = sprintf('%s-%s-%d',
+        $filename = sprintf(
+            '%s-%s-%d',
             date('d-M-Y-H:i:s'),
             str_slug($name, '-'),
             $venueIdAsk
         );
+
         $saved = $this->saveToJson($filename, $venueDetail, 'venues/detail');
         if ($saved !== true) {
             $this->error("Error, failed to save: {$filename}.");

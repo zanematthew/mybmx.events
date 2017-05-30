@@ -17,10 +17,20 @@ class ShovelSingleEvent extends AbstractShovelClient
         return 'http://usabmx.com/site/bmx_races/'.$this->eventId;
     }
 
-    public function idFromShareLinks()
+    public function idFromShareLinks(): int
     {
+        // https://twitter.com/share?url=http://usabmx.com/site/bmx_races/334979?section_id=23&text=State%20Race%20Double&hashtags=bmx
+        // https://twitter.com/share?url=http://usabmx.com/site/bmx_races/1&text=Redline%20Cup%20Finals%20East&hashtags=bmx
+        // https://twitter.com/share?url=http://usabmx.com/site/bmx_races/324629?section_id=228&text=East%20Coast%20Nationals&hashtags=bmx
         $uri = $this->filter('.share_race a')->eq(0)->attr('href');
-        return current(explode('?', last(explode('/', $uri))));
+
+        $id = current(explode('?', last(explode('/', $uri))));
+
+        if (!is_numeric($id)) {
+            $id = current(explode('&', $id));
+        }
+
+        return $id;
     }
 
     public function title()
@@ -31,35 +41,42 @@ class ShovelSingleEvent extends AbstractShovelClient
     // Most events just say "There is no description for this race."
     public function description(){}
 
-    public function venueId()
+    public function venueId(): int
     {
-        return last(explode('/', $this->filter('#venue_title a')->eq(0)->attr('href')));
+        $title = 0;
+        if ($this->filter('#venue_title a')->count()) {
+            $title = last(explode('/', $this->filter('#venue_title a')->eq(0)->attr('href')));
+        }
+
+        return (int) $title;
     }
 
     // Only for Nationals/USABMX hosted events
     // These have a START DATE, and END DATE.
-    public function date()
+    public function date(): array
     {
         $date = $this->filter('#event_date')->eq(0)->text();
+
         if (strpos($date, '-') !== false) {
             $date = array_map('trim', explode('-', $date));
         } else {
-            $date = trim($date);
+            $date = (array) trim($date);
         }
+
         return $date;
     }
 
-    public function startDate()
+    public function startDate(): string
     {
         return current($this->date());
     }
 
-    public function endDate()
+    public function endDate(): string
     {
         return last($this->date());
     }
 
-    public function parseResource($resource = null)
+    public function parseResource($resource = null): string
     {
         $resources = $this->filter('.race_resources li')->each(function ($node) use ($resource) {
             // Note, can't use `snake_case()`, because that makes BMX into b_m_x
@@ -73,20 +90,20 @@ class ShovelSingleEvent extends AbstractShovelClient
                 $tmp[$k] = $v;
             }
         }
-        return $tmp[$resource] ?? null;
+        return $tmp[$resource] ?? '';
     }
 
-    public function flyerUri()
+    public function flyerUri(): string
     {
         return $this->parseResource('event_flyer');
     }
 
-    public function eventScheduleUri()
+    public function eventScheduleUri(): string
     {
         return $this->parseResource('event_schedule');
     }
 
-    public function hotelUri()
+    public function hotelUri(): string
     {
         return $this->parseResource('bmx_hotels');
     }
@@ -96,6 +113,10 @@ class ShovelSingleEvent extends AbstractShovelClient
     public function parseDescription($text = null): string
     {
         if (empty($text)) {
+            return '';
+        }
+
+        if ($this->filter('#event_description li')->count() == 0) {
             return '';
         }
 
@@ -117,7 +138,7 @@ class ShovelSingleEvent extends AbstractShovelClient
         return $this->parseDescription('Entry Fee');
     }
 
-    public function registrationStartTime()
+    public function registrationStartTime(): string
     {
         return $this->parseDescription('Registration Begins');
     }

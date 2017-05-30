@@ -14,7 +14,9 @@ class ShovelSingleEventCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:single-event-by-id';
+    protected $signature = 'shovel:single-event-by-id
+                            {--i|event_id= : The ID of an event.}
+                            {--s|save : Save to disk.}';
 
     /**
      * The console command description.
@@ -41,8 +43,7 @@ class ShovelSingleEventCommand extends Command
     public function handle()
     {
 
-        $eventIdAsk = $this->ask("Enter Event ID?");
-
+        $eventIdAsk   = $this->option('event_id') ?? $this->ask("Enter Event ID?");
         $event        = new ShovelEvent($eventIdAsk);
         $httpResponse = $event->getHttpResponse();
 
@@ -77,9 +78,9 @@ class ShovelSingleEventCommand extends Command
         $this->info("\nDetail:");
         $this->table(array_keys($detail), [$detail]);
 
-        $saveAsk = $this->choice("Save to disk?", ['Y','N'], 1);
+        $save = $this->option('save') ?: $this->choice("Save to disk?", ['Y','N'], 1);
 
-        if ($saveAsk === "N") {
+        if ($save === "N") {
             $this->info("Done.");
             return;
         }

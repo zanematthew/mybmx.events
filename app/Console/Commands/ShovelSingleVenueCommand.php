@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\ShovelSingleVenue as VenueDetail;
 
-class ShovelSingleVenue extends Command
+class ShovelSingleVenueCommand extends Command
 {
     use \App\ShovelTrait;
 

@@ -25,6 +25,16 @@ class ShovelTraitTest extends TestCase
         $this->assertTrue($this->mock->isStateValid('md'));
     }
 
+    public function testIsTypeValid()
+    {
+        $this->assertTrue($this->mock->isTypeValid('National'));
+    }
+
+    public function testIsTypeValidFalse()
+    {
+        $this->assertFalse($this->mock->isTypeValid('Foo'));
+    }
+
     public function testFalseIsStateValid()
     {
         $this->assertFalse($this->mock->isStateValid('DC'));

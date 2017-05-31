@@ -56,6 +56,11 @@ trait ShovelTrait
         return (in_array(strtoupper($state), array_keys($this->states()), true));
     }
 
+    public function isTypeValid($type = null): bool
+    {
+        return (in_array($type, array_keys($this->eventTypes)));
+    }
+
     public function states()
     {
         return [

@@ -6,6 +6,23 @@ use Storage;
 
 trait ShovelTrait
 {
+    protected $eventTypes = [
+        'National' => [
+            'section_id' => 228,
+        ],
+        'Earned Double' => [
+            'section_id' => 95,
+        ],
+        'Gold Cup' => [
+            'section_id' => 24,
+        ],
+        'Race for Life' => [
+            'section_id' => 19,
+        ],
+        'State' => [
+            'section_id' => 23,
+        ],
+    ];
 
     /**
      * @SuppressWarnings(PHPMD) Needed so PHPMD allows for default Laravel usage of classes

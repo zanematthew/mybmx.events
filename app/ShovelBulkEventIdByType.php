@@ -6,24 +6,6 @@ class ShovelBulkEventIdByType extends AbstractShovelClient
 {
     use ShovelTrait;
 
-    protected $eventTypes = [
-        'National' => [
-            'section_id' => 228,
-        ],
-        'Earned Double' => [
-            'section_id' => 95,
-        ],
-        'Gold Cup' => [
-            'section_id' => 24,
-        ],
-        'Race for Life' => [
-            'section_id' => 19,
-        ],
-        'State' => [
-            'section_id' => 23,
-        ],
-    ];
-
     public function __construct($type = null, $year = null, $page = null)
     {
         parent::__construct($this->buildUrl($type, $year, $page));

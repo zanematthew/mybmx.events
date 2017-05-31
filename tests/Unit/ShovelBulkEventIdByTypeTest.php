@@ -35,11 +35,11 @@ class ShovelBulkEventIdByTypeTest extends TestCase
         $this->bulkEventId = $bulkEventId;
     }
 
-    public function testValidNationalUrl()
+    public function testValidUpcomingNationalUrl()
     {
         $this->assertEquals(
             'https://www.usabmx.com/site/bmx_races?section_id=228&year=UPCOMING&past_only=0&page=1&category=NATIONAL',
-            $this->bulkEventId->buildUrl('National', 2017, 1)
+            $this->bulkEventId->url('National', 2017, 1)
         );
     }
 
@@ -47,7 +47,7 @@ class ShovelBulkEventIdByTypeTest extends TestCase
     {
         $this->assertEquals(
             'https://www.usabmx.com/site/bmx_races?section_id=23&year=2016&past_only=1&page=2&filter_state=1',
-            $this->bulkEventId->buildUrl('State', 2016, 2)
+            $this->bulkEventId->url('State', 2016, 2)
         );
     }
 
@@ -55,7 +55,7 @@ class ShovelBulkEventIdByTypeTest extends TestCase
     {
         $this->assertEquals(
             'https://www.usabmx.com/site/bmx_races?section_id=95&year=2004&past_only=1&page=5&series_race_type=Earned+Double',
-            $this->bulkEventId->buildUrl('Earned Double', 2004, 5)
+            $this->bulkEventId->url('Earned Double', 2004, 5)
         );
     }
 
@@ -63,7 +63,7 @@ class ShovelBulkEventIdByTypeTest extends TestCase
     {
         $this->assertEquals(
             'https://www.usabmx.com/site/bmx_races?section_id=19&year=UPCOMING&past_only=0&page=1&series_race_type=Race+for+Life',
-            $this->bulkEventId->buildUrl('Race for Life', 2017, 1)
+            $this->bulkEventId->url('Race for Life', 2017, 1)
         );
     }
 
@@ -71,7 +71,15 @@ class ShovelBulkEventIdByTypeTest extends TestCase
     {
         $this->assertEquals(
             'https://www.usabmx.com/site/bmx_races?section_id=24&year=UPCOMING&past_only=0&page=1&goldcup=1',
-            $this->bulkEventId->buildUrl('Gold Cup', 2017, 1)
+            $this->bulkEventId->url('Gold Cup', 2017, 1)
+        );
+    }
+
+    public function testPastOnlyNationalUrl()
+    {
+        $this->assertEquals(
+            'https://www.usabmx.com/site/bmx_races?section_id=228&year=2017&past_only=1&page=1&category=NATIONAL',
+            $this->bulkEventId->url('National', 2017, 0, 1)
         );
     }
 

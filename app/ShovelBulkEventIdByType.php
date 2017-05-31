@@ -8,10 +8,12 @@ class ShovelBulkEventIdByType extends AbstractShovelClient
 
     public function __construct($type = null, $year = null, $page = null)
     {
-        parent::__construct($this->buildUrl($type, $year, $page));
+        parent::__construct($this->url($type, $year, $page));
     }
 
-    public function buildUrl($type = null, $year = null, $page = null): string
+    // $pastOnly, In order to see past events for the current year you need to
+    // pass in "past_only=1" in the URL.
+    public function url($type = null, $year = null, $page = null, $pastOnly = null): string
     {
         if ($this->isYearValid($year) === false) {
             return '';
@@ -40,12 +42,14 @@ class ShovelBulkEventIdByType extends AbstractShovelClient
                 break;
         }
 
-        $pastOnly = 1;
-        $yearFix  = $year;
+        $yearFix = $year;
 
-        if ($year == 'Upcoming' || $year == date('Y')) {
-            $pastOnly = 0;
+        // UPCOMING and past only 0 can't happen at the same time.
+        if ($year == 'Upcoming' || $year == date('Y') && empty($pastOnly)) {
             $yearFix  = 'UPCOMING';
+            $pastOnly = 0;
+        } else {
+            $pastOnly = 1;
         }
 
         return 'https://www.usabmx.com/site/bmx_races?' . http_build_query(array_merge([

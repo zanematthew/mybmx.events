@@ -23,7 +23,7 @@ class ShovelBulkVenueIdByStateAllCommand extends Command
      *
      * @var string
      */
-    protected $description = 'This command will retrieve ALL venue IDs by state. Optionally will save ALL venue IDs as a JSON file, with a single field i.e., 1,12,89,234,236.';
+    protected $description = 'Retrieve venue IDs for ALL states. Optionally will save ALL venue IDs as a JSON file, with a single field i.e., 1,12,89,234,236.';
 
     /**
      * Create a new command instance.

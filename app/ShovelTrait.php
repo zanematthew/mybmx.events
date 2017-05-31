@@ -48,7 +48,7 @@ trait ShovelTrait
 
     public function isYearValid($year = null): bool
     {
-        return (in_array($year, $this->validYears(), true));
+        return (in_array($year, $this->validYears()));
     }
 
     public function isStateValid($state = null): bool

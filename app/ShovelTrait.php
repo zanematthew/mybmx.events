@@ -117,4 +117,13 @@ trait ShovelTrait
     {
         return trim(preg_replace('/\s\s+/', ' ', $content));
     }
+
+    public function parsedPageRange($pageRange = null): array
+    {
+        if (!str_contains($pageRange, '-')) {
+            return [1,1];
+        }
+
+        return explode('-', $pageRange);
+    }
 }

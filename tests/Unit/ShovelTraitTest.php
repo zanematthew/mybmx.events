@@ -34,4 +34,14 @@ class ShovelTraitTest extends TestCase
     {
         $this->assertFalse($this->mock->isYearValid(2000));
     }
+
+    public function testPageRangeSinglePage()
+    {
+        $this->assertArraySubset([1,1], $this->mock->parsedPageRange(1));
+    }
+
+    public function testPageRange()
+    {
+        $this->assertArraySubset([5,10], $this->mock->parsedPageRange('5-10'));
+    }
 }

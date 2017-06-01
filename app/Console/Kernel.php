@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         // Bulk
         Commands\ShovelBulkVenueIdByStateCommand::class,
         Commands\ShovelBulkVenueIdByStateAllCommand::class,
+        Commands\ShovelBulkEventIdByTypeCommand::class,
     ];
 
     /**

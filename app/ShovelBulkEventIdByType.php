@@ -6,9 +6,9 @@ class ShovelBulkEventIdByType extends AbstractShovelClient
 {
     use ShovelTrait;
 
-    public function __construct($type = null, $year = null, $page = null)
+    public function __construct($type = null, $year = null, $page = null, $pastOnlyFix = null)
     {
-        parent::__construct($this->url($type, $year, $page));
+        parent::__construct($this->url($type, $year, $page, $pastOnlyFix));
     }
 
     // $pastOnly, In order to see past events for the current year you need to

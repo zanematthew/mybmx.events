@@ -42,12 +42,14 @@ class ShovelBulkVenueIdByStateAllCommand extends Command
      */
     public function handle()
     {
-        // $states = $this->states();
-        $states = array_keys([
-            'AL' => 'Alabama',
-            'AK' => 'Alaska',
-            'AZ' => 'Arizona',
-        ]);
+
+        $this->info('This will request ALL venues IDs for all states.');
+        $continue = $this->choice('Continue?', ['Y','N'], 1);
+        if ($continue === 'N') {
+            $this->info('Done.');
+            return;
+        }
+        $states = $this->states();
 
         $this->line('Starting request...');
         $bar = $this->output->createProgressBar(count($states));
@@ -100,11 +102,7 @@ class ShovelBulkVenueIdByStateAllCommand extends Command
             return;
         }
 
-        $filename = sprintf(
-            '%s-%s',
-            date('d-M-Y-H:i:s'),
-            str_slug("all venue ids", '-')
-        );
+        $filename = str_slug("all venue ids", '-');
         if (!$this->saveToJson($filename, $venuesFlatArray, 'venues/bulk')) {
             $this->error("Failed to save file: {$filename}.");
             return;

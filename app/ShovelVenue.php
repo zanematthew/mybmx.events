@@ -2,7 +2,7 @@
 
 namespace App;
 
-class ShovelSingleVenue extends AbstractShovelClient
+class ShovelVenue extends AbstractShovelClient
 {
     use ShovelTrait;
 

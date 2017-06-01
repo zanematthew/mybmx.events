@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\ShovelBulkVenueByState as VenueByState;
+use App\ShovelVenueByState as VenueByState;
 
-class ShovelBulkVenueIdByStateAllCommand extends Command
+class ShovelVenueIdByStateAllCommand extends Command
 {
 
     use \App\ShovelTrait;
@@ -15,7 +15,7 @@ class ShovelBulkVenueIdByStateAllCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:bulk-venue-ids-by-state
+    protected $signature = 'shovel:all-venue-ids
                             {--s|save : Save the results to disk.}';
 
     /**
@@ -49,8 +49,12 @@ class ShovelBulkVenueIdByStateAllCommand extends Command
             $this->info('Done.');
             return;
         }
-        $states = $this->states();
-
+        // $states = $this->states();
+        $states = array_keys([
+            'AL' => 'Alabama',
+            'AK' => 'Alaska',
+            'AZ' => 'Arizona',
+        ]);
         $this->line('Starting request...');
         $bar = $this->output->createProgressBar(count($states));
         foreach ($states as $state) {
@@ -68,7 +72,7 @@ class ShovelBulkVenueIdByStateAllCommand extends Command
             $venuesArray[ $state ] = [
                 'url'    => $venue->url(),
                 'count'  => count($id),
-                'venues' => array_pluck($id, 'id'),
+                'venues' => $id,
             ];
             $bar->advance();
         }
@@ -84,7 +88,6 @@ class ShovelBulkVenueIdByStateAllCommand extends Command
         foreach ($venuesArray as $k => $v) {
             $venuesFlatArray = array_merge($venuesFlatArray, $v['venues']);
         }
-        sort($venuesFlatArray);
 
         $this->line("\n");
         $this->info("Total venues: {$totalVenues}.");

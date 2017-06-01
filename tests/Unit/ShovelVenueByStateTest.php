@@ -8,9 +8,9 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use App\ShovelBulkVenueByState;
+use App\ShovelVenueByState;
 
-class ShovelBulkVenueByStateTest extends TestCase
+class ShovelVenueByStateTest extends TestCase
 {
 
     public function setUp()
@@ -30,7 +30,7 @@ class ShovelBulkVenueByStateTest extends TestCase
         $goutte = new GoutteClient();
         $goutte->setClient($httpClient);
 
-        $venueIdByStateAbbr = new ShovelBulkVenueByState('MD');
+        $venueIdByStateAbbr = new ShovelVenueByState('MD');
         $venueIdByStateAbbr->setClient($goutte);
         $this->venueIdByStateAbbr = $venueIdByStateAbbr;
     }
@@ -43,22 +43,10 @@ class ShovelBulkVenueByStateTest extends TestCase
     public function testParseVenueIdsByStateAbbr()
     {
         $this->assertArraySubset([
-            [
-                'id'    => '572',
-                'title' => 'Hagerstown BMX',
-            ],
-            [
-                'id'    => '410',
-                'title' => 'Southern Maryland BMX',
-            ],
-            [
-                'id'    => '589',
-                'title' => 'Riverside BMX',
-            ],
-            [
-                'id'    => '359',
-                'title' => 'Chesapeake BMX',
-            ],
+            572,
+            410,
+            589,
+            359,
         ], $this->venueIdByStateAbbr->parseVenueId());
     }
 

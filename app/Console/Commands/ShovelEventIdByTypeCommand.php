@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\ShovelBulkEventIdByType as EventIdByType;
+use App\ShovelEventIdByType as EventIdByType;
 
-class ShovelBulkEventIdByTypeCommand extends Command
+class ShovelEventIdByTypeCommand extends Command
 {
     use \App\ShovelTrait;
 
@@ -14,7 +14,7 @@ class ShovelBulkEventIdByTypeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:bulk-event-id-by-type
+    protected $signature = 'shovel:event-id-by-type
                             {--t|type= : The type of event. [National, Earned Double, Gold Cup, Race for Life, State]}
                             {--y|year= : The year of event.}
                             {--p|page_range= : The page range.}

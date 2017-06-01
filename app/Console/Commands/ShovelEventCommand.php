@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\ShovelSingleEvent as ShovelEvent;
+use App\ShovelEvent as ShovelEvent;
 
-class ShovelSingleEventCommand extends Command
+class ShovelEventCommand extends Command
 {
     use \App\ShovelTrait;
 
@@ -14,7 +14,7 @@ class ShovelSingleEventCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:single-event-by-id
+    protected $signature = 'shovel:event-by-id
                             {--i|event_id= : The ID of an event.}
                             {--s|save : Save to disk.}';
 
@@ -85,12 +85,7 @@ class ShovelSingleEventCommand extends Command
             return;
         }
 
-        $filename = sprintf(
-            '%s-%s-%d',
-            date('d-M-Y-H:i:s'),
-            str_slug($title, '-'),
-            $eventIdAsk
-        );
+        $filename = str_slug("{$eventIdAsk} {$title}", '-');
 
         $saved = $this->saveToJson($filename, $detail, 'events/detail');
         if ($saved !== true) {

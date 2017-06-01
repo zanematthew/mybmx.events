@@ -10,9 +10,9 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 
-use App\ShovelSingleEvent;
+use App\ShovelEvent;
 
-class ShovelSingleEventNationalTest extends TestCase
+class ShovelEventNationalTest extends TestCase
 {
     public function setUp()
     {
@@ -31,7 +31,7 @@ class ShovelSingleEventNationalTest extends TestCase
         $goutte = new GoutteClient();
         $goutte->setClient($httpClient);
 
-        $event = new ShovelSingleEvent('https://www.usabmx.com/site/bmx_races');
+        $event = new ShovelEvent('https://www.usabmx.com/site/bmx_races');
         $event->setClient($goutte);
         $this->event = $event;
     }

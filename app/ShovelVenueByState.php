@@ -2,7 +2,7 @@
 // @TODO needs test
 namespace App;
 
-class ShovelBulkVenueByState extends AbstractShovelClient
+class ShovelVenueByState extends AbstractShovelClient
 {
     use ShovelTrait;
 
@@ -29,10 +29,7 @@ class ShovelBulkVenueByState extends AbstractShovelClient
     public function parseVenueId(): array
     {
         return $this->filter('#track_results li')->each(function ($node) {
-            return [
-                'id' => explode('?', explode('/', $node->filter('.track_title a')->attr('href'))[3])[0],
-                'title' => $node->filter('.track_title')->text(),
-            ];
+            return (int)explode('?', explode('/', $node->filter('.track_title a')->attr('href'))[3])[0];
         });
     }
 }

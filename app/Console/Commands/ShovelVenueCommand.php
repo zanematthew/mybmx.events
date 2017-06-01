@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\ShovelSingleVenue as VenueDetail;
+use App\ShovelVenue as VenueDetail;
 
-class ShovelSingleVenueCommand extends Command
+class ShovelVenueCommand extends Command
 {
     use \App\ShovelTrait;
 
@@ -14,7 +14,7 @@ class ShovelSingleVenueCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:single-venue-by-id
+    protected $signature = 'shovel:venue-by-id
                             {--i|venue_id= : The ID of a venue.}
                             {--s|save : Save to disk.}';
 

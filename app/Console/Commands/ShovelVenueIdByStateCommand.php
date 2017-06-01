@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\ShovelBulkVenueByState as VenueByState;
+use App\ShovelVenueByState as VenueByState;
 
-class ShovelBulkVenueIdByStateCommand extends Command
+class ShovelVenueIdByStateCommand extends Command
 {
     use \App\ShovelTrait;
 
@@ -14,7 +14,7 @@ class ShovelBulkVenueIdByStateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:bulk-venue-id-by-state
+    protected $signature = 'shovel:venue-id-by-state
                             {--state= : State Abbreviation.}
                             {--s|save : Save to disk.}';
 
@@ -76,11 +76,7 @@ class ShovelBulkVenueIdByStateCommand extends Command
             return;
         }
 
-        $filename = sprintf(
-            '%s-%s',
-            date('d-M-Y-H:i:s'),
-            str_slug("{$state} venue ids", '-')
-        );
+        $filename = str_slug("{$state} venue ids", '-');
 
         if (!$this->saveToJson($filename, $results, 'venues/bulk')) {
             $this->error("Failed to save file: {$filename}.");

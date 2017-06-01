@@ -15,13 +15,13 @@ class Kernel extends ConsoleKernel
     protected $commands = [
 
         // Single
-        Commands\ShovelSingleVenueCommand::class,
-        Commands\ShovelSingleEventCommand::class,
+        Commands\ShovelVenueCommand::class,
+        Commands\ShovelEventCommand::class,
 
         // Bulk
-        Commands\ShovelBulkVenueIdByStateCommand::class,
-        Commands\ShovelBulkVenueIdByStateAllCommand::class,
-        Commands\ShovelBulkEventIdByTypeCommand::class,
+        Commands\ShovelVenueIdByStateCommand::class,
+        Commands\ShovelVenueIdByStateAllCommand::class,
+        Commands\ShovelEventIdByTypeCommand::class,
     ];
 
     /**

@@ -9,9 +9,9 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use App\ShovelSingleVenue;
+use App\ShovelVenue;
 
-class ShovelSingleVenueTest extends TestCase
+class ShovelVenueTest extends TestCase
 {
     public function setUp()
     {
@@ -29,7 +29,7 @@ class ShovelSingleVenueTest extends TestCase
         $goutte = new GoutteClient();
         $goutte->setClient($httpClient);
 
-        $venue = new ShovelSingleVenue(123);
+        $venue = new ShovelVenue(123);
         $venue->setClient($goutte);
         $this->venue = $venue;
     }

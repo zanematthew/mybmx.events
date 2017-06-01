@@ -8,9 +8,9 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use App\ShovelBulkEventIdByType;
+use App\ShovelEventIdByType;
 
-class ShovelBulkEventIdByTypeTest extends TestCase
+class ShovelEventIdByTypeTest extends TestCase
 {
 
     public function setUp()
@@ -30,7 +30,7 @@ class ShovelBulkEventIdByTypeTest extends TestCase
         $goutte = new GoutteClient();
         $goutte->setClient($httpClient);
 
-        $bulkEventId = new ShovelBulkEventIdByType('National', 2017, 1);
+        $bulkEventId = new ShovelEventIdByType('National', 2017, 1);
         $bulkEventId->setClient($goutte);
         $this->bulkEventId = $bulkEventId;
     }

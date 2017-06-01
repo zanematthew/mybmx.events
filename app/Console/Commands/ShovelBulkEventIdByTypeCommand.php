@@ -19,7 +19,7 @@ class ShovelBulkEventIdByTypeCommand extends Command
                             {--y|year= : The year of event.}
                             {--p|page_range= : The page range.}
                             {--s|save : Save the results to disk.}
-                            {--past_only= : Set this to true to request past events for the current year.}';
+                            {--past= : Set this to true to request past events for the current year.}';
 
     /**
      * The console command description.
@@ -64,8 +64,8 @@ class ShovelBulkEventIdByTypeCommand extends Command
 
         $pastOnly = "false";
         if ($year == date('Y')) {
-            $pastOnly = $this->option('past_only') ?? $this->choice(
-                'Request past events for the current Year?',
+            $pastOnly = $this->option('past') ?? $this->choice(
+                'Request past ONLY events for the current Year?',
                 ['Y','N'],
                 1
             );
@@ -85,8 +85,10 @@ class ShovelBulkEventIdByTypeCommand extends Command
             'year'       => $year,
             'page_range' => $pageRange,
         ];
-        $bar = $this->output->createProgressBar($endPage);
+
+        $bar            = $this->output->createProgressBar($endPage);
         $didBarFinished = true;
+        $initialPage    = $startPage;
 
         while ($startPage <= $endPage) {
             $eventIdByType    = new EventIdByType($type, $year, $startPage, $pastOnlyFix);
@@ -152,24 +154,22 @@ class ShovelBulkEventIdByTypeCommand extends Command
             $this->line("\n");
         }
 
+        // Prompt to save results.
         $save = $this->option('save') ?: $this->choice("Save to disk?", ['Y', 'N'], 1);
         if ($save === "N") {
             $this->info('Done.');
             return;
         }
 
-        // Prompt to save results.
-        $filename = sprintf(
-            '%s-%s',
-            date('d-M-Y-H:i:s'),
-            str_slug("{$year} {$type} pastOnly {$pastOnly} venue ids", '-')
-        );
-
         // @TODO should only be IDs
         $formattedResults = [];
         foreach ($results['events'] as $eventInfo) {
             $formattedResults = array_merge($formattedResults, $eventInfo['ids']);
         }
+
+        $pastOnlyText = $pastOnly === "true" ? 'past' : '';
+        // 2017-past-nationals-page-1-to-page-10-event-ids.json
+        $filename = str_slug("{$year} {$pastOnlyText} {$type} page {$initialPage} to page {$maxPage} event ids", '-');
 
         if (!$this->saveToJson($filename, $formattedResults, 'events/bulk')) {
             $this->error("Failed to save file: {$filename}.");

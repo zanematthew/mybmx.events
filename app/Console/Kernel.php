@@ -13,8 +13,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Old
-        Commands\ShovelEventsIndexToJson::class,
 
         // Single
         Commands\ShovelSingleVenueCommand::class,

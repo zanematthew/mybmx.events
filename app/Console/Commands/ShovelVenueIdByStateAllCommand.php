@@ -49,12 +49,8 @@ class ShovelVenueIdByStateAllCommand extends Command
             $this->info('Done.');
             return;
         }
-        // $states = $this->states();
-        $states = array_keys([
-            'AL' => 'Alabama',
-            'AK' => 'Alaska',
-            'AZ' => 'Arizona',
-        ]);
+        $states = array_keys($this->states());
+
         $this->line('Starting request...');
         $bar = $this->output->createProgressBar(count($states));
         foreach ($states as $state) {

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
-class ShovelVenueBulkDetailCommand extends Command
+class ShovelDetailBulkCommand extends Command
 {
     use \App\ShovelTrait;
 
@@ -14,7 +14,8 @@ class ShovelVenueBulkDetailCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:venue-detail-bulk
+    protected $signature = 'shovel:detail-bulk
+                            {--t|type= : Type to request detail for [venue|event].}
                             {--c|count= : Amount of IDs to process.}
                             {--f|file= : File name to retrieve list of IDs from.}
                             {--s|save : Save to disk.}';
@@ -24,7 +25,7 @@ class ShovelVenueBulkDetailCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Request venue detail for previously saved venue IDs.';
+    protected $description = 'Request [venue|event] detail for previously saved [venue|event] IDs.';
 
     /**
      * Create a new command instance.
@@ -46,19 +47,32 @@ class ShovelVenueBulkDetailCommand extends Command
         $requestedCount = $this->option('count') ?? $this->ask('Number of IDs to request detail for?');
         if (is_numeric($requestedCount) === false) {
             $this->error("Not a number: {$requestedCount}.");
-            return;
+            return false;
         }
 
-        $venueIdsJsonfile = array_values(array_filter(array_map(function ($dirFile) {
+        $requestedType = $this->option('type') ?? $this->choice('Type?', ['venue', 'event']);
+        if ($requestedType == 'venue') {
+            $dir = 'venues';
+        } elseif ($requestedType == 'event') {
+            $dir = 'events';
+        } else {
+            $this->error("Invalid type: {$requestedType}");
+            return false;
+        }
+
+        $bulkDir = "public/{$dir}/bulk/";
+
+        // Handle venues OR events
+        $bulkIdsJsonfile = array_values(array_filter(array_map(function ($dirFile) {
             if (str_contains($dirFile, '.json')) {
                 return $dirFile;
             }
-        }, Storage::files('public/venues/bulk/'))));
+        }, Storage::files($bulkDir))));
 
-        $fileToProcess = $this->option('file') ?? $this->choice('Select a file to process?', $venueIdsJsonfile);
+        $fileToProcess = $this->option('file') ?? $this->choice('Select a file to process?', $bulkIdsJsonfile);
 
-        if (empty($venueIdsJsonfile)) {
-            $this->error('No venue ID file(s) found. Please create venue ID file(s).');
+        if (empty($bulkIdsJsonfile)) {
+            $this->error('ID file(s) not found. Please create ID file(s).');
             return;
         }
 
@@ -82,13 +96,24 @@ class ShovelVenueBulkDetailCommand extends Command
         // For each random ID request detail
         $failedIdsToProcess = [];
         foreach ($randomIdsToProcess as $randomIdToProcess) {
-            // run artisan command.
-            // $exitCode = rand(0,1);// php artisan shovel:venue-by-id -i $randomIdToProcess -s
-            // $this->callSilent()
-            $exitCode = $this->call('shovel:venue-by-id', [
-                '--venue_id' => $randomIdToProcess,
-                '--save'   => true,
-            ]);
+
+            if ($requestedType == 'venue') {
+                $cmd    = 'shovel:venue-by-id';
+                $params = [
+                    '--venue_id' => $randomIdToProcess,
+                    '--save'   => true,
+                ];
+            }
+
+            if ($requestedType == 'event') {
+                $cmd = 'shovel:event-by-id';
+                $params = [
+                    '--event_id' => $randomIdToProcess,
+                    '--save'   => true,
+                ];
+            }
+
+            $exitCode = $this->call($cmd, $params);
             if ($exitCode === false) {
                 $failedIdsToProcess[] = $randomIdToProcess;
                 continue;
@@ -96,7 +121,6 @@ class ShovelVenueBulkDetailCommand extends Command
             $processedIds[] = $randomIdToProcess;
         }
 
-        // $processedIds      = array_diff($randomIdsToProcess, $failedIdsToProcess);
         $stillToProcessIds = array_diff($contents, $processedIds);
 
         if (empty($stillToProcessIds)) {
@@ -110,8 +134,9 @@ class ShovelVenueBulkDetailCommand extends Command
         $fileInfo = pathinfo(basename($fileToProcess));
         $result   = array_values($stillToProcessIds);
         $filename = $fileInfo['filename'];
+        // venues OR events
         $saved    = Storage::disk('local')->put(
-            "public/venues/bulk/{$filename}.json",
+            "public/{$dir}/bulk/{$filename}.json",
             json_encode($result, JSON_FORCE_OBJECT)
         );
         if ($saved === false) {
@@ -119,10 +144,7 @@ class ShovelVenueBulkDetailCommand extends Command
             return false;
         }
 
-        $this->info("Done processing: {$requestedCount} ID(s).");
-        $this->info(sprintf(
-            'There are: %s remaining ID(s) that will need processing.',
-            count($stillToProcessIds)
-        ));
+        $this->info("ID(s) processed: {$requestedCount}.");
+        $this->info(sprintf('ID(s) remaining: %s.', count($stillToProcessIds)));
     }
 }

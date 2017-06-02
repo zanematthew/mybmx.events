@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Storage;
-
 trait ShovelTrait
 {
     protected $eventTypes = [
@@ -23,14 +21,6 @@ trait ShovelTrait
             'section_id' => 23,
         ],
     ];
-
-    /**
-     * @SuppressWarnings(PHPMD) Needed so PHPMD allows for default Laravel usage of classes
-     */
-    public function saveToJson($name, $data, $type)
-    {
-        return Storage::disk('local')->put("public/{$type}/{$name}.json", json_encode($data));
-    }
 
     public function validYears()
     {

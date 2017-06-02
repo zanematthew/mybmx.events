@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\ShovelVenueByState as VenueByState;
+use Illuminate\Support\Facades\Storage;
 
 class ShovelVenueIdByStateCommand extends Command
 {
@@ -55,20 +56,18 @@ class ShovelVenueIdByStateCommand extends Command
             return;
         }
 
-        $id = $venue->parseVenueId();
-        $results = [
+        $id      = $venue->parseVenueId();
+        $idCount = count($id);
+        $result = [
             'url'    => $venue->url(),
-            'count'  => count($id),
             'venues' => $id,
         ];
 
-        $this->line("Requested results.");
+        $this->line("Results.");
         $this->line("State: {$state}");
-        $this->line("Count: {$results['count']}");
-        $this->line("URL: {$results['url']}");
-        $this->table(['Venue(s)'], [
-            ['Venue' => implode(PHP_EOL, array_pluck($results['venues'], 'title'))]
-        ]);
+        $this->line("Count: {$idCount}");
+        $this->line("URL: {$result['url']}");
+        $this->line(sprintf('ID(s) received: %s', implode(',', $id)));
 
         $save = $this->option('save') ?: $this->choice("Save to disk?", ['Y', 'N'], 1);
         if ($save === "N") {
@@ -77,11 +76,16 @@ class ShovelVenueIdByStateCommand extends Command
         }
 
         $filename = str_slug("{$state} venue ids", '-');
+        $saved    = Storage::disk('local')->put(
+            "public/venues/bulk/{$filename}.json",
+            json_encode($id, JSON_FORCE_OBJECT)
+        );
 
-        if (!$this->saveToJson($filename, $results, 'venues/bulk')) {
+        if ($saved === false) {
             $this->error("Failed to save file: {$filename}.");
-            return;
+            return false;
         }
         $this->info('Saved.');
+        return true;
     }
 }

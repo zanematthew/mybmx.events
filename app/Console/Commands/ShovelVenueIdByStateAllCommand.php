@@ -7,7 +7,6 @@ use App\ShovelVenueByState as VenueByState;
 
 class ShovelVenueIdByStateAllCommand extends Command
 {
-
     use \App\ShovelTrait;
 
     /**
@@ -80,9 +79,9 @@ class ShovelVenueIdByStateAllCommand extends Command
             $totalVenues += count($venueArray['venues']);
         }
 
-        $venuesFlatArray = [];
+        $result = [];
         foreach ($venuesArray as $k => $v) {
-            $venuesFlatArray = array_merge($venuesFlatArray, $v['venues']);
+            $result = array_merge($result, $v['venues']);
         }
 
         $this->line("\n");
@@ -90,22 +89,27 @@ class ShovelVenueIdByStateAllCommand extends Command
         $this->info(
             sprintf(
                 "Results: %s.",
-                implode(',', $venuesFlatArray)
+                implode(',', $result)
             )
         );
 
         $save = $this->option('save') ?: $this->choice("Save to disk?", ['Y', 'N'], 1);
         if ($save === 'N') {
             $this->info('Done.');
-            // @TODO use exit codes vs. return;
-            return;
+            return true;
         }
 
         $filename = str_slug("all venue ids", '-');
-        if (!$this->saveToJson($filename, $venuesFlatArray, 'venues/bulk')) {
+        $saved    = Storage::disk('local')->put(
+            "public/venues/bulk/{$filename}.json",
+            json_encode($result, JSON_FORCE_OBJECT)
+        );
+
+        if ($saved === false) {
             $this->error("Failed to save file: {$filename}.");
-            return;
+            return false;
         }
         $this->info('Saved.');
+        return true;
     }
 }

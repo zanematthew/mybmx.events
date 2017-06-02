@@ -47,7 +47,8 @@ class ShovelTraitTest extends TestCase
 
     public function testPageRangeSinglePage()
     {
-        $this->assertArraySubset([1,1], $this->mock->parsedPageRange(1));
+        $this->assertArraySubset([2,2], $this->mock->parsedPageRange(2));
+        $this->assertArraySubset([3,8], $this->mock->parsedPageRange('3-8'));
     }
 
     public function testPageRange()

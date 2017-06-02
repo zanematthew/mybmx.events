@@ -115,10 +115,9 @@ trait ShovelTrait
 
     public function parsedPageRange($pageRange = null): array
     {
-        if (!str_contains($pageRange, '-')) {
-            return [1,1];
+        if (str_contains($pageRange, '-')) {
+            return explode('-', $pageRange);
         }
-
-        return explode('-', $pageRange);
+        return [$pageRange, $pageRange];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\ShovelVenue as VenueDetail;
 
-class ShovelVenueCommand extends Command
+class ShovelVenueDetailCommand extends Command
 {
     use \App\ShovelTrait;
 
@@ -51,7 +51,7 @@ class ShovelVenueCommand extends Command
             $this->error("HTTP Response: {$httpResponse}.");
             $this->error("URL: {$venue->url()}.");
             $this->error("Venue ID: {$venueId} may not exists. Needs manual inspection.");
-            return;
+            return false;
         }
 
         $name = $venue->parseName();
@@ -99,22 +99,19 @@ class ShovelVenueCommand extends Command
 
         if ($save === "N") {
             $this->info("Done.");
-            return;
+            return true;
         }
 
-        $venueDetail = array_merge($detail, $location, $links);
+        $result   = array_merge($detail, $location, $links);
+        $filename = str_slug("{$venueId} {$name}", '-');
+        $saved    = Storage::disk('local')->put("public/venues/detail/{$filename}.json", json_encode($result));
 
-        $filename = sprintf(
-            '%s-%s-%d',
-            date('d-M-Y-H:i:s'),
-            str_slug($name, '-'),
-            $venueId
-        );
-
-        $saved = $this->saveToJson($filename, $venueDetail, 'venues/detail');
-        if ($saved !== true) {
-            $this->error("Error, failed to save: {$filename}.");
+        if ($saved === true) {
+            $this->error("Failed to save: {$filename}.");
+            return false;
         }
+
         $this->info("Saved to file: {$filename}.");
+        return true;
     }
 }

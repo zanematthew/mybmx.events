@@ -57,20 +57,22 @@ class ShovelVenueDetailCommand extends Command
 
         $name = $venue->parseName();
 
+        $this->info("===========================================================================================");
         $this->info("HTTP Response: {$httpResponse}.");
         $this->info("URL: {$venue->url()}.");
-        $this->info("Retrieved detail for: {$name}.");
+        $this->info("===========================================================================================");
 
         $detail = [
+            'id'          => $venueId,
             'name'        => $name,
             'description' => str_limit($venue->parseDescription().'[...]', 25),
             'district'    => $venue->parseDistrict()
         ];
 
+        $contact = [];
         foreach ($venue->contact() as $key => $value) {
-            $tmp[ $key ] = $value;
+            $contact[ $key ] = $value;
         }
-        $detail = array_merge($detail, $tmp);
 
         $location = [
             'street'    => $venue->getStreet(),
@@ -91,6 +93,8 @@ class ShovelVenueDetailCommand extends Command
 
         $this->info("\nDetail:");
         $this->table(array_keys($detail), [$detail]);
+        $this->info("\nContact:");
+        $this->table(array_keys($contact), [$contact]);
         $this->info("\nLocation:");
         $this->table(array_keys($location), [$location]);
         $this->info("\nLinks:");
@@ -112,7 +116,7 @@ class ShovelVenueDetailCommand extends Command
             return false;
         }
 
-        $this->info("Saved to file: {$filename}.");
+        $this->info("Saved: {$filename}.json");
         return true;
     }
 }

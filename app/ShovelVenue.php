@@ -10,7 +10,6 @@ class ShovelVenue extends AbstractShovelClient
 
     public function __construct($venueId = null)
     {
-
         $this->venueId = $venueId;
         parent::__construct($this->url());
     }
@@ -31,10 +30,17 @@ class ShovelVenue extends AbstractShovelClient
      */
     public function contact(): array
     {
-        $contact = $this->filter('#track_contact ul li')->each(function ($node) {
-            list($title, $content) = explode(':', $node->filter('li')->text());
-            return [snake_case($title) => $this->aggressiveTrim($content)];
-        });
+        if (empty($this->filter('#track_contact ul li')->count())) {
+            return [];
+        }
+
+        $contact = array_filter($this->filter('#track_contact ul li')->each(function ($node) {
+            $text = $node->filter('li')->text();
+            if (str_contains($text, ':')) {
+                list($title, $content) = explode(':', $text);
+                return [snake_case($title) => $this->aggressiveTrim($content)];
+            }
+        }));
 
         $tmp = [];
 
@@ -119,9 +125,14 @@ class ShovelVenue extends AbstractShovelClient
 
     public function parseLinksUri($linkText = null): string
     {
-        return array_values(array_filter($this->filter('#track_location p')->each(function ($node) use ($linkText) {
+        $link = array_values(array_filter($this->filter('#track_location p')->each(function ($node) use ($linkText) {
+            if (empty($node->filter('a')->count())) {
+                return '';
+            }
             return str_contains($node->text(), $linkText) ? $node->filter('a')->attr('href') : '';
-        })))[0];
+        })));
+
+        return empty($link) ? '' : $link[0];
     }
 
     public function parseScheduleUri(): string
@@ -141,7 +152,7 @@ class ShovelVenue extends AbstractShovelClient
 
     public function parseLogo(): string
     {
-        return $this->filter('#track_location img')->attr('src');
+        return $this->filter('#track_location img')->count() ? $this->filter('#track_location img')->attr('src') : '';
     }
 
     public function parseDescription(): string
@@ -153,12 +164,20 @@ class ShovelVenue extends AbstractShovelClient
 
     public function parseDistrict(): string
     {
+        if (empty($this->filter('#track_district')->count())) {
+            return '';
+        }
+
         return trim(last(explode(':', $this->filter('#track_district')->text())));
     }
 
     public function parseLatLongMapsUri(): array
     {
         preg_match("~\?q=(.*?)\&~", $this->parseMapUri(), $matches);
+        if (empty($matches)) {
+            return [];
+        }
+
         list($lat, $long) = explode(',', $matches[0]);
         return [
             'lat'  => floatval(str_replace('?q=', '', $lat)),

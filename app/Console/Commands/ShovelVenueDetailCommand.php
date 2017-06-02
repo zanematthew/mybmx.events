@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\ShovelVenue as VenueDetail;
+use Illuminate\Support\Facades\Storage;
 
 class ShovelVenueDetailCommand extends Command
 {
@@ -106,7 +107,7 @@ class ShovelVenueDetailCommand extends Command
         $filename = str_slug("{$venueId} {$name}", '-');
         $saved    = Storage::disk('local')->put("public/venues/detail/{$filename}.json", json_encode($result));
 
-        if ($saved === true) {
+        if ($saved === false) {
             $this->error("Failed to save: {$filename}.");
             return false;
         }

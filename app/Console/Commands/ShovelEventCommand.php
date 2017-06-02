@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\ShovelEvent as ShovelEvent;
+use Illuminate\Support\Facades\Storage;
 
 class ShovelEventCommand extends Command
 {
@@ -60,7 +61,7 @@ class ShovelEventCommand extends Command
         $this->info("URL: {$event->url()}.");
         $this->info("Retrieved detail for: {$title}.");
 
-        $detail = [
+        $result = [
             'eventId'               => $event->idFromShareLinks(),
             'venueId'               => $event->venueId(),
             'fee'                   => $event->fee(),
@@ -76,7 +77,7 @@ class ShovelEventCommand extends Command
         ];
 
         $this->info("\nDetail:");
-        $this->table(array_keys($detail), [$detail]);
+        $this->table(array_keys($result), [$result]);
 
         $save = $this->option('save') ?: $this->choice("Save to disk?", ['Y','N'], 1);
 
@@ -86,11 +87,14 @@ class ShovelEventCommand extends Command
         }
 
         $filename = str_slug("{$eventIdAsk} {$title}", '-');
+        $saved    = Storage::disk('local')->put("public/events/detail/{$filename}.json", json_encode($result));
 
-        $saved = $this->saveToJson($filename, $detail, 'events/detail');
-        if ($saved !== true) {
-            $this->error("Error, failed to save: {$filename}.");
+        if ($saved === false) {
+            $this->error("Failed to save: {$filename}.");
+            return false;
         }
+
         $this->info("Saved to file: {$filename}.");
+        return true;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\ShovelEventIdByType as EventIdByType;
+use Illuminate\Support\Facades\Storage;
 
 class ShovelEventIdByTypeCommand extends Command
 {
@@ -50,13 +51,13 @@ class ShovelEventIdByTypeCommand extends Command
 
         if ($this->isTypeValid($type) === false) {
             $this->error("Invalid type: {$type}.");
-            return;
+            return false;
         }
 
         $year = $this->option('year') ?? $this->choice('Year?', $this->validYears(), 0);
         if ($this->isYearValid($year) === false) {
             $this->error("Invalid year: {$year}.");
-            return;
+            return false;
         }
 
         $pageRange = $this->option('page_range') ?? $this->ask('Page range? [1, 1-5, 5-10, etc.]');
@@ -158,24 +159,28 @@ class ShovelEventIdByTypeCommand extends Command
         $save = $this->option('save') ?: $this->choice("Save to disk?", ['Y', 'N'], 1);
         if ($save === "N") {
             $this->info('Done.');
-            return;
+            return true;
         }
 
         // @TODO should only be IDs
-        $formattedResults = [];
+        $result = [];
         foreach ($results['events'] as $eventInfo) {
-            $formattedResults = array_merge($formattedResults, $eventInfo['ids']);
+            $result = array_merge($result, $eventInfo['ids']);
         }
 
         $pastOnlyText = $pastOnly === "true" ? 'past' : '';
-        // 2017-past-nationals-page-1-to-page-10-event-ids.json
-        $filename = str_slug("{$year} {$pastOnlyText} {$type} page {$initialPage} to page {$maxPage} event ids", '-');
+        $filename     = str_slug("{$year} {$pastOnlyText} {$type} page {$initialPage} of {$maxPage} event ids", '-');
+        $saved        = Storage::disk('local')->put(
+            "public/events/bulk/{$filename}.json",
+            json_encode($result, JSON_OBJECT_AS_ARRAY)
+        );
 
-        if (!$this->saveToJson($filename, $formattedResults, 'events/bulk')) {
+        if ($saved === false) {
             $this->error("Failed to save file: {$filename}.");
-            return;
+            return false;
         }
         $this->info("Filename (JSON): {$filename}.");
         $this->info('Saved.');
+        return true;
     }
 }

@@ -94,7 +94,7 @@ class ShovelEventCommand extends Command
             return false;
         }
 
-        $this->info("Saved to file: {$filename}.");
+        $this->info("Saved: {$filename}.");
         return true;
     }
 }

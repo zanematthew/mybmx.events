@@ -168,9 +168,10 @@ class ShovelEventIdByTypeCommand extends Command
             $result = array_merge($result, $eventInfo['ids']);
         }
 
-        $pastOnlyText = $pastOnly === "true" ? 'past' : '';
-        $filename     = str_slug("{$year} {$pastOnlyText} {$type} page {$initialPage} of {$maxPage} event ids", '-');
-        $saved        = Storage::disk('local')->put(
+        $pastOnlyText  = $pastOnly === "true" ? 'past' : '';
+        $pageRangeText = str_replace('-', '-to-', $pageRange) ?? $initialPage;
+        $filename      = str_slug("{$year} {$pastOnlyText} {$type} page {$pageRangeText} of {$maxPage} event ids", '-');
+        $saved         = Storage::disk('local')->put(
             "public/events/bulk/{$filename}.json",
             json_encode($result, JSON_FORCE_OBJECT)
         );

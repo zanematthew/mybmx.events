@@ -76,15 +76,7 @@ class ShovelDetailBulkCommand extends Command
             return;
         }
 
-        $contents      = json_decode(Storage::get($fileToProcess), true);
-        $contentsCount = count($contents);
-
-        if ($requestedCount > $contentsCount) {
-            $this->error('Requested to process more IDs then in file.');
-            $this->comment("Requested: {$requestedCount}.");
-            $this->comment("Allowed:  {$contentsCount}.");
-            return;
-        }
+        $contents = json_decode(Storage::get($fileToProcess), true);
 
         // array rand returns an int when only one value is found.
         $randomIdKeys = (array) array_rand($contents, $requestedCount);
@@ -101,7 +93,7 @@ class ShovelDetailBulkCommand extends Command
                 $cmd    = 'shovel:venue-by-id';
                 $params = [
                     '--venue_id' => $randomIdToProcess,
-                    '--save'   => true,
+                    '--save'     => true,
                 ];
             }
 
@@ -109,7 +101,7 @@ class ShovelDetailBulkCommand extends Command
                 $cmd = 'shovel:event-by-id';
                 $params = [
                     '--event_id' => $randomIdToProcess,
-                    '--save'   => true,
+                    '--save'     => true,
                 ];
             }
 

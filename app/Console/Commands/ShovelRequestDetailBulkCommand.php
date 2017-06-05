@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
-class ShovelDetailBulkCommand extends Command
+class ShovelRequestDetailBulkCommand extends Command
 {
     use \App\ShovelTrait;
 
@@ -88,7 +88,6 @@ class ShovelDetailBulkCommand extends Command
         // For each random ID request detail
         $failedIdsToProcess = [];
         foreach ($randomIdsToProcess as $randomIdToProcess) {
-
             if ($requestedType == 'venue') {
                 $cmd    = 'shovel:venue-by-id';
                 $params = [

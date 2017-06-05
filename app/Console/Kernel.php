@@ -14,14 +14,13 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
 
-        Commands\ShovelEventIdByTypeCommand::class,
-        Commands\ShovelEventCommand::class,
+        Commands\ShovelRequestEventIdByTypeCommand::class,
+        Commands\ShovelRequestEventCommand::class,
+        Commands\ShovelRequestVenueIdByStateCommand::class,
+        Commands\ShovelRequestVenueIdByStateAllCommand::class,
+        Commands\ShovelRequestVenueDetailCommand::class,
+        Commands\ShovelRequestDetailBulkCommand::class,
 
-        Commands\ShovelVenueIdByStateCommand::class,
-        Commands\ShovelVenueIdByStateAllCommand::class,
-        Commands\ShovelVenueDetailCommand::class,
-
-        Commands\ShovelDetailBulkCommand::class,
     ];
 
     /**
@@ -32,14 +31,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('shovel:detail-bulk', [
-            '--type'  => 'venue',
-            '--count' => 5,
-            '--file'  => 'public/venues/bulk/all-venue-ids.json',
-            '--save',
-            ])
-            ->everyFiveMinutes()
-            ->appendOutputTo(storage_path('logs/venue-detail-bulk.log'));
+        // $schedule->command('shovel:detail-bulk', [
+        //     '--type'  => 'venue',
+        //     '--count' => 5,
+        //     '--file'  => 'public/venues/bulk/all-venue-ids.json',
+        //     '--save',
+        //     ])
+        //     ->everyFiveMinutes()
+        //     ->appendOutputTo(storage_path('logs/venue-detail-bulk.log'));
 
         // $schedule->command('shovel:detail-bulk', [
         //     '--type'  => 'event',

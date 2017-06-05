@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use App\ShovelVenueByState as VenueByState;
 use Illuminate\Support\Facades\Storage;
 
-class ShovelVenueIdByStateAllCommand extends Command
+class ShovelRequestVenueIdByStateAllCommand extends Command
 {
     use \App\ShovelTrait;
 

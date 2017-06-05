@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use App\ShovelEventIdByType as EventIdByType;
 use Illuminate\Support\Facades\Storage;
 
-class ShovelEventIdByTypeCommand extends Command
+class ShovelRequestEventIdByTypeCommand extends Command
 {
     use \App\ShovelTrait;
 

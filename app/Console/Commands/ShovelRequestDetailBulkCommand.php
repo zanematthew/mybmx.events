@@ -44,13 +44,8 @@ class ShovelRequestDetailBulkCommand extends Command
      */
     public function handle()
     {
-        $requestedCount = $this->option('count') ?? $this->ask('Number of IDs to request detail for?');
-        if (is_numeric($requestedCount) === false) {
-            $this->error("Not a number: {$requestedCount}.");
-            return false;
-        }
-
         $requestedType = $this->option('type') ?? $this->choice('Type?', ['venue', 'event']);
+
         if ($requestedType == 'venue') {
             $dir = 'venues';
         } elseif ($requestedType == 'event') {
@@ -68,7 +63,6 @@ class ShovelRequestDetailBulkCommand extends Command
                 return $dirFile;
             }
         }, Storage::files($bulkDir))));
-
         $fileToProcess = $this->option('file') ?? $this->choice('Select a file to process?', $bulkIdsJsonfile);
 
         if (empty($bulkIdsJsonfile)) {
@@ -76,9 +70,16 @@ class ShovelRequestDetailBulkCommand extends Command
             return;
         }
 
+        $requestedCount = $this->option('count') ?? $this->ask('Number of IDs to request detail for?');
+        if (is_numeric($requestedCount) === false) {
+            $this->error("Not a number: {$requestedCount}.");
+            return false;
+        }
+
         $contents = json_decode(Storage::get($fileToProcess), true);
 
         // array rand returns an int when only one value is found.
+        // @TODO   array_rand(): Second argument has to be between 1 and the number of elements in the array
         $randomIdKeys = (array) array_rand($contents, $requestedCount);
         foreach ($randomIdKeys as $randomIdkey) {
             $randomIdsToProcess[] = $contents[ $randomIdkey ];

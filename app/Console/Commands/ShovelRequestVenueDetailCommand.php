@@ -65,7 +65,7 @@ class ShovelRequestVenueDetailCommand extends Command
         $detail = [
             'id'          => $venueId,
             'name'        => $name,
-            'description' => mb_strlen(trim($venue->parseDescription()), 'utf8') ? str_limit($venue->parseDescription().'[...]', 25) : null,
+            'description' => $venue->parseDescription(),
             'district'    => $venue->parseDistrict()
         ];
 
@@ -91,14 +91,10 @@ class ShovelRequestVenueDetailCommand extends Command
             'logoUri'     => $venue->parseLogo(),
         ];
 
-        $this->info("\nDetail:");
-        $this->table(array_keys($detail), [$detail]);
-        $this->info("\nContact:");
-        $this->table(array_keys($contact), [$contact]);
-        $this->info("\nLocation:");
-        $this->table(array_keys($location), [$location]);
-        $this->info("\nLinks:");
-        $this->table(array_keys($links), [$links]);
+        $result = array_merge($detail, $location, $links, $contact);
+        foreach ($result as $k => $v) {
+            $this->comment("{$k}: {$v}");
+        }
 
         $save = $this->option('save') ?: $this->choice("Save to disk?", ['Y','N'], 1);
 

@@ -15,6 +15,6 @@ class State extends Model
     public function cities()
     {
         // One State has many Cities
-        return $this->hasMany('App\City');
+        return $this->belongsToMany('App\City', 'city_states');
     }
 }

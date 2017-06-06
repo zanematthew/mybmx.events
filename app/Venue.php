@@ -17,6 +17,10 @@ class Venue extends Model
         'lat',
         'long',
         'city_id',
+        'zipCode',
+        'email',
+        'primaryContact',
+        'phoneNumber',
     ];
 
     public function events()

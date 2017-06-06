@@ -65,7 +65,7 @@ class ShovelRequestVenueDetailCommand extends Command
         $detail = [
             'id'          => $venueId,
             'name'        => $name,
-            'description' => str_limit($venue->parseDescription().'[...]', 25),
+            'description' => mb_strlen(trim($venue->parseDescription()), 'utf8') ? str_limit($venue->parseDescription().'[...]', 25) : null,
             'district'    => $venue->parseDistrict()
         ];
 
@@ -107,7 +107,7 @@ class ShovelRequestVenueDetailCommand extends Command
             return true;
         }
 
-        $result   = array_merge($detail, $location, $links);
+        $result   = array_merge($detail, $location, $links, $contact);
         $filename = str_slug("{$venueId} {$name}", '-');
         $saved    = Storage::disk('local')->put("public/venues/detail/{$filename}.json", json_encode($result));
 

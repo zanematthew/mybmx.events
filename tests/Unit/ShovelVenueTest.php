@@ -42,10 +42,10 @@ class ShovelVenueTest extends TestCase
     public function testContact()
     {
         $this->assertArraySubset([
-            'email'             => 'sinchakelectric@verizon.net',
-            'track_phone'       => '(410) 969-5177',
-            'primary_contact'   => 'Tom Sinchak ((410) 977 2963)',
-            'secondary_contact' => 'Charles Ellis ((443) 995-1745)',
+            'email'            => 'sinchakelectric@verizon.net',
+            'phone'            => '(410) 969-5177',
+            'primaryContact'   => 'Tom Sinchak ((410) 977 2963)',
+            'secondaryContact' => 'Charles Ellis ((443) 995-1745)',
         ], $this->venue->contact());
     }
 

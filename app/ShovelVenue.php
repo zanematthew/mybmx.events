@@ -25,8 +25,8 @@ class ShovelVenue extends AbstractShovelClient
      * @return array An empty array on failure. On success;
      *                    'email'             => 'some value',
      *                    'track_phone'       => 'some value',
-     *                    'primary_contact'   => 'some value',
-     *                    'secondary_contact' => 'some value',
+     *                    'primaryContact'   => 'some value',
+     *                    'secondaryContact' => 'some value',
      */
     public function contact(): array
     {
@@ -38,7 +38,9 @@ class ShovelVenue extends AbstractShovelClient
             $text = $node->filter('li')->text();
             if (str_contains($text, ':')) {
                 list($title, $content) = explode(':', $text);
-                return [snake_case($title) => $this->aggressiveTrim($content)];
+                $key = lcfirst(trim(camel_case($title))); // clean title
+                $key = $key == 'trackPhone' ? 'phone' : $key;
+                return [$key => $this->aggressiveTrim($content)];
             }
         }));
 

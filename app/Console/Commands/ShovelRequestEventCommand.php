@@ -62,22 +62,25 @@ class ShovelRequestEventCommand extends Command
         $this->info("Retrieved detail for: {$title}.");
 
         $result = [
-            'eventId'               => $event->idFromShareLinks(),
-            'venueId'               => $event->venueId(),
-            'fee'                   => $event->fee(),
-            'registrationStartTime' => $event->registrationStartTime(),
-            'registrationEndTime'   => $event->registrationEndTime(),
+            'usabmx_id'               => $event->idFromShareLinks(),
+            'usabmx_venue_id'         => $event->venueId(),
+            'fee'                     => $event->fee(),
+            'type'                    => $event->getTypeFromTitle(),
+            'registration_start_time' => $event->registrationStartTime(),
+            'registration_end_time'   => $event->registrationEndTime(),
 
             // National
-            'startDate'             => $event->startDate(),
-            'endDate'               => $event->endDate(),
-            'flyerUri'              => $event->flyerUri(),
-            'eventScheduleUri'      => $event->eventScheduleUri(),
-            'hotelUri'              => $event->hotelUri(),
+            'start_date'              => $event->startDate(),
+            'end_date'                => $event->endDate(),
+            'flyer_uri'               => $event->flyerUri(),
+            'event_schedule_uri'      => $event->eventScheduleUri(),
+            'hotel_uri'               => $event->hotelUri(),
         ];
 
         $this->info("\nDetail:");
-        $this->table(array_keys($result), [$result]);
+        foreach ($result as $k => $v) {
+            $this->comment("{$k}: {$v}");
+        }
 
         $save = $this->option('save') ?: $this->choice("Save to disk?", ['Y','N'], 1);
 

@@ -13,14 +13,14 @@ class Venue extends Model
         'website',
         'image_uri',
         'description',
-        'streetAddress',
+        'street_address',
         'lat',
         'long',
         'city_id',
-        'zipCode',
+        'zip_code',
         'email',
-        'primaryContact',
-        'phoneNumber',
+        'primary_contact',
+        'phone_number',
     ];
 
     public function events()

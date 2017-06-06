@@ -22,8 +22,17 @@ class CreateEventsTable extends Migration
             // Specific
             $table->string('title');
             $table->string('type');
-            $table->timestamp('start_date')->nullable();
-            $table->timestamp('end_date')->nullable();
+            $table->string('url')->nullable();
+            $table->string('fee')->nullable();
+            $table->time('registration_start_time')->nullable();
+            $table->time('registration_end_time')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->string('flyer_uri')->nullable();
+            $table->string('event_schedule_uri')->nullable();
+            $table->string('hotel_uri')->nullable();
+            $table->string('usabmx_track_id')->nullable();
+            $table->string('usabmx_id')->nullable();
 
             // Relationship
             $table->integer('venue_id')->unsigned();

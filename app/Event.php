@@ -9,10 +9,18 @@ class Event extends Model
 
     protected $fillable = [
         'title',
+        'type',
+        'url',
+        'fee',
+        'registration_start_time',
+        'registration_end_time',
         'start_date',
         'end_date',
-        'track_id',
-        'type',
+        'flyer_uri',
+        'event_schedule_uri',
+        'hotel_uri',
+        'usabmx_track_id',
+        'usabmx_id',
     ];
 
     public function schedules()

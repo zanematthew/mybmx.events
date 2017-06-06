@@ -31,8 +31,8 @@ $factory->define(App\City::class, function (Faker\Generator $faker) {
 // State Factory
 $factory->define(App\State::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->unique()->state,
-        'abbr' => $faker->unique()->stateAbbr,
+        'name' => $faker->state,
+        'abbr' => $faker->stateAbbr,
     ];
 });
 
@@ -60,10 +60,10 @@ $factory->define(App\Venue::class, function (Faker\Generator $faker) {
         'image_uri'       => $faker->imageUrl(),
         'description'     => $faker->text,
         'email'           => $faker->safeEmail,
-        'primaryContact' => $faker->name,
-        'phoneNumber'    => $faker->phoneNumber,
-        'streetAddress'   => $faker->streetAddress,
-        'zipCode'         => $faker->postcode,
+        'primary_contact' => $faker->name,
+        'phone_number'    => $faker->phoneNumber,
+        'street_address'  => $faker->streetAddress,
+        'zip_code'        => $faker->postcode,
         'lat'             => $faker->latitude,
         'long'            => $faker->longitude,
         'city_id'         => function () {
@@ -75,13 +75,8 @@ $factory->define(App\Venue::class, function (Faker\Generator $faker) {
 // Event Factory
 $factory->define(App\Event::class, function (Faker\Generator $faker) {
     return [
-        'title'      => $faker->name,
-        'start_date' => $faker->date(),
-        'end_date'   => $faker->date(),
-        'venue_id'   => function () {
-            return factory(App\Venue::class)->create()->id;
-        },
-        'type'       => function () {
+        'title'                   => $faker->name,
+        'type'                    => function () {
             $types = [
                 'Double Points',
                 'Single Points',
@@ -94,7 +89,21 @@ $factory->define(App\Event::class, function (Faker\Generator $faker) {
                 'Grand National',
             ];
             return $types[array_rand($types)];
-        }
+        },
+        'url'                     => $faker->url(),
+        'fee'                     => money_format('%i', random_int(1, 150)),
+        'registration_start_time' => $faker->time(),
+        'registration_end_time'   => $faker->time(),
+        'start_date'              => $faker->date(),
+        'end_date'                => $faker->date(),
+        'flyer_uri'               => $faker->url(),
+        'event_schedule_uri'      => $faker->url(),
+        'hotel_uri'               => $faker->url(),
+        'usabmx_track_id'         => random_int(1, 99),
+        'usabmx_id'               => random_int(1, 99999),
+        'venue_id'                => function () {
+            return factory(App\Venue::class)->create()->id;
+        },
     ];
 });
 

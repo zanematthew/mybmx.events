@@ -18,7 +18,8 @@ class ShovelRequestDetailBulkCommand extends Command
                             {--t|type= : Type to request detail for [venue|event].}
                             {--c|count= : Amount of IDs to process.}
                             {--f|file= : File name to retrieve list of IDs from.}
-                            {--s|save : Save to disk.}';
+                            {--s|save : Save to disk.}
+                            {--d|delete : Delete bulk ID file.}';
 
     /**
      * The console command description.
@@ -76,11 +77,12 @@ class ShovelRequestDetailBulkCommand extends Command
             return false;
         }
 
-        $contents = json_decode(Storage::get($fileToProcess), true);
+        $contents      = json_decode(Storage::get($fileToProcess), true);
+        $contentsCount = count($contents);
+        $maxCount      = $requestedCount > $contentsCount ? $contentsCount : $requestedCount;
 
         // array rand returns an int when only one value is found.
-        // @TODO   array_rand(): Second argument has to be between 1 and the number of elements in the array
-        $randomIdKeys = (array) array_rand($contents, $requestedCount);
+        $randomIdKeys = (array) array_rand($contents, $maxCount);
         foreach ($randomIdKeys as $randomIdkey) {
             $randomIdsToProcess[] = $contents[ $randomIdkey ];
         }
@@ -117,8 +119,12 @@ class ShovelRequestDetailBulkCommand extends Command
 
         if (empty($stillToProcessIds)) {
             $this->info('All IDs are now processed.');
-            $this->info('File removed.');
-            Storage::delete($fileToProcess);
+            $toDelete = $this->option('delete') ?: $this->choice('Delete bulk id file', ['Y', 'N'], 1);
+            if ($toDelete === true || $toDelete === 'Y') {
+                Storage::delete($fileToProcess);
+                $this->info('File removed.');
+            }
+
             $this->info('Done.');
             return false;
         }

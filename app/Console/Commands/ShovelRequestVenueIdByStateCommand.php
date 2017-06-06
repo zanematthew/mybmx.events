@@ -75,17 +75,18 @@ class ShovelRequestVenueIdByStateCommand extends Command
             return;
         }
 
-        $filename = str_slug("{$state} venue ids", '-');
-        $saved    = Storage::disk('local')->put(
-            "public/venues/bulk/{$filename}.json",
+        $dir = 'public/venues/bulk';
+        $file = sprintf(
+            '%s/%s.json',
+            $dir,
+            str_slug("{$state} venue ids", '-')
+        );
+        Storage::disk('local')->put(
+            $file,
             json_encode($id, JSON_FORCE_OBJECT)
         );
 
-        if ($saved === false) {
-            $this->error("Failed to save file: {$filename}.");
-            return false;
-        }
-        $this->info('Saved.');
+        $this->info("Saved: {$dir}/{$file}.");
         return true;
     }
 }

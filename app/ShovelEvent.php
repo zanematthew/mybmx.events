@@ -147,4 +147,20 @@ class ShovelEvent extends AbstractShovelClient
     {
         return $this->parseDescription('Registration Ends');
     }
+
+    public function getTypeFromTitle(): string
+    {
+        if (empty($this->filter('#event_title')->count())) {
+            return '';
+        }
+
+        $title = $this->filter('#event_title')->eq(0)->text();
+        $types = array_keys($this->eventTypes);
+
+        foreach ($types as $type) {
+            if (str_contains($title, $type)) {
+                return $type;
+            }
+        }
+    }
 }

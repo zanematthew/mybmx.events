@@ -70,4 +70,9 @@ class ShovelEventTest extends TestCase
     {
         $this->assertEquals('11:00 AM', $this->event->registrationEndTime());
     }
+
+    public function testEventTypeByTitle()
+    {
+        $this->assertEquals('State', $this->event->getTypeFromTitle());
+    }
 }

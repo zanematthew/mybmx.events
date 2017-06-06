@@ -66,4 +66,9 @@ class ShovelEventNationalTest extends TestCase
     {
         $this->assertEquals('/site/sections/160', $this->event->hotelUri());
     }
+
+    public function testEventTypeByTitle()
+    {
+        $this->assertEquals('National', $this->event->getTypeFromTitle());
+    }
 }

@@ -82,7 +82,8 @@ class ShovelVenue extends AbstractShovelClient
 
         if (substr_count($location, '<br>') == 2) {
             list($street, $cityStateZip, $country) = explode('<br>', $location);
-            list($city, $state, $zip) = explode(' ', str_replace(', ', '', $cityStateZip));
+            list($city, $stateZip) = array_map('trim', explode(',', $cityStateZip));
+            list($state, $zip) = explode(' ', $stateZip);
         }
 
         if (substr_count($location, '<br>') == 1) {

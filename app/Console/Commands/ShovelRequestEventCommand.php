@@ -62,6 +62,7 @@ class ShovelRequestEventCommand extends Command
         $this->info("Retrieved detail for: {$title}.");
 
         $result = [
+            'title'                   => $title,
             'usabmx_id'               => $event->idFromShareLinks(),
             'usabmx_venue_id'         => $event->venueId(),
             'fee'                     => $event->fee(),

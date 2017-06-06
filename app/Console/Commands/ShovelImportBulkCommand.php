@@ -92,11 +92,12 @@ class ShovelImportBulkCommand extends Command
         $i = 0;
         $failures = [];
         while ($i < $fileCount) {
-            $cmd = "shovel:import-venue";
+            $cmd = "shovel:import";
             $params = [
-                '--file_path' => $files[ $i ],
-                '--remove_file' => true,
-                '--overwrite' => true,
+                '--type'        => $requestedType,
+                '--file_path'   => $files[ $i ],
+                // '--remove_file' => true,
+                '--overwrite'   => false,
             ];
             $exitCode = $this->call($cmd, $params);
             if ($exitCode === 0) {

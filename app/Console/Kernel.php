@@ -21,7 +21,9 @@ class Kernel extends ConsoleKernel
         Commands\ShovelRequestVenueDetailCommand::class,
         Commands\ShovelRequestDetailBulkCommand::class,
 
+        Commands\ShovelImportCommand::class,
         Commands\ShovelImportBulkCommand::class,
+
     ];
 
     /**

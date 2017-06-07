@@ -15,6 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/events/{event}', function (App\Event $event) {
-    return view('welcome', App\Event::with('venue.city')->where('id', $event->id)->first()->toArray());
-})->name('event.single');
+Route::get('/event/{id}/{slug?}', function ($id, $slug = '') {
+    return view('welcome', App\Event::with('venue.city')->where('id', $id)->first()->toArray());
+})->where(['id' => '[0-9]+', 'slug' => '[a-z0-9-]+'])->name('event.single');

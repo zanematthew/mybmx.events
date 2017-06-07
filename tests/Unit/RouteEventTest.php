@@ -21,7 +21,10 @@ class RouteEventTest extends TestCase
     public function testEvents()
     {
         $event = factory(Event::class)->create();
-        $response = $this->get(route('event.single', 1));
+        $response = $this->get(route('event.single', [
+            'id'   => $event->id,
+            'slug' => str_slug($event->title),
+        ]));
         $response->assertViewHas([
             'id'                      => $event->id,
             'created_at'              => $event->created_at,

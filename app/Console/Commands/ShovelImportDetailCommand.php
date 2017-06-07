@@ -10,7 +10,7 @@ use App\State;
 use App\CityState;
 use App\Event;
 
-class ShovelImportCommand extends Command
+class ShovelImportDetailCommand extends Command
 {
     use \App\ShovelTrait;
 
@@ -19,7 +19,7 @@ class ShovelImportCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:import
+    protected $signature = 'shovel:import-detail
                             {--t|type= : The requested type [venue|event].}
                             {--f|file_path= : The full file path.}
                             {--s|save : Save to the database.}

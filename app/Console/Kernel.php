@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
         Commands\ShovelRequestVenueDetailCommand::class,
         Commands\ShovelRequestDetailBulkCommand::class,
 
-        Commands\ShovelImportCommand::class,
+        Commands\ShovelImportDetailCommand::class,
         Commands\ShovelImportBulkCommand::class,
 
     ];
@@ -34,16 +34,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('shovel:detail-bulk', [
-        //     '--type'  => 'venue',
-        //     '--count' => 5,
-        //     '--file'  => 'public/venues/bulk/all-venue-ids.json',
-        //     '--save',
-        //     ])
-        //     ->everyFiveMinutes()
-        //     ->appendOutputTo(storage_path('logs/venue-detail-bulk.log'));
+        $schedule->command('shovel:request-detail-bulk', [
+            '--type'  => 'venue',
+            '--count' => 6,
+            '--file'  => 'public/venues/bulk/all-venue-ids.json',
+            '--save',
+            ])
+            ->everyFiveMinutes()
+            ->appendOutputTo(storage_path('logs/venue-detail-bulk.log'));
 
-        // $schedule->command('shovel:detail-bulk', [
+        // $schedule->command('shovel:import-detail-bulk', [
         //     '--type'  => 'event',
         //     '--count' => 1,
         //     '--file'  => 'public/events/bulk/2017-national-page-2-of-3-event-ids.json',

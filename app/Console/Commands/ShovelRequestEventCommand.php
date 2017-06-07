@@ -15,7 +15,7 @@ class ShovelRequestEventCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:event-by-id
+    protected $signature = 'shovel:request-event-by-id
                             {--i|event_id= : The ID of an event.}
                             {--s|save : Save to disk.}';
 

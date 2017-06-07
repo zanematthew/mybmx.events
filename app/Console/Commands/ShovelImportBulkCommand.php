@@ -14,8 +14,7 @@ class ShovelImportBulkCommand extends Command
      */
     protected $signature = 'shovel:import-bulk
                             {--t|type= : The type to process.}
-                            {--c|count= : The number of items to process.}
-                            {--d|delete_file : Delete the file after successful import.}';
+                            {--c|count= : The number of items to process.}';
 
     /**
      * The console command description.
@@ -92,12 +91,12 @@ class ShovelImportBulkCommand extends Command
         $i = 0;
         $failures = [];
         while ($i < $fileCount) {
-            $cmd = "shovel:import";
+            $cmd = "shovel:import-detail";
             $params = [
                 '--type'        => $requestedType,
                 '--file_path'   => $files[ $i ],
-                // '--remove_file' => true,
-                '--overwrite'   => false,
+                '--remove_file' => 'Y',
+                '--overwrite'   => 'N',
             ];
             $exitCode = $this->call($cmd, $params);
             if ($exitCode === 0) {

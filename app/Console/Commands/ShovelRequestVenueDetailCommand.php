@@ -15,7 +15,7 @@ class ShovelRequestVenueDetailCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:venue-by-id
+    protected $signature = 'shovel:request-venue-by-id
                             {--i|venue_id= : The ID of a venue.}
                             {--s|save : Save to disk.}';
 

@@ -15,7 +15,7 @@ class ShovelRequestEventIdByTypeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:event-id-by-type
+    protected $signature = 'shovel:request-event-id-by-type
                             {--t|type= : The type of event. [National, Earned Double, Gold Cup, Race for Life, State]}
                             {--y|year= : The year of event.}
                             {--p|page_range= : The page range.}

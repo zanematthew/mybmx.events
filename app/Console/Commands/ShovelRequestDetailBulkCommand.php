@@ -14,7 +14,7 @@ class ShovelRequestDetailBulkCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'shovel:detail-bulk
+    protected $signature = 'shovel:request-detail-bulk
                             {--t|type= : Type to request detail for [venue|event].}
                             {--c|count= : Amount of IDs to process.}
                             {--f|file= : File name to retrieve list of IDs from.}
@@ -92,7 +92,7 @@ class ShovelRequestDetailBulkCommand extends Command
         $failedIdsToProcess = [];
         foreach ($randomIdsToProcess as $randomIdToProcess) {
             if ($requestedType == 'venue') {
-                $cmd    = 'shovel:venue-by-id';
+                $cmd    = 'shovel:request-venue-by-id';
                 $params = [
                     '--venue_id' => $randomIdToProcess,
                     '--save'     => true,
@@ -100,7 +100,7 @@ class ShovelRequestDetailBulkCommand extends Command
             }
 
             if ($requestedType == 'event') {
-                $cmd = 'shovel:event-by-id';
+                $cmd = 'shovel:request-event-by-id';
                 $params = [
                     '--event_id' => $randomIdToProcess,
                     '--save'     => true,

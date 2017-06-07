@@ -21,16 +21,16 @@ class CreateVenuesTable extends Migration
             $table->string('name');
             $table->string('district');
             $table->string('usabmx_id');
-            $table->string('website');
-            $table->string('image_uri');
-            $table->text('description');
-            $table->string('streetAddress');
-            $table->string('zipCode');
-            $table->string('lat');
-            $table->string('long');
-            $table->string('email');
-            $table->string('primary_contact');
-            $table->string('phone_number');
+            $table->string('website')->nullable();
+            $table->string('image_uri')->nullable();
+            $table->text('description')->nullable();
+            $table->string('street_address')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
+            $table->string('email')->nullable();
+            $table->string('primary_contact')->nullable();
+            $table->string('phone_number')->nullable();
 
             // Relationship
             $table->integer('city_id')->unsigned();

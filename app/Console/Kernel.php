@@ -13,7 +13,17 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+
+        Commands\ShovelRequestEventIdByTypeCommand::class,
+        Commands\ShovelRequestEventCommand::class,
+        Commands\ShovelRequestVenueIdByStateCommand::class,
+        Commands\ShovelRequestVenueIdByStateAllCommand::class,
+        Commands\ShovelRequestVenueDetailCommand::class,
+        Commands\ShovelRequestDetailBulkCommand::class,
+
+        Commands\ShovelImportDetailCommand::class,
+        Commands\ShovelImportBulkCommand::class,
+
     ];
 
     /**
@@ -24,8 +34,23 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // $schedule->command('shovel:request-detail-bulk', [
+        //     '--type'  => 'venue',
+        //     '--count' => 1,
+        //     '--file'  => 'public/venues/bulk/all-venue-ids.json',
+        //     '--save',
+        //     ])
+        //     ->everyMinute()
+        //     ->appendOutputTo(storage_path('logs/venue-detail-bulk.log'));
+
+        // $schedule->command('shovel:import-detail-bulk', [
+        //     '--type'  => 'event',
+        //     '--count' => 1,
+        //     '--file'  => 'public/events/bulk/2017-national-page-2-of-3-event-ids.json',
+        //     '--save',
+        //     ])
+        //     ->everyMinute()
+        //     ->appendOutputTo(storage_path('logs/event-detail-bulk.log'));
     }
 
     /**

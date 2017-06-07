@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/events/{event}', function (App\Event $event) {
+    return view('welcome', App\Event::with('venue.city')->where('id', $event->id)->first()->toArray());
+})->name('event.single');

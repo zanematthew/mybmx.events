@@ -28,7 +28,7 @@ class Event extends Model
         return $this->belongsToMany('App\Schedule');
     }
 
-    public function venues()
+    public function venue()
     {
         return $this->belongsTo('App\Venue', 'venue_id');
     }

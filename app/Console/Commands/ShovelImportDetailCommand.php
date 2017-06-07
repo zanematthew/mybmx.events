@@ -177,15 +177,15 @@ class ShovelImportDetailCommand extends Command
         $venue->name            = $contentsArray['name'];
         $venue->district        = $contentsArray['district'] ?? null;
         $venue->usabmx_id       = $contentsArray['id'];
-        $venue->website         = $contentsArray['website_uri'] ?? null;
-        $venue->image_uri       = $contentsArray['logo_uri'] ?? null;
+        $venue->website         = $contentsArray['websiteUri'] ?? null;
+        $venue->image_uri       = $contentsArray['logoUri'] ?? null;
         $venue->description     = $contentsArray['description'] ?? null;
         $venue->street_address  = $contentsArray['street'] ?? null;
-        $venue->zip_code        = $contentsArray['zip_code'] ?? null;
+        $venue->zip_code        = $contentsArray['zipCode'] ?? null;
         $venue->lat             = $contentsArray['lat'] ?? null;
         $venue->long            = $contentsArray['long'] ?? null;
         $venue->email           = $contentsArray['email'] ?? null;
-        $venue->primary_contact = $contentsArray['primary_contact'] ?? null;
+        $venue->primary_contact = $contentsArray['primaryContact'] ?? null;
         $venue->phone_number    = $contentsArray['phone'] ?? null;
 
         // Associate city.

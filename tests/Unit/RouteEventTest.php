@@ -18,14 +18,15 @@ class RouteEventTest extends TestCase
      *
      * @return void
      */
-    public function testEvents()
+    public function testSingleEvent()
     {
         $event = factory(Event::class)->create();
+
         $response = $this->get(route('event.single', [
             'id'   => $event->id,
             'slug' => str_slug($event->title),
         ]));
-        $response->assertViewHas([
+        $response->assertJson([
             'id'                      => $event->id,
             'created_at'              => $event->created_at,
             'updated_at'              => $event->updated_at,
@@ -68,6 +69,27 @@ class RouteEventTest extends TestCase
                     'name'       => $event->venue->city->name,
                 ]
             ]
+        ]);
+    }
+
+    public function testPaginatorEvents()
+    {
+        $event = factory(Event::class, 20)->create();
+
+        $response = $this->get(route('events'));
+
+        $response->assertJson([
+            'total'         => 20,
+            'per_page'      => 10,
+            'current_page'  => 1,
+            'last_page'     => 2,
+            'next_page_url' => route('events', ['page' => 2]),
+            'prev_page_url' => null,
+            'data'          => [[
+                'venue' => [
+                    'city' => []
+                ]
+            ]]
         ]);
     }
 }

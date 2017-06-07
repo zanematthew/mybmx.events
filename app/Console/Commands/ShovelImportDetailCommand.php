@@ -253,7 +253,16 @@ class ShovelImportDetailCommand extends Command
         $event->venues()->associate($venue->id);
         $saved = $event->save();
 
-        dd($saved);
-
+        // Handle saved.
+        if ($saved === false) {
+            return [
+                'message'  => "Failed to save: {$event->title}.",
+                'exitCode' => 0,
+            ];
+        }
+        return [
+            'message'  => 'Imported',
+            'exitCode' => 1
+        ];
     }
 }

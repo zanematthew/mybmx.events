@@ -95,8 +95,8 @@ class ShovelImportBulkCommand extends Command
             $params = [
                 '--type'        => $requestedType,
                 '--file_path'   => $files[ $i ],
-                '--remove_file' => 'Y',
-                '--overwrite'   => 'N',
+                '--remove_file' => 'N',
+                '--overwrite'   => 'Y',
             ];
             $exitCode = $this->call($cmd, $params);
             if ($exitCode === 0) {

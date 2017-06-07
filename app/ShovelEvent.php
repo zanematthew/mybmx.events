@@ -22,15 +22,19 @@ class ShovelEvent extends AbstractShovelClient
         // https://twitter.com/share?url=http://usabmx.com/site/bmx_races/334979?section_id=23&text=State%20Race%20Double&hashtags=bmx
         // https://twitter.com/share?url=http://usabmx.com/site/bmx_races/1&text=Redline%20Cup%20Finals%20East&hashtags=bmx
         // https://twitter.com/share?url=http://usabmx.com/site/bmx_races/324629?section_id=228&text=East%20Coast%20Nationals&hashtags=bmx
-        $uri = $this->filter('.share_race a')->eq(0)->attr('href');
-
-        $id = current(explode('?', last(explode('/', $uri))));
-
-        if (!is_numeric($id)) {
-            $id = current(explode('&', $id));
+        if ($this->filter('.share_race a')->count() == 0) {
+            return 0;
         }
 
-        return $id;
+        $uri = $this->filter('.share_race a')->eq(0)->attr('href');
+
+        // @TODO
+        $matched = preg_match('#bmx_races/(.*?)\?#s', $uri, $matches);
+        if (empty($matched)) {
+            $matched = preg_match('#bmx_races/(.*?)\&#s', $uri, $matches);
+        }
+
+        return $matched ? $matches[1] : 0;
     }
 
     public function title()

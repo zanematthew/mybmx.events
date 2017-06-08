@@ -198,4 +198,43 @@ class RouteEventTest extends TestCase
             'total' => 3
         ]);
     }
+
+    public function testEventsYearMonthTypeState()
+    {
+        // Create 4 events.
+        factory(\App\Event::class, 4)->create([
+            'start_date' => '2017-02-01 01:01:01',
+            'type'       => 'state',
+        ]);
+
+        // request the event by year/month/type
+        $response = $this->get(route('events.year.month.type.state', [
+            'year'  => 2017,
+            'month' => '02',
+            'type'  => 'national',
+        ]));
+        $response->assertJson([
+            'total' => 4,
+        ]);
+
+        // Create 6 events, assigned the same, year, month, and type,
+        // but in a different state.
+        $cityState = factory(\App\CityState::class)->create();
+        factory(\App\Event::class, 6)->create([
+            'start_date' => '2017-02-01 01:01:01',
+            'type'       => 'national',
+            'venue_id'   => factory(\App\Venue::class)->create(['city_id' => $cityState->city_id])->city_id,
+        ]);
+
+        // request the event by year/month/type/state
+        $response = $this->get(route('events.year.month.type.state', [
+            'year'  => 2017,
+            'month' => '02',
+            'type'  => 'national',
+            'state' => \App\State::find($cityState->state_id)->abbr,
+        ]));
+        $response->assertJson([
+            'total' => 6,
+        ]);
+    }
 }

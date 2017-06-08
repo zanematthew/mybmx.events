@@ -82,4 +82,27 @@ Route::group(['prefix' => 'events'], function () {
     })->where([
         'type' => '[a-z0-9]+(?:-[a-z0-9]+)*$',
     ])->name('events.year.type.state');
+    Route::get('/{year}/{month}/{type}/{state?}', function ($year, $month, $type, $state = '') {
+
+        if ($state) {
+            return App\Event::with('venue.city.states')
+                ->whereYear('start_date', $year)
+                ->whereMonth('start_date', $month)
+                ->where('type', $type)
+                ->whereHas('venue.city.states', function ($query) use ($state) {
+                    $query->where('abbr', strtoupper($state));
+                })
+                ->paginate(10);
+        }
+        return App\Event::with('venue.city.states')
+            ->whereYear('start_date', $year)
+            ->whereMonth('start_date', $month)
+            ->where('type', $type)
+            ->paginate(10);
+    })->where([
+        'year'  => '^\d{4}$',
+        'month' => '^\d{2}$',
+        'type'  => '[a-zA-Z]+',
+        'state' => '[a-zA-Z]{2}',
+    ])->name('events.year.month.type.state');
 });

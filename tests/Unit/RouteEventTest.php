@@ -130,7 +130,7 @@ class RouteEventTest extends TestCase
 
         factory(\App\Event::class, 2)->create([
             'start_date' => '2016-01-01 01:01:01',
-            'venue_id'   => factory(\App\Venue::class)->create(['city_id' => $cityState->city_id])->first()->city_id,
+            'venue_id'   => factory(\App\Venue::class)->create(['city_id' => $cityState->city_id])->city_id,
         ]);
 
         $state = \App\State::find($cityState->state_id);

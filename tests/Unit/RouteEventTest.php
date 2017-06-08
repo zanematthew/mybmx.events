@@ -73,7 +73,7 @@ class RouteEventTest extends TestCase
 
     public function testPaginatorEvents()
     {
-        $event = factory(\App\Event::class, 20)->create();
+        factory(\App\Event::class, 20)->create();
 
         $response = $this->get(route('events'));
 
@@ -96,7 +96,7 @@ class RouteEventTest extends TestCase
     {
         $cityState = factory(\App\CityState::class)->create();
         $venue     = factory(\App\Venue::class)->create(['city_id' => $cityState->city_id]);
-        $events    = factory(\App\Event::class, 5)->create(['venue_id' => $venue->id]);
+        factory(\App\Event::class, 5)->create(['venue_id' => $venue->id]);
 
         $state = \App\State::find($cityState->state_id);
 
@@ -109,11 +109,11 @@ class RouteEventTest extends TestCase
         ]);
     }
 
-    public function testPaginatorEventsPerYearPerState()
+    public function testPaginatorEventsYearState()
     {
         $cityState = factory(\App\CityState::class)->create();
         $venue     = factory(\App\Venue::class)->create(['city_id' => $cityState->city_id]);
-        $events    = factory(\App\Event::class, 2)->create([
+        factory(\App\Event::class, 2)->create([
             'start_date' => '2016-01-01 01:01:01',
             'venue_id'   => $venue->id,
         ]);
@@ -127,6 +127,18 @@ class RouteEventTest extends TestCase
 
         $response->assertJson([
             'total' => 2
+        ]);
+
+        factory(\App\Event::class, 3)->create([
+            'start_date' => '2017-01-01 01:01:01',
+        ]);
+
+        $responseNoState = $this->get(route('events.year.state', [
+            'year'  => 2017,
+        ]));
+
+        $responseNoState->assertJson([
+            'total' => 3
         ]);
     }
 }

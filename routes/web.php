@@ -19,14 +19,31 @@ Route::get('/event/{id}/{slug?}', function ($id, $slug = '') {
     return response()->json(App\Event::with('venue.city')->where('id', $id)->first());
 })->where(['id' => '[0-9]+', 'slug' => '[a-z0-9-]+'])->name('event.single');
 
-Route::group(['prefix' => 'api/events'], function () {
+Route::group(['prefix' => 'events'], function () {
     Route::get('/', function () {
         return App\Event::with('venue.city.states')->paginate(10);
     })->name('events');
 
     Route::get('/{state?}', function ($state = '') {
-        return App\Event::with('venue.city.states')->whereHas('venue.city.states', function ($query) use ($state) {
-            $query->where('abbr', strtoupper($state));
-        })->paginate(10);
-    })->name('events.state');
+        return App\Event::with('venue.city.states')
+            ->whereHas('venue.city.states', function ($query) use ($state) {
+                $query->where('abbr', strtoupper($state));
+            })->paginate(10);
+    })->where([
+        'state' => '[a-zA-Z]{2}',
+    ])->name('events.state');
+
+    Route::get('{year}/{state?}', function ($year, $state = '') {
+        if ($state) {
+            return App\Event::with('venue.city.states')
+                ->whereYear('start_date', $year)
+                ->whereHas('venue.city.states', function ($query) use ($state) {
+                    $query->where('abbr', strtoupper($state));
+                })->paginate(10);
+        }
+        return App\Event::with('venue.city.states')->whereYear('start_date', $year)->paginate(10);
+    })->where([
+        'year'  => '^\d{4}$',
+        'state' => '[a-zA-Z]{2}',
+    ])->name('events.year.state');
 });

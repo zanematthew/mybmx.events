@@ -19,11 +19,33 @@ Route::get('/event/{id}/{slug?}', function ($id, $slug = '') {
     return response()->json(App\Event::with('venue.city')->where('id', $id)->first());
 })->where(['id' => '[0-9]+', 'slug' => '[a-z0-9-]+'])->name('event.single');
 
+//
+// All events
+// This is the only non-date based query we are allowing.
+// /
+// /state/
+
+//
+// All year based on events
+//
+// /year/
+// /year/month/
+
+// /year/type/
+// /year/month/type/
+
+// /year/state?/
+// /year/month/state?/
+
+// /year/type/state?/
+// /year/month/type/state?/
 Route::group(['prefix' => 'events'], function () {
+    // /
     Route::get('/', function () {
         return App\Event::with('venue.city.states')->paginate(10);
     })->name('events');
 
+    // /state/
     Route::get('/{state?}', function ($state = '') {
         return App\Event::with('venue.city.states')
             ->whereHas('venue.city.states', function ($query) use ($state) {
@@ -33,6 +55,12 @@ Route::group(['prefix' => 'events'], function () {
         'state' => '[a-zA-Z]{2}',
     ])->name('events.state');
 
+    //
+    // All year based on events
+    //
+
+    // /year/
+    // /year/state?/
     Route::get('{year}/{state?}', function ($year, $state = '') {
         if ($state) {
             return App\Event::with('venue.city.states')
@@ -65,6 +93,7 @@ Route::group(['prefix' => 'events'], function () {
     })->where([
         'year'  => '^\d{4}$',
         'month' => '^\d{2}$',
+        'state' => '[a-zA-Z]{2}',
     ])->name('events.year.month.state');
 
     // /year/type/
@@ -80,8 +109,11 @@ Route::group(['prefix' => 'events'], function () {
         }
         return App\Event::with('venue.city.states')->whereYear('start_date', $year)->where('type', $type)->paginate(10);
     })->where([
-        'type' => '[a-z0-9]+(?:-[a-z0-9]+)*$',
+        'type' => '[a-z]+(?:-[a-z]+)*$',
     ])->name('events.year.type.state');
+
+    // /year/month/type/
+    // /year/month/type/state?/
     Route::get('/{year}/{month}/{type}/{state?}', function ($year, $month, $type, $state = '') {
 
         if ($state) {

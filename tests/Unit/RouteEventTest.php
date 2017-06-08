@@ -12,11 +12,7 @@ class RouteEventTest extends TestCase
     use DatabaseMigrations;
     use DatabaseTransactions;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
+    // /{id}/{slug}
     public function testSingleEvent()
     {
         $event = factory(\App\Event::class)->create();
@@ -71,73 +67,66 @@ class RouteEventTest extends TestCase
         ]);
     }
 
-    public function testEvents()
+    // /{state?}
+    public function testEventsState()
     {
         factory(\App\Event::class, 20)->create();
 
-        $response = $this->get(route('events'));
-
-        $response->assertJson([
-            'total'         => 20,
-            'per_page'      => 10,
-            'current_page'  => 1,
-            'last_page'     => 2,
-            'next_page_url' => route('events', ['page' => 2]),
-            'prev_page_url' => null,
-            'data'          => [[
-                'venue' => [
-                    'city' => []
-                ]
-            ]]
-        ]);
-    }
-
-    public function testEventsState()
-    {
+        // Create more events, but in a specific state.
         $cityState = factory(\App\CityState::class)->create();
-        $venue     = factory(\App\Venue::class)->create(['city_id' => $cityState->city_id]);
-        factory(\App\Event::class, 5)->create(['venue_id' => $venue->id]);
+        factory(\App\Event::class, 5)->create([
+            'venue_id' => factory(\App\Venue::class)->create(['city_id' => $cityState->city_id])->id
+        ]);
 
-        $state = \App\State::find($cityState->state_id);
+        // Get all events
+        $response = $this->get(route('events'));
+        $response->assertJson([
+            'total'         => 25,
+            'next_page_url' => route('events', ['page' => 2]),
+        ]);
 
+        // Get only ones in our state we created.
         $response = $this->get(route('events.state', [
-            'state' => $state->abbr,
+            'state' => \App\State::find($cityState->state_id)->abbr,
         ]));
-
         $response->assertJson([
             'total' => 5
         ]);
     }
 
-    public function testEventsYear()
+    // /{year}/{state?}
+    public function testEventsYearState()
     {
+        // Create 3 events in 2016
+        factory(\App\Event::class, 3)->create([
+            'start_date' => '2016-01-01 01:01:01',
+        ]);
+
+        // Create another 3 events for 2017
         factory(\App\Event::class, 3)->create([
             'start_date' => '2017-01-01 01:01:01',
         ]);
 
+        // Get only events for 2017
         $response = $this->get(route('events.year.state', [
             'year'  => 2017,
         ]));
 
+        // Our response should include ONLY those for 2017, 3
         $response->assertJson([
             'total' => 3
         ]);
-    }
 
-    public function testEventsYearState()
-    {
+        // Create 2 events in a specific state, and year.
         $cityState = factory(\App\CityState::class)->create();
-
         factory(\App\Event::class, 2)->create([
             'start_date' => '2016-01-01 01:01:01',
             'venue_id'   => factory(\App\Venue::class)->create(['city_id' => $cityState->city_id])->city_id,
         ]);
 
-        $state = \App\State::find($cityState->state_id);
-
         $response = $this->get(route('events.year.state', [
             'year'  => 2016,
-            'state' => $state->abbr,
+            'state' => \App\State::find($cityState->state_id)->abbr,
         ]));
 
         $response->assertJson([
@@ -145,7 +134,8 @@ class RouteEventTest extends TestCase
         ]);
     }
 
-    public function testEventsYearType()
+    // /{year}/{type}/{state?}
+    public function testEventsYearTypeState()
     {
         factory(\App\Event::class, 5)->create([
             'type'       => 'state',
@@ -158,24 +148,18 @@ class RouteEventTest extends TestCase
         $response->assertJson([
             'total' => 5,
         ]);
-    }
 
-    public function testEventsYearTypeState()
-    {
         $cityState = factory(\App\CityState::class)->create();
-
         factory(\App\Event::class, 3)->create([
             'type'       => 'gold-cup',
-            'start_date' => '2016-01-01 01:01:01',
+            'start_date' => '2017-01-01 01:01:01',
             'venue_id'   => factory(\App\Venue::class)->create(['city_id' => $cityState->city_id])->city_id,
         ]);
 
-        $state = \App\State::find($cityState->state_id);
-
         $response = $this->get(route('events.year.type.state', [
             'type' => 'gold-cup',
-            'year' => 2016,
-            'state' => $state->abbr,
+            'year' => 2017,
+            'state' => \App\State::find($cityState->state_id)->abbr,
         ]));
 
         $response->assertJson([
@@ -183,7 +167,8 @@ class RouteEventTest extends TestCase
         ]);
     }
 
-    public function testEventsYearMonth()
+    // /{year}/{month}/{state?}
+    public function testEventsYearMonthState()
     {
         factory(\App\Event::class, 3)->create([
             'start_date' => '2016-06-01 01:01:01',
@@ -193,12 +178,28 @@ class RouteEventTest extends TestCase
             'year'  => 2016,
             'month' => '06',
         ]));
-
         $response->assertJson([
             'total' => 3
         ]);
+
+        // Create more events, but in a specific state.
+        $cityState = factory(\App\CityState::class)->create();
+        factory(\App\Event::class, 6)->create([
+            'start_date' => '2016-06-01 01:01:01',
+            'venue_id'   => factory(\App\Venue::class)->create(['city_id' => $cityState->city_id])->city_id,
+        ]);
+        $response = $this->get(route('events.year.month.state', [
+            'year'  => 2016,
+            'month' => '06',
+            'state' => \App\State::find($cityState->state_id)->abbr,
+        ]));
+
+        $response->assertJson([
+            'total' => 6
+        ]);
     }
 
+    // /{year}/{month}/{type}/{state?}
     public function testEventsYearMonthTypeState()
     {
         // Create 4 events.
@@ -211,7 +212,7 @@ class RouteEventTest extends TestCase
         $response = $this->get(route('events.year.month.type.state', [
             'year'  => 2017,
             'month' => '02',
-            'type'  => 'national',
+            'type'  => 'state',
         ]));
         $response->assertJson([
             'total' => 4,

@@ -31,8 +31,8 @@ $factory->define(App\City::class, function (Faker\Generator $faker) {
 // State Factory
 $factory->define(App\State::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->state,
-        'abbr' => $faker->stateAbbr,
+        'name' => $faker->unique()->state,
+        'abbr' => $faker->unique()->stateAbbr,
     ];
 });
 

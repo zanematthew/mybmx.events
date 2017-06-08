@@ -46,4 +46,20 @@ Route::group(['prefix' => 'events'], function () {
         'year'  => '^\d{4}$',
         'state' => '[a-zA-Z]{2}',
     ])->name('events.year.state');
+
+    // /year/type/
+    // /year/type/state?/
+    Route::get('/{year}/{type}/{state?}', function ($year, $type, $state = '') {
+        if ($state) {
+            return App\Event::with('venue.city.states')
+                ->whereYear('start_date', $year)
+                ->where('type', $type)
+                ->whereHas('venue.city.states', function ($query) use ($state) {
+                    $query->where('abbr', strtoupper($state));
+                })->paginate(10);
+        }
+        return App\Event::with('venue.city.states')->whereYear('start_date', $year)->where('type', $type)->paginate();
+    })->where([
+        'type' => '[a-z0-9]+(?:-[a-z0-9]+)*$',
+    ])->name('events.year.type.state');
 });

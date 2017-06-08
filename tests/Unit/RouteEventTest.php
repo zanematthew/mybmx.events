@@ -71,7 +71,7 @@ class RouteEventTest extends TestCase
         ]);
     }
 
-    public function testPaginatorEvents()
+    public function testEvents()
     {
         factory(\App\Event::class, 20)->create();
 
@@ -92,7 +92,7 @@ class RouteEventTest extends TestCase
         ]);
     }
 
-    public function testPaginatorEventsPerState()
+    public function testEventsState()
     {
         $cityState = factory(\App\CityState::class)->create();
         $venue     = factory(\App\Venue::class)->create(['city_id' => $cityState->city_id]);
@@ -109,7 +109,22 @@ class RouteEventTest extends TestCase
         ]);
     }
 
-    public function testPaginatorEventsYearState()
+    public function testEventsYear()
+    {
+        factory(\App\Event::class, 3)->create([
+            'start_date' => '2017-01-01 01:01:01',
+        ]);
+
+        $response = $this->get(route('events.year.state', [
+            'year'  => 2017,
+        ]));
+
+        $response->assertJson([
+            'total' => 3
+        ]);
+    }
+
+    public function testEventsYearState()
     {
         $cityState = factory(\App\CityState::class)->create();
         $venue     = factory(\App\Venue::class)->create(['city_id' => $cityState->city_id]);
@@ -128,17 +143,41 @@ class RouteEventTest extends TestCase
         $response->assertJson([
             'total' => 2
         ]);
+    }
 
-        factory(\App\Event::class, 3)->create([
+    public function testEventsYearType()
+    {
+        factory(\App\Event::class, 5)->create([
+            'type'       => 'state',
             'start_date' => '2017-01-01 01:01:01',
         ]);
-
-        $responseNoState = $this->get(route('events.year.state', [
-            'year'  => 2017,
+        $response = $this->get(route('events.year.type.state', [
+            'year' => 2017,
+            'type' => 'state',
         ]));
+        $response->assertJson([
+            'total' => 5,
+        ]);
+    }
 
-        $responseNoState->assertJson([
-            'total' => 3
+    public function testEventsYearTypeState()
+    {
+        $cityState = factory(\App\CityState::class)->create();
+        $venue     = factory(\App\Venue::class)->create([
+            'city_id' => $cityState->city_id,
+        ]);
+        factory(\App\Event::class, 3)->create([
+            'venue_id'   => $venue->id,
+            'type'       => 'gold-cup',
+            'start_date' => '2016-01-01 01:01:01',
+        ]);
+
+        $response = $this->get(route('events.year.type.state', [
+            'type' => 'gold-cup',
+            'year' => 2016,
+        ]));
+        $response->assertJson([
+            'total' => 3,
         ]);
     }
 }

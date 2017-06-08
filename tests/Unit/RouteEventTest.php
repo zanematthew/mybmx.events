@@ -6,7 +6,6 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Event as Event;
 
 class RouteEventTest extends TestCase
 {
@@ -20,7 +19,7 @@ class RouteEventTest extends TestCase
      */
     public function testSingleEvent()
     {
-        $event = factory(Event::class)->create();
+        $event = factory(\App\Event::class)->create();
 
         $response = $this->get(route('event.single', [
             'id'   => $event->id,
@@ -74,7 +73,7 @@ class RouteEventTest extends TestCase
 
     public function testPaginatorEvents()
     {
-        $event = factory(Event::class, 20)->create();
+        $event = factory(\App\Event::class, 20)->create();
 
         $response = $this->get(route('events'));
 
@@ -90,6 +89,23 @@ class RouteEventTest extends TestCase
                     'city' => []
                 ]
             ]]
+        ]);
+    }
+
+    public function testPaginatorEventsPerState()
+    {
+        $cityState = factory(\App\CityState::class)->create();
+        $venue     = factory(\App\Venue::class)->create(['city_id' => $cityState->city_id]);
+        $events    = factory(\App\Event::class, 5)->create(['venue_id' => $venue->id]);
+
+        $state = \App\State::find($cityState->state_id);
+
+        $response = $this->get(route('events.state', [
+            'state' => $state->abbr,
+        ]));
+
+        $response->assertJson([
+            'total' => 5
         ]);
     }
 }

@@ -166,5 +166,6 @@ class ShovelEvent extends AbstractShovelClient
                 return $type;
             }
         }
+        return $type ?? 'N/A';
     }
 }

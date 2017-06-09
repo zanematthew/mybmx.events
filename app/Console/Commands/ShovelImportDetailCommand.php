@@ -241,7 +241,7 @@ class ShovelImportDetailCommand extends Command
         $event->usabmx_id               = $contentsArray['usabmx_id'];
         $event->usabmx_track_id         = $contentsArray['usabmx_venue_id'];
         $event->fee                     = $contentsArray['fee'] ?? '';
-        $event->type                    = $contentsArray['type'] ?? '';
+        $event->type                    = str_slug($contentsArray['type']) ?? '';
         $event->registration_start_time = date('H:i:s', strtotime($contentsArray['registration_start_time'])) ?? '';
         $event->registration_end_time   = date('H:i:s', strtotime($contentsArray['registration_end_time'])) ?? '';
         $event->start_date              = date('Y-m-d', strtotime($contentsArray['start_date'])) ?? '';
@@ -250,7 +250,7 @@ class ShovelImportDetailCommand extends Command
         $event->event_schedule_uri      = $contentsArray['event_schedule_uri'] ?? '';
         $event->hotel_uri               = $contentsArray['hotel_uri'] ?? '';
 
-        $event->venues()->associate($venue->id);
+        $event->venue()->associate($venue->id);
         $saved = $event->save();
 
         // Handle saved.

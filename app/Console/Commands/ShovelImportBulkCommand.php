@@ -39,7 +39,6 @@ class ShovelImportBulkCommand extends Command
             $dir = 'venues';
         } elseif ($requestedType == 'event') {
             $dir = 'events';
-            dd('handle events');
         } else {
             return '';
         }

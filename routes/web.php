@@ -51,9 +51,7 @@ Route::group(['prefix' => 'events'], function () {
             ->whereHas('venue.city.states', function ($query) use ($state) {
                 $query->where('abbr', strtoupper($state));
             })->paginate(10);
-    })->where([
-        'state' => '[a-zA-Z]{2}',
-    ])->name('events.state');
+    })->name('events.state');
 
     //
     // All year based on events
@@ -70,10 +68,7 @@ Route::group(['prefix' => 'events'], function () {
                 })->paginate(10);
         }
         return App\Event::with('venue.city.states')->whereYear('start_date', $year)->paginate(10);
-    })->where([
-        'year'  => '^\d{4}$',
-        'state' => '[a-zA-Z]{2}',
-    ])->name('events.year.state');
+    })->name('events.year.state');
 
     // /year/month/
     // /year/month/state?/
@@ -90,11 +85,7 @@ Route::group(['prefix' => 'events'], function () {
             ->whereYear('start_date', $year)
             ->whereMonth('start_date', $month)
             ->paginate(10);
-    })->where([
-        'year'  => '^\d{4}$',
-        'month' => '^\d{2}$',
-        'state' => '[a-zA-Z]{2}',
-    ])->name('events.year.month.state');
+    })->name('events.year.month.state');
 
     // /year/type/
     // /year/type/state?/
@@ -108,9 +99,7 @@ Route::group(['prefix' => 'events'], function () {
                 })->paginate(10);
         }
         return App\Event::with('venue.city.states')->whereYear('start_date', $year)->where('type', $type)->paginate(10);
-    })->where([
-        'type' => '[a-z]+(?:-[a-z]+)*$',
-    ])->name('events.year.type.state');
+    })->name('events.year.type.state');
 
     // /year/month/type/
     // /year/month/type/state?/
@@ -131,10 +120,5 @@ Route::group(['prefix' => 'events'], function () {
             ->whereMonth('start_date', $month)
             ->where('type', $type)
             ->paginate(10);
-    })->where([
-        'year'  => '^\d{4}$',
-        'month' => '^\d{2}$',
-        'type'  => '[a-zA-Z]+',
-        'state' => '[a-zA-Z]{2}',
-    ])->name('events.year.month.type.state');
+    })->name('events.year.month.type.state');
 });

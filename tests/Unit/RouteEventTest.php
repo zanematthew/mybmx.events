@@ -81,7 +81,7 @@ class RouteEventTest extends TestCase
         // Get all events
         $response = $this->get(route('events.state'));
         $response->assertJson([
-            'total'         => 25,
+            'total' => 25,
         ]);
 
         // Get only ones in our state we created.

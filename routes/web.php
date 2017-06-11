@@ -19,106 +19,71 @@ Route::get('/event/{id}/{slug?}', function ($id, $slug = '') {
     return response()->json(App\Event::with('venue.city')->where('id', $id)->first());
 })->name('event.single');
 
-//
-// All events
-// This is the only non-date based query we are allowing.
-// /
-// /state/
-
-//
-// All year based on events
-//
-// /year/
-// /year/month/
-
-// /year/type/
-// /year/month/type/
-
-// /year/state?/
-// /year/month/state?/
-
-// /year/type/state?/
-// /year/month/type/state?/
 Route::group(['prefix' => 'events'], function () {
-    // /
-    Route::get('/', function () {
-        return App\Event::with('venue.city.states')->paginate(10);
-    })->name('events');
-
-    // /state/
+    /**
+     * The following routes are defined below. All are prefixed with "events",
+     * and "state" is optional for all. See the RouteServiceProvider.php for
+     * the regular expression constraints for each parameter.
+     *
+     * year/{state?}/
+     * year/month/{state?}/
+     * year/type/{state?}/
+     * year/month/type/{state?}/
+     */
     Route::get('/{state?}', function ($state = '') {
-        return App\Event::with('venue.city.states')
-            ->whereHas('venue.city.states', function ($query) use ($state) {
+        $q = App\Event::with('venue.city.states');
+        if ($state) {
+            $q = $q->whereHas('venue.city.states', function ($query) use ($state) {
                 $query->where('abbr', strtoupper($state));
-            })->paginate(10);
+            });
+        }
+        return $q->paginate(10);
     })->name('events.state');
 
-    //
-    // All year based on events
-    //
-
-    // /year/
-    // /year/state?/
     Route::get('{year}/{state?}', function ($year, $state = '') {
+        $q = App\Event::with('venue.city.states')->whereYear('start_date', $year);
         if ($state) {
-            return App\Event::with('venue.city.states')
-                ->whereYear('start_date', $year)
-                ->whereHas('venue.city.states', function ($query) use ($state) {
-                    $query->where('abbr', strtoupper($state));
-                })->paginate(10);
+            $q = $q->whereHas('venue.city.states', function ($query) use ($state) {
+                $query->where('abbr', strtoupper($state));
+            });
         }
-        return App\Event::with('venue.city.states')->whereYear('start_date', $year)->paginate(10);
+        return $q->paginate(10);
     })->name('events.year.state');
 
-    // /year/month/
-    // /year/month/state?/
     Route::get('/{year}/{month}/{state?}', function ($year, $month, $state = '') {
-        if ($state) {
-            return App\Event::with('venue.city.states')
+        $q = App\Event::with('venue.city.states')
                 ->whereYear('start_date', $year)
-                ->whereMonth('start_date', $month)
-                ->whereHas('venue.city.states', function ($query) use ($state) {
-                    $query->where('abbr', strtoupper($state));
-                })->paginate(10);
+                ->whereMonth('start_date', $month);
+        if ($state) {
+            $q = $q->whereHas('venue.city.states', function ($query) use ($state) {
+                $query->where('abbr', strtoupper($state));
+            });
         }
-        return App\Event::with('venue.city.states')
-            ->whereYear('start_date', $year)
-            ->whereMonth('start_date', $month)
-            ->paginate(10);
+        return $q->paginate(10);
     })->name('events.year.month.state');
 
-    // /year/type/
-    // /year/type/state?/
     Route::get('/{year}/{type}/{state?}', function ($year, $type, $state = '') {
-        if ($state) {
-            return App\Event::with('venue.city.states')
+        $q = App\Event::with('venue.city.states')
                 ->whereYear('start_date', $year)
-                ->where('type', $type)
-                ->whereHas('venue.city.states', function ($query) use ($state) {
-                    $query->where('abbr', strtoupper($state));
-                })->paginate(10);
+                ->where('type', $type);
+        if ($state) {
+            $q = $q->whereHas('venue.city.states', function ($query) use ($state) {
+                $query->where('abbr', strtoupper($state));
+            });
         }
-        return App\Event::with('venue.city.states')->whereYear('start_date', $year)->where('type', $type)->paginate(10);
+        return $q->paginate(10);
     })->name('events.year.type.state');
 
-    // /year/month/type/
-    // /year/month/type/state?/
     Route::get('/{year}/{month}/{type}/{state?}', function ($year, $month, $type, $state = '') {
-
-        if ($state) {
-            return App\Event::with('venue.city.states')
+        $q = App\Event::with('venue.city.states')
                 ->whereYear('start_date', $year)
                 ->whereMonth('start_date', $month)
-                ->where('type', $type)
-                ->whereHas('venue.city.states', function ($query) use ($state) {
-                    $query->where('abbr', strtoupper($state));
-                })
-                ->paginate(10);
+                ->where('type', $type);
+        if ($state) {
+            $q = $q->whereHas('venue.city.states', function ($query) use ($state) {
+                $query->where('abbr', strtoupper($state));
+            });
         }
-        return App\Event::with('venue.city.states')
-            ->whereYear('start_date', $year)
-            ->whereMonth('start_date', $month)
-            ->where('type', $type)
-            ->paginate(10);
+        return $q->paginate(10);
     })->name('events.year.month.type.state');
 });

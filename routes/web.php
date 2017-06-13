@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/event/{id}/{slug?}', function ($id, $slug = '') {
-    return response()->json(App\Event::with('venue.city')->where('id', $id)->first());
+    return App\Event::with('venue.city')->where('id', $id)->first();
 })->name('event.single');
 
 Route::group(['prefix' => 'events'], function () {
@@ -92,3 +92,11 @@ Route::get('/venue/{id}/{slug?}', function ($id, $slug = '') {
     return \App\Venue::with('events')->where('id', $id)->get();
 })->name('venue.single');
 
+Route::get('venues/{state?}', function ($state = '') {
+    if ($state) {
+        return App\Venue::with('events')->whereHas('city.states', function ($query) use ($state) {
+            $query->where('abbr', strtoupper($state));
+        })->paginate(10);
+    }
+    return App\Venue::with('events')->paginate(10);
+})->name('venues.state');

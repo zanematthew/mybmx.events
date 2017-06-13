@@ -87,3 +87,8 @@ Route::group(['prefix' => 'events'], function () {
         return $q->paginate(10);
     })->name('events.year.month.type.state');
 });
+
+Route::get('/venue/{id}/{slug?}', function ($id, $slug = '') {
+    return \App\Venue::with('events')->where('id', $id)->get();
+})->name('venue.single');
+

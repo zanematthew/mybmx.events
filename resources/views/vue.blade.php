@@ -12,13 +12,20 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
-
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
     </head>
     <body>
         <div id="app">
-            <example></example>
+            <!-- use router-link component for navigation. -->
+            <!-- specify the link by passing the `to` prop. -->
+            <!-- <router-link> will be rendered as an `<a>` tag by default -->
+            <!-- https://router.vuejs.org/en/api/router-link.html -->
+            <!-- <router-link to="/event">Go to Event</router-link> -->
+            <!-- <router-link to="/events">Go to Events</router-link> -->
+            <!-- route outlet -->
+            <!-- component matched by the route will render here -->
+            <!-- https://router.vuejs.org/en/api/router-view.html -->
+            <router-view></router-view>
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
     </body>

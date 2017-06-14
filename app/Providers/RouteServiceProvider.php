@@ -31,6 +31,7 @@ class RouteServiceProvider extends ServiceProvider
             'month' => '^\d{2}$',
             'id'    => '[0-9]+',
             'slug'  => '[a-z0-9-]+',
+            'vue'   => '[\/\w\.-]*',
         ]);
         parent::boot();
     }

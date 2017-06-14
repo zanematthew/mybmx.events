@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/event/{id}/{slug?}', function ($id, $slug = '') {
-    return App\Event::with('venue.city')->where('id', $id)->first();
+    return App\Event::with('venue.city.states')->where('id', $id)->first();
 })->name('event.single');
 
 Route::group(['prefix' => 'events'], function () {

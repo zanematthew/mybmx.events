@@ -18,10 +18,7 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 // 1. Define components
-const EventSingle = {
-    props: ['id', 'slug'],
-    template: '<div>Event id: <strong>{{ id }}</strong> slug: <strong>{{ slug }}</strong></div>'
-};
+import EventSingle from './components/EventSingle';
 
 const EventsList = {
     // Prop Validation

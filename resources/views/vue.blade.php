@@ -25,7 +25,9 @@
             <!-- route outlet -->
             <!-- component matched by the route will render here -->
             <!-- https://router.vuejs.org/en/api/router-view.html -->
-            <router-view></router-view>
+            <div class="container">
+                <router-view></router-view>
+            </div>
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
     </body>

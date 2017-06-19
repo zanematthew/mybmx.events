@@ -47,15 +47,28 @@ const routes = [
     props: true
   },
   {
-    path: '/events/:state?',
+    path: '/events/:when',
+    component: EventsList,
+    name: 'events',
+    props: true
+  },
+  {
+    path: '/events/:year(\\d{4})',
+    component: EventsList,
+    name: 'events-list-year',
+    props: true
+  },
+  {
+    path: '/events/:state([a-zA-Z]{2})',
     component: EventsList,
     name: 'events-list-state',
     props: true
   },
   {
-    path: '/events/:year?/:month?/:type?/:state?',
+    // path: '/events/:year(\\d{4})/:month(\\d{2})/:type?/:state?',
+    path: '/events/:year(\\d{4})/:month(\\d{2})/:type?/:state?',
     component: EventsList,
-    name: 'events-list',
+    name: 'events-list-year-month-type-state',
     props: true
   },
   {
@@ -82,10 +95,11 @@ const routes = [
 const router = new VueRouter({
   // https://router.vuejs.org/en/essentials/history-mode.html
   mode: 'history',
-  routes // Short for routes: routes
+  routes, // Short for routes: routes
+  linkActiveClass: 'is-active'
 });
 
 // 4. Create and mount root instance.
 const app = new Vue({
-  router
+  router,
 }).$mount('#app');

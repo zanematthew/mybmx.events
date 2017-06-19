@@ -49,6 +49,7 @@
 
 <script>
 import moment from 'moment';
+import Event from '../models/Event';
 
 export default {
   props: ['id', 'slug'],
@@ -59,12 +60,7 @@ export default {
     }
   },
   mounted() {
-    var self = this;
-    axios.get('/api/event/'+this.id+'/'+this.slug).then(function(response){
-      self.event = response.data;
-    }).catch(function(response){
-      console.log('catch');
-    });
+    Event.single( event => this.event = event, this.id );
   },
   methods: {
     fromNow(start_date) {

@@ -53,25 +53,6 @@ const routes = [
     props: true
   },
   {
-    path: '/events/:year(\\d{4})',
-    component: EventsList,
-    name: 'events-list-year',
-    props: true
-  },
-  {
-    path: '/events/:state([a-zA-Z]{2})',
-    component: EventsList,
-    name: 'events-list-state',
-    props: true
-  },
-  {
-    // path: '/events/:year(\\d{4})/:month(\\d{2})/:type?/:state?',
-    path: '/events/:year(\\d{4})/:month(\\d{2})/:type?/:state?',
-    component: EventsList,
-    name: 'events-list-year-month-type-state',
-    props: true
-  },
-  {
     path: '/venue/:id/:slug?',
     component: VenueSingle,
     props: true

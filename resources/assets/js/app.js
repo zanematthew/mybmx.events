@@ -20,6 +20,10 @@ Vue.use(VueRouter);
 // 1. Define components
 import EventSingle from './components/EventSingle';
 import EventsList from './components/EventsList';
+// https://github.com/vue-bulma/nprogress#configuration
+import NProgress from 'vue-nprogress';
+import nprogress from './nprogress';
+Vue.use(NProgress);
 
 const VenueSingle = {
   props: ['id', 'slug'],
@@ -83,4 +87,5 @@ const router = new VueRouter({
 // 4. Create and mount root instance.
 const app = new Vue({
   router,
+  nprogress
 }).$mount('#app');

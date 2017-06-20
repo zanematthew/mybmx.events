@@ -25,6 +25,22 @@
             <!-- route outlet -->
             <!-- component matched by the route will render here -->
             <!-- https://router.vuejs.org/en/api/router-view.html -->
+
+            <div class="masthead row">
+                <div class="top row">
+                    <div class="container"></div>
+                </div>
+                <div class="bottom row">
+                    <div class="container">
+                        <div class="nav is-secondary">
+                            <router-link :to="{ name: 'events', params: { when: 'this-month' } }"
+                            :class="[$route.fullPath.includes('events') ? 'is-active' : '']"
+                            class="nav-item">Events</router-link>
+                            <router-link :to="{ name: 'venues' }" class="nav-item">Venues</router-link>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="container">
                 <router-view></router-view>
             </div>

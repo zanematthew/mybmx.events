@@ -3,7 +3,7 @@
   <div class="row">
     <div class="nav is-underlined is-tertiary is-spacious">
       <span v-for="link in items">
-        <router-link :to="{ name: 'events', params: link.params, }" class="nav-item" exact>{{ link.name }}</router-link>
+        <router-link :to="{ name: 'events', params: link.params, }" class="nav-item">{{ link.name }}</router-link>
       </span>
     </div>
   </div>

@@ -5,9 +5,11 @@ class Event {
     return axios.get('/api/event/'+id+'/').then(({data}) => then(data));
   }
 
-  static events(then, when) {
+  static events(then, when, query) {
     when = when.replace('-', '_');
-    return axios.get('/api/events?'+when+'=true').then(({data}) => then(data));
+    return axios.get('/api/events?'+when+'=true', {
+        params: query
+    }).then(({data}) => then(data));
   }
 }
 export default Event;

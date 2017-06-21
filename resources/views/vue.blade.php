@@ -7,9 +7,6 @@
 
         <title>{{ config('app.name', 'My BMX Events') }}</title>
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">

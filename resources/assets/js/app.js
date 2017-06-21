@@ -22,6 +22,14 @@ import NProgress from 'vue-nprogress';
 import nprogress from './nprogress';
 Vue.use(NProgress);
 
+// https://github.com/Justineo/vue-awesome
+// Import all icons for now.
+import 'vue-awesome/icons';
+
+// Register globally
+import Icon from 'vue-awesome/components/Icon';
+Vue.component('icon', Icon);
+
 const app = new Vue({
   router,
   nprogress

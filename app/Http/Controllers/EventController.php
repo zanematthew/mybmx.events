@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    protected $paginate = 50;
+    protected $paginate = 10;
     protected $params = [
         'next_month',
         'this_month',

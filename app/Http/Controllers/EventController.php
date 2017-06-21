@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 class EventController extends Controller
 {
     protected $paginate = 50;
+    protected $params = [
+        'next_month',
+        'this_month',
+        'upcoming',
+        'page',
+    ];
 
     public function handleRequest($q = null)
     {
@@ -39,7 +45,7 @@ class EventController extends Controller
         $q = $this->handleRequest($q);
 
         return $q->orderby('start_date', 'asc')
-                 ->paginate($this->paginate);
+                 ->paginate($this->paginate)->appends(request($this->params));
     }
 
     /**
@@ -58,7 +64,7 @@ class EventController extends Controller
         $q = $this->handleRequest($q);
 
         return $q->orderby('start_date', 'asc')
-                 ->paginate($this->paginate);
+                 ->paginate($this->paginate)->appends(request($this->params));
     }
 
     /**

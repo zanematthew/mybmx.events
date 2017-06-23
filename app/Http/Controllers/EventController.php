@@ -12,6 +12,7 @@ class EventController extends Controller
         'this_month',
         'upcoming',
         'page',
+        'venue_id',
     ];
 
     public function handleRequest($q = null)
@@ -28,9 +29,12 @@ class EventController extends Controller
             ]);
         } elseif (request('upcoming') == true) {
             $q = $q->where('start_date', '>=', date('Y-m-d', strtotime('today')));
-        } else {
-            return $q;
         }
+
+        if (request('venue_id')) {
+            $q = $q->where('venue_id', request('venue_id'));
+        }
+
         return $q;
     }
 

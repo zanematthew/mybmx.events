@@ -1,8 +1,10 @@
 <template>
 <div id="event-single">
+  <!-- Event Mini -->
   <div class="content row is-item">
     <div class="event-mini">
-      <div class="grid is-100">
+      <!--  All -->
+      <div class="grid is-40">
         <div class="title">
           <router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug } }">{{ event.title }}</router-link>
         </div>
@@ -13,36 +15,63 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="row is-item">
-    <div class="content">
-      <div class="body">
-        <div itemscope itemtype="http://schema.org/LocalBusiness">
-          <div class="grid is-20">
-            <div class="image">
-              <img :src="event.venue.image_uri" itemprop="image" alt="Photo of Jane Joe">
-            </div>
-          </div>
-          <div class="grid is-40">
-            <h1 class="title"><span itemprop="name">{{event.venue.name}}</span></h1>
-            <span v-if="event.venue.description" itemprop="description"><p>{{event.venue.description}}</p></span>
-            <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-              <span v-if="event.venue.street_address" itemprop="streetAddress">{{event.venue.street_address}}</span><br>
-              <span itemprop="addressLocality">{{event.venue.city.name}}</span>,
-              <span v-if="event.venue.city.states" itemprop="addressRegion">{{event.venue.city.states[0].abbr}}</span><br>
-              <span>{{event.venue.zipCode}}</span>
-            </address>
-          </div>
-          <div class="grid is-40">
-            <strong>Phone</strong> <span itemprop="telephone">{{event.venue.phone_number}}</span><br>
-            <strong>Email</strong> <span itemprop="email">{{event.venue.email}}</span><br>
-            <strong>Primary Contact</strong> <span itemprop="telephone">{{event.venue.primary_contact}}</span><br>
-            <strong>Site</strong> <a :href="event.venue.website" target="_blank" itemprop="url">{{event.venue.website}}</a><br>
-          </div>
-        </div>
+      <!-- Locals -->
+      <div class="grid is-30" v-if="event.fee">
+        <strong>Fee</strong> {{ formatCurrency(event.fee) }}<br />
+        <strong>Registration Start</strong> {{ formatTime(event.start_date + ' ' + event.registration_start_time) }}<br />
+        <strong>Registration End</strong> {{ formatTime(event.start_date + ' ' + event.registration_end_time) }}<br />
+      </div>
+      <!-- Nationals -->
+      <div class="grid is-30" v-if="event.event_schedule_uri">
+        <a :href="event.event_schedule_uri" target="_blank">Schedule (PDF)</a>,
+        <a :href="event.flyer_uri" target="_blank">Flier (PDF)</a>
       </div>
     </div>
+  </div>
+
+  <!-- Map -->
+  <div class="content row">
+    <gmap-map
+      :options="defaultOptions"
+      :draggable="false"
+      :center="center"
+      :zoom="7"
+      style="width: 100%; height: 300px"
+    >
+      <gmap-marker
+        :key="index"
+        v-for="(m, index) in markers"
+        :position="m.position"
+        @click="center=m.position"
+      ></gmap-marker>
+    </gmap-map>
+  </div>
+
+<!-- Venue Detail -->
+<div v-if="event.venue.city.states">
+  <venue-detail
+    :id="event.venue.id"
+    :name="event.venue.name"
+    :slug="event.venue.slug"
+    :image="event.venue.image_uri"
+    :description="event.venue.description"
+    :street_address="event.venue.street_address"
+    :city="event.venue.city.name"
+    :state_abbr="event.venue.city.states[0].abbr"
+    :zip_code="event.venue.zip_code"
+    :phone_number="event.venue.phone_number"
+    :email="event.venue.email"
+    :primary_contact="event.venue.primary_contact"
+    :website="event.venue.website"
+  ></venue-detail>
+</div>
+
+  <!-- Upcoming Events this month -->
+  <div class="row content is-item is-condensed">
+    <h2 class="title">Related Events</h2>
+  </div>
+  <div class="content row is-item is-condensed" v-for="event in relatedEvents.data">
+    <h1><router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug }}">{{ event.title }}</router-link> {{ fromNow(event.start_date) }}, {{ startEndDate(event.start_date, event.end_date) }}</h1>
   </div>
 </div>
 </template>
@@ -50,17 +79,47 @@
 <script>
 import moment from 'moment';
 import Event from '../models/Event';
+import VenueDetail from '../components/partials/VenueDetail';
+import * as VueGoogleMaps from 'vue2-google-maps';
+import Vue from 'vue';
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: '',
+    v: '3.27',
+  }
+});
+
+// @TODO move to be global;
+var numeral = require('numeral');
+
+// @TODO move to be global;
+var SocialSharing = require('vue-social-sharing');
+Vue.use(SocialSharing);
 
 export default {
+  components: {
+    'venue-detail': VenueDetail
+  },
   props: ['id', 'slug'],
   data() {
     return {
       // https://stackoverflow.com/questions/40713905/deeply-nested-data-objects-in-vuejs
-      event: { venue: { city: { states: '' } } }
+      event: { venue: { city: { states: '' } } },
+      center: { lat: 10, lng: -10 },
+      markers: [],
+      defaultOptions: {
+        gestureHandling: "none",
+        // streetViewControl: false,
+        // panControlOptions: false,
+        mapTypeControl: false,
+      },
+      relatedEvents: []
     }
   },
   mounted() {
-    Event.single( event => this.event = event, this.id );
+    // Event.single( event => this.event = event, this.id );
+    this.request();
   },
   methods: {
     fromNow(start_date) {
@@ -77,6 +136,47 @@ export default {
         return startMonthDate + " \u2013 " + endDate + ", " + year;
       }
     },
+    formatTime(time) {
+      return moment(time).format('h:mm a');
+    },
+    formatCurrency(number) {
+      return numeral(number).format('$0,0[.]00');
+    },
+    request() {
+      var self = this;
+      axios.get('/api/event/'+this.id+'/').then((response) => {
+        self.event = response.data;
+        self.center.lat = parseInt(response.data.venue.lat);
+        self.center.lng = parseInt(response.data.venue.long);
+        self.markers = [{
+          position: {lat: parseInt(response.data.venue.lat), lng: parseInt(response.data.venue.long)}
+        }];
+        return response.data;
+      }).then((response) => {
+        axios.get('/api/events/', {
+          params: {
+            this_month: true,
+            venue_id: response.venue_id,
+          }
+        }).then((response) => {
+          self.relatedEvents = response.data;
+        });
+      });
+    },
+    shareUrl() {
+      return window.location.href;
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      this.request();
+    }
   }
 }
 </script>
+<style lang="scss" scoped>
+@import "../../sass/variables";
+.vue-map-container {
+  border: 1px solid $light-gray;
+}
+</style>

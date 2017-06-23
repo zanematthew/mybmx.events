@@ -30,6 +30,9 @@
     padding-bottom: 40px;
     border-bottom: 1px solid $light-gray;
   }
+  &.is-condensed {
+    padding: 10px;
+  }
 }
 
 .content {
@@ -70,6 +73,9 @@
   &.is-30 {
     width: 30%;
   }
+  &.is-33 {
+    width: 33%;
+  }
   &.is-40 {
     width: 40%;
   }
@@ -81,6 +87,9 @@
   }
   &.is-80 {
     width: 80%;
+  }
+  &.is-100 {
+    width: 100%;
   }
 }
 
@@ -108,4 +117,13 @@ img {
 
 .meta {
   color: $meta;
+}
+
+.is-active {
+  color: $primary-focus-color;
+}
+
+.footer {
+  min-height: 120px;
+  margin-top: 60px;
 }

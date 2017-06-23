@@ -59,5 +59,8 @@ export default new VueRouter({
   // https://router.vuejs.org/en/essentials/history-mode.html
   mode: 'history',
   routes, // Short for routes: routes
-  linkActiveClass: 'is-active'
+  linkActiveClass: 'is-active',
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0};
+  }
 });

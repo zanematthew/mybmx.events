@@ -20,9 +20,11 @@
   },
   "dependencies": {
     "moment": "^2.18.1",
+    "numeral": "^2.0.6",
     "url-parse": "^1.1.9",
     "vue-awesome": "^2.3.1",
     "vue-nprogress": "^0.1.5",
-    "vue-router": "^2.5.3"
+    "vue-router": "^2.5.3",
+    "vue2-google-maps": "^0.7.9"
   }
 }

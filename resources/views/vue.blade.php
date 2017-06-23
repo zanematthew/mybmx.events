@@ -41,6 +41,9 @@
             <div class="container">
                 <router-view></router-view>
             </div>
+            <div class="grid is-100 footer">
+                <div class="container"></div>
+            </div>
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
     </body>

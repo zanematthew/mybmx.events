@@ -6,15 +6,18 @@
         <router-link :to="{ name: 'events', params: link.params, }" class="nav-item">{{ link.name }}</router-link>
       </span>
     </div>
-    <div class="nav is-tertiary meta">
-      <router-link :to="{ name: 'events', query: { page: nextPrevPage( events.prev_page_url ) } }" class="nav-item" exact>
-        <icon name="angle-left"></icon>
-      </router-link>
-      <span class="nav-item">{{ events.current_page }}/{{ events.last_page }}</span>
-      <router-link :to="{ name: 'events', query: { page: nextPrevPage( events.next_page_url ) } }" class="nav-item" exact>
-        <icon name="angle-right"></icon>
-      </router-link>
-      <span class="nav-item count alight-right">Total {{ events.total }}</span>
+
+    <div class="row nav is-tertiary meta">
+      <span v-if="events.last_page > 1">
+        <router-link :to="{ name: 'events', query: { page: nextPrevPage( events.prev_page_url ) } }" class="nav-item" exact>
+          <icon name="angle-left"></icon>
+        </router-link>
+        <span class="nav-item">{{ events.current_page }}/{{ events.last_page }}</span>
+        <router-link :to="{ name: 'events', query: { page: nextPrevPage( events.next_page_url ) } }" class="nav-item" exact>
+          <icon name="angle-right"></icon>
+        </router-link>
+      </span>
+      <div class="nav-item count alight-right">Total {{ events.total }}</div>
     </div>
   </div>
   <div class="content row is-item" v-for="event in events.data">

@@ -17,9 +17,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/event/{id}/{slug?}', function ($id, $slug = '') {
-    return App\Event::with('venue.city.states')->where('id', $id)->first();
-})->name('event.single');
+Route::group(['prefix' => 'venue'], function () {
+    Route::get('/{id}/{slug?}', 'VenueController@single')->name('venue.single');
+    Route::get('/events/{id}', 'VenueController@events')->name('venue.events');
+});
+
+Route::group(['prefix' => 'venues'], function () {
+    Route::get('/{state}', 'VenueController@state')->name('venues.state');
+    Route::get('/', 'VenueController@index')->name('venues');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +40,10 @@ Route::get('/event/{id}/{slug?}', function ($id, $slug = '') {
 | next_month: All events next month
 | upcoming: All events from today into the future
 */
+Route::get('/event/{id}/{slug?}', function ($id, $slug = '') {
+    return App\Event::with('venue.city.states')->where('id', $id)->first();
+})->name('event.single');
+
 Route::group(['prefix' => 'events'], function () {
 
     Route::get('/', 'EventController@index')->name('events.index');
@@ -50,16 +60,3 @@ Route::group(['prefix' => 'events'], function () {
     Route::get('/{year}/{month}/{state}', 'EventController@yearMonthState')->name('events.year.month.state');
     Route::get('/{year}/{month}/{type}/{state}', 'EventController@yearMonthTypeState')->name('events.year.month.type.state');
 });
-
-Route::get('/venue/{id}/{slug?}', function ($id, $slug = '') {
-    return \App\Venue::with('events')->where('id', $id)->get();
-})->name('venue.single');
-
-Route::get('venues/{state?}', function ($state = '') {
-    if ($state) {
-        return App\Venue::with('events')->whereHas('city.states', function ($query) use ($state) {
-            $query->where('abbr', strtoupper($state));
-        })->paginate(10);
-    }
-    return App\Venue::with('events')->paginate(10);
-})->name('venues.state');

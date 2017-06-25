@@ -67,12 +67,8 @@
 </div>
 
   <!-- Upcoming Events this month -->
-  <div class="row content is-item is-condensed">
-    <h2 class="title">Related Events</h2>
-  </div>
-  <div class="content row is-item is-condensed" v-for="event in relatedEvents.data">
-    <h1><router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug }}">{{ event.title }}</router-link> {{ fromNow(event.start_date) }}, {{ startEndDate(event.start_date, event.end_date) }}</h1>
-  </div>
+  <event-list :title="'Related Events'" :data="relatedEvents.data"></event-list>
+
 </div>
 </template>
 
@@ -85,7 +81,7 @@ import Vue from 'vue';
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: '',
+    key: 'AIzaSyAVD89EibFYXW5pAA7DeVDMv3qfB4gtigg',
     v: '3.27',
   }
 });
@@ -97,9 +93,14 @@ var numeral = require('numeral');
 var SocialSharing = require('vue-social-sharing');
 Vue.use(SocialSharing);
 
+import MyMixin from '../mixin.js';
+import EventList from '../components/partials/EventList';
+
 export default {
+  mixins: [MyMixin],
   components: {
-    'venue-detail': VenueDetail
+    'venue-detail': VenueDetail,
+    'event-list': EventList,
   },
   props: ['id', 'slug'],
   data() {
@@ -122,20 +123,6 @@ export default {
     this.request();
   },
   methods: {
-    fromNow(start_date) {
-      return moment(start_date).fromNow();
-    },
-    startEndDate(start_date, end_date) {
-      var startMonthDate = moment(start_date).format("MMM D"),
-          year           = moment(end_date).format("YYYY");
-
-      if (start_date == end_date) {
-        return startMonthDate + ", " + year;
-      } else {
-        var endDate = moment(end_date).format("D");
-        return startMonthDate + " \u2013 " + endDate + ", " + year;
-      }
-    },
     formatTime(time) {
       return moment(time).format('h:mm a');
     },

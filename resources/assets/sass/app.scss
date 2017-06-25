@@ -127,3 +127,16 @@ img {
   min-height: 120px;
   margin-top: 60px;
 }
+
+.is-tertiary {
+  border-bottom: 1px solid $light-gray;
+}
+.meta {
+  text-align: center;
+}
+.count {
+  color: $medium-gray;
+}
+.alight-right {
+  float: right;
+}

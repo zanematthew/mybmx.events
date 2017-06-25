@@ -7,18 +7,8 @@
       </span>
     </div>
 
-    <div class="row nav is-tertiary meta">
-      <span v-if="events.last_page > 1">
-        <router-link :to="{ name: 'events', query: { page: nextPrevPage( events.prev_page_url ) } }" class="nav-item" exact>
-          <icon name="angle-left"></icon>
-        </router-link>
-        <span class="nav-item">{{ events.current_page }}/{{ events.last_page }}</span>
-        <router-link :to="{ name: 'events', query: { page: nextPrevPage( events.next_page_url ) } }" class="nav-item" exact>
-          <icon name="angle-right"></icon>
-        </router-link>
-      </span>
-      <div class="nav-item count alight-right">Total {{ events.total }}</div>
-    </div>
+    <pager :data="events" :name="'events'"></pager>
+
   </div>
   <div class="content row is-item" v-for="event in events.data">
     <div class="event-mini">
@@ -43,9 +33,12 @@
 <script>
 import Event from '../models/Event';
 import moment from 'moment';
-var URL = require('url-parse');
+import Pager from '../components/partials/Pager';
 
 export default {
+  components: {
+    'pager': Pager
+  },
   props: ['when'],
   data() {
     return {
@@ -90,11 +83,6 @@ export default {
         return startMonthDate + " \u2013 " + endDate + ", " + year;
       }
     },
-    nextPrevPage(url) {
-      var parsed = new URL(url, true),
-          pageNumber = parsed.query.page;
-      return pageNumber || 1;
-    },
   },
   watch: {
     '$route' (to, from) {
@@ -103,18 +91,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import "../../sass/variables";
-.is-tertiary {
-  border-bottom: 1px solid $light-gray;
-}
-.meta {
-  text-align: center;
-}
-.count {
-  color: $medium-gray;
-}
-.alight-right {
-  float: right;
-}
-</style>

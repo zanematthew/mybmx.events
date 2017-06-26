@@ -15,7 +15,7 @@ const routes = [
   // https://github.com/vuejs/vue-router/issues/235
   // @todo pagination for routes?
   {
-    path: '/event/:id?/:slug?',
+    path: '/event/:id/:slug?',
     component: EventSingle,
     name: 'event-single',
     props: true

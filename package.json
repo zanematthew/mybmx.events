@@ -19,6 +19,7 @@
     "vue": "^2.1.10"
   },
   "dependencies": {
+    "google-maps-image-api": "^1.0.3",
     "moment": "^2.18.1",
     "numeral": "^2.0.6",
     "url-parse": "^1.1.9",

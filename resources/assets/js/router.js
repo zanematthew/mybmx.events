@@ -2,16 +2,8 @@ import VueRouter from 'vue-router';
 
 import EventSingle from './components/EventSingle';
 import EventsList from './components/EventsList';
-
-const VenueSingle = {
-  props: ['id', 'slug'],
-  template: '<div>Venue <strong>{{ id }}</strong> slug: <strong>{{ slug }}</strong></div>'
-};
-
-const VenuesList = {
-  props: ['state'],
-  template: '<div>Venue <strong>{{ state }}</strong></div>'
-};
+import VenuesList from './components/VenuesList';
+import VenueSingle from './components/VenueSingle';
 
 const NotFoundComponent = { template: '<div>404</div>' };
 
@@ -37,6 +29,7 @@ const routes = [
   {
     path: '/venue/:id/:slug?',
     component: VenueSingle,
+    name: 'venue-single',
     props: true
   },
   {

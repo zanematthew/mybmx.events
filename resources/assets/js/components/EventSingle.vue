@@ -89,10 +89,6 @@ Vue.use(VueGoogleMaps, {
 // @TODO move to be global;
 var numeral = require('numeral');
 
-// @TODO move to be global;
-var SocialSharing = require('vue-social-sharing');
-Vue.use(SocialSharing);
-
 import MyMixin from '../mixin.js';
 import EventList from '../components/partials/EventList';
 
@@ -149,10 +145,7 @@ export default {
           self.relatedEvents = response.data;
         });
       });
-    },
-    shareUrl() {
-      return window.location.href;
-    }
+    }    
   },
   watch: {
     '$route' (to, from) {

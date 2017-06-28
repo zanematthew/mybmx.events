@@ -30,21 +30,21 @@ class ShovelEventsScheduleTest extends TestCase
         $goutte = new GoutteClient();
         $goutte->setClient($httpClient);
 
-        $venueSchedule = new ShovelEventsSchedule(1623, 359, 2017, 7);
+        $venueSchedule = new ShovelEventsSchedule(1623, 359, 2017, 5);
         $venueSchedule->setClient($goutte);
         $this->venueSchedule = $venueSchedule;
     }
 
     public function testBuildUlr(){
         $this->assertEquals(
-            'http://usabmx.com/tracks/1623/events/schedule?mode=calendar&month=7&year=2017',
+            'http://usabmx.com/tracks/1623/events/schedule?mode=calendar&month=5&year=2017',
             $this->venueSchedule->buildUrl()
         );
     }
 
-    public function testEventIds()
+    public function testUsaBmxEventIds()
     {
-        $this->assertTrue(in_array(330379, $this->venueSchedule->eventIds()));
+        $this->assertTrue(in_array(347793, $this->venueSchedule->usaBmxEventIds()));
     }    
 
     public function testFeeFix()
@@ -65,17 +65,18 @@ class ShovelEventsScheduleTest extends TestCase
 
     public function testEvents()
     {
-        $this->assertCount(14, $this->venueSchedule->events());
-
+        $this->assertCount(11, $this->venueSchedule->events());
+        $this->venueSchedule->events();
         $this->assertArraySubset([
-            'registration_start_time' => '19:00',
-            'registration_end_time'   => '20:00',
-            'type'                    => 'Local Race',
-            'fee'                     => 1000,
-            'event_id'                => '330382',
-            'start_date'              => '2017-7-16',
+            'registration_start_time' => '17:45',
+            'registration_end_time'   => '20:30',
+            'type'                    => 'Clinic',
+            'fee'                     => '',
+            'usabmx_event_id'         => '347793',
+            'start_date'              => '2017-05-01',
             'title'                   => '',
             'venue_id'                => 359,
-        ], $this->venueSchedule->events()[7]);
+            'description'             => 'NEW RIDER SKILLS CLINIC STARTING AT 6:00 PM RUNS ABOUT 90 MINUTES...$20 FEE ADVANCE SKILLS CLINIC 7:30-8:30...$10 FEE',
+        ], $this->venueSchedule->events()[0]);
     }
 }

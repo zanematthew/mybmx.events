@@ -25,7 +25,7 @@ class ShovelEventsSchedule extends AbstractShovelClient
         ]);
     }
 
-    public function eventIds(): array
+    public function usaBmxEventIds(): array
     {
         return $this->filter('.calendar-event')->each(function ($node) {
             return explode('_', $node->filter('a')->attr('href'))[1];
@@ -46,7 +46,7 @@ class ShovelEventsSchedule extends AbstractShovelClient
                 $event['title'] = $node->filter('h6')->text();
             }
 
-            $eventId = explode('_', $node
+            $usaBmxEventId = explode('_', $node
                 ->filter('a')
                 ->attr('href'))[1];
 
@@ -63,13 +63,13 @@ class ShovelEventsSchedule extends AbstractShovelClient
                     list($key, $value) = explode(': ', $contentArray); // Use ': ', to avoid time issues.
                     $event[ str_slug(strip_tags($key)) ] = $value;
                 }
-                $event['event_id'] = $eventId;
-                $event['start_date']     = sprintf(
+                $event['usabmx_event_id'] = $usaBmxEventId;
+                $event['start_date']      = date('Y-m-d', strtotime(sprintf(
                     '%d-%d-%d',
                     $this->year,
                     $this->month,
                     $node->filter('.calendar_day_title')->text()
-                );                
+                )));
             }
 
             return $event;
@@ -104,23 +104,31 @@ class ShovelEventsSchedule extends AbstractShovelClient
                 unset($event['registration-end']);
             }
             
-            $event['title'] = empty($event['title']) ? '' : $event['title'];
-            $event['fee'] = empty($event['fee']) ? '' : $this->convertToCents($this->feeFix($event['fee']));
+            $event['title']    = empty($event['title']) ? '' : $event['title'];
+            $event['fee']      = empty($event['fee']) ? '' : $this->feeFix($event['fee']);
             $event['venue_id'] = $this->venueId;
 
             return $event;
 
         }, $events);        
+
         return $events;
     }
 
     public function feeFix($fee = null): string
     {
-        return str_replace([
-            '$',
-            'USD',
-            ' ',
-        ], '', $fee);
+        $fee = str_replace([
+                '$',
+                'USD',
+                ' ',
+            ], '', $fee);
+
+        preg_match('/[a-z]/i', $fee, $matches);
+        
+        if ($matches) {
+            return '';
+        }
+        return $fee;
     }
 
     // Most practices and clinics are held in the evening, so if its missing the PM
@@ -137,13 +145,4 @@ class ShovelEventsSchedule extends AbstractShovelClient
         }
         return $time;
     }
-
-// public function name(): string {}
-// public function date(): int {}
-// public function registrationStart(): int{}
-// public function registrationEnd(): int{}
-// public function raceTime(): int{}
-// public function type(): string{}
-// public function fee(): string{}
-// public function status(): string{}
 }

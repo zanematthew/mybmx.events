@@ -45,7 +45,7 @@ class ShovelEventsScheduleTest extends TestCase
     public function testUsaBmxEventIds()
     {
         $this->assertTrue(in_array(347793, $this->venueSchedule->usaBmxEventIds()));
-    }    
+    }
 
     public function testFeeFix()
     {
@@ -65,9 +65,7 @@ class ShovelEventsScheduleTest extends TestCase
 
     public function testEvents()
     {
-        $this->assertCount(11, $this->venueSchedule->events());
-        $this->venueSchedule->events();
-        
+        $this->assertEquals(11, $this->venueSchedule->count());
         $this->assertArraySubset([
             'registration_start_time' => '17:45',
             'registration_end_time'   => '20:30',
@@ -79,6 +77,5 @@ class ShovelEventsScheduleTest extends TestCase
             'venue_id'                => 359,
             'description'             => 'NEW RIDER SKILLS CLINIC STARTING AT 6:00 PM RUNS ABOUT 90 MINUTES...$20 FEE ADVANCE SKILLS CLINIC 7:30-8:30...$10 FEE',
         ], $this->venueSchedule->events()[0][0]);
-
     }
 }

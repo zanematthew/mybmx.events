@@ -151,4 +151,14 @@ class ShovelEventsSchedule extends AbstractShovelClient
         }
         return $time;
     }
+
+    public function count(): int
+    {
+        $events = $this->events();
+        $total  = 0;
+        foreach ($events as $event){
+            $total += count($event);
+        }
+        return $total;
+    }
 }

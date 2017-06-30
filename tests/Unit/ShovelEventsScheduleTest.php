@@ -67,6 +67,7 @@ class ShovelEventsScheduleTest extends TestCase
     {
         $this->assertCount(11, $this->venueSchedule->events());
         $this->venueSchedule->events();
+        
         $this->assertArraySubset([
             'registration_start_time' => '17:45',
             'registration_end_time'   => '20:30',
@@ -77,6 +78,7 @@ class ShovelEventsScheduleTest extends TestCase
             'title'                   => '',
             'venue_id'                => 359,
             'description'             => 'NEW RIDER SKILLS CLINIC STARTING AT 6:00 PM RUNS ABOUT 90 MINUTES...$20 FEE ADVANCE SKILLS CLINIC 7:30-8:30...$10 FEE',
-        ], $this->venueSchedule->events()[0]);
+        ], $this->venueSchedule->events()[0][0]);
+
     }
 }

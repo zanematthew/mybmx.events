@@ -37,82 +37,87 @@ class ShovelEventsSchedule extends AbstractShovelClient
         // We need to loop over the `calendar_day_inner`, because this contains the date.
         // We can't just loop over `calendar_day_content`.
         $events = $this->filter('.calendar_day_inner')->each(function ($node) {
+
             // Bail if there is no content, skip over days with no events.
-            if ($this->aggressiveTrim($node->filter('.calendar_day_content')->text()) == '') {
+            if ($node->filter('.calendar-event')->count() == 0) {
                 return [];
             }
-            // Not all have a title
-            if ($node->filter('h6')->count() == 1) {
-                $event['title'] = $node->filter('h6')->text();
-            }
 
-            $usaBmxEventId = explode('_', $node
-                ->filter('a')
-                ->attr('href'))[1];
+            $date = date('Y-m-d', strtotime(sprintf(
+                '%d-%d-%d',
+                $this->year,
+                $this->month,
+                $node->filter('.calendar_day_title')->text()
+            )));
 
-            if ($node->filter('p')->count() == 1) {
-                $contentsArray = array_filter(
-                    explode('<br>', str_replace(
-                        ['<p>','</p>'],
-                        '',
-                        $this->aggressiveTrim($node->filter('p')->html())
-                    ))
-                );
-                
-                foreach ($contentsArray as $contentArray) {
-                    list($key, $value) = explode(': ', $contentArray); // Use ': ', to avoid time issues.
-                    $event[ str_slug(strip_tags($key)) ] = $value;
+            $events = $node->filter('.calendar-event')->each(function ($node) use ($date) {
+
+                // Not all have a title
+                if ($node->filter('h6')->count() == 1) {
+                    $event['title'] = $node->filter('h6')->text();
                 }
-                $event['usabmx_event_id'] = $usaBmxEventId;
-                $event['start_date']      = date('Y-m-d', strtotime(sprintf(
-                    '%d-%d-%d',
-                    $this->year,
-                    $this->month,
-                    $node->filter('.calendar_day_title')->text()
-                )));
-            }
 
-            return $event;
+                $usaBmxEventId = explode('_', $node->filter('a')->attr('href'))[1];
+
+                if ($node->filter('p')->count() == 1) {
+                    $contentsArray = array_filter(
+                        explode('<br>', str_replace(
+                            ['<p>','</p>'],
+                            '',
+                            $this->aggressiveTrim($node->filter('p')->html())
+                        ))
+                    );
+
+                    foreach ($contentsArray as $contentArray) {
+                        list($key, $value) = explode(': ', $contentArray); // Use ': ', to avoid time issues.
+                        $event[ str_slug(strip_tags($key)) ] = $value;
+                    }
+                    $event['usabmx_event_id'] = $usaBmxEventId;
+                    $event['start_date']      = $date;
+                    return $event;
+                }
+            });
+            return $events;
         });
-        
+
         $events = array_values(array_filter($events));
-        
-        $events = array_map(function ($event) {
 
-            unset($event['status']);
-            unset($event['race-time']);
-            
-            if (empty($event['registration-start'])) {
-                $event['registration_start_time'] = '';
-            } else {
-                $event['registration_start_time'] = $this->timeFormat(
-                    $this->wtfTimeFix(
-                        $event['registration-start'], $event['type']
-                    )
-                );
-                unset($event['registration-start']);
-            }
+        foreach ($events as $event) {
+            $event = array_map(function ($event) {
+                unset($event['status']);
+                unset($event['race-time']);
 
-            if (empty($event['registration-end'])) {
-                $event['registration_end_time'] = '';
-            } else {
-                $event['registration_end_time'] = $this->timeFormat(
-                    $this->wtfTimeFix(
-                        $event['registration-end'], $event['type']
-                    )
-                );
-                unset($event['registration-end']);
-            }
-            
-            $event['title']    = empty($event['title']) ? '' : $event['title'];
-            $event['fee']      = empty($event['fee']) ? '' : $this->feeFix($event['fee']);
-            $event['venue_id'] = $this->venueId;
+                if (empty($event['registration-start'])) {
+                    $event['registration_start_time'] = '';
+                } else {
+                    $event['registration_start_time'] = $this->timeFormat(
+                        $this->wtfTimeFix(
+                            $event['registration-start'], $event['type']
+                        )
+                    );
+                    unset($event['registration-start']);
+                }
 
-            return $event;
+                if (empty($event['registration-end'])) {
+                    $event['registration_end_time'] = '';
+                } else {
+                    $event['registration_end_time'] = $this->timeFormat(
+                        $this->wtfTimeFix(
+                            $event['registration-end'], $event['type']
+                        )
+                    );
+                    unset($event['registration-end']);
+                }
 
-        }, $events);        
+                $event['title']    = $event['title'] ?? '';
+                $event['fee']      = $this->feeFix($event['fee']) ?? '';
+                $event['venue_id'] = $this->venueId;
 
-        return $events;
+                return $event;
+            }, $event);
+            $cleanedEvents[] = $event;
+        }
+        return $cleanedEvents;
     }
 
     public function feeFix($fee = null): string
@@ -124,7 +129,7 @@ class ShovelEventsSchedule extends AbstractShovelClient
             ], '', $fee);
 
         preg_match('/[a-z]/i', $fee, $matches);
-        
+
         if ($matches) {
             return '';
         }
@@ -136,6 +141,7 @@ class ShovelEventsSchedule extends AbstractShovelClient
     public function wtfTimeFix($time = null, $eventType = null): string
     {
         $time = strtoupper($time);
+
         preg_match('#\d+M#', $time, $matches);
         if ($matches) {
             $time = str_replace('M', 'PM', $time);

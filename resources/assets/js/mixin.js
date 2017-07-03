@@ -7,14 +7,19 @@ export default {
       return moment(start_date).fromNow();
     },
     startEndDate(start_date, end_date) {
-      var startMonthDate = moment(start_date).format("MMM D"),
-          year           = moment(end_date).format("YYYY");
+      if (typeof start_date == 'undefined' || typeof end_date == 'undefined') {
+        return;
+      }
 
-      if (start_date == end_date) {
-        return startMonthDate + ", " + year;
+      var startMonthDate = moment(start_date).format("MMM D");
+
+      if (!end_date){
+        return startMonthDate + ", " + moment(start_date).format("YYYY");
+      } else if (start_date == end_date) {
+        return startMonthDate + ", " + moment(end_date).format("YYYY");
       } else {
         var endDate = moment(end_date).format("D");
-        return startMonthDate + " \u2013 " + endDate + ", " + year;
+        return startMonthDate + " \u2013 " + endDate + ", " + moment(end_date).format("YYYY");
       }
     },
   }

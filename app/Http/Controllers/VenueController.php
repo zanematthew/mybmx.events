@@ -34,7 +34,7 @@ class VenueController extends Controller
 
     public function single($venueId = null)
     {
-        return \App\Venue::with('events')->where('id', $venueId)->first();
+        return \App\Venue::with('events', 'city.states')->where('id', $venueId)->first();
     }
 
     public function events($eventId = null)

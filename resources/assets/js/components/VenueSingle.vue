@@ -25,6 +25,8 @@
     :image="venue.image_uri"
     :description="venue.description"
     :street_address="venue.street_address"
+    :city="venue.city.name"
+    :state_abbr="venue.city.states[0].abbr"
     :zip_code="venue.zip_code"
     :phone_number="venue.phone_number"
     :email="venue.email"
@@ -63,28 +65,31 @@ export default {
   props: ['id', 'slug'],
   data() {
     return {
-      venue: {},
+      venue: { city: { states: [{abbr:''}] } },
       center: { lat: 10, lng: -10 },
       markers: [],
       defaultOptions: {
         gestureHandling: "none",
-        // streetViewControl: false,
-        // panControlOptions: false,
         mapTypeControl: false,
       },
     }
   },
   mounted() {
-    var self = this;
-    axios.get('/api/venue/'+this.id).then(function(response){
-      self.venue = response.data;
-      self.event = response.data;
-      self.center.lat = parseInt(response.data.venue.lat);
-      self.center.lng = parseInt(response.data.venue.long);
-      self.markers = [{
-        position: {lat: parseInt(response.data.venue.lat), lng: parseInt(response.data.venue.long)}
-      }];
-    });
+    this.request();
+  },
+  methods: {
+    request() {
+      var self = this;
+      axios.get('/api/venue/'+this.id).then(function(response){
+        self.venue = response.data;
+        self.event = response.data;
+        self.center.lat = parseInt(response.data.lat);
+        self.center.lng = parseInt(response.data.long);
+        self.markers = [{
+          position: {lat: parseInt(response.data.lat), lng: parseInt(response.data.long)}
+        }];
+      });
+    }
   }
 }
 </script>

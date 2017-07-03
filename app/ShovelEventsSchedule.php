@@ -72,7 +72,7 @@ class ShovelEventsSchedule extends AbstractShovelClient
                         list($key, $value) = explode(': ', $contentArray); // Use ': ', to avoid time issues.
                         $event[ str_slug(strip_tags($key)) ] = $value;
                     }
-                    $event['usabmx_event_id'] = $usaBmxEventId;
+                    $event['usabmx_id'] = $usaBmxEventId;
                     $event['start_date']      = $date;
                     return $event;
                 }
@@ -81,7 +81,7 @@ class ShovelEventsSchedule extends AbstractShovelClient
         });
 
         $events = array_values(array_filter($events));
-
+        $cleanedEvents = [];
         foreach ($events as $event) {
             $event = array_map(function ($event) {
                 unset($event['status']);
@@ -109,14 +109,15 @@ class ShovelEventsSchedule extends AbstractShovelClient
                     unset($event['registration-end']);
                 }
 
-                $event['title']    = $event['title'] ?? '';
-                $event['fee']      = $this->feeFix($event['fee']) ?? '';
-                $event['venue_id'] = $this->venueId;
+                $event['title']           = $event['title'] ?? $event['type'];
+                $event['fee']             = empty($event['fee']) ? '' : $this->feeFix($event['fee']);
+                $event['usabmx_venue_id'] = $this->venueId;
 
                 return $event;
             }, $event);
             $cleanedEvents[] = $event;
         }
+
         return $cleanedEvents;
     }
 

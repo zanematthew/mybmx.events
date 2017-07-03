@@ -90,15 +90,16 @@ class ShovelRequestEventCommand extends Command
             return;
         }
 
-        $filename = str_slug("{$eventIdAsk} {$title}", '-');
-        $saved    = Storage::disk('local')->put("public/events/detail/{$filename}.json", json_encode($result));
+        $filename = str_slug("{$eventIdAsk} {$title}");
+        $filepath = "public/events/detail/{$filename}.json";
+        $saved    = Storage::disk('local')->put($filepath, json_encode($result));
 
         if ($saved === false) {
-            $this->error("Failed to save: {$filename}.");
+            $this->error("Failed to save: {$filepath}.");
             return false;
         }
 
-        $this->info("Saved: {$filename}.");
+        $this->info("Saved: {$filepath}.");
         return true;
     }
 }

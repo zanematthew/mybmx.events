@@ -71,10 +71,10 @@ class ShovelEventsScheduleTest extends TestCase
             'registration_end_time'   => '20:30',
             'type'                    => 'Clinic',
             'fee'                     => '',
-            'usabmx_event_id'         => '347793',
+            'usabmx_id'               => '347793',
             'start_date'              => '2017-05-01',
-            'title'                   => '',
-            'venue_id'                => 359,
+            'title'                   => 'Clinic',
+            'usabmx_venue_id'         => 359,
             'description'             => 'NEW RIDER SKILLS CLINIC STARTING AT 6:00 PM RUNS ABOUT 90 MINUTES...$20 FEE ADVANCE SKILLS CLINIC 7:30-8:30...$10 FEE',
         ], $this->venueSchedule->events()[0][0]);
     }

@@ -20,10 +20,12 @@ class Kernel extends ConsoleKernel
         Commands\ShovelRequestVenueIdByStateAllCommand::class,
         Commands\ShovelRequestVenueDetailCommand::class,
         Commands\ShovelRequestDetailBulkCommand::class,
-        Commands\ShovelRequestEventsByVenuePageCommand::class,
+        Commands\ShovelRequestEventsByPageCommand::class,
+        Commands\ShovelRequestBulkEventByPageCommand::class,
 
         Commands\ShovelImportDetailCommand::class,
         Commands\ShovelImportBulkCommand::class,
+        Commands\ShovelImportBulkEventByPageCommand::class,
 
         Commands\ShovleParseVenuePageFromDetailIdCommand::class,
 

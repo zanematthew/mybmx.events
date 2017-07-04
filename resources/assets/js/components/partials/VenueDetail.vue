@@ -3,12 +3,12 @@
     <div class="content">
       <div class="body">
         <div itemscope itemtype="http://schema.org/LocalBusiness">
-          <div class="grid is-20">
+          <div class="grid is-20 is-mobile-100">
             <div class="image">
               <img :src="image" itemprop="image" alt="Photo of Jane Joe">
             </div>
           </div>
-          <div class="grid is-40">
+          <div class="grid is-40 is-mobile-100">
             <h1 class="title"><span itemprop="name">{{name}}</span></h1>
             <!-- <span v-if="description" itemprop="description"><p>{{description}}</p></span> -->
             <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
@@ -17,7 +17,7 @@
               <span v-if="state_abbr" itemprop="addressRegion">{{state_abbr}}</span> <span>{{zip_code}}</span>
             </address>
           </div>
-          <div class="grid is-40">
+          <div class="grid is-40 is-mobile-100">
             <strong>Phone</strong> <span itemprop="telephone">{{phone_number}}</span><br>
             <strong>Email</strong> <span itemprop="email">{{email}}</span><br>
             <strong>Primary Contact</strong> <span itemprop="telephone">{{primary_contact}}</span><br>

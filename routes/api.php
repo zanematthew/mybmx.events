@@ -62,10 +62,5 @@ Route::group(['prefix' => 'events'], function () {
 });
 
 Route::get('/states', function () {
-    return response()->json(\App\State::all()->transform(function ($item) {
-        return [
-            'name' => $item->name,
-            'abbr' => $item->abbr
-        ];
-    }));
+    return response()->json(\App\State::select('name','abbr')->orderBy('name')->get());
 });

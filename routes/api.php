@@ -60,3 +60,12 @@ Route::group(['prefix' => 'events'], function () {
     Route::get('/{year}/{month}/{state}', 'EventController@yearMonthState')->name('events.year.month.state');
     Route::get('/{year}/{month}/{type}/{state}', 'EventController@yearMonthTypeState')->name('events.year.month.type.state');
 });
+
+Route::get('/states', function () {
+    return response()->json(\App\State::all()->transform(function ($item) {
+        return [
+            'name' => $item->name,
+            'abbr' => $item->abbr
+        ];
+    }));
+});

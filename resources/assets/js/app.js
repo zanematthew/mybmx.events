@@ -20,7 +20,10 @@ Vue.use(VueRouter);
 // https://github.com/vue-bulma/nprogress#configuration
 import NProgress from 'vue-nprogress';
 import nprogress from './nprogress';
-Vue.use(NProgress);
+Vue.use(NProgress, {
+  http: false,
+  router: false
+});
 
 // https://github.com/Justineo/vue-awesome
 // Import all icons for now.
@@ -32,5 +35,22 @@ Vue.component('icon', Icon);
 
 const app = new Vue({
   router,
-  nprogress
+  nprogress,
+  components: {
+    'state-select': StateSelect
+  },
+  created: function () {
+    axios.interceptors.request.use(function (config) {
+        nprogress.start();
+        return config;
+    }, function (error) {
+        return Promise.reject(error);
+    });
+    axios.interceptors.response.use(function (response) {
+        nprogress.done();
+        return response;
+    }, function (error) {
+        return Promise.reject(error);
+    });
+  }
 }).$mount('#app');

@@ -12,12 +12,7 @@
   </div>
   <div class="content row is-item" v-for="event in events.data">
     <div class="event-mini">
-      <div class="grid is-20">
-        <div class="image">
-          <img :src="event.venue.image_uri">
-        </div>
-      </div>
-      <div class="grid is-80">
+      <div class="grid is-100">
         <div class="title">
           <router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug } }">{{ event.title }}</router-link>
         </div>

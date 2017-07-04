@@ -1,11 +1,21 @@
 <template>
   <div class="row nav is-tertiary meta">
     <span v-if="data.last_page > 1">
-      <router-link :to="{ name: name, query: { page: this.nextPrevPage( data.prev_page_url ) } }" class="nav-item" exact>
+      <router-link :to="{
+        name: name,
+        query: Object.assign({}, this.$route.query, {
+          page: this.nextPrevPage( data.prev_page_url )
+        })
+      }" class="nav-item" exact>
         <icon name="angle-left"></icon>
       </router-link>
       <span class="nav-item">{{ data.current_page }}/{{ data.last_page }}</span>
-      <router-link :to="{ name: name, query: { page: this.nextPrevPage( data.next_page_url ) } }" class="nav-item" exact>
+      <router-link :to="{
+        name: name,
+          query: Object.assign({}, this.$route.query, {
+            page: this.nextPrevPage( data.next_page_url )
+          })
+        }" class="nav-item" exact>
         <icon name="angle-right"></icon>
       </router-link>
     </span>

@@ -10,6 +10,8 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.0.0/dist/vue-multiselect.min.css">
+
     </head>
     <body>
         <div id="app">
@@ -29,12 +31,24 @@
                 </div>
                 <div class="bottom row">
                     <div class="container">
-                        <div class="nav is-secondary">
+                        <div class="nav is-secondary grid is-100">
+                            {{-- <router-link :to="{ path: 'relative/path', query: }" append>Test</router-link> --}}
                             <router-link :to="{ name: 'events', params: { when: 'this-month' } }"
                             :class="[$route.fullPath.includes('events') ? 'is-active' : '']"
                             class="nav-item">Events</router-link>
                             <router-link :to="{ name: 'venues' }" class="nav-item">Venues</router-link>
+                            <state-select></state-select>
                         </div>
+{{--  --}}
+{{-- <div class="location nav is-secondary">
+    <v-select multiple
+        :options="states"
+        :on-change="consoleCallback"
+        ></v-select>
+    <span class="nav-item"><i class="fa fa-map-marker" aria-hidden="true"></i>Maryland, Virginia</span>
+    <a href="#" class="nav-item"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+</div> --}}
+{{--  --}}
                     </div>
                 </div>
             </div>

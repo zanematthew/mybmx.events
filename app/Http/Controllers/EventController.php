@@ -12,11 +12,28 @@ class EventController extends Controller
         'this_month',
         'upcoming',
         'page',
+        'state',
+        'states',
         'venue_id',
     ];
 
     public function handleRequest($q = null)
     {
+        if (request('state')) {
+            $state = request('state');
+            $q = $q->whereHas('venue.city.states', function ($query) use ($state) {
+                $query->where('abbr', strtoupper($state));
+            });
+        }
+
+        if (request('states')) {
+            $states = request('states');
+            $q = $q->whereHas('venue.city.states', function ($query) use ($states) {
+                $states = explode(',', strtoupper($states));
+                $query->whereIn('abbr', $states);
+            });
+        }
+
         if (request('next_month') == true) {
             $q = $q->whereBetween('start_date', [
                 date('Y-m-d', strtotime('first day of next month')),

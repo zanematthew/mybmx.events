@@ -4,7 +4,7 @@
   <div class="content row is-item">
     <div class="event-mini">
       <!--  All -->
-      <div class="grid is-40">
+      <div class="grid is-40 is-mobile-100">
         <div class="title">
           <router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug } }">{{ event.title }}</router-link>
         </div>
@@ -16,13 +16,13 @@
         </div>
       </div>
       <!-- Locals -->
-      <div class="grid is-30" v-if="event.fee">
+      <div class="grid is-30 is-mobile-100" v-if="event.fee">
         <strong>Fee</strong> {{ formatCurrency(event.fee) }}<br />
         <strong>Registration Start</strong> {{ formatTime(event.start_date + ' ' + event.registration_start_time) }}<br />
         <strong>Registration End</strong> {{ formatTime(event.start_date + ' ' + event.registration_end_time) }}<br />
       </div>
       <!-- Nationals -->
-      <div class="grid is-30" v-if="event.event_schedule_uri">
+      <div class="grid is-30 is-mobile-100" v-if="event.event_schedule_uri">
         <a :href="event.event_schedule_uri" target="_blank">Schedule (PDF)</a>,
         <a :href="event.flyer_uri" target="_blank">Flier (PDF)</a>
       </div>
@@ -107,8 +107,6 @@ export default {
       markers: [],
       defaultOptions: {
         gestureHandling: "none",
-        // streetViewControl: false,
-        // panControlOptions: false,
         mapTypeControl: false,
       },
       relatedEvents: []
@@ -145,7 +143,7 @@ export default {
           self.relatedEvents = response.data;
         });
       });
-    }    
+    }
   },
   watch: {
     '$route' (to, from) {

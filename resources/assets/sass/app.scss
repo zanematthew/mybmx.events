@@ -137,6 +137,13 @@ img {
 .count {
   color: $medium-gray;
 }
-.alight-right {
+.align-right {
   float: right;
+}
+
+@media screen and (max-width: 768px) {
+  .is-mobile-100 {
+    width: 100% !important;
+    padding: 0 10px;
+  }
 }

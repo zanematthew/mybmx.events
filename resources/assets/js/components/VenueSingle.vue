@@ -72,6 +72,12 @@ export default {
         gestureHandling: "none",
         mapTypeControl: false,
       },
+      pageTitle: '...'
+    }
+  },
+  metaInfo() {
+    return {
+      title: this.pageTitle
     }
   },
   mounted() {
@@ -87,6 +93,7 @@ export default {
         this.markers = [{
           position: {lat: parseInt(response.data.lat), lng: parseInt(response.data.long)}
         }];
+        this.pageTitle = this.venue.name;
       });
     }
   }

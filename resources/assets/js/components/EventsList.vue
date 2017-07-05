@@ -66,6 +66,21 @@ export default {
       ]
     }
   },
+  metaInfo() {
+    var month;
+    if (this.when == 'this-month') {
+      month = moment().format('MMMM');
+    } else if (this.when == 'next-month') {
+      month = moment().add(1, 'month').format('MMMM');
+    } else if (this.when == 'upcoming') {
+      month = 'Upcoming';
+    }
+
+    return {
+      title: month,
+      titleTemplate: '%s - BMX Events | My BMX Events'
+    }
+  },
   mounted() {
     Event.events(events => this.events = events, this.$route.params.when, this.$route.query);
   },

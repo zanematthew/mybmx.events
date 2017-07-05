@@ -36,6 +36,9 @@ export default {
       venues: []
       }
   },
+  metaInfo: {
+    title: 'Venues'
+  },
   mounted(){
     this.request();
   },

@@ -17,6 +17,9 @@ import VueRouter from 'vue-router';
 import router from './router';
 Vue.use(VueRouter);
 
+import Meta from 'vue-meta';
+Vue.use(Meta);
+
 // https://github.com/vue-bulma/nprogress#configuration
 import NProgress from 'vue-nprogress';
 import nprogress from './nprogress';
@@ -38,6 +41,10 @@ import StateSelect from './components/StateSelect';
 const app = new Vue({
   router,
   nprogress,
+  metaInfo: {
+    title: '...',
+    titleTemplate: '%s | My BMX Events'
+  },
   components: {
     'state-select': StateSelect
   },

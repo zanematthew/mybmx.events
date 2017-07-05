@@ -1,6 +1,6 @@
 <template>
   <div>
-    <pager :data="venues" :name="'venues'"></pager>
+    <pager :data="venues" :name="'venues'" :meta="{beforePageTitle: 'Venues'}"></pager>
 
     <div class="content is-item row" v-for="venue in venues.data">
       <div class="venue-mini">
@@ -33,7 +33,7 @@ export default {
   props: ['state'],
   data() {
     return {
-      venues: []
+      venues: {}
       }
   },
   metaInfo: {

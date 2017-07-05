@@ -26,7 +26,21 @@
 var URL = require('url-parse');
 
 export default {
-  props: ['name', 'data'],
+  props: {
+    name: String,
+    data: Object,
+    meta: Object
+  },
+  metaInfo() {
+    var beforePageTitle = '';
+    if (this.meta.beforePageTitle !== null) {
+      var beforePageTitle = `${this.meta.beforePageTitle} // `;
+    }
+
+    return {
+      title: `${beforePageTitle}Page: ${this.data.current_page}`
+    }
+  },
   methods: {
     nextPrevPage(url) {
       var parsed = new URL(url, true),

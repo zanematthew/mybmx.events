@@ -132,7 +132,7 @@ export default {
         this.markers = [{
           position: {lat: parseInt(response.data.venue.lat), lng: parseInt(response.data.venue.long)}
         }];
-        this.pageTitle = this.event.venue.name + ' // ' + this.event.title;
+        this.pageTitle = `${this.event.venue.name} // ${this.event.title}`;
         return response.data;
       }).then(response => {
         axios.get('/api/events/', {

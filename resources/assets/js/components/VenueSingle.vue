@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       venue: { city: { states: [{abbr:''}] } },
-      center: { lat: 10, lng: -10 },
+      center: { lat: 39.2904, lng: 76.6122 },
       markers: [],
       defaultOptions: {
         gestureHandling: "none",

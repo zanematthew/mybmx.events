@@ -21,12 +21,6 @@ const routes = [
     props: true
   },
   {
-    path: '/:when',
-    component: EventsList,
-    name: 'events',
-    props: true
-  },
-  {
     path: '/venue/:id/:slug?',
     component: VenueSingle,
     name: 'venue-single',
@@ -36,6 +30,12 @@ const routes = [
     path: '/venues/:state?',
     component: VenuesList,
     name: 'venues',
+    props: true
+  },
+  {
+    path: '/:when',
+    component: EventsList,
+    name: 'events',
     props: true
   },
 

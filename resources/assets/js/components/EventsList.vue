@@ -5,13 +5,13 @@
       <span v-for="link in items">
         <router-link :to="{
           name: 'events',
-          params: link.params,
+          params: { 'when': link.when },
           query: appendStateQuery()
         }" class="nav-item">{{ link.name }}</router-link>
       </span>
     </div>
 
-    <pager :data="events" :name="'events'"></pager>
+    <pager :data="events" :name="'events'" :meta="{beforePageTitle: currentTab.name}"></pager>
 
   </div>
   <div class="content row is-item" v-for="event in events.data">
@@ -43,27 +43,22 @@ export default {
   props: ['when'],
   data() {
     return {
-      events: [],
+      events: {},
       items: [
         {
           name: 'This Month',
-          params: {
-            when: 'this-month'
-          }
+          when: 'this-month'
         },
         {
           name: 'Next Month',
-          params: {
-            when: 'next-month'
-          }
+          when: 'next-month'
         },
         {
           name: 'All Upcoming',
-          params: {
-            when: 'upcoming'
-          }
+          when: 'upcoming'
         },
-      ]
+      ],
+      currentTab: {}
     }
   },
   metaInfo() {

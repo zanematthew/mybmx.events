@@ -79,13 +79,12 @@ export default {
   },
   methods: {
     request() {
-      var self = this;
-      axios.get('/api/venue/'+this.id).then(function(response){
-        self.venue = response.data;
-        self.event = response.data;
-        self.center.lat = parseInt(response.data.lat);
-        self.center.lng = parseInt(response.data.long);
-        self.markers = [{
+      axios.get('/api/venue/'+this.id).then(response => {
+        this.venue = response.data;
+        this.event = response.data;
+        this.center.lat = parseInt(response.data.lat);
+        this.center.lng = parseInt(response.data.long);
+        this.markers = [{
           position: {lat: parseInt(response.data.lat), lng: parseInt(response.data.long)}
         }];
       });

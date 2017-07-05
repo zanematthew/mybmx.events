@@ -47,11 +47,10 @@ export default {
       return events.length > 1 ? 'Events' : 'Event';
     },
     request() {
-      var self = this;
       axios.get('/api/venues/', {
         params: this.$route.query
-      }).then(function(response){
-        self.venues = response.data;
+      }).then(response => {
+        this.venues = response.data;
       });
     }
   },

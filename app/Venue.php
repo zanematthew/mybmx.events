@@ -23,6 +23,10 @@ class Venue extends Model
         'phone_number',
     ];
 
+    protected $appends = [
+        'slug',
+    ];
+
     public function events()
     {
         return $this->hasMany('App\Event');
@@ -30,6 +34,11 @@ class Venue extends Model
 
     public function city()
     {
-        return $this->belongsTo('App\city');
+        return $this->belongsTo('App\City');
+    }
+
+    public function getSlugAttribute()
+    {
+        return str_slug($this->name);
     }
 }

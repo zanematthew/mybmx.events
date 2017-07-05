@@ -105,14 +105,15 @@ class ShovelRequestVenueDetailCommand extends Command
 
         $result   = array_merge($detail, $location, $links, $contact);
         $filename = str_slug("{$venueId} {$name}", '-');
-        $saved    = Storage::disk('local')->put("public/venues/detail/{$filename}.json", json_encode($result));
+        $filepath = "public/venues/detail/{$filename}.json";
+        $saved    = Storage::disk('local')->put($filepath, json_encode($result));
 
         if ($saved === false) {
-            $this->error("Failed to save: {$filename}.");
+            $this->error("Failed to save: {$filepath}.");
             return false;
         }
 
-        $this->info("Saved: {$filename}.json");
+        $this->info("Saved: {$filepath}.");
         return true;
     }
 }

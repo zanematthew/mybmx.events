@@ -120,4 +120,14 @@ trait ShovelTrait
         }
         return [$pageRange, $pageRange];
     }
+
+    public function convertToCents($price = null): int
+    {
+        return $price * 100;
+    }
+
+    public function timeFormat($time = null): string 
+    {        
+        return date('H:i', strtotime($time));
+    }
 }

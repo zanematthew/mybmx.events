@@ -23,6 +23,11 @@ class Event extends Model
         'usabmx_id',
     ];
 
+    protected $appends = [
+        'slug',
+        'type_name',
+    ];
+
     public function schedules()
     {
         return $this->belongsToMany('App\Schedule');
@@ -31,5 +36,15 @@ class Event extends Model
     public function venue()
     {
         return $this->belongsTo('App\Venue', 'venue_id');
+    }
+
+    public function getSlugAttribute()
+    {
+        return str_slug($this->title);
+    }
+
+    public function getTypeNameAttribute()
+    {
+        return ucwords(str_replace('-', ' ', $this->type));
     }
 }

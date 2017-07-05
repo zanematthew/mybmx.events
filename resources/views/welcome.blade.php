@@ -63,6 +63,8 @@
                 margin-bottom: 30px;
             }
         </style>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -77,9 +79,10 @@
                 </div>
             @endif
 
-            <div class="content">
+            <div class="content" id="app">
                 <div class="title m-b-md">
                     Laravel
+                    <example></example>
                 </div>
 
                 <div class="links">
@@ -91,5 +94,6 @@
                 </div>
             </div>
         </div>
+        <script src="{{ mix('js/app.js') }}"></script>
     </body>
 </html>

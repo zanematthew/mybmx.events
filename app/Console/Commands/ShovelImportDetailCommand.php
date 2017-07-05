@@ -21,7 +21,7 @@ class ShovelImportDetailCommand extends Command
      */
     protected $signature = 'shovel:import-detail
                             {--t|type= : The requested type [venue|event].}
-                            {--f|file_path= : The full file path.}
+                            {--f|file_path= : The file path relative to the Storage directory, i.e., public/venues/detail/154-river-valley-bmx.json.}
                             {--s|save : Save to the database.}
                             {--r|remove_file : Remove import from file when done.}
                             {--o|overwrite : If the venue|event already exists, overwrite the existing item.}';

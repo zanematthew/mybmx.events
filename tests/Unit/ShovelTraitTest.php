@@ -55,4 +55,18 @@ class ShovelTraitTest extends TestCase
     {
         $this->assertArraySubset([5,10], $this->mock->parsedPageRange('5-10'));
     }
+
+    public function testConvertToCents()
+    {
+        $this->assertEquals(1000, $this->mock->convertToCents('10'));        
+        $this->assertEquals(1000, $this->mock->convertToCents('10.00'));
+        $this->assertEquals(500, $this->mock->convertToCents('5.00'));
+        $this->assertEquals(1050, $this->mock->convertToCents('10.50'));
+    }
+
+    public function testTimeFormate()
+    {
+        $this->assertEquals('19:00', $this->mock->timeFormat('7PM'));
+        $this->assertEquals('19:00', $this->mock->timeFormat('7:00 PM'));        
+    }
 }

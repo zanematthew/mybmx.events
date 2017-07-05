@@ -73,9 +73,10 @@
 </template>
 
 <script>
+import MyMixin from '../mixin.js';
 import moment from 'moment';
-import Event from '../models/Event';
 import VenueDetail from '../components/partials/VenueDetail';
+import EventList from '../components/partials/EventList';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue';
 
@@ -86,11 +87,7 @@ Vue.use(VueGoogleMaps, {
   }
 });
 
-// @TODO move to be global;
 var numeral = require('numeral');
-
-import MyMixin from '../mixin.js';
-import EventList from '../components/partials/EventList';
 
 export default {
   mixins: [MyMixin],
@@ -101,9 +98,8 @@ export default {
   props: ['id', 'slug'],
   data() {
     return {
-      // https://stackoverflow.com/questions/40713905/deeply-nested-data-objects-in-vuejs
       event: { venue: { city: { states: '' } } },
-      center: { lat: 10, lng: -10 },
+      center: { lat: 39.2904, lng: 76.6122 },
       markers: [],
       defaultOptions: {
         gestureHandling: "none",
@@ -113,7 +109,6 @@ export default {
     }
   },
   mounted() {
-    // Event.single( event => this.event = event, this.id );
     this.request();
   },
   methods: {
@@ -124,23 +119,22 @@ export default {
       return numeral(number).format('$0,0[.]00');
     },
     request() {
-      var self = this;
-      axios.get('/api/event/'+this.id+'/').then((response) => {
-        self.event = response.data;
-        self.center.lat = parseInt(response.data.venue.lat);
-        self.center.lng = parseInt(response.data.venue.long);
-        self.markers = [{
+      axios.get('/api/event/'+this.id+'/').then(response => {
+        this.event = response.data;
+        this.center.lat = parseInt(response.data.venue.lat);
+        this.center.lng = parseInt(response.data.venue.long);
+        this.markers = [{
           position: {lat: parseInt(response.data.venue.lat), lng: parseInt(response.data.venue.long)}
         }];
         return response.data;
-      }).then((response) => {
+      }).then(response => {
         axios.get('/api/events/', {
           params: {
             this_month: true,
             venue_id: response.venue_id,
           }
-        }).then((response) => {
-          self.relatedEvents = response.data;
+        }).then(response => {
+          this.relatedEvents = response.data;
         });
       });
     }

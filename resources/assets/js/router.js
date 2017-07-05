@@ -21,7 +21,7 @@ const routes = [
     props: true
   },
   {
-    path: '/events/:when',
+    path: '/:when',
     component: EventsList,
     name: 'events',
     props: true

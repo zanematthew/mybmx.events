@@ -100,12 +100,12 @@ export default {
     appendToStateQueryAndPush(selectedOption, id) {
       var currentStates = this.getCurrentStates() || null;
       if (currentStates === null) {
-        return;
+        var states = selectedOption.abbr;
+      } else {
+        currentStates.push(selectedOption.abbr);
+        var states = currentStates.join(this.separtor);
       }
-      var joined = selectedOption.abbr;
-      currentStates.push(selectedOption.abbr);
-      joined = currentStates.join(this.separtor);
-      this.$router.push({ name: this.type, query: { states: joined } });
+      this.$router.push({ name: this.type, query: { states: states } });
     },
     /**
      * Get the query string of states.
@@ -128,15 +128,15 @@ export default {
     removeFromStateQueryAndPush(removedOption, id) {
       var currentStates = this.getCurrentStates() || null;
       if (currentStates === null) {
-        return;
+        var states = removedOption.abbr;
+      } else {
+        i = currentStates.indexOf(removedOption.abbr);
+        if (i != -1) {
+          currentStates.splice(i, 1);
+          var states = currentStates.join(this.separtor);
+        }
       }
-      var updated = removedOption.abbr,
-          i = currentStates.indexOf(removedOption.abbr);
-      if (i != -1) {
-        currentStates.splice(i, 1);
-        var updated = currentStates.join(this.separtor);
-      }
-      this.$router.push({ name: this.type, query: { states: updated } });
+      this.$router.push({ name: this.type, query: { states: states } });
     }
   }
 }

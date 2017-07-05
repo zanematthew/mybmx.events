@@ -130,7 +130,7 @@ export default {
       if (currentStates === null) {
         var states = removedOption.abbr;
       } else {
-        i = currentStates.indexOf(removedOption.abbr);
+        var i = currentStates.indexOf(removedOption.abbr);
         if (i != -1) {
           currentStates.splice(i, 1);
           var states = currentStates.join(this.separtor);

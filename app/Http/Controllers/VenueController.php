@@ -7,15 +7,33 @@ use Illuminate\Http\Request;
 class VenueController extends Controller
 {
     protected $paginate = 10;
-    protected $requestParams = [
+    protected $params = [
         'page',
+        'states',
     ];
+
+    public function handleRequest($q = null)
+    {
+        if (request('states')) {
+            // Validate
+            $states = explode(',', request('states'));
+
+            $q->whereHas('city.states', function ($query) use ($states) {
+                $query->whereIn('abbr', $states);
+            });
+        }
+
+        return $q;
+    }
+
 
     public function index()
     {
-        return \App\Venue::with('city.states', 'events')
-            ->orderby('name', 'asc')
-            ->paginate($this->paginate);
+        $q = \App\Venue::with('city.states', 'events');
+        $q = $this->handleRequest($q);
+        return $q->orderby('name', 'asc')
+                 ->paginate($this->paginate)
+                 ->appends(request($this->params));
 
         // return \App\Venue::with('city.states', 'events')->whereHas('events', function ($query) {
         //     $query->whereBetween('start_date', [

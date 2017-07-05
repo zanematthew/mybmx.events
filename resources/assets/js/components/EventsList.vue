@@ -87,11 +87,6 @@ export default {
     }
   },
   methods: {
-    appendStateQuery() {
-      if (typeof this.$route.query.states != 'undefined') {
-        return { states: this.$route.query.states };
-      }
-    },
     setCurrentTab() {
       for (let i of this.items) {
         if (i.when == this.when){

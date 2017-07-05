@@ -22,5 +22,10 @@ export default {
         return startMonthDate + " \u2013 " + endDate + ", " + moment(end_date).format("YYYY");
       }
     },
+    appendStateQuery() {
+      if (typeof this.$route.query.states != 'undefined') {
+        return { states: this.$route.query.states };
+      }
+    }
   }
 };

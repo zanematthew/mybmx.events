@@ -31,13 +31,13 @@ export default {
   components: {
     Multiselect
   },
+  props: ['type'],
   data () {
     return {
       selectedStates: [],
       states: [],
       isLoading: false,
       separtor: ',',
-      type: 'events'
     }
   },
   mounted() {

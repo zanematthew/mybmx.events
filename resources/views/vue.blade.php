@@ -15,16 +15,6 @@
     </head>
     <body>
         <div id="app">
-            <!-- use router-link component for navigation. -->
-            <!-- specify the link by passing the `to` prop. -->
-            <!-- <router-link> will be rendered as an `<a>` tag by default -->
-            <!-- https://router.vuejs.org/en/api/router-link.html -->
-            <!-- <router-link to="/event">Go to Event</router-link> -->
-            <!-- <router-link to="/events">Go to Events</router-link> -->
-            <!-- route outlet -->
-            <!-- component matched by the route will render here -->
-            <!-- https://router.vuejs.org/en/api/router-view.html -->
-
             <div class="masthead row">
                 <div class="top row">
                     <div class="container"></div>
@@ -32,23 +22,9 @@
                 <div class="bottom row">
                     <div class="container">
                         <div class="nav is-secondary grid is-100">
-                            {{-- <router-link :to="{ path: 'relative/path', query: }" append>Test</router-link> --}}
-                            <router-link :to="{ name: 'events', params: { when: 'this-month' } }"
-                            :class="[$route.fullPath.includes('events') ? 'is-active' : '']"
-                            class="nav-item">Events</router-link>
-                            <router-link :to="{ name: 'venues' }" class="nav-item">Venues</router-link>
-                            <state-select></state-select>
+                            <secondary-nav></secondary-nav>
+                            <state-select :type="$route.name"></state-select>
                         </div>
-{{--  --}}
-{{-- <div class="location nav is-secondary">
-    <v-select multiple
-        :options="states"
-        :on-change="consoleCallback"
-        ></v-select>
-    <span class="nav-item"><i class="fa fa-map-marker" aria-hidden="true"></i>Maryland, Virginia</span>
-    <a href="#" class="nav-item"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
-</div> --}}
-{{--  --}}
                     </div>
                 </div>
             </div>

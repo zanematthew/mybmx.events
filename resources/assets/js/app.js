@@ -38,6 +38,8 @@ Vue.component('icon', Icon);
 
 import StateSelect from './components/StateSelect';
 
+import SecondaryNav from './components/SecondaryNav';
+
 const app = new Vue({
   router,
   nprogress,
@@ -46,7 +48,8 @@ const app = new Vue({
     titleTemplate: '%s | My BMX Events'
   },
   components: {
-    'state-select': StateSelect
+    'state-select': StateSelect,
+    'secondary-nav': SecondaryNav
   },
   created: function () {
     axios.interceptors.request.use(function (config) {

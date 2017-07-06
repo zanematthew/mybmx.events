@@ -147,3 +147,38 @@ img {
     padding: 0 10px;
   }
 }
+
+.state-select {
+  .fa-icon {
+    color: $red;
+    float: left;
+    margin-top: 10px;
+  }
+  .multiselect {
+    color: $red;
+  }
+  .multiselect__tags {
+    color: $red;
+    border: 0;
+    float: left;
+  }
+  .multiselect__tag {
+    background: transparent;
+    color: red;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 20px;
+  }
+  .multiselect__tag-icon:focus:after,
+  .multiselect__tag-icon:hover:after,
+  .multiselect__tag-icon:after {
+    color: #8e2209;
+  }
+  .multiselect__select {
+    color: $red;
+  }
+  .multiselect__tag-icon:focus,
+  .multiselect__tag-icon:hover {
+    background: transparent;
+  }
+}

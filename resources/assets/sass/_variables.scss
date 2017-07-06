@@ -2,8 +2,10 @@
 // @TODO make light/medium/dark gray based on %
 $medium-gray: #888888;
 $light-gray: #ece9e9;
+$red: #F34017;
+
 $primary-focus-color: #4285f4;
-$secondary-focus-color: #F34017;
+$secondary-focus-color: $red;
 
 $meta: $medium-gray;
 

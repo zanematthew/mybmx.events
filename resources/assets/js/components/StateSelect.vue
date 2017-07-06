@@ -1,12 +1,13 @@
 <template>
-  <div class="is-40 align-right">
+  <div class="grid is-40 align-right state-select">
     <label class="typo__label" for="ajax"></label>
+    <icon name="map-marker" scale="1"></icon>
     <multiselect
       v-model="selectedStates"
       id="ajax"
       label="name"
       track-by="abbr"
-      placeholder="Type to search"
+      placeholder="Select a State"
       open-direction="bottom"
       :options="states"
       :multiple="true"

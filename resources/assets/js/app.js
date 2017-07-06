@@ -37,8 +37,22 @@ import Icon from 'vue-awesome/components/Icon';
 Vue.component('icon', Icon);
 
 import StateSelect from './components/StateSelect';
-
 import SecondaryNav from './components/SecondaryNav';
+
+import VueAnalytics from 'vue-analytics';
+Vue.use(VueAnalytics, {
+  id: 'UA-102119335-1',
+  router,
+  autoTracking: {
+    pageviewTemplate: function (route) {
+      return {
+        page: route.path,
+        title: document.title,
+        location: window.location.href
+      }
+    }
+  }
+});
 
 const app = new Vue({
   router,

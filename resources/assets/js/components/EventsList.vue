@@ -11,7 +11,7 @@
       </span>
     </div>
 
-    <pager :data="events" :name="'events'" :meta="{beforePageTitle: currentTab.name}"></pager>
+    <pager :data="events" :name="'events'"></pager>
 
   </div>
   <div class="content row is-item" v-for="event in events.data">
@@ -62,18 +62,9 @@ export default {
     }
   },
   metaInfo() {
-    var month;
-    if (this.when == 'this-month') {
-      month = moment().format('MMMM');
-    } else if (this.when == 'next-month') {
-      month = moment().add(1, 'month').format('MMMM');
-    } else if (this.when == 'upcoming') {
-      month = 'Upcoming';
-    }
-
     return {
-      title: month,
-      titleTemplate: '%s - BMX Events | My BMX Events'
+      title: this.getMonthName(),
+      titleTemplate: '%s | My BMX Events'
     }
   },
   mounted() {
@@ -93,6 +84,17 @@ export default {
           this.currentTab = i;
         }
       }
+    },
+    getMonthName() {
+      var monthName;
+      if (this.when == 'this-month') {
+        monthName = moment().format('MMMM');
+      } else if (this.when == 'next-month') {
+        monthName = moment().add(1, 'month').format('MMMM');
+      } else if (this.when == 'upcoming') {
+        monthName = 'Upcoming';
+      }
+      return monthName;
     }
   }
 }

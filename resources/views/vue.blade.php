@@ -15,6 +15,7 @@
     </head>
     <body>
         <div id="app">
+                    <example-component></example-component>
             <div class="masthead row">
                 <div class="top row">
                     <div class="container"></div>

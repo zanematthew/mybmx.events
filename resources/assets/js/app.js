@@ -38,6 +38,9 @@ Vue.component('icon', Icon);
 
 import StateSelect from './components/StateSelect';
 import SecondaryNav from './components/SecondaryNav';
+import Clients from './components/passport/Clients';
+import AuthorizedClients from './components/passport/AuthorizedClients';
+import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
 
 import VueAnalytics from 'vue-analytics';
 Vue.use(VueAnalytics, {
@@ -63,7 +66,10 @@ const app = new Vue({
   },
   components: {
     'state-select': StateSelect,
-    'secondary-nav': SecondaryNav
+    'secondary-nav': SecondaryNav,
+    'passport-clients': Clients,
+    'passport-authorized-clients': AuthorizedClients,
+    'passport-personal-access-tokens': PersonalAccessTokens,
   },
   created: function () {
     axios.interceptors.request.use(function (config) {

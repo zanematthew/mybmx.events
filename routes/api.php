@@ -61,6 +61,19 @@ Route::group(['prefix' => 'events'], function () {
     Route::get('/{year}/{month}/{type}/{state}', 'EventController@yearMonthTypeState')->name('events.year.month.type.state');
 });
 
+// Schedules
+Route::group([
+    'prefix' => 'schedules',
+    'middleware' => 'auth:api',
+], function () {
+    Route::get('/', 'ScheduleController@index')->name('schedule.index');
+    Route::post('/new', 'ScheduleController@store')->name('schedule.store');
+    Route::post('/{id}/edit', 'ScheduleController@update')->name('schedule.update');
+    Route::delete('/{id}/delete', 'ScheduleController@destroy')->name('schedule.delete');
+    Route::get('/{id}/', 'ScheduleController@show')->name('schedule.show');
+    Route::post('/{id}/attend/{eventId}/', 'ScheduleController@maybeAttend')->name('schedule.attend');
+});
+
 Route::get('/states', function () {
     return response()->json(\App\State::select('name','abbr')->orderBy('name')->get());
 });

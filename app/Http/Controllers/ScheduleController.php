@@ -16,7 +16,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        return Schedule::with('events')->where('user_id', Auth::id())->paginate();
+        return Schedule::with('events')->where('user_id', Auth::id())->orderby('created_at', 'desc')->paginate();
     }
 
     /**
@@ -59,9 +59,9 @@ class ScheduleController extends Controller
      *
      * @return void HTTP JSON response containing; deleted boolean.
      */
-    public function destroy()
+    public function destroy($id)
     {
-        $schedule = Schedule::find(request('id'));
+        $schedule = Schedule::find($id);
         if ($schedule->user_id !== Auth::id()) {
             return response(json_encode(['value' => false]), 401)->header('Content-Type', 'application/json');
         }

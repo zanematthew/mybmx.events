@@ -19,10 +19,13 @@ class ScheduleTest extends TestCase
             'name' => 'Awesome Schedule',
         ]));
 
+        // dd($response->decodeResponseJson());
         $response
             ->assertStatus(200)
             ->assertJson([
-                'created' => true,
+                'id'         => true,
+                'name'       => true,
+                'created_at' => true,
             ]);
     }
 

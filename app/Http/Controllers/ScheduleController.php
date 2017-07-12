@@ -44,10 +44,11 @@ class ScheduleController extends Controller
         $schedule = new Schedule;
         $schedule->name = request('name');
         $schedule->user()->associate(Auth::user());
-        $saved = $schedule->save();
+        $schedule->save();
 
         return response()->json([
-            'created' => $saved,
+            'id'         => $schedule->id,
+            'name'       => $schedule->name,
             'created_at' => $schedule->created_at,
         ]);
     }

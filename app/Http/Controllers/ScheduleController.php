@@ -50,6 +50,7 @@ class ScheduleController extends Controller
             'id'         => $schedule->id,
             'name'       => $schedule->name,
             'created_at' => $schedule->created_at,
+            'events'     => 0,
         ]);
     }
 
@@ -76,15 +77,14 @@ class ScheduleController extends Controller
      *
      * @return void HTTP JSON response containing; updated boolean, and update_at time.
      */
-    public function update()
+    public function update(Request $request)
     {
-
-        $schedule = Schedule::find(request('id'));
+        $schedule = Schedule::find($request->id);
         if ($schedule->user_id !== Auth::id()) {
             return response(json_encode(['value' => false]), 401)->header('Content-Type', 'application/json');
         }
 
-        $schedule->name = request('name');
+        $schedule->name = $request->name;
         $updated        = $schedule->save();
 
         return response()->json([

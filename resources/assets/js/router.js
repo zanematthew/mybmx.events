@@ -4,38 +4,45 @@ import EventSingle from './components/EventSingle';
 import EventsList from './components/EventsList';
 import VenuesList from './components/VenuesList';
 import VenueSingle from './components/VenueSingle';
+import Schedule from './components/Schedule';
 
 const NotFoundComponent = { template: '<div>404</div>' };
 
-// 2. Define routes
-// Dynamic route matching: https://router.vuejs.org/en/essentials/dynamic-matching.html
-// Passing props to Route Components: https://router.vuejs.org/en/essentials/passing-props.html
 const routes = [
-  // Optional route params, FTW.
-  // https://github.com/vuejs/vue-router/issues/235
-  // @todo pagination for routes?
   {
-    path: '/event/:id/:slug?',
+    path: '/browse/events/:when',
+    component: EventsList,
+    name: 'events',
+    props: true
+  },
+  {
+    path: '/browse/event/:id/:slug?',
     component: EventSingle,
     name: 'event-single',
     props: true
   },
   {
-    path: '/venue/:id/:slug?',
-    component: VenueSingle,
-    name: 'venue-single',
-    props: true
-  },
-  {
-    path: '/venues/:state?',
+    path: '/browse/venues/:state?',
     component: VenuesList,
     name: 'venues',
     props: true
   },
   {
-    path: '/:when',
+    path: '/browse/venue/:id/:slug?',
+    component: VenueSingle,
+    name: 'venue-single',
+    props: true
+  },
+  {
+    path: '/browse/events/:when',
     component: EventsList,
-    name: 'events',
+    name: 'browse',
+    props: true
+  },
+  {
+    path: '/schedules',
+    component: Schedule,
+    name: 'schedules',
     props: true
   },
 
@@ -49,9 +56,8 @@ const routes = [
 ];
 
 export default new VueRouter({
-  // https://router.vuejs.org/en/essentials/history-mode.html
   mode: 'history',
-  routes, // Short for routes: routes
+  routes,
   linkActiveClass: 'is-active',
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0};

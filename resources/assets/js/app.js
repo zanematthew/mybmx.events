@@ -41,6 +41,7 @@ import SecondaryNav from './components/SecondaryNav';
 import Clients from './components/passport/Clients';
 import AuthorizedClients from './components/passport/AuthorizedClients';
 import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
+import PrimaryNav from './components/PrimaryNav';
 
 import VueAnalytics from 'vue-analytics';
 Vue.use(VueAnalytics, {
@@ -61,6 +62,17 @@ const app = new Vue({
   router,
   nprogress,
   data: {
+    primaryNav: [
+      {
+        name: 'Browse',
+        id: 'browse',
+        params: { 'when': 'this-month' }
+      },
+      {
+        name: 'Schedules',
+        id: 'schedules'
+      }
+    ],
     secondaryNav: [
       {
         name: 'Events',
@@ -80,6 +92,7 @@ const app = new Vue({
   },
   components: {
     'state-select': StateSelect,
+    'primary-nav': PrimaryNav,
     'secondary-nav': SecondaryNav,
     'passport-clients': Clients,
     'passport-authorized-clients': AuthorizedClients,

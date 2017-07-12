@@ -18,7 +18,9 @@
                     <example-component></example-component>
             <div class="masthead row">
                 <div class="top row">
-                    <div class="container"></div>
+                    <div class="container">
+                        <primary-nav :items="primaryNav"></primary-nav>
+                    </div>
                 </div>
                 <div class="bottom row">
                     <div class="container">

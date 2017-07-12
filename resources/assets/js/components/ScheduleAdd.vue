@@ -1,6 +1,6 @@
 <template>
   <div class="content row is-item">
-    <form v-on:submit.prevent="addSchedule">
+    <form v-on:submit.prevent="addSchedule" class="form">
       <div class="grid is-80">
         <input type="text" placeholder="Schedule Name..." v-model="name" required />
       </div>

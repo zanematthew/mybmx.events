@@ -1,7 +1,7 @@
 <template>
   <div>
     <schedule-add :schedules="schedules.data"></schedule-add>
-    <div v-for="schedule in schedules.data" class="content row is-item">
+    <div v-for="schedule in schedules.data" class="content row is-item form">
       <div class="grid is-80">
         <div :class="{editing: schedule == editing }">
           <span v-on:dblclick="edit(schedule)">{{ schedule.name }}</span>

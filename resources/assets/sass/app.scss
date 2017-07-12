@@ -201,37 +201,39 @@ img {
   }
 }
 
-input[type="text"] {
-  border-radius: 2px;
-  border: 1px solid $light-gray;
-  padding: 8px 10px;
-  outline: none;
-  color: $medium-gray;
-  width: 100%;
-}
+.form {
+  input[type="text"] {
+    border-radius: 2px;
+    border: 1px solid $light-gray;
+    padding: 8px 10px;
+    outline: none;
+    color: $medium-gray;
+    width: 100%;
+  }
 
-input[type="submit"] {
-  border-radius: 2px;
-  border: 1px solid $primary-focus-color;
-  background: $primary-focus-color;
-  color: #fff;
-  font-weight: bold;
-  padding: 10px;
-  width: 100%;
-}
+  input[type="submit"] {
+    border-radius: 2px;
+    border: 1px solid $primary-focus-color;
+    background: $primary-focus-color;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    width: 100%;
+  }
 
-input[type="submit"]:disabled {
-  border-color: lighten( $primary-focus-color, 10% );
-  background-color: lighten( $primary-focus-color, 20% );
-}
+  input[type="submit"]:disabled {
+    border-color: lighten( $primary-focus-color, 10% );
+    background-color: lighten( $primary-focus-color, 20% );
+  }
 
-button {
-  border-radius: 2px;
-  border: 1px solid $light-gray;
-  background: transparent;
-  padding: 10px;
-  outline: none;
-  color: $medium-gray;
-  cursor: pointer;
-  width: 100%;
+  button {
+    border-radius: 2px;
+    border: 1px solid $light-gray;
+    background: transparent;
+    padding: 10px;
+    outline: none;
+    color: $medium-gray;
+    cursor: pointer;
+    width: 100%;
+  }
 }

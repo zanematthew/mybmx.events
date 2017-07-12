@@ -186,4 +186,26 @@ class ScheduleTest extends TestCase
             ->assertStatus(200)
             ->assertJson(['total' => 1]);
     }
+
+    public function testToggleDefault()
+    {
+        $user = factory(\App\User::class)->create();
+        Passport::actingAs($user);
+        $schedule = new \App\Schedule;
+        $schedule->user()->associate($user);
+        $schedule->save();
+
+        $response = $this->json('POST', route('schedule.default', [
+            'id' => $schedule->id
+        ]),
+        [
+            'id' => $schedule->id
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'default' => true
+            ]);
+    }
 }

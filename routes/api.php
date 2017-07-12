@@ -72,6 +72,7 @@ Route::group([
     Route::delete('/{id}/delete', 'ScheduleController@destroy')->name('schedule.delete');
     Route::get('/{id}/', 'ScheduleController@show')->name('schedule.show');
     Route::post('/{id}/attend/{eventId}/', 'ScheduleController@maybeAttend')->name('schedule.attend');
+    Route::post('/{id}/default/', 'ScheduleController@toggleDefault')->name('schedule.default');
 });
 
 Route::get('/states', function () {

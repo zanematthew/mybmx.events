@@ -124,4 +124,12 @@ class ScheduleController extends Controller
             'toggled' => $schedule->events()->toggle($eventIds),
         ]);
     }
+
+    public function toggleDefault(Request $request)
+    {
+        $schedule = Schedule::find($request->input('id'));
+        $schedule->default = $schedule->default ? false : true;
+        $schedule->save();
+        return response()->json($schedule);
+    }
 }

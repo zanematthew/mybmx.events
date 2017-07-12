@@ -117,6 +117,7 @@ img {
 
 .meta {
   color: $meta;
+  font-size: $small;
 }
 
 .is-active {
@@ -131,9 +132,13 @@ img {
 .is-tertiary {
   border-bottom: 1px solid $light-gray;
 }
-.meta {
-  text-align: center;
+
+.pagination {
+  &.meta {
+    text-align: center;
+  }
 }
+
 .count {
   color: $medium-gray;
 }

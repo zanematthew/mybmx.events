@@ -1,5 +1,5 @@
 <template>
-  <div class="row nav is-tertiary meta">
+  <div class="row nav is-tertiary meta pagination">
     <span v-if="data.last_page > 1">
       <router-link :to="{
         name: name,

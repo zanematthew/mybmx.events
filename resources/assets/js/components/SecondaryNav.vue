@@ -16,21 +16,6 @@ import MyMixin from '../mixin.js';
 export default {
   mixins: [MyMixin],
   component: 'secondary-nav',
-  data() {
-    return {
-      items: [
-        {
-          name: 'Events',
-          id: 'events',
-          params: { 'when': 'this-month' }
-        },
-        {
-          name: 'Venues',
-          id: 'venues',
-          params: {}
-        }
-      ]
-    }
-  }
+  props: ['items']
 }
 </script>

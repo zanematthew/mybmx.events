@@ -60,6 +60,20 @@ Vue.use(VueAnalytics, {
 const app = new Vue({
   router,
   nprogress,
+  data: {
+    secondaryNav: [
+      {
+        name: 'Events',
+        id: 'events',
+        params: { 'when': 'this-month' }
+      },
+      {
+        name: 'Venues',
+        id: 'venues',
+        params: {}
+      }
+    ]
+  },
   metaInfo: {
     title: '...',
     titleTemplate: '%s | My BMX Events'

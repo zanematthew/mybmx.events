@@ -23,7 +23,7 @@
                 <div class="bottom row">
                     <div class="container">
                         <div class="nav is-secondary grid is-100">
-                            <secondary-nav></secondary-nav>
+                            <secondary-nav :items="secondaryNav"></secondary-nav>
                             <state-select :type="$route.name"></state-select>
                         </div>
                     </div>

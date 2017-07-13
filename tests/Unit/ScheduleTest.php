@@ -208,4 +208,23 @@ class ScheduleTest extends TestCase
                 'default' => true
             ]);
     }
+
+    public function testGetDefaults()
+    {
+        $user = factory(\App\User::class)->create();
+        Passport::actingAs($user);
+        factory(\App\Schedule::class, 2)->create([
+            'user_id' => $user->id,
+            'default' => 1,
+        ]);
+        factory(\App\Schedule::class, 3)->create([
+            'user_id' => $user->id,
+        ]);
+        $response = $this->get(route('schedule.get.default'));
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'total' => 2
+            ]);
+    }
 }

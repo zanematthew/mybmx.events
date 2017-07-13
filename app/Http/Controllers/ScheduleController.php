@@ -19,6 +19,15 @@ class ScheduleController extends Controller
         return Schedule::with('events')->where('user_id', Auth::id())->orderby('created_at', 'desc')->paginate();
     }
 
+    public function default()
+    {
+        return Schedule::with('events')
+            ->where('user_id', Auth::id())
+            ->where('default', 1)
+            ->orderby('created_at', 'desc')
+            ->paginate();
+    }
+
     /**
      * Retrieve the currently logged in user schedule by schedule ID.
      *

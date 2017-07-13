@@ -67,6 +67,7 @@ Route::group([
     'middleware' => 'auth:api',
 ], function () {
     Route::get('/', 'ScheduleController@index')->name('schedule.index');
+    Route::get('/default', 'ScheduleController@default')->name('schedule.get.default');
     Route::post('/new', 'ScheduleController@store')->name('schedule.store');
     Route::post('/{id}/edit', 'ScheduleController@update')->name('schedule.update');
     Route::delete('/{id}/delete', 'ScheduleController@destroy')->name('schedule.delete');

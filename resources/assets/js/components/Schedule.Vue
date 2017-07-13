@@ -5,23 +5,7 @@
       <div class="grid is-80">
         <schedule-make-default :initialSchedule="schedule"></schedule-make-default>
         <div class="main">
-          <div :class="{editing: schedule == editing }">
-            <span v-on:dblclick="edit(schedule)">{{ schedule.name }}</span>
-            <span class="edit">
-            <input
-              type="text"
-              v-model="schedule.name"
-              v-scheduleFocus="schedule == editing"
-              v-on:blur="cancelEdit(schedule)"
-              v-on:keyup.enter="doneEdit(schedule)"
-              v-on:keyup.esc="cancelEdit(schedule)"
-              />
-              <span class="meta">Press Enter to save, ESC to exit</span>
-            </span>
-          </div>
-          <div class="meta">
-            Last updated {{ fromNow(schedule.updated_at) }} | Events (N/A)
-          </div>
+          <schedule-rename :initialSchedule="schedule"></schedule-rename>
         </div>
       </div>
       <schedule-delete :id="schedule.id" :schedules="schedules.data"></schedule-delete>
@@ -32,33 +16,22 @@
 import ScheduleAdd from '../components/ScheduleAdd';
 import ScheduleDelete from '../components/ScheduleDelete';
 import ScheduleMakeDefault from '../components/ScheduleMakeDefault';
-import MyMixin from '../mixin';
+import ScheduleRename from '../components/ScheduleRename';
 
 export default {
-  mixins: [MyMixin],
   components: {
     'schedule-add': ScheduleAdd,
     'schedule-delete': ScheduleDelete,
-    'schedule-make-default': ScheduleMakeDefault
+    'schedule-make-default': ScheduleMakeDefault,
+    'schedule-rename': ScheduleRename
   },
   data() {
     return {
-      schedules: [],
-      _scheduleOriginal: {},
-      editing: null
+      schedules: []
     }
   },
   mounted() {
     this.getScheduels();
-  },
-  // https://medium.com/@nickdenardis/vue-js-return-object-to-previous-state-on-cancel-2fa0f2db700a
-  // https://vuejs.org/v2/examples/todomvc.html?
-  directives: {
-    scheduleFocus(el, binding) {
-      if (binding.value) {
-        el.focus();
-      }
-    }
   },
   methods: {
     getScheduels() {
@@ -67,40 +40,7 @@ export default {
       }).catch(response => {
         console.log(error);
       });
-    },
-    edit(schedule) {
-      this._scheduleOriginal = Object.assign({}, schedule);
-      this.editing = schedule;
-    },
-    doneEdit(schedule) {
-      // Send AJAX request
-      // Update model name
-      axios.post(`/api/schedules/${schedule.id}/edit/`, {
-        id: schedule.id,
-        name: schedule.name
-      }).then(response => {
-        // Toggle the input field
-        this._scheduleOriginal = schedule;
-        this.editing = null;
-      }).catch(error => {
-        console.log(error);
-      });
-    },
-    cancelEdit(schedule) {
-      Object.assign(schedule, this._scheduleOriginal);
-      this.editing = this._scheduleOriginal = null;
     }
   }
 }
 </script>
-<style>
-.edit {display: none; }
-.editing {
-  position: relative;
-}
-.editing .edit {
-  display: block;
-  position: absolute;
-  top: 0;
-}
-</style>

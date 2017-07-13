@@ -44,6 +44,7 @@ class ScheduleController extends Controller
         $schedule = new Schedule;
         $schedule->name = request('name');
         $schedule->user()->associate(Auth::user());
+        $schedule->default = 0;
         $schedule->save();
 
         return response()->json([

@@ -4,7 +4,7 @@ import EventSingle from './components/EventSingle';
 import EventsList from './components/EventsList';
 import VenuesList from './components/VenuesList';
 import VenueSingle from './components/VenueSingle';
-import ScheduleMain from './components/Schedule';
+import ScheduleMain from './components/ScheduleMain';
 
 const NotFoundComponent = { template: '<div>404</div>' };
 

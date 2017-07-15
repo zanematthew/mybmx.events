@@ -4,7 +4,7 @@ import EventSingle from './components/EventSingle';
 import EventsList from './components/EventsList';
 import VenuesList from './components/VenuesList';
 import VenueSingle from './components/VenueSingle';
-import Schedule from './components/Schedule';
+import ScheduleMain from './components/Schedule';
 
 const NotFoundComponent = { template: '<div>404</div>' };
 
@@ -41,7 +41,7 @@ const routes = [
   },
   {
     path: '/schedules',
-    component: Schedule,
+    component: ScheduleMain,
     name: 'schedules',
     props: true
   },

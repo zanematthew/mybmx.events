@@ -109,9 +109,9 @@ class ScheduleController extends Controller
      *
      * @return void HTTP JSON response containing an array of items that are attached, and detached.
      */
-    public function maybeAttend()
+    public function maybeAttend($id = null, $eventId = null)
     {
-        $schedule = Schedule::find(request('id'));
+        $schedule = Schedule::find($id);
         if (empty($schedule)) {
             return response(json_encode(['value' => 'Schedule not found.']), 404)->header('Content-Type', 'application/json');
         }
@@ -120,26 +120,44 @@ class ScheduleController extends Controller
             return response(json_encode(['value' => false]), 401)->header('Content-Type', 'application/json');
         }
 
-        $eventIds = request('eventIds');
-        if (empty($eventIds)) {
-            return response(json_encode(['value' => 'Event(s) not found.']), 404)->header('Content-Type', 'application/json');
-        }
+        // $eventIds = request('eventIds');
+        // if (empty($eventIds)) {
+        //     return response(json_encode(['value' => 'Event(s) not found.']), 404)->header('Content-Type', 'application/json');
+        // }
 
         // Handle multiple
-        if (str_contains($eventIds, ',')){
-            $eventIds = explode(',', $eventIds);
-        }
+        // if (str_contains($eventIds, ',')){
+        //     $eventIds = explode(',', $eventIds);
+        // }
 
         return response()->json([
-            'toggled' => $schedule->events()->toggle($eventIds),
+            'toggled' => $schedule->events()->toggle($eventId),
         ]);
     }
 
     public function toggleDefault(Request $request)
     {
         $schedule = Schedule::find($request->input('id'));
+        // @todo needs test for:
+        // Return 404 if no schedule found.
         $schedule->default = $schedule->default ? false : true;
         $schedule->save();
         return response()->json($schedule);
+    }
+
+    // Get all event IDs that are attached to a schedule
+    // @todo needs test
+    public function scheduled()
+    {
+        $schedules = Schedule::with('events')->whereHas('events')->get()->map(function ($item) {
+            return $item->events->pluck('id');
+        })->toArray();
+        $final = [];
+        foreach($schedules as $k => $v) {
+            foreach ($v as $vv) {
+                $final[] = $vv;
+            }
+        }
+        return response()->json($final);
     }
 }

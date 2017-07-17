@@ -18,12 +18,23 @@
     <div class="event-mini">
       <div class="grid is-100">
         <div class="title">
-          <router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug } }">{{ event.title }}</router-link>
+          <router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug } }">
+            {{ event.title }}
+          </router-link>
         </div>
-          <div><strong>{{ fromNow(event.start_date) }}</strong>, {{ startEndDate(event.start_date, event.end_date) }}</div>
-          <div class="body">
-            <div><strong>{{ event.type_name }}</strong> &bull; <strong>{{ event.venue.name }}</strong> &bull; {{ event.venue.city.name }}<span v-if="event.venue.city.states">, {{ event.venue.city.states[0].abbr }}</span></div>
+        <div>
+          <strong>{{ fromNow(event.start_date) }}</strong>, {{ startEndDate(event.start_date, event.end_date) }}
         </div>
+        <div class="body">
+          <div>
+            <strong>{{ event.type_name }}</strong> &bull; <strong>{{ event.venue.name }}</strong> &bull; {{ event.venue.city.name }}<span v-if="event.venue.city.states">, {{ event.venue.city.states[0].abbr }}</span>
+          </div>
+        </div>
+        <schedule-add-to
+          :event="event"
+          :initially-scheduled="scheduled"
+          :defaultSchedules="defaultSchedules"
+          ></schedule-add-to>
       </div>
     </div>
   </div>
@@ -33,12 +44,14 @@
 import Event from '../models/Event';
 import moment from 'moment';
 import Pager from '../components/partials/Pager';
+import ScheduleAddTo from '../components/ScheduleAddTo';
 import MyMixin from '../mixin.js';
 
 export default {
   mixins: [MyMixin],
   components: {
-    'pager': Pager
+    'pager': Pager,
+    'schedule-add-to': ScheduleAddTo
   },
   props: ['when'],
   data() {
@@ -58,7 +71,9 @@ export default {
           when: 'upcoming'
         },
       ],
-      currentTab: {}
+      currentTab: {},
+      scheduled: [],
+      defaultSchedules: []
     }
   },
   metaInfo() {
@@ -70,6 +85,8 @@ export default {
   mounted() {
     Event.events(events => this.events = events, this.$route.params.when, this.$route.query);
     this.setCurrentTab();
+    this.getScheduled();
+    this.getDefaultSchedules();
   },
   watch: {
     '$route' (to, from) {
@@ -95,6 +112,22 @@ export default {
         monthName = 'Upcoming';
       }
       return monthName;
+    },
+    getScheduled() {
+      axios.get(`/api/schedules/scheduled/`).then(response => {
+        this.scheduled = response.data;
+      });
+    },
+    getDefaultSchedules() {
+      axios.get(`/api/schedules/default/`).then(response => {
+        this.defaultSchedules = response.data.data;
+      }).catch(error => {
+      });
+    },
+    // Retrieve all event IDs on the page
+    // currently being viewed.
+    getCurrentEventIds() {
+      return _.map(this.events.data, 'id');
     }
   }
 }

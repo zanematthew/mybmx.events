@@ -12,6 +12,10 @@ class Schedule extends Model
         'default',
     ];
 
+    protected $appends = [
+        'slug'
+    ];
+
     public function user()
     {
         // Many Schedules belong to many Users
@@ -26,5 +30,10 @@ class Schedule extends Model
             'created_at',
             'updated_at',
         ]);
+    }
+
+    public function getSlugAttribute()
+    {
+        return str_slug($this->name);
     }
 }

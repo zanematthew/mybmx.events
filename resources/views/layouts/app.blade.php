@@ -11,7 +11,6 @@
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.0.0/dist/vue-multiselect.min.css">
-        <link rel="stylesheet" href="http://ricostacruz.com/nprogress/nprogress.css">
 
     </head>
     <body class="@yield('body_class')">

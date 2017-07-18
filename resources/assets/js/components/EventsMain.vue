@@ -89,24 +89,15 @@ export default {
   },
   mounted() {
     Event.events(events => this.events = events, this.$route.params.when, this.$route.query);
-    this.setCurrentTab();
     this.getScheduled();
     this.getDefaultSchedules();
   },
   watch: {
     '$route' (to, from) {
       Event.events(events => this.events = events, this.when, this.$route.query);
-      this.setCurrentTab();
     }
   },
   methods: {
-    setCurrentTab() {
-      for (let i of this.items) {
-        if (i.when == this.when){
-          this.currentTab = i;
-        }
-      }
-    },
     getMonthName() {
       var monthName;
       if (this.when == 'this-month') {

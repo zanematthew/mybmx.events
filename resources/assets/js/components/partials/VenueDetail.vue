@@ -18,7 +18,7 @@
             </address>
           </div>
           <div class="grid is-40 is-mobile-100">
-            <strong>Phone</strong> <span itemprop="telephone">{{phone_number}}</span><br>
+            <span v-if="phone_number"><strong>Phone</strong> <span itemprop="telephone">{{phone_number}}</span><br></span>
             <strong>Email</strong> <span itemprop="email">{{email}}</span><br>
             <strong>Primary Contact</strong> <span itemprop="telephone">{{primary_contact}}</span><br>
             <strong>Site</strong> <a :href="website" target="_blank" itemprop="url">{{website}}</a><br>

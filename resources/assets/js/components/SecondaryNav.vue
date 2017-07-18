@@ -6,7 +6,6 @@
         params: item.params,
         query: appendStateQuery()
       }"
-        :class="[$route.fullPath.includes(item.id) ? 'is-active' : '']"
         class="nav-item">{{ item.name }}</router-link>
     </span>
   </span>

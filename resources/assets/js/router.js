@@ -1,49 +1,87 @@
 import VueRouter from 'vue-router';
 
-import EventSingle from './components/EventSingle';
-import EventsMain from './components/EventsMain';
-import VenuesList from './components/VenuesList';
-import VenueSingle from './components/VenueSingle';
-import ScheduleMain from './components/ScheduleMain';
-import ScheduleSingle from './components/ScheduleSingle';
+import EventRouterView from './components/Event/RouterView';
+import EventSingle from './components/Event/Single';
+import EventList from './components/Event/List';
+
+import VenueRouterView from './components/Venue/RouterView';
+import VenueSingle from './components/Venue/Single';
+import VenueList from './components/Venue/List';
+
+import ScheduleRouterView from './components/Schedule/RouterView';
+import ScheduleSingle from './components/Schedule/Single';
+import ScheduleList from './components/Schedule/List';
 
 const NotFoundComponent = { template: '<div>404</div>' };
 
 const routes = [
   {
-    path: '/browse/events/:when',
-    component: EventsMain,
+    path: '/browse/events',
+    redirect: { name: 'when', params: { when: 'this-month' } },
+    component: EventRouterView,
     name: 'events',
-    props: true
+    props: true,
+    children: [
+      {
+        path: ':id(\\d+)/:slug?',
+        component: EventSingle,
+        name: 'event-single',
+        props: true
+      },
+      {
+        path: ':when',
+        component: EventList,
+        name: 'when',
+        props: true
+      }
+    ]
   },
   {
-    path: '/browse/event/:id/:slug?',
-    component: EventSingle,
-    name: 'event-single',
-    props: true
-  },
-  {
-    path: '/browse/venues/:state?',
-    component: VenuesList,
+    path: '/browse/venues/',
+    redirect: { name: 'state-list' },
+    component: VenueRouterView,
     name: 'venues',
-    props: true
+    props: true,
+    children: [
+      {
+        path: ':id(\\d+)/:slug?',
+        component: VenueSingle,
+        name: 'venue-single',
+        props: true
+      },
+      {
+        path: ':state?',
+        name: 'state-list',
+        component: VenueList,
+        props: true
+      }
+    ]
   },
   {
-    path: '/browse/venue/:id/:slug?',
-    component: VenueSingle,
-    name: 'venue-single',
-    props: true
-  },
-  {
-    path: '/schedules',
-    component: ScheduleMain,
+    path: '/items',
+    redirect: { name: 'your-schedules'},
+    component: ScheduleRouterView,
     name: 'schedules',
+    props: true,
+    children: [
+      {
+        path: 'events',
+        name: 'attending-events',
+        component: {template: '<div>Bar</div>'}
+      },
+      {
+        path: 'schedules',
+        name: 'your-schedules',
+        component: ScheduleList
+      }
+    ]
+  },
+  {
+    path: '/attending/',
+    component: ScheduleSingle,
+    name: 'attending',
     props: true
   },
-
-  // HTML5 History Mode
-  // Part of Caveat for catching 404 pages.
-  // @todo investigate headers to ensure 404 code is thrown.
   {
     path: '*',
     component: NotFoundComponent

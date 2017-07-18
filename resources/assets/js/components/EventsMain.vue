@@ -1,5 +1,6 @@
 <template>
 <div>
+  <state-select :type="this.$route.name"></state-select>
   <div class="row">
     <div class="nav is-underlined is-tertiary is-spacious">
       <span v-for="link in items">
@@ -10,13 +11,10 @@
         }" class="nav-item">{{ link.name }}</router-link>
       </span>
     </div>
-
-    <pager :data="events" :name="'events'"></pager>
-
   </div>
   <div class="content row is-item" v-for="event in events.data">
     <div class="event-mini">
-      <div class="grid is-100">
+      <div class="grid is-80">
         <div class="title">
           <router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug } }">
             {{ event.title }}
@@ -30,14 +28,18 @@
             <strong>{{ event.type_name }}</strong> &bull; <strong>{{ event.venue.name }}</strong> &bull; {{ event.venue.city.name }}<span v-if="event.venue.city.states">, {{ event.venue.city.states[0].abbr }}</span>
           </div>
         </div>
+      </div>
+      <div class="grid is-20 align-right">
         <schedule-add-to
           :event="event"
           :initially-scheduled="scheduled"
           :defaultSchedules="defaultSchedules"
+          :scheduleId="defaultSchedules"
           ></schedule-add-to>
       </div>
     </div>
   </div>
+  <pager :data="events" :name="'events'"></pager>
 </div>
 </template>
 <script>
@@ -45,13 +47,15 @@ import Event from '../models/Event';
 import moment from 'moment';
 import Pager from '../components/partials/Pager';
 import ScheduleAddTo from '../components/ScheduleAddTo';
+import StateSelect from '../components/StateSelect';
 import MyMixin from '../mixin.js';
 
 export default {
   mixins: [MyMixin],
   components: {
     'pager': Pager,
-    'schedule-add-to': ScheduleAddTo
+    'schedule-add-to': ScheduleAddTo,
+    'state-select': StateSelect
   },
   props: ['when'],
   data() {
@@ -73,7 +77,8 @@ export default {
       ],
       currentTab: {},
       scheduled: [],
-      defaultSchedules: []
+      defaultSchedules: [],
+      mostRecentlyUsedScheduleId: 0
     }
   },
   metaInfo() {

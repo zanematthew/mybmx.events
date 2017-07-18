@@ -128,6 +128,10 @@ img {
 }
 .align-right {
   float: right;
+  text-align: right;
+}
+.align-center {
+  text-align: center;
 }
 
 @media screen and (max-width: 768px) {
@@ -138,6 +142,7 @@ img {
 }
 
 .state-select {
+  border-bottom: 1px solid $light-gray;
   .fa-icon {
     color: $red;
     float: left;

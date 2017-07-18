@@ -3,6 +3,13 @@
     <schedule-add :schedules="schedules.data"></schedule-add>
     <div v-for="schedule in schedules.data" class="content row is-item form">
       <div class="grid is-80">
+        <router-link :to="{
+        name: 'schedule-single',
+        params: {
+          id: schedule.id,
+          slug: schedule.slug
+        }
+      }">{{ schedule.name }}</router-link>
         <schedule-make-default :initialSchedule="schedule"></schedule-make-default>
         <div class="main">
           <schedule-rename :initialSchedule="schedule"></schedule-rename>

@@ -64,25 +64,17 @@ const app = new Vue({
   data: {
     primaryNav: [
       {
-        name: 'Browse',
-        id: 'browse',
-        params: { 'when': 'this-month' }
-      },
-      {
-        name: 'Schedules',
-        id: 'schedules'
-      }
-    ],
-    secondaryNav: [
-      {
         name: 'Events',
         id: 'events',
         params: { 'when': 'this-month' }
       },
       {
         name: 'Venues',
-        id: 'venues',
-        params: {}
+        id: 'venues'
+      },
+      {
+        name: 'Your Items',
+        id: 'schedules'
       }
     ]
   },

@@ -1,5 +1,5 @@
 <template>
-  <div class="grid is-40 align-right state-select">
+  <div class="grid is-100 state-select">
     <label class="typo__label" for="ajax"></label>
     <icon name="map-marker" scale="1"></icon>
     <multiselect

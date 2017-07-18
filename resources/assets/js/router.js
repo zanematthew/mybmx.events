@@ -1,7 +1,7 @@
 import VueRouter from 'vue-router';
 
 import EventSingle from './components/EventSingle';
-import EventsList from './components/EventsList';
+import EventsMain from './components/EventsMain';
 import VenuesList from './components/VenuesList';
 import VenueSingle from './components/VenueSingle';
 import ScheduleMain from './components/ScheduleMain';
@@ -35,7 +35,7 @@ const routes = [
   },
   {
     path: '/browse/events/:when',
-    component: EventsList,
+    component: EventsMain,
     name: 'browse',
     props: true
   },

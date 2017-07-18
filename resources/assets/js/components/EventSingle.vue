@@ -102,7 +102,7 @@ export default {
       center: { lat: 39.2904, lng: 76.6122 },
       markers: [],
       defaultOptions: {
-        gestureHandling: "none",
+        scrollwheel: false,
         mapTypeControl: false,
       },
       relatedEvents: [],

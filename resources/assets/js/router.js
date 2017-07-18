@@ -35,12 +35,6 @@ const routes = [
     props: true
   },
   {
-    path: '/browse/events/:when',
-    component: EventsMain,
-    name: 'browse',
-    props: true
-  },
-  {
     path: '/schedules',
     component: ScheduleMain,
     name: 'schedules',

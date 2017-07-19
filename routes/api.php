@@ -67,15 +67,18 @@ Route::group([
     'middleware' => 'auth:api',
 ], function () {
     Route::get('/', 'ScheduleController@index')->name('schedule.index');
-    Route::get('/default', 'ScheduleController@default')->name('schedule.get.default');
+    Route::get('/defaults/', 'ScheduleController@getDefaults')->name('schedule.get.default');
+    Route::get('/scheduled/', 'ScheduleController@scheduled')->name('scheduled');
+    Route::get('/most-recent-id/', 'ScheduleController@mostRecentId')->name('most.recent.id');
+    Route::get('/attending/', 'ScheduleController@attending')->name('attending');
+    Route::get('/{id}/', 'ScheduleController@show')->name('schedule.show');
+
     Route::post('/new', 'ScheduleController@store')->name('schedule.store');
     Route::post('/{id}/edit', 'ScheduleController@update')->name('schedule.update');
-    Route::delete('/{id}/delete', 'ScheduleController@destroy')->name('schedule.delete');
-    Route::get('/{id}/', 'ScheduleController@show')->name('schedule.show');
-    Route::post('/{id}/default/', 'ScheduleController@toggleDefault')->name('schedule.default');
+    Route::post('/{id}/default/', 'ScheduleController@toggleDefaultSchedule')->name('schedule.toggle.default');
+    Route::post('/{eventId}/attend/{id}/', 'ScheduleController@toggleAttend')->name('schedule.toggle.attend');
 
-    Route::post('/{id}/attend/{eventId}/', 'ScheduleController@maybeAttend')->name('schedule.attend');
-    Route::get('/scheduled/', 'ScheduleController@scheduled')->name('scheduled');
+    Route::delete('/{id}/delete', 'ScheduleController@destroy')->name('schedule.delete');
 });
 
 Route::get('/states', function () {

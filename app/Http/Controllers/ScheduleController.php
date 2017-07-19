@@ -19,13 +19,14 @@ class ScheduleController extends Controller
         return Schedule::with('events')->where('user_id', Auth::id())->orderby('created_at', 'desc')->paginate();
     }
 
-    public function default()
+    // 200 JSON on success, or []
+    public function getDefaults()
     {
-        return Schedule::with('events')
+        return response()->json(Schedule::with('events')
             ->where('user_id', Auth::id())
             ->where('default', 1)
             ->orderby('created_at', 'desc')
-            ->paginate();
+            ->get());
     }
 
     /**
@@ -36,11 +37,17 @@ class ScheduleController extends Controller
      */
     public function show($id = null)
     {
-        return \App\User::find(Auth::id())
+        $schedules = \App\User::find(Auth::id())
             ->schedules()
             ->with('events')
             ->where('id', $id)
-            ->paginate();
+            ->firstOrFail()
+            ->toArray();
+
+        return response()->json(array_merge($schedules, [
+            'count' => count($schedules['events'])
+            ])
+        );
     }
 
     /**
@@ -108,38 +115,33 @@ class ScheduleController extends Controller
      * a given schedule.
      *
      * @return void HTTP JSON response containing an array of items that are attached, and detached.
+     *                   404 if schedule is not found.
      */
-    public function maybeAttend($id = null, $eventId = null)
+    public function toggleAttend($eventId = null, $id = null)
     {
-        $schedule = Schedule::find($id);
-        if (empty($schedule)) {
-            return response(json_encode(['value' => 'Schedule not found.']), 404)->header('Content-Type', 'application/json');
-        }
-
-        if ($schedule->user_id !== Auth::id()) {
-            return response(json_encode(['value' => false]), 401)->header('Content-Type', 'application/json');
-        }
-
-        // $eventIds = request('eventIds');
-        // if (empty($eventIds)) {
-        //     return response(json_encode(['value' => 'Event(s) not found.']), 404)->header('Content-Type', 'application/json');
-        // }
-
-        // Handle multiple
-        // if (str_contains($eventIds, ',')){
-        //     $eventIds = explode(',', $eventIds);
-        // }
-
         return response()->json([
-            'toggled' => $schedule->events()->toggle($eventId),
+            'toggled' => Schedule::findOrFail($id)->events()->toggle($eventId),
         ]);
     }
 
-    public function toggleDefault(Request $request)
+    // Will remove the given Event from ALL of the user schedules
+    // Get all schedules with these ID.
+    public function unattendEvent($eventId = null)
     {
-        $schedule = Schedule::find($request->input('id'));
-        // @todo needs test for:
-        // Return 404 if no schedule found.
+        $scheduleIds = \App\Schedule::whereHas('events', function ($query) use ($eventId) {
+            $query->where('event_id', $eventId);
+        })->pluck('id');
+
+        $removed = [];
+        foreach ($scheduleIds as $scheduleId) {
+            $removed[] = Schedule::find($scheduleId)->events()->detach($eventId);
+        }
+        return response()->json($removed);
+    }
+
+    public function toggleDefaultSchedule(Request $request)
+    {
+        $schedule = Schedule::findOrFail($request->input('id'));
         $schedule->default = $schedule->default ? false : true;
         $schedule->save();
         return response()->json($schedule);
@@ -159,5 +161,10 @@ class ScheduleController extends Controller
             }
         }
         return response()->json($final);
+    }
+
+    public function mostRecentId()
+    {
+        return response()->json(\App\User::find(Auth::id())->schedules()->orderBy('updated_at', 'DESC')->first());
     }
 }

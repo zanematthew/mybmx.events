@@ -84,7 +84,7 @@ class ScheduleTest extends TestCase
     // Create 5 Events
     // Send JSON POST request to the attending route, passing;
     // schedule ID and event id(s)
-    public function testMaybeAttend()
+    public function testToggleAttend()
     {
         $user = factory(\App\User::class)->create();
         Passport::actingAs($user);
@@ -94,60 +94,21 @@ class ScheduleTest extends TestCase
         $schedule->user()->associate($user);
         $schedule->save();
 
-        $eventIds = factory(\App\Event::class, 5)->create()->pluck('id')->all();
+        $event = factory(\App\Event::class)->create();
 
-        $response = $this->json('POST', route('schedule.attend', [
+        $response = $this->json('POST', route('schedule.toggle.attend', [
             'id' => $schedule->id,
-            'eventIds' => implode(',', $eventIds),
+            'eventId' => $event->id,
         ]), [
             'id' => $schedule->id,
-            'eventIds' => implode(',', $eventIds),
+            'eventId' => $event->id,
         ]);
 
         $response
             ->assertStatus(200)
             ->assertJson([
                 'toggled' => [
-                    'attached' => $eventIds,
-                    'detached' => [],
-                ]
-            ]);
-    }
-
-    // Create 1 User
-    // Sign the user into the API.
-    // Create 1 Schedule
-    // Associate Schedule with User
-    // Save the schedule to the DB.
-    // One event
-    // Send JSON POST request to the attending route, passing;
-    // schedule ID and event id(s)
-    public function testMaybeAttendSingle()
-    {
-        $user = factory(\App\User::class)->create();
-
-        Passport::actingAs($user);
-
-        $schedule = new \App\Schedule;
-        $schedule->name = 'Foo';
-        $schedule->user()->associate($user);
-        $schedule->save();
-
-        $eventId = factory(\App\Event::class)->create()->pluck('id')->all();
-
-        $response = $this->json('POST', route('schedule.attend', [
-            'id' => $schedule->id,
-            'eventIds' => implode(',', $eventId),
-        ]), [
-            'id' => $schedule->id,
-            'eventIds' => implode(',', $eventId),
-        ]);
-
-        $response
-            ->assertStatus(200)
-            ->assertJson([
-                'toggled' => [
-                    'attached' => $eventId,
+                    'attached' => [$event->id],
                     'detached' => [],
                 ]
             ]);
@@ -181,13 +142,17 @@ class ScheduleTest extends TestCase
         $response = $this->get(route('schedule.show', [
             'id' => $schedule->id,
         ]));
-
+        // dd($response->decodeResponseJson());
         $response
             ->assertStatus(200)
-            ->assertJson(['total' => 1]);
+            ->assertJson([
+                'id' => $schedule->id,
+                'name' => $schedule->name,
+                'count' => 0,
+            ]);
     }
 
-    public function testToggleDefault()
+    public function testToggleDefaultSchedule()
     {
         $user = factory(\App\User::class)->create();
         Passport::actingAs($user);
@@ -195,7 +160,7 @@ class ScheduleTest extends TestCase
         $schedule->user()->associate($user);
         $schedule->save();
 
-        $response = $this->json('POST', route('schedule.default', [
+        $response = $this->json('POST', route('schedule.toggle.default', [
             'id' => $schedule->id
         ]),
         [
@@ -209,22 +174,22 @@ class ScheduleTest extends TestCase
             ]);
     }
 
-    public function testGetDefaults()
+    public function getDefaults()
     {
         $user = factory(\App\User::class)->create();
         Passport::actingAs($user);
-        factory(\App\Schedule::class, 2)->create([
+        $scheduleDefault = factory(\App\Schedule::class, 2)->create([
             'user_id' => $user->id,
             'default' => 1,
         ]);
-        factory(\App\Schedule::class, 3)->create([
+        $scheduleNotDefault = factory(\App\Schedule::class, 3)->create([
             'user_id' => $user->id,
         ]);
         $response = $this->get(route('schedule.get.default'));
         $response
             ->assertStatus(200)
             ->assertJson([
-                'total' => 2
+                'id' => $scheduleDefault->id
             ]);
     }
 }

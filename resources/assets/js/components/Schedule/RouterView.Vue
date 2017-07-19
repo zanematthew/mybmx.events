@@ -26,10 +26,6 @@ export default {
         {
           title: 'Schedules',
           name: 'your-schedules'
-        },
-        {
-          title: 'Events',
-          name: 'attending-events'
         }
       ],
     }

@@ -2,20 +2,7 @@
 <!-- EventList -->
 <div>
   <state-select :type="this.$route.name"></state-select>
-  <!-- Secondary Nav -->
-  <div class="row">
-    <div class="nav is-underlined is-tertiary is-spacious">
-      <span v-for="link in items">
-        <router-link :to="{
-          name: 'when',
-          params: { 'when': link.when },
-          query: appendStateQuery()
-        }" class="nav-item">{{ link.name }}</router-link>
-      </span>
-    </div>
-  </div>
-  <!-- Secondary Nav -->
-
+  <secondary-nav :items="items"></secondary-nav>
   <div class="content row is-item" v-for="event in events.data">
     <div class="event-mini">
       <div class="grid is-80">
@@ -67,16 +54,19 @@ export default {
       events: {},
       items: [
         {
-          name: 'This Month',
-          when: 'this-month'
+          title: 'This Month',
+          name: 'when',
+          params: { when: 'this-month' }
         },
         {
-          name: 'Next Month',
-          when: 'next-month'
+          title: 'Next Month',
+          name: 'when',
+          params: { when: 'next-month' }
         },
         {
-          name: 'All Upcoming',
-          when: 'upcoming'
+          title: 'All Upcoming',
+          name: 'when',
+          params: { when: 'upcoming' }
         },
       ],
       currentTab: {},

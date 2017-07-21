@@ -37,7 +37,14 @@ import Icon from 'vue-awesome/components/Icon';
 Vue.component('icon', Icon);
 
 import StateSelect from './components/StateSelect';
-import SecondaryNav from './components/SecondaryNav';
+
+/**
+ * Globally register the secondary nav component. This is used
+ * throughout various components.
+ */
+import SecondaryNav from './components/global/SecondaryNav';
+Vue.component('secondary-nav', SecondaryNav);
+
 import Clients from './components/passport/Clients';
 import AuthorizedClients from './components/passport/AuthorizedClients';
 import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
@@ -68,7 +75,6 @@ const app = new Vue({
   components: {
     'state-select': StateSelect,
     'primary-nav': PrimaryNav,
-    'secondary-nav': SecondaryNav,
     'passport-clients': Clients,
     'passport-authorized-clients': AuthorizedClients,
     'passport-personal-access-tokens': PersonalAccessTokens,

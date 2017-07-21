@@ -1,20 +1,7 @@
 <template>
 <div>
-
-  <!-- Secondary Nav -->
-  <div class="row">
-    <div class="nav is-underlined is-tertiary is-spacious">
-      <span v-for="link in items">
-        <router-link :to="{
-          name: link.name,
-        }" class="nav-item">{{ link.title }}</router-link>
-      </span>
-    </div>
-  </div>
-  <!-- Secondary Nav -->
-
+  <secondary-nav :items="items"></secondary-nav>
   <router-view></router-view>
-
 </div>
 </template>
 <script>

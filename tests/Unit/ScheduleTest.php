@@ -174,22 +174,19 @@ class ScheduleTest extends TestCase
             ]);
     }
 
-    public function getDefaults()
+    public function testGetMaster()
     {
-        $user = factory(\App\User::class)->create();
-        Passport::actingAs($user);
-        $scheduleDefault = factory(\App\Schedule::class, 2)->create([
-            'user_id' => $user->id,
-            'default' => 1,
+        Passport::actingAs(factory(\App\User::class)->create());
+        $schedules = factory(\App\Schedule::class, 3)->create();
+        $master = factory(\App\Schedule::class)->create([
+            'name' => 'master'
         ]);
-        $scheduleNotDefault = factory(\App\Schedule::class, 3)->create([
-            'user_id' => $user->id,
-        ]);
-        $response = $this->get(route('schedule.get.default'));
+
+        $response = $this->get(route('schedule.master'));
         $response
             ->assertStatus(200)
             ->assertJson([
-                'id' => $scheduleDefault->id
+                'name' => 'master'
             ]);
     }
 }

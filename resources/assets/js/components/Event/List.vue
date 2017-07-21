@@ -34,12 +34,11 @@
         </div>
       </div>
       <div class="grid is-20 align-right">
-        <schedule-add-to
+        <schedule-add-to-master
           :event="event"
           :initially-scheduled="scheduled"
-          :defaultSchedules="defaultSchedules"
-          :scheduleId="defaultSchedules"
-          ></schedule-add-to>
+          :schedule-master-id="masterSchedule.id"
+          ></schedule-add-to-master>
       </div>
     </div>
   </div>
@@ -51,7 +50,7 @@
 import Event from '../../models/Event';
 import moment from 'moment';
 import Pager from '../../components/partials/Pager';
-import ScheduleAddTo from '../../components/Schedule/AddTo';
+import ScheduleAddToMaster from '../../components/Schedule/AddToMaster';
 import StateSelect from '../../components/StateSelect';
 import MyMixin from '../../mixin.js';
 
@@ -59,7 +58,7 @@ export default {
   mixins: [MyMixin],
   components: {
     'pager': Pager,
-    'schedule-add-to': ScheduleAddTo,
+    'schedule-add-to-master': ScheduleAddToMaster,
     'state-select': StateSelect
   },
   props: ['when'],
@@ -82,8 +81,8 @@ export default {
       ],
       currentTab: {},
       scheduled: [],
-      defaultSchedules: [],
-      mostRecentlyUsedScheduleId: 0
+      mostRecentlyUsedScheduleId: 0,
+      masterSchedule: {}
     }
   },
   metaInfo() {
@@ -95,7 +94,7 @@ export default {
   mounted() {
     Event.events(events => this.events = events, this.$route.params.when, this.$route.query);
     this.getScheduled();
-    this.getDefaultSchedules();
+    this.getMasterScheduleId();
   },
   watch: {
     '$route' (to, from) {
@@ -119,16 +118,15 @@ export default {
         this.scheduled = response.data;
       });
     },
-    getDefaultSchedules() {
-      axios.get(`/api/schedules/default/`).then(response => {
-        this.defaultSchedules = response.data.data;
-      }).catch(error => {
-      });
-    },
     // Retrieve all event IDs on the page
     // currently being viewed.
     getCurrentEventIds() {
       return _.map(this.events.data, 'id');
+    },
+    getMasterScheduleId() {
+      axios.get('/api/schedules/master/').then(response => {
+        this.masterSchedule = response.data;
+      });
     }
   }
 }

@@ -11,11 +11,11 @@
   </div>
 </template>
 <script>
-import ScheduleAddTo from '../../components/Schedule/AddTo';
+import ScheduleAddToMaster from '../../components/Schedule/AddToMaster';
 
 export default {
   components: {
-    'schedule-add-to': ScheduleAddTo
+    'schedule-add-to': ScheduleAddToMaster
   },
   data() {
     return {

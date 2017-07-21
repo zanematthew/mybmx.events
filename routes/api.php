@@ -67,11 +67,10 @@ Route::group([
     'middleware' => 'auth:api',
 ], function () {
     Route::get('/', 'ScheduleController@index')->name('schedule.index');
-    Route::get('/defaults/', 'ScheduleController@getDefaults')->name('schedule.get.default');
     Route::get('/scheduled/', 'ScheduleController@scheduled')->name('scheduled');
     Route::get('/most-recent-id/', 'ScheduleController@mostRecentId')->name('most.recent.id');
-    Route::get('/attending/', 'ScheduleController@attending')->name('attending');
     Route::get('/{id}/', 'ScheduleController@show')->name('schedule.show');
+    Route::get('/master/', 'ScheduleController@master')->name('schedule.master');
 
     Route::post('/new', 'ScheduleController@store')->name('schedule.store');
     Route::post('/{id}/edit', 'ScheduleController@update')->name('schedule.update');

@@ -167,4 +167,12 @@ class ScheduleController extends Controller
     {
         return response()->json(\App\User::find(Auth::id())->schedules()->orderBy('updated_at', 'DESC')->first());
     }
+
+    public function master()
+    {
+        return response()->json(Schedule::where([
+            'user_id' => Auth::id(),
+            'name' => 'master'
+        ])->firstOrFail());
+    }
 }

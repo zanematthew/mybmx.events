@@ -8,6 +8,13 @@ use \App\Schedule as Schedule;
 
 class ScheduleController extends Controller
 {
+    protected $masterSchedule;
+
+    public function __construct()
+    {
+        $this->masterSchedule = 'master';
+    }
+
     /**
      * Retrieve the currently logged in users schedule(s), and events associated with
      * the given schedule, as a paginated collection.
@@ -17,16 +24,6 @@ class ScheduleController extends Controller
     public function index()
     {
         return Schedule::with('events')->where('user_id', Auth::id())->orderby('created_at', 'desc')->paginate();
-    }
-
-    // 200 JSON on success, or []
-    public function getDefaults()
-    {
-        return response()->json(Schedule::with('events')
-            ->where('user_id', Auth::id())
-            ->where('default', 1)
-            ->orderby('created_at', 'desc')
-            ->get());
     }
 
     /**
@@ -96,11 +93,10 @@ class ScheduleController extends Controller
      */
     public function update(Request $request)
     {
-        $schedule = Schedule::find($request->id);
-        if ($schedule->user_id !== Auth::id()) {
-            return response(json_encode(['value' => false]), 401)->header('Content-Type', 'application/json');
-        }
-
+        $schedule = Schedule::where([
+            'user_id' => Auth::id(),
+            'id' => $request->id
+        ])->firstOrFail();
         $schedule->name = $request->name;
         $updated        = $schedule->save();
 
@@ -117,26 +113,14 @@ class ScheduleController extends Controller
      * @return void HTTP JSON response containing an array of items that are attached, and detached.
      *                   404 if schedule is not found.
      */
-    public function toggleAttend($eventId = null, $id = null)
+    public function toggleAttendToMaster($eventId = null, $id = null)
     {
         return response()->json([
-            'toggled' => Schedule::findOrFail($id)->events()->toggle($eventId),
+            'toggled' => Schedule::where('name', '=', $this->masterSchedule)
+                ->firstOrFail()
+                ->events()
+                ->toggle($eventId),
         ]);
-    }
-
-    // Will remove the given Event from ALL of the user schedules
-    // Get all schedules with these ID.
-    public function unattendEvent($eventId = null)
-    {
-        $scheduleIds = \App\Schedule::whereHas('events', function ($query) use ($eventId) {
-            $query->where('event_id', $eventId);
-        })->pluck('id');
-
-        $removed = [];
-        foreach ($scheduleIds as $scheduleId) {
-            $removed[] = Schedule::find($scheduleId)->events()->detach($eventId);
-        }
-        return response()->json($removed);
     }
 
     public function toggleDefaultSchedule(Request $request)
@@ -149,11 +133,18 @@ class ScheduleController extends Controller
 
     // Get all event IDs that are attached to a schedule
     // @todo needs test
-    public function scheduled()
+    public function allEventIds()
     {
-        $schedules = Schedule::with('events')->whereHas('events')->get()->map(function ($item) {
-            return $item->events->pluck('id');
-        })->toArray();
+        $schedules = Schedule::where([
+            'user_id' => Auth::id(),
+            'name' => $this->masterSchedule,
+            ])
+            ->with('events')
+            ->whereHas('events')
+            ->get()
+            ->map(function ($item) {
+                return $item->events->pluck('id');
+            })->toArray();
         $final = [];
         foreach($schedules as $k => $v) {
             foreach ($v as $vv) {
@@ -163,16 +154,11 @@ class ScheduleController extends Controller
         return response()->json($final);
     }
 
-    public function mostRecentId()
-    {
-        return response()->json(\App\User::find(Auth::id())->schedules()->orderBy('updated_at', 'DESC')->first());
-    }
-
-    public function master()
+    public function attendingMaster()
     {
         return response()->json(Schedule::where([
             'user_id' => Auth::id(),
-            'name' => 'master'
-        ])->firstOrFail());
+            'name' => $this->masterSchedule
+        ])->with('events')->get());
     }
 }

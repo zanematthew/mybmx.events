@@ -67,15 +67,14 @@ Route::group([
     'middleware' => 'auth:api',
 ], function () {
     Route::get('/', 'ScheduleController@index')->name('schedule.index');
-    Route::get('/scheduled/', 'ScheduleController@scheduled')->name('scheduled');
-    Route::get('/most-recent-id/', 'ScheduleController@mostRecentId')->name('most.recent.id');
+    Route::get('/event/ids/', 'ScheduleController@allEventIds')->name('allEventIds');
+    Route::get('/attending/master/', 'ScheduleController@attendingMaster')->name('attending.master');
     Route::get('/{id}/', 'ScheduleController@show')->name('schedule.show');
-    Route::get('/master/', 'ScheduleController@master')->name('schedule.master');
 
     Route::post('/new', 'ScheduleController@store')->name('schedule.store');
     Route::post('/{id}/edit', 'ScheduleController@update')->name('schedule.update');
     Route::post('/{id}/default/', 'ScheduleController@toggleDefaultSchedule')->name('schedule.toggle.default');
-    Route::post('/{eventId}/attend/{id}/', 'ScheduleController@toggleAttend')->name('schedule.toggle.attend');
+    Route::post('/{eventId}/attend/master/toggle/', 'ScheduleController@toggleAttendToMaster')->name('schedule.toggle.attend.to.master');
 
     Route::delete('/{id}/delete', 'ScheduleController@destroy')->name('schedule.delete');
 });

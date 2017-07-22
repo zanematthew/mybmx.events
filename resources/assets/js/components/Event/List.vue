@@ -24,7 +24,6 @@
         <schedule-add-to-master
           :event="event"
           :initially-scheduled="scheduled"
-          :schedule-master-id="masterSchedule.id"
           ></schedule-add-to-master>
       </div>
     </div>
@@ -35,6 +34,7 @@
 </template>
 <script>
 import Event from '../../models/Event';
+import Schedule from '../../models/Schedule';
 import moment from 'moment';
 import Pager from '../../components/partials/Pager';
 import ScheduleAddToMaster from '../../components/Schedule/AddToMaster';
@@ -70,9 +70,7 @@ export default {
         },
       ],
       currentTab: {},
-      scheduled: [],
-      mostRecentlyUsedScheduleId: 0,
-      masterSchedule: {}
+      scheduled: []
     }
   },
   metaInfo() {
@@ -83,8 +81,7 @@ export default {
   },
   mounted() {
     Event.events(events => this.events = events, this.$route.params.when, this.$route.query);
-    this.getScheduled();
-    this.getMasterScheduleId();
+    Schedule.getAttendingEventIds(scheduled => this.scheduled = scheduled);
   },
   watch: {
     '$route' (to, from) {
@@ -103,20 +100,8 @@ export default {
       }
       return monthName;
     },
-    getScheduled() {
-      axios.get(`/api/schedules/scheduled/`).then(response => {
-        this.scheduled = response.data;
-      });
-    },
-    // Retrieve all event IDs on the page
-    // currently being viewed.
     getCurrentEventIds() {
       return _.map(this.events.data, 'id');
-    },
-    getMasterScheduleId() {
-      axios.get('/api/schedules/master/').then(response => {
-        this.masterSchedule = response.data;
-      });
     }
   }
 }

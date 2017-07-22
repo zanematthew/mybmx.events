@@ -11,6 +11,8 @@
   </div>
 </template>
 <script>
+import Schedule from '../../models/Schedule';
+
 export default {
   props: {
     // Current event
@@ -23,11 +25,6 @@ export default {
     initiallyScheduled: {
       type: Array,
       required: true
-    },
-
-    scheduleMasterId: {
-      type: Number,
-      // required: true,
     }
   },
   computed: {
@@ -40,18 +37,16 @@ export default {
   },
   methods: {
     schedule(eventId) {
-      axios.post(`/api/schedules/${eventId}/attend/${this.scheduleMasterId}/`).then(response => {
-        if (response.data.toggled.attached.length == 1){
+      Schedule.toggleAttendToMaster( response => {
+        if (response.toggled.attached.length == 1){
           this.scheduled.push(eventId);
-        } else if (response.data.toggled.detached.length == 1){
+        } else if (response.toggled.detached.length == 1){
           var i = this.scheduled.indexOf(eventId);
           if ( i != -1) {
             this.scheduled.splice(i, 1);
           }
         }
-      }).catch(error => {
-        console.log(error);
-      });
+      }, eventId);
     },
     isScheduled(id) {
       return this.scheduled.indexOf(id) != -1 ? true : false;

@@ -13,6 +13,7 @@
 </div>
 </template>
 <script>
+import Schedule from '../../models/Schedule';
 import ScheduleAdd from '../../components/Schedule/Add';
 import ScheduleDelete from '../../components/Schedule/Delete';
 import ScheduleMakeDefault from '../../components/Schedule/MakeDefault';
@@ -31,16 +32,7 @@ export default {
     }
   },
   mounted() {
-    this.getScheduels();
-  },
-  methods: {
-    getScheduels() {
-      axios.get('/api/schedules/').then(response => {
-        this.schedules = response.data;
-      }).catch(response => {
-        console.log(error);
-      });
-    }
+    Schedule.getScheduels(schedules => this.schedules = schedules);
   }
 }
 </script>

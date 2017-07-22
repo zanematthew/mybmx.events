@@ -30,9 +30,6 @@ export default {
   computed: {
     scheduled() {
       return this.initiallyScheduled;
-    },
-    masterId() {
-      return this.masterScheduleId
     }
   },
   methods: {

@@ -68,7 +68,7 @@ Route::group([
 ], function () {
     Route::get('/', 'ScheduleController@index')->name('schedule.index');
     Route::get('/event/ids/', 'ScheduleController@allEventIds')->name('allEventIds');
-    Route::get('/attending/master/', 'ScheduleController@attendingMaster')->name('attending.master');
+    Route::get('/attending/events/master/', 'ScheduleController@attendingMaster')->name('attending.master');
     Route::get('/{id}/', 'ScheduleController@show')->name('schedule.show');
 
     Route::post('/new', 'ScheduleController@store')->name('schedule.store');

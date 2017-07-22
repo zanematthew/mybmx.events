@@ -15,11 +15,17 @@ export default {
   },
   data() {
     return {
+      /**
+       * All Events for the current user that are assigned to the
+       * "master" schedule.
+       *
+       * @type {Object}
+       */
       scheduled: {}
     }
   },
   mounted() {
-    Schedule.getAttendingMaster(scheduled => this.scheduled = scheduled);
+    Schedule.getAttendingEventsMaster(scheduled => this.scheduled = scheduled);
   }
 }
 </script>

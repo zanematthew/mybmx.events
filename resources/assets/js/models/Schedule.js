@@ -4,8 +4,8 @@ class Schedule {
     return axios.get('/api/schedules/event/ids/').then(({data}) => then(data));
   }
 
-  static getAttendingMaster(then) {
-    return axios.get('/api/schedules/attending/master/').then(({data}) => then(data));
+  static getAttendingEventsMaster(then) {
+    return axios.get('/api/schedules/attending/events/master/').then(({data}) => then(data));
   }
 
   static toggleAttendToMaster(then, eventId) {

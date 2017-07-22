@@ -159,6 +159,6 @@ class ScheduleController extends Controller
         return response()->json(Schedule::where([
             'user_id' => Auth::id(),
             'name' => $this->masterSchedule
-        ])->with('events')->get());
+        ])->with('events.venue.city.states')->get());
     }
 }

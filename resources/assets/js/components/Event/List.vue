@@ -3,50 +3,23 @@
 <div>
   <state-select :type="this.$route.name"></state-select>
   <secondary-nav :items="items"></secondary-nav>
-  <div class="content row is-item" v-for="event in events.data">
-    <div class="event-mini">
-      <div class="grid is-80">
-        <div class="title">
-          <router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug } }">
-            {{ event.title }}
-          </router-link>
-        </div>
-        <div>
-          <strong>{{ fromNow(event.start_date) }}</strong>, {{ startEndDate(event.start_date, event.end_date) }}
-        </div>
-        <div class="body">
-          <div>
-            <strong>{{ event.type_name }}</strong> &bull; <strong>{{ event.venue.name }}</strong> &bull; {{ event.venue.city.name }}<span v-if="event.venue.city.states">, {{ event.venue.city.states[0].abbr }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="grid is-20 align-right">
-        <schedule-add-to-master
-          :event="event"
-          :initially-scheduled="scheduled"
-          ></schedule-add-to-master>
-      </div>
-    </div>
-  </div>
+  <list-items :events="events.data"></list-items>
   <pager :data="events" :name="'when'"></pager>
 </div>
 <!--  EventList -->
 </template>
 <script>
 import Event from '../../models/Event';
-import Schedule from '../../models/Schedule';
 import moment from 'moment';
-import Pager from '../../components/partials/Pager';
-import ScheduleAddToMaster from '../../components/Schedule/AddToMaster';
 import StateSelect from '../../components/StateSelect';
-import MyMixin from '../../mixin.js';
+import ListItems from '../../components/Event/ListItems';
+import Pager from '../../components/partials/Pager';
 
 export default {
-  mixins: [MyMixin],
   components: {
-    'pager': Pager,
-    'schedule-add-to-master': ScheduleAddToMaster,
-    'state-select': StateSelect
+    'state-select': StateSelect,
+    'list-items': ListItems,
+    'pager': Pager
   },
   props: ['when'],
   data() {
@@ -69,8 +42,7 @@ export default {
           params: { when: 'upcoming' }
         },
       ],
-      currentTab: {},
-      scheduled: []
+      currentTab: {}
     }
   },
   metaInfo() {
@@ -81,7 +53,6 @@ export default {
   },
   mounted() {
     Event.events(events => this.events = events, this.$route.params.when, this.$route.query);
-    Schedule.getAttendingEventIds(scheduled => this.scheduled = scheduled);
   },
   watch: {
     '$route' (to, from) {

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import EventRouterView from './components/Event/RouterView';
 import EventSingle from './components/Event/Single';
 import EventList from './components/Event/List';
+import EventAttending from './components/Event/Attending';
 
 import VenueRouterView from './components/Venue/RouterView';
 import VenueSingle from './components/Venue/Single';
@@ -65,11 +66,6 @@ const routes = [
     props: true,
     children: [
       {
-        path: 'events',
-        name: 'attending-events',
-        component: {template: '<div>Bar</div>'}
-      },
-      {
         path: 'schedules',
         name: 'your-schedules',
         component: ScheduleList
@@ -78,7 +74,7 @@ const routes = [
   },
   {
     path: '/attending/',
-    component: ScheduleSingle,
+    component: EventAttending,
     name: 'attending',
     props: true
   },

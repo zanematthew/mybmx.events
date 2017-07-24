@@ -13,8 +13,27 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+    'prefix'     => 'user',
+    'middleware' => 'auth:api',
+    ], function () {
+    Route::get('/', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::get('/schedule/', 'ScheduleController@index')->name('user.schedule.index');
+    Route::get('/schedule/master/event/ids/', 'ScheduleController@masterEventIds')
+        ->name('user.schedule.master.event.ids');
+    Route::get('/schedule/attending/events/master/', 'ScheduleController@attendingEventsMaster')
+        ->name('user.schedule.attending.events.master');
+
+    Route::post('/schedule/new/', 'ScheduleController@store')->name('user.schedule.store');
+    Route::post('/schedule/{id}/update/', 'ScheduleController@update')->name('user.schedule.update');
+    Route::post('/schedule/{id}/toggle-default/', 'ScheduleController@toggleDefault')->name('user.schedule.toggle.default');
+
+    Route::post('/schedule/master/attend/{id}/', 'ScheduleController@masterAttend')->name('user.schedule.master.attend');
+
+    Route::delete('/schedule/{id}/delete/', 'ScheduleController@delete')->name('user.schedule.delete');
 });
 
 Route::group(['prefix' => 'venue'], function () {
@@ -59,24 +78,6 @@ Route::group(['prefix' => 'events'], function () {
     Route::get('/{year}/{type}/{state}', 'EventController@yearTypeState')->name('events.year.type.state');
     Route::get('/{year}/{month}/{state}', 'EventController@yearMonthState')->name('events.year.month.state');
     Route::get('/{year}/{month}/{type}/{state}', 'EventController@yearMonthTypeState')->name('events.year.month.type.state');
-});
-
-// Schedules
-Route::group([
-    'prefix' => 'schedules',
-    'middleware' => 'auth:api',
-], function () {
-    Route::get('/', 'ScheduleController@index')->name('schedule.index');
-    Route::get('/event/ids/', 'ScheduleController@allEventIds')->name('allEventIds');
-    Route::get('/attending/events/master/', 'ScheduleController@attendingMaster')->name('attending.master');
-    Route::get('/{id}/', 'ScheduleController@show')->name('schedule.show');
-
-    Route::post('/new', 'ScheduleController@store')->name('schedule.store');
-    Route::post('/{id}/edit', 'ScheduleController@update')->name('schedule.update');
-    Route::post('/{id}/default/', 'ScheduleController@toggleDefaultSchedule')->name('schedule.toggle.default');
-    Route::post('/{eventId}/attend/master/toggle/', 'ScheduleController@toggleAttendToMaster')->name('schedule.toggle.attend.to.master');
-
-    Route::delete('/{id}/delete', 'ScheduleController@destroy')->name('schedule.delete');
 });
 
 Route::get('/states', function () {

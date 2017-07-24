@@ -9,11 +9,7 @@ class Schedule extends Model
     protected $fillable = [
         'name',
         'user_id',
-        'default',
-    ];
-
-    protected $appends = [
-        'slug'
+        'default' => 0,
     ];
 
     public function user()
@@ -32,8 +28,9 @@ class Schedule extends Model
         ]);
     }
 
-    public function getSlugAttribute()
+    public function setNameAttribute($value)
     {
-        return str_slug($this->name);
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = str_slug($value);
     }
 }

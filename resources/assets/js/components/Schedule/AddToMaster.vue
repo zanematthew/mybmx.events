@@ -35,9 +35,9 @@ export default {
   methods: {
     schedule(eventId) {
       Schedule.toggleAttendToMaster( response => {
-        if (response.toggled.attached.length == 1){
+        if (response.attached.length == 1){
           this.scheduled.push(eventId);
-        } else if (response.toggled.detached.length == 1){
+        } else if (response.detached.length == 1){
           var i = this.scheduled.indexOf(eventId);
           if ( i != -1) {
             this.scheduled.splice(i, 1);

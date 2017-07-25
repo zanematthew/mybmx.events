@@ -1,18 +1,22 @@
 'use strict';
-/**
-* First we will load all of this project's JavaScript dependencies which
-* includes Vue and other libraries. It is a great starting point when
-* building robust, powerful web applications using Vue and Laravel.
-*/
 
 require('./bootstrap');
 
-// Require Vue
 window.Vue = require('vue');
 
-// Import VueRouter
-// Call/use VueRouter in our app.
-// https://router.vuejs.org/en/essentials/getting-started.html
+/**
+ * Various Vue Plugins.
+ *
+ * VueRouter -- SPA, https://router.vuejs.org/en/essentials/getting-started.html
+ *   Note: Events, Venues, Schedule routes are handled via VueRouter.
+ *   Auth, and Passport routes are handled via Laravel.
+ * Vue Meta -- Manages page meta. https://github.com/declandewet/vue-meta
+ * NProgress -- Progress bar at the top of the page. https://github.com/vue-bulma/nprogress
+ *   Note: https://github.com/vue-bulma/nprogress/issues/13#issuecomment-312778499
+ * Vue Awesome -- Font awesome as a component: https://github.com/vue-bulma/nprogress
+ *   Note: Currently importing all icons for now, and registered globally.
+ * VueAnalytics -- Google Analytics integration. https://github.com/MatteoGabriele/vue-analytics
+ */
 import VueRouter from 'vue-router';
 import router from './router';
 Vue.use(VueRouter);
@@ -20,7 +24,6 @@ Vue.use(VueRouter);
 import Meta from 'vue-meta';
 Vue.use(Meta);
 
-// https://github.com/vue-bulma/nprogress#configuration
 import NProgress from 'vue-nprogress';
 import nprogress from './nprogress';
 Vue.use(NProgress, {
@@ -28,27 +31,9 @@ Vue.use(NProgress, {
   router: false
 });
 
-// https://github.com/Justineo/vue-awesome
-// Import all icons for now.
 import 'vue-awesome/icons';
-
-// Register globally
 import Icon from 'vue-awesome/components/Icon';
 Vue.component('icon', Icon);
-
-import StateSelect from './components/StateSelect';
-
-/**
- * Globally register the secondary nav component. This is used
- * throughout various components.
- */
-import SecondaryNav from './components/global/SecondaryNav';
-Vue.component('secondary-nav', SecondaryNav);
-
-import Clients from './components/passport/Clients';
-import AuthorizedClients from './components/passport/AuthorizedClients';
-import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
-import PrimaryNav from './components/PrimaryNav';
 
 import VueAnalytics from 'vue-analytics';
 Vue.use(VueAnalytics, {
@@ -65,6 +50,18 @@ Vue.use(VueAnalytics, {
   }
 });
 
+import StateSelect from './components/StateSelect';
+import SecondaryNav from './components/global/SecondaryNav';
+Vue.component('secondary-nav', SecondaryNav);
+
+/**
+ * Laravel Passport -- API/JWT https://laravel.com/docs/5.4/passport
+ */
+import PrimaryNav from './components/PrimaryNav';
+import Clients from './components/passport/Clients';
+import AuthorizedClients from './components/passport/AuthorizedClients';
+import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
+
 const app = new Vue({
   router,
   nprogress,
@@ -77,9 +74,15 @@ const app = new Vue({
     'primary-nav': PrimaryNav,
     'passport-clients': Clients,
     'passport-authorized-clients': AuthorizedClients,
-    'passport-personal-access-tokens': PersonalAccessTokens,
+    'passport-personal-access-tokens': PersonalAccessTokens
+  },
+  data() {
+    return {
+      userInfo: {}
+    }
   },
   created: function () {
+    // https://github.com/vue-bulma/nprogress/issues/13#issuecomment-312778499
     axios.interceptors.request.use(function (config) {
         nprogress.start();
         return config;

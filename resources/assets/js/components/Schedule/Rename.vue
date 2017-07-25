@@ -47,7 +47,7 @@ export default {
       // Send AJAX request
       // Update model name
       // Toggle the input field
-      axios.post(`/api/schedules/${schedule.id}/edit/`, {
+      axios.post(`/api/user/schedule/${schedule.id}/update/`, {
         id: schedule.id,
         name: schedule.name
       }).then(response => {

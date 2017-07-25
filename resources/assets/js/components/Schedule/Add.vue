@@ -24,15 +24,15 @@ export default {
       return this.name = '';
     },
     addSchedule: _.throttle(function(){
-      axios.post('/api/schedules/new', {
+      axios.post('/api/user/schedule/new', {
         name: this.name
       }).then(response => {
         this.clearField();
         console.log(response);
         this.schedules.unshift({
-          id: response.data.id,
-          name: response.data.name,
-          created_at: response.data.create_at
+          id: response.id,
+          name: response.name,
+          created_at: response.create_at
         });
       });
     }, 2000)

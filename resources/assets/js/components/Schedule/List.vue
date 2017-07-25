@@ -1,14 +1,14 @@
 <template>
 <div>
-  <schedule-add :schedules="schedules.data"></schedule-add>
-  <div v-for="schedule in schedules.data" class="content row is-item form">
+  <schedule-add :schedules="schedules"></schedule-add>
+  <div v-for="schedule in schedules" class="content row is-item form">
     <div class="grid is-80">
       <schedule-make-default :initialSchedule="schedule"></schedule-make-default>
       <div class="main">
         <schedule-rename :initialSchedule="schedule"></schedule-rename>
       </div>
     </div>
-    <schedule-delete :id="schedule.id" :schedules="schedules.data"></schedule-delete>
+    <schedule-delete :id="schedule.id" :schedules="schedules"></schedule-delete>
   </div>
 </div>
 </template>

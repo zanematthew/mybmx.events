@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     makeDefault(schedule) {
-      axios.post(`/api/schedules/${schedule.id}/default/`, {
+      axios.post(`/api/user/schedule/${schedule.id}/toggle-default/`, {
         id: schedule.id
       }).then(response => {
         this.schedule = response.data;

@@ -25,7 +25,7 @@ export default {
     }
   },
   mounted() {
-    axios.get(`/api/schedules/${this.currentScheduleId}`).then(response => {
+    axios.get(`/api/user/schedule/${this.currentScheduleId}`).then(response => {
       this.items = response.data;
       var scheduledIds = [];
       _.forEach(this.items.events, function (value, key) {

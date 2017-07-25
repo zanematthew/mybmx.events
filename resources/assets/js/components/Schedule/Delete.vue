@@ -11,7 +11,7 @@ export default {
   props: ['schedules', 'id'],
   methods: {
     deleteSchedule: _.throttle(function(id) {
-      axios.delete(`/api/schedules/${id}/delete/`).then(response => {
+      axios.delete(`/api/user/schedule/${id}/delete/`).then(response => {
         var borland = 0;
         for (let i of this.schedules) {
           if (i['id'] == id) {

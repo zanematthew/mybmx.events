@@ -1,31 +1,22 @@
 <template>
   <div>
-    <div v-for="schedule in scheduled">
-      <list-items :events="schedule.events"></list-items>
-    </div>
+    <list-items :events="scheduled.events"></list-items>
   </div>
 </template>
 <script>
-import Schedule from '../../models/Schedule';
 import ListItems from '../../components/Event/ListItems';
 
 export default {
   components: {
     'list-items': ListItems
   },
-  data() {
-    return {
-      /**
-       * All Events for the current user that are assigned to the
-       * "master" schedule.
-       *
-       * @type {Object}
-       */
-      scheduled: {}
+  computed: {
+    scheduled() {
+      return this.$store.state.schedule.master;
     }
   },
   mounted() {
-    Schedule.getAttendingEventsMaster(scheduled => this.scheduled = scheduled);
+    this.$store.dispatch('fetchAllScheduledEvents');
   }
 }
 </script>

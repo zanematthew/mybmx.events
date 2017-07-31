@@ -85,6 +85,16 @@ class ScheduleController extends Controller
         );
     }
 
+    public function attendingEvents(): \Illuminate\Http\JsonResponse
+    {
+        return response()->json(Auth::user()
+            ->schedules()
+            ->whereHas('events')
+            ->with('events')
+            ->get()
+        );
+    }
+
     public function delete(Request $request): \Illuminate\Http\JsonResponse
     {
         $scheduleWithEvents = Auth::user()

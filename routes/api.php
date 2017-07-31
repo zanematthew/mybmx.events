@@ -26,6 +26,8 @@ Route::group([
         ->name('user.schedule.master.event.ids');
     Route::get('/schedule/attending/events/master/', 'ScheduleController@attendingEventsMaster')
         ->name('user.schedule.attending.events.master');
+    Route::get('/schedule/attending/events/', 'ScheduleController@attendingEvents')
+        ->name('user.schedule.attending.events');
 
     Route::post('/schedule/new/', 'ScheduleController@store')->name('user.schedule.store');
     Route::post('/schedule/{id}/update/', 'ScheduleController@update')->name('user.schedule.update');

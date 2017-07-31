@@ -9,7 +9,8 @@ import * as types from '../mutation-types';
  */
 const state = {
   allEventIds: [],
-  schedules: []
+  schedules: [],
+  master: []
 };
 
 /**
@@ -40,7 +41,17 @@ const actions = {
       });
     });
   },
-
+  fetchAllScheduledEvents({commit, state}) {
+    return new Promise((resolve, reject) => {
+      if (state.master.length !== 0) {
+        return;
+      }
+      Schedule.getAttendingEventsMaster(response => {
+        commit(types.GET_ALL_EVENTS, response);
+        resolve(response);
+      });
+    });
+  },
   // How do handle the reject?
   addToMasterSchedule({commit, state}, payload) {
     return new Promise((resolve, reject) => {
@@ -120,6 +131,9 @@ const mutations = {
   },
   [types.GET_ALL_SCHEDULES] (state, payload) {
     state.schedules = payload;
+  },
+  [types.GET_ALL_EVENTS] (state, payload) {
+    state.master = payload;
   },
   [types.ADD_SCHEDULE] (state, payload) {
     state.schedules.unshift(payload);

@@ -13,6 +13,7 @@ class ScheduleController extends Controller
     {
         return response()->json(Auth::user()
             ->schedules()
+            ->orderBy('updated_at', 'desc')
             ->get()
         );
     }
@@ -53,11 +54,7 @@ class ScheduleController extends Controller
         $schedule->user()->associate(Auth::user());
         $schedule->save();
 
-        return response()->json([
-            'id'         => $schedule->id,
-            'name'       => $schedule->name,
-            'created_at' => $schedule->created_at,
-        ]);
+        return response()->json($schedule->getAttributes());
     }
 
     public function update(Request $request): \Illuminate\Http\JsonResponse

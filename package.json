@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "lodash": "^4.17.4",
     "google-maps-image-api": "^1.0.3",
+    "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "numeral": "^2.0.6",
     "url-parse": "^1.1.9",
@@ -27,6 +27,7 @@
     "vue-multiselect": "^2.0.2",
     "vue-nprogress": "^0.1.5",
     "vue-router": "^2.6.0",
-    "vue2-google-maps": "^0.7.9"
+    "vue2-google-maps": "^0.7.9",
+    "vuex": "^2.3.1"
   }
 }

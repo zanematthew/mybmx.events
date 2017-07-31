@@ -1,20 +1,25 @@
 <template>
 <div>
-  <div :class="{editing: initialSchedule == editing }">
-    <span v-on:dblclick="edit(initialSchedule)">{{ initialSchedule.name }}</span>
+  <div :class="{editing: schedule == editing }">
+    <span v-on:dblclick.stop.prevent="edit(schedule)">{{ schedule.name }}</span>
     <span class="edit">
+    <!--
+    Using one-way data-binding
+    https://vuex.vuejs.org/en/forms.html
+    https://ypereirareis.github.io/blog/2017/04/25/vuejs-two-way-data-binding-state-management-vuex-strict-mode/
+     -->
     <input
       type="text"
-      v-model="initialSchedule.name"
-      v-scheduleFocus="initialSchedule == editing"
-      v-on:blur="cancelEdit(initialSchedule)"
-      v-on:keyup.enter="doneEdit(initialSchedule)"
-      v-on:keyup.esc="cancelEdit(initialSchedule)"
+      :value="schedule.name"
+      v-scheduleFocus="schedule == editing"
+      v-on:blur="cancelEdit(schedule)"
+      v-on:keyup.enter="doneEdit(schedule, $event.target.value)"
+      v-on:keyup.esc="cancelEdit(schedule)"
       />
       <span class="meta">Press Enter to save, ESC to exit</span>
     </span>
   </div>
-  <div class="meta">Last updated {{ fromNow(initialSchedule.updated_at) }}</div>
+  <div class="meta">Last updated {{ fromNow(schedule.updated_at) }}</div>
 </div>
 </template>
 <script>
@@ -22,16 +27,27 @@ import MyMixin from '../../mixin.js';
 
 export default {
   mixins: [MyMixin],
-  props: ['initialSchedule'],
+  props: {
+    schedule: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
-      _scheduleOriginal: {},
       editing: null
     }
   },
-  // https://medium.com/@nickdenardis/vue-js-return-object-to-previous-state-on-cancel-2fa0f2db700a
-  // https://vuejs.org/v2/examples/todomvc.html?
   directives: {
+    /**
+     * Set the input field to have focus when the user double clicks it.
+     * https://medium.com/@nickdenardis/vue-js-return-object-to-previous-state-on-cancel-2fa0f2db700a
+     * https://vuejs.org/v2/examples/todomvc.html?
+     *
+     * @param  {[type]} el      [description]
+     * @param  {[type]} binding [description]
+     * @return {[type]}         [description]
+     */
     scheduleFocus(el, binding) {
       if (binding.value) {
         el.focus();
@@ -40,38 +56,26 @@ export default {
   },
   methods: {
     edit(schedule) {
-      this._scheduleOriginal = Object.assign({}, schedule);
       this.editing = schedule;
     },
-    doneEdit(schedule) {
-      // Send AJAX request
-      // Update model name
-      // Toggle the input field
-      axios.post(`/api/user/schedule/${schedule.id}/update/`, {
+    doneEdit(schedule, name) {
+      this.$store.dispatch('rename', {
         id: schedule.id,
-        name: schedule.name
+        name: name
       }).then(response => {
-        this._scheduleOriginal = schedule;
-        this.editing = null;
-      }).catch(error => {
-        console.log(error);
+        console.log('Done: ');
+        this.resetEditing();
       });
     },
     cancelEdit(schedule) {
-      Object.assign(schedule, this._scheduleOriginal);
-      this.editing = this._scheduleOriginal = null;
+      this.resetEditing();
+    },
+    resetEditing() {
+      this.editing = null;
     }
   }
 }
 </script>
-<style>
-.edit {display: none; }
-.editing {
-  position: relative;
-}
-.editing .edit {
-  display: block;
-  position: absolute;
-  top: 0;
-}
+<style lang="scss">
+@import "../../../sass/variables";
 </style>

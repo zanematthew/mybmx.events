@@ -1,25 +1,25 @@
 <template>
-<div class="star" v-on:click="makeDefault(schedule)">
-  <icon :name="schedule.default ? 'star': 'star-o'"></icon>
+<div class="star" v-on:click.stop.prevent="makeDefault(schedule)">
+  <icon :name="isDefault(schedule) ? 'star': 'star-o'"></icon>
 </div>
 </template>
 <script>
 export default {
-  props: ['initialSchedule'],
-  data() {
-    return {
-      schedule: this.initialSchedule
+  props: {
+    schedule: {
+      type: Object,
+      required: true
     }
   },
   methods: {
     makeDefault(schedule) {
-      axios.post(`/api/user/schedule/${schedule.id}/toggle-default/`, {
+      this.$store.dispatch('toggleDefault', {
         id: schedule.id
-      }).then(response => {
-        this.schedule = response.data;
-      }).catch(error => {
-        console.log(error);
       });
+    },
+    isDefault(schedule) {
+      var foundIndex = this.$store.state.schedule.schedules.findIndex(items => items.id == schedule.id);
+      return this.$store.state.schedule.schedules[foundIndex].default;
     }
   }
 }

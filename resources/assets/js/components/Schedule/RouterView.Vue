@@ -5,7 +5,6 @@
 </div>
 </template>
 <script>
-
 export default {
   data() {
     return {
@@ -15,12 +14,6 @@ export default {
           name: 'your-schedules'
         }
       ],
-    }
-  },
-  watch: {
-    '$route' (to, from) {
-      console.log('Fetch data here');
-      console.log(to);
     }
   }
 }

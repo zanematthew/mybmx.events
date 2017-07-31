@@ -65,7 +65,7 @@ class EventController extends Controller
         $q = \App\Event::with('venue.city.states');
         $q = $this->handleRequest($q);
 
-        return $q->orderby('start_date', 'asc')
+        return $q->orderBy('start_date', 'asc')
                  ->paginate($this->paginate)->appends(request($this->params));
     }
 
@@ -84,7 +84,7 @@ class EventController extends Controller
             });
         $q = $this->handleRequest($q);
 
-        return $q->orderby('start_date', 'asc')
+        return $q->orderBy('start_date', 'asc')
                  ->paginate($this->paginate)->appends(request($this->params));
     }
 
@@ -102,7 +102,7 @@ class EventController extends Controller
         $q = $this->handleRequest($q);
 
         return $q->where('type', $type)
-                 ->orderby('start_date', 'asc')
+                 ->orderBy('start_date', 'asc')
                  ->paginate($this->paginate);
     }
 
@@ -117,7 +117,7 @@ class EventController extends Controller
     {
         return \App\Event::with('venue.city.states')
                 ->whereYear('start_date', $year)
-                ->orderby('start_date', 'asc')
+                ->orderBy('start_date', 'asc')
                 ->paginate($this->paginate);
     }
 
@@ -134,7 +134,7 @@ class EventController extends Controller
         return \App\Event::with('venue.city.states')
             ->whereYear('start_date', $year)
             ->whereMonth('start_date', $month)
-            ->orderby('start_date', 'asc')
+            ->orderBy('start_date', 'asc')
             ->paginate($this->paginate);
     }
 
@@ -151,7 +151,7 @@ class EventController extends Controller
         return \App\Event::with('venue.city.states')
             ->whereYear('start_date', $year)
             ->where('type', $type)
-            ->orderby('start_date', 'asc')
+            ->orderBy('start_date', 'asc')
             ->paginate($this->paginate);
     }
 
@@ -170,7 +170,7 @@ class EventController extends Controller
                 $query->where('abbr', strtoupper($state));
             })
             ->whereYear('start_date', $year)
-            ->orderby('start_date', 'asc')
+            ->orderBy('start_date', 'asc')
             ->paginate($this->paginate);
     }
 
@@ -191,7 +191,7 @@ class EventController extends Controller
             })
             ->whereYear('start_date', $year)
             ->where('type', $type)
-            ->orderby('start_date', 'asc')
+            ->orderBy('start_date', 'asc')
             ->paginate($this->paginate);
     }
 
@@ -212,7 +212,7 @@ class EventController extends Controller
             })
             ->whereYear('start_date', $year)
             ->whereMonth('start_date', $month)
-            ->orderby('start_date', 'asc')
+            ->orderBy('start_date', 'asc')
             ->paginate($this->paginate);
     }
 
@@ -235,7 +235,7 @@ class EventController extends Controller
                 ->whereYear('start_date', $year)
                 ->whereMonth('start_date', $month)
                 ->where('type', $type)
-                ->orderby('start_date', 'asc')
+                ->orderBy('start_date', 'asc')
                 ->paginate($this->paginate);
     }
 }

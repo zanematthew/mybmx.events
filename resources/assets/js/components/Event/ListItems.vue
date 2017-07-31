@@ -19,10 +19,7 @@
         </div>
       </div>
       <div class="grid is-20 align-right">
-        <schedule-add-to-master
-          :event="event"
-          :initially-scheduled="scheduled"
-          ></schedule-add-to-master>
+        <schedule-add-to-master :event="event"></schedule-add-to-master>
       </div>
     </div>
   </div>
@@ -40,13 +37,8 @@ export default {
     'schedule-add-to-master': ScheduleAddToMaster
   },
   props: ['events'],
-  data() {
-    return {
-      scheduled: []
-    }
-  },
   mounted() {
-    Schedule.getAttendingEventIds(scheduled => this.scheduled = scheduled);
+    this.$store.dispatch('fetchAllScheduledEventIds');
   }
 }
 </script>

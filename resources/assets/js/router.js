@@ -10,7 +10,6 @@ import VenueSingle from './components/Venue/Single';
 import VenueList from './components/Venue/List';
 
 import ScheduleRouterView from './components/Schedule/RouterView';
-import ScheduleSingle from './components/Schedule/Single';
 import ScheduleList from './components/Schedule/List';
 
 const NotFoundComponent = { template: '<div>404</div>' };

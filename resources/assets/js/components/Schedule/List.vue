@@ -1,14 +1,14 @@
 <template>
 <div>
-  <schedule-add :schedules="schedules"></schedule-add>
+  <schedule-add></schedule-add>
   <div v-for="schedule in schedules" class="content row is-item form">
     <div class="grid is-80">
-      <schedule-make-default :initialSchedule="schedule"></schedule-make-default>
+      <schedule-make-default :schedule="schedule"></schedule-make-default>
       <div class="main">
-        <schedule-rename :initialSchedule="schedule"></schedule-rename>
+        <schedule-rename :schedule="schedule"></schedule-rename>
       </div>
     </div>
-    <schedule-delete :id="schedule.id" :schedules="schedules"></schedule-delete>
+    <schedule-delete :schedule="schedule"></schedule-delete>
   </div>
 </div>
 </template>
@@ -26,13 +26,13 @@ export default {
     'schedule-make-default': ScheduleMakeDefault,
     'schedule-rename': ScheduleRename
   },
-  data() {
-    return {
-      schedules: [],
+  computed: {
+    schedules () {
+      return this.$store.state.schedule.schedules;
     }
   },
   mounted() {
-    Schedule.getScheduels(schedules => this.schedules = schedules);
+    this.$store.dispatch('fetchAllSchedules');
   }
 }
 </script>

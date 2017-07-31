@@ -62,9 +62,15 @@ import Clients from './components/passport/Clients';
 import AuthorizedClients from './components/passport/AuthorizedClients';
 import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
 
+import store from './store';
+
 const app = new Vue({
   router,
   nprogress,
+  store,
+  data: {
+    user: window.laravel.user
+  },
   metaInfo: {
     title: '...',
     titleTemplate: '%s | My BMX Events'
@@ -75,11 +81,6 @@ const app = new Vue({
     'passport-clients': Clients,
     'passport-authorized-clients': AuthorizedClients,
     'passport-personal-access-tokens': PersonalAccessTokens
-  },
-  data() {
-    return {
-      userInfo: {}
-    }
   },
   created: function () {
     // https://github.com/vue-bulma/nprogress/issues/13#issuecomment-312778499

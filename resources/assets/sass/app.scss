@@ -178,21 +178,6 @@ img {
   }
 }
 
-// Form
-//
-.edit {
-  display: none;
-}
-
-.editing {
-  position: relative;
-  .edit {
-    display: block;
-    position: absolute;
-    top: 0;
-  }
-}
-
 .form {
   input[type="text"],
   input[type="email"],

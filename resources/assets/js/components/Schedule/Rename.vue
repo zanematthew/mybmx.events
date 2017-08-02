@@ -77,5 +77,16 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "../../../sass/variables";
+.edit {
+  display: none;
+}
+
+.editing {
+  position: relative;
+  .edit {
+    display: block;
+    position: absolute;
+    top: 0;
+  }
+}
 </style>

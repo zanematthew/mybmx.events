@@ -4,27 +4,27 @@
   <div v-for="schedule in schedules" class="content row is-item form">
     <div class="grid is-80">
       <schedule-make-default :schedule="schedule"></schedule-make-default>
-      <div class="main">
-        <schedule-rename :schedule="schedule"></schedule-rename>
-      </div>
+      <schedule-rename :schedule="schedule" ref="renameRef"></schedule-rename>
     </div>
-    <schedule-delete :schedule="schedule"></schedule-delete>
+    <div class="grid is-20">
+      <dropdown :schedule="schedule" v-on:doRename="triggerRename"></dropdown>
+    </div>
   </div>
 </div>
 </template>
 <script>
 import Schedule from '../../models/Schedule';
 import ScheduleAdd from '../../components/Schedule/Add';
-import ScheduleDelete from '../../components/Schedule/Delete';
 import ScheduleMakeDefault from '../../components/Schedule/MakeDefault';
 import ScheduleRename from '../../components/Schedule/Rename';
+import Dropdown from '../../components/Dropdown';
 
 export default {
   components: {
     'schedule-add': ScheduleAdd,
-    'schedule-delete': ScheduleDelete,
     'schedule-make-default': ScheduleMakeDefault,
-    'schedule-rename': ScheduleRename
+    'schedule-rename': ScheduleRename,
+    'dropdown': Dropdown
   },
   computed: {
     schedules () {
@@ -33,6 +33,16 @@ export default {
   },
   mounted() {
     this.$store.dispatch('fetchAllSchedules');
+  },
+  methods: {
+    triggerRename(schedule) {
+      for (let [index, value] of this.$refs['renameRef'].entries()) {
+        if (value.schedule.id == schedule.id) {
+          this.$refs['renameRef'][index].edit(schedule);
+          break;
+        }
+      }
+    }
   }
 }
 </script>

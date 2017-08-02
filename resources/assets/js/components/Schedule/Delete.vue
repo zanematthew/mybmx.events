@@ -1,17 +1,26 @@
 <template>
-<div class="grid is-20">
-  <button v-on:click.stop.prevent="destroy(schedule)" class="delete">Delete</button>
-</div>
+  <div>
+    <span v-on:click.stop.prevent="destroy(schedule)" class="delete">Delete</span>
+  </div>
 </template>
 <script>
 export default {
   props: ['schedule'],
   methods: {
     destroy(schedule) {
-      this.$store.dispatch('delete', {
-        id: schedule.id
-      });
+      if (window.confirm(`Delete schedule: ${schedule.name}. Are you sure?`)) {
+        this.$store.dispatch('delete', {
+          id: schedule.id
+        });
+      }
     }
   }
 }
 </script>
+<style>
+.delete {
+  color: #c72500;
+  display: block;
+  cursor: pointer;
+}
+</style>

@@ -1,13 +1,13 @@
 <template>
+<!--
+Using one-way data-binding
+https://vuex.vuejs.org/en/forms.html
+https://ypereirareis.github.io/blog/2017/04/25/vuejs-two-way-data-binding-state-management-vuex-strict-mode/
+-->
 <div>
   <div :class="{editing: schedule == editing }">
     <span v-on:dblclick.stop.prevent="edit(schedule)">{{ schedule.name }}</span>
     <span class="edit">
-    <!--
-    Using one-way data-binding
-    https://vuex.vuejs.org/en/forms.html
-    https://ypereirareis.github.io/blog/2017/04/25/vuejs-two-way-data-binding-state-management-vuex-strict-mode/
-     -->
     <input
       type="text"
       :value="schedule.name"
@@ -41,12 +41,10 @@ export default {
   directives: {
     /**
      * Set the input field to have focus when the user double clicks it.
+     *
      * https://medium.com/@nickdenardis/vue-js-return-object-to-previous-state-on-cancel-2fa0f2db700a
      * https://vuejs.org/v2/examples/todomvc.html?
      *
-     * @param  {[type]} el      [description]
-     * @param  {[type]} binding [description]
-     * @return {[type]}         [description]
      */
     scheduleFocus(el, binding) {
       if (binding.value) {
@@ -63,7 +61,6 @@ export default {
         id: schedule.id,
         name: name
       }).then(response => {
-        console.log('Done: ');
         this.resetEditing();
       });
     },

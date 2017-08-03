@@ -36,6 +36,14 @@ class SocialAccountService
             $account->user()->associate($user);
             $account->save();
 
+            // Create the default schedule;
+            $schedule = Schedule::create([
+                'name'    => 'Master',
+                'default' => true,
+            ]);
+            $schedule->user()->associate($user);
+            $schedule->save();
+
             return $user;
         }
     }

@@ -18,8 +18,8 @@ export default {
       });
     },
     isDefault(schedule) {
-      var foundIndex = this.$store.state.schedule.schedules.findIndex(items => items.id == schedule.id);
-      return this.$store.state.schedule.schedules[foundIndex].default;
+      var foundIndex = this.$store.state.user.schedule.schedules.findIndex(items => items.id == schedule.id);
+      return this.$store.state.user.schedule.schedules[foundIndex].default;
     }
   }
 }

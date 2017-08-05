@@ -16,7 +16,7 @@ export default {
       this.$store.dispatch('addToMasterSchedule', event);
     },
     isScheduled(event) {
-      return this.$store.state.schedule.allEventIds.indexOf(event.id) != -1 ? true : false;
+      return this.$store.state.user.schedule.allEventIds.indexOf(event.id) != -1 ? true : false;
     }
   }
 }

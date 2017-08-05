@@ -12,7 +12,7 @@ export default {
   },
   computed: {
     scheduled() {
-      return this.$store.state.schedule.master;
+      return this.$store.state.user.schedule.master;
     }
   },
   mounted() {

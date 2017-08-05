@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     schedules () {
-      return this.$store.state.schedule.schedules;
+      return this.$store.state.user.schedule.schedules;
     }
   },
   mounted() {

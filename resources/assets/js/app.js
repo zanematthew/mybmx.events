@@ -20,6 +20,17 @@ window.Vue = require('vue');
 import VueRouter from 'vue-router';
 import router from './router';
 Vue.use(VueRouter);
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (_.isEmpty(window.laravel.user)) {
+      window.location.replace(`${window.location.origin}/login/`);
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 import Meta from 'vue-meta';
 Vue.use(Meta);

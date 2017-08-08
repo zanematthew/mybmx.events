@@ -63,6 +63,7 @@ const routes = [
     component: ScheduleRouterView,
     name: 'schedules',
     props: true,
+    meta: { requiresAuth: true },
     children: [
       {
         path: 'schedules',
@@ -75,7 +76,8 @@ const routes = [
     path: '/attending/',
     component: EventAttending,
     name: 'attending',
-    props: true
+    props: true,
+    meta: { requiresAuth: true }
   },
   {
     path: '*',

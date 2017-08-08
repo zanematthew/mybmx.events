@@ -9,7 +9,7 @@ const state = {
 
 const getters = {
   isLoggedIn: state => {
-    return state.profile.id.length;
+    return !_.isEmpty(window.laravel.user);
   }
 };
 

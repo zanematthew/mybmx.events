@@ -6,6 +6,7 @@
 @section('content')
 <div class="box">
     <center>Logo Here</center>
+    <p><a href="/redirect/facebook">Login with Facebook</a></p>
     <div class="main">
         <form class="form" role="form" method="POST" action="{{ route('login') }}">
             {{ csrf_field() }}

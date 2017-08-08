@@ -3,6 +3,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.laravel = { user: {} };
 
 /**
  * Various Vue Plugins.
@@ -72,6 +73,7 @@ import PrimaryNav from './components/PrimaryNav';
 import Clients from './components/passport/Clients';
 import AuthorizedClients from './components/passport/AuthorizedClients';
 import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
+import UserBar from './components/UserBar';
 
 import store from './store';
 
@@ -91,7 +93,8 @@ const app = new Vue({
     'primary-nav': PrimaryNav,
     'passport-clients': Clients,
     'passport-authorized-clients': AuthorizedClients,
-    'passport-personal-access-tokens': PersonalAccessTokens
+    'passport-personal-access-tokens': PersonalAccessTokens,
+    'user-bar': UserBar
   },
   created: function () {
     // https://github.com/vue-bulma/nprogress/issues/13#issuecomment-312778499

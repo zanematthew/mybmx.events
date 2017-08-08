@@ -13,6 +13,9 @@ export default {
   },
   methods: {
     schedule(event) {
+      if (_.isEmpty(window.laravel.user)) {
+        window.location.replace(`${window.location.origin}/login/`);
+      }
       this.$store.dispatch('addToMasterSchedule', event);
     },
     isScheduled(event) {

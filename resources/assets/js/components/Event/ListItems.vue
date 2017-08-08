@@ -38,7 +38,9 @@ export default {
   },
   props: ['events'],
   mounted() {
-    this.$store.dispatch('fetchAllScheduledEventIds');
+    if (!_.isEmpty(window.laravel.user)) {
+      this.$store.dispatch('fetchAllScheduledEventIds');
+    }
   }
 }
 </script>

@@ -3,6 +3,7 @@
 namespace App;
 
 use Laravel\Socialite\Contracts\Provider;
+use Illuminate\Support\Facades\Hash;
 
 class SocialAccountService
 {
@@ -27,9 +28,10 @@ class SocialAccountService
 
             if (!$user) {
                 $user = User::create([
-                    'email'    => $providerUser->getEmail(),
-                    'name'     => $providerUser->getName(),
-                    'password' => time()
+                    'email'          => $providerUser->getEmail(),
+                    'name'           => $providerUser->getName(),
+                    'password'       => Hash::make(time()),
+                    'remember_token' => true,
                 ]);
             }
 

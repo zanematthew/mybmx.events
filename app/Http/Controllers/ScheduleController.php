@@ -13,6 +13,7 @@ class ScheduleController extends Controller
     {
         return response()->json(Auth::user()
             ->schedules()
+            ->where('name', '!=', 'Master')
             ->orderBy('updated_at', 'desc')
             ->get()
         );

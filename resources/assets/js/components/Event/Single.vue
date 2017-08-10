@@ -1,6 +1,7 @@
 <template>
 <div id="event-single">
   <!-- Event Mini -->
+  <close></close>
   <div class="content row is-item">
     <div class="event-mini">
       <!--  All -->
@@ -77,6 +78,7 @@ import MyMixin from '../../mixin.js';
 import moment from 'moment';
 import VenueDetail from '../../components/partials/VenueDetail';
 import EventList from '../../components/partials/EventList';
+import Close from '../../components/Close';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue';
 
@@ -94,6 +96,7 @@ export default {
   components: {
     'venue-detail': VenueDetail,
     'event-list': EventList,
+    'close': Close
   },
   props: ['id', 'slug'],
   data() {

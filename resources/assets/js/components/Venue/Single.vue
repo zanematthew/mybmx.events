@@ -1,6 +1,7 @@
 <template>
 <div>
   <!-- Map -->
+  <close></close>
   <div class="content row">
     <gmap-map
       :options="defaultOptions"
@@ -54,11 +55,13 @@ Vue.use(VueGoogleMaps, {
 
 import VenueDetail from '../../components/partials/VenueDetail';
 import EventList from '../../components/partials/EventList';
+import Close from '../../components/Close';
 
 export default {
   components: {
     'venue-detail': VenueDetail,
     'event-list': EventList,
+    'close': Close
   },
   props: ['id', 'slug'],
   data() {

@@ -1,7 +1,7 @@
 <template>
-<div>
+<div class="venue">
   <!-- Map -->
-  <close></close>
+  <close class="row is-item grid is-100"></close>
   <div class="content row">
     <gmap-map
       :options="defaultOptions"
@@ -100,3 +100,12 @@ export default {
   }
 }
 </script>
+<style scoped>
+.close-container {
+  opacity: .75;
+  background: #fff;
+}
+.venue {
+  position: absolute;
+}
+</style>

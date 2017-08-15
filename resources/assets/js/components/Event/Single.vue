@@ -1,7 +1,7 @@
 <template>
 <div id="event-single">
   <!-- Event Mini -->
-  <close></close>
+  <close class="row is-item grid is-100"></close>
   <div class="content row is-item">
     <div class="event-mini">
       <!--  All -->
@@ -160,5 +160,13 @@ export default {
 @import "../../../sass/variables";
 .vue-map-container {
   border: 1px solid $light-gray;
+}
+.close-container {
+  opacity: .75;
+  background: #fff;
+}
+#event-single {
+  position: absolute;
+  top: 0;
 }
 </style>

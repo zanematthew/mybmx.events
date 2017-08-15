@@ -12,6 +12,10 @@ import VenueList from './components/Venue/List';
 import ScheduleRouterView from './components/Schedule/RouterView';
 import ScheduleList from './components/Schedule/List';
 
+import ActionMain from './components/ActionMain';
+import Share from './components/Share';
+import AddTo from './components/AddTo';
+
 const NotFoundComponent = { template: '<div>404</div>' };
 
 const routes = [
@@ -78,6 +82,20 @@ const routes = [
     name: 'attending',
     props: true,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/action/:id(\\d+)',
+    name: 'action-main',
+    component: ActionMain,
+    props: true,
+    children: [
+      {
+        path: 'share',
+        name: 'share',
+        component: Share,
+        props: true
+      }
+    ]
   },
   {
     path: '*',

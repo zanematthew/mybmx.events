@@ -1,24 +1,17 @@
 <template>
-  <div class="content">
-    <social-sharing :url="url" inline-template>
-      <div>
-        <network network="facebook" class="grid row is-item">
-          <icon name="facebook-square" class="align-icon fb"></icon> <a href="#">Facebook</a>
-        </network>
-        <network network="twitter" class="grid row is-item">
-          <icon name="twitter-square" class="align-icon twitter"></icon> <a href="#">Twitter</a>
-        </network>
-      </div>
-    </social-sharing>
-  </div>
+  <social-sharing :url="url" inline-template>
+    <div class="content">
+      <network network="facebook" class="grid row is-item link">
+        <icon name="facebook-square" class="align-icon fb"></icon> Facebook
+      </network>
+      <network network="twitter" class="grid row is-item link">
+        <icon name="twitter-square" class="align-icon twitter"></icon> Twitter
+      </network>
+    </div>
+  </social-sharing>
 </template>
 <script>
-import close from './../components/Close';
-
 export default {
-  components: {
-    close
-  },
   data() {
     return {
       id: this.$route.params.id,
@@ -37,7 +30,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style>
 .fb {
   color: #3b5998;
   background: #fff;

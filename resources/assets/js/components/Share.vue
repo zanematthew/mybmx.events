@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     url() {
-      return `${window.location.origin}/${this.id}/${this.item.slug}`;
+      return `${window.location.origin}/browse/events/${this.id}/${this.item.slug}`;
     }
   },
   mounted() {

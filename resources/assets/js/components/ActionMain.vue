@@ -1,16 +1,14 @@
 <template>
   <div class="content container">
-    <div class="row is-item" v-on:click="showMenu = !showMenu">
-      <close class="grid is-100"></close>
-    </div>
+    <close class="grid row is-item" v-on:beforeBack="beforeBack"></close>
     <div v-if="showMenu">
-      <router-link :to="{ name: 'share' }" v-on:click.native="isActive" class="grid is-100 row is-item">
+      <router-link :to="{ name: 'share' }" v-on:click.native="isActive" class="grid row is-item">
         <icon name="share-square-o"></icon> Share
       </router-link>
-      <router-link :to="{ name: 'event-single', params: { id: id } }" v-on:click.native="isActive" class="grid is-100 row is-item">
+      <router-link :to="{ name: 'event-single', params: { id: id } }" class="grid row is-item">
         <icon name="calendar"></icon> View Event...
       </router-link>
-      <router-link :to="{ name: 'venue-single', params: { id: event.venue.id } }" v-on:click.native="isActive" class="grid is-100 row is-item">
+      <router-link :to="{ name: 'venue-single', params: { id: event.venue.id } }" class="grid row is-item" v-if="event.venue.id">
         <icon name="map-o"></icon> View Venue...
       </router-link>
     </div>
@@ -39,6 +37,9 @@ export default {
   methods: {
     isActive() {
       this.showMenu = !this.showMenu;
+    },
+    beforeBack() {
+      this.isActive();
     }
   }
 }

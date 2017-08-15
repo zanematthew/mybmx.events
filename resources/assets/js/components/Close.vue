@@ -8,6 +8,7 @@ import router from '../router';
 export default {
   methods: {
     back() {
+      this.$emit('beforeBack');
       if (this.$route.name == 'venue-single') {
         router.push({ name: 'venues' });
       } else if (this.$route.name == 'event-single') {

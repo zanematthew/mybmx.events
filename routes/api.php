@@ -34,6 +34,7 @@ Route::group([
     Route::post('/schedule/{id}/toggle-default/', 'ScheduleController@toggleDefault')->name('user.schedule.toggle.default');
 
     Route::post('/schedule/master/attend/{id}/', 'ScheduleController@masterAttend')->name('user.schedule.master.attend');
+    Route::post('/schedule/toggle/{eventId}/to/{scheudleId}', 'ScheduleController@toggleEventTo')->name('user.schedule.event.toggle');
 
     Route::delete('/schedule/{id}/delete/', 'ScheduleController@delete')->name('user.schedule.delete');
 });

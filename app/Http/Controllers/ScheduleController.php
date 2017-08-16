@@ -75,6 +75,16 @@ class ScheduleController extends Controller
         return response()->json($schedule);
     }
 
+    public function toggleEventTo(Request $request) :\Illuminate\Http\JsonResponse
+    {
+        return response()->json(Auth::user()
+            ->schedules()
+            ->findOrFail($request->scheduleId)
+            ->events()
+            ->toggle($request->eventId)
+        );
+    }
+
     public function masterAttend(Request $request): \Illuminate\Http\JsonResponse
     {
         return response()->json(Auth::user()

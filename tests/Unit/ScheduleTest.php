@@ -274,4 +274,36 @@ class ScheduleTest extends TestCase
         ]));
         $response->assertStatus(200);
     }
+
+    public function testToggleEventTo()
+    {
+        // Create user
+        $user = factory(\App\User::class)->create();
+        Passport::actingAs($user);
+
+        // Create schedule
+        $schedule = factory(\App\Schedule::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $event = factory(\App\Event::class)->create();
+
+        // Add one event to schedule
+        $response = $this->json('POST', route('user.schedule.event.toggle', [
+            'eventId'    => $event->id,
+            'scheduleId' => $schedule->id,
+        ]), [
+            'eventId'    => $event->id,
+            'scheduleId' => $schedule->id,
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'attached' => [
+                    0 => $event->id
+                ],
+                'detached' => []
+            ]);
+    }
 }

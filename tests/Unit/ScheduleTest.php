@@ -141,11 +141,8 @@ class ScheduleTest extends TestCase
             ->assertJsonStructure([
                 'id',
                 'name',
-                'created_at' => [
-                    'date',
-                    'timezone_type',
-                    'timezone',
-                ]
+                'created_at',
+                'updated_at',
         ]);
     }
 

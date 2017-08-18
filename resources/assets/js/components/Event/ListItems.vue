@@ -1,17 +1,15 @@
 <template>
-<div>
-  <div class="content row is-item" v-for="event in events">
+<div class="content">
+  <div class="row is-item" v-for="event in events">
     <schedule-add-to-master class="grid is-10" :event="event"></schedule-add-to-master>
     <div class="grid is-90">
-      <div class="title">
-        <router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug } }">
-          {{ event.title }}
-        </router-link>
-        <router-link :to="{ name: 'action-main', params: { id: event.id, landingUrl: landingUrl } }" class="align-right">
-          <icon name="ellipsis-h"></icon>
-        </router-link>
-      </div>
-      <div class="body">
+      <router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug } }" class="title">
+        {{ event.title }}
+      </router-link>
+      <router-link :to="{ name: 'action-main', params: { id: event.id, landingUrl: landingUrl } }" class="align-right">
+        <icon name="ellipsis-h"></icon>
+      </router-link>
+      <div>
         {{ event.venue.name }} &bull; {{ event.venue.city.name }}<span v-if="event.venue.city.states">, {{ event.venue.city.states[0].abbr }}</span>
       </div>
     </div>

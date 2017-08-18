@@ -24,7 +24,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .star {
   float: left;
   margin: 10px;

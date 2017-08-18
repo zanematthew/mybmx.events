@@ -51,4 +51,8 @@ export default {
   width: 100%;
   background: rgba(255, 255, 255, 0.75);
 }
+.align-icon {
+  margin-bottom: -2px;
+  margin-right: 10px;
+}
 </style>

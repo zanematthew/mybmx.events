@@ -39,8 +39,4 @@ export default {
   color: #1da1f2;
   background: #fff;
 }
-.align-icon {
-  margin-bottom: -2px;
-  margin-right: 10px;
-}
 </style>

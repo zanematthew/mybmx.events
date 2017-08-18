@@ -2,15 +2,20 @@
   <div class="content container">
     <close class="grid row is-item" v-on:beforeBack="beforeBack"></close>
     <div v-if="showMenu">
-      <router-link :to="{ name: 'share' }" v-on:click.native="isActive" class="grid row is-item">
-        <icon name="share-square-o"></icon> Share
-      </router-link>
-      <router-link :to="{ name: 'event-single', params: { id: id } }" class="grid row is-item">
-        <icon name="calendar"></icon> View Event...
-      </router-link>
-      <router-link :to="{ name: 'venue-single', params: { id: event.venue.id } }" class="grid row is-item" v-if="event.venue.id">
-        <icon name="map-o"></icon> View Venue...
-      </router-link>
+      <div v-if="event.venue.id">
+        <router-link :to="{ name: 'share' }" v-on:click.native="hideMenu" class="grid row is-item">
+          <icon name="share-square-o" class="align-icon"></icon> Share
+        </router-link>
+        <router-link :to="{ name: 'event-single', params: { id: id } }" class="grid row is-item">
+          <icon name="calendar" class="align-icon"></icon> View Event...
+        </router-link>
+        <router-link :to="{ name: 'venue-single', params: { id: event.venue.id } }" class="grid row is-item" v-if="event.venue.id">
+          <icon name="map-o" class="align-icon"></icon> View Venue...
+        </router-link>
+        <router-link :to="{ name: 'add-to', params: { id: event.venue.id } }" v-on:click.native="hideMenu" class="grid row is-item">
+          <icon name="list-alt" class="align-icon"></icon> Add to Schedule
+        </router-link>
+      </div>
     </div>
     <router-view class="main"></router-view>
   </div>
@@ -35,11 +40,11 @@ export default {
     });
   },
   methods: {
-    isActive() {
+    hideMenu() {
       this.showMenu = !this.showMenu;
     },
     beforeBack() {
-      this.isActive();
+      this.hideMenu();
     }
   }
 }

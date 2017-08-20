@@ -1,37 +1,32 @@
 <template>
-<div id="event-single">
-  <!-- Event Mini -->
+<div id="event-single" class="content">
   <close class="row is-item grid is-100"></close>
-  <div class="content row is-item">
-    <div class="event-mini">
-      <!--  All -->
-      <div class="grid is-40 is-mobile-100">
-        <div class="title">
-          <router-link :to="{ name: 'event-single', params: { id: event.id, slug: event.slug } }">{{ event.title }}</router-link>
-        </div>
-        <div> <strong>{{ fromNow(event.start_date) }}</strong>, {{ startEndDate(event.start_date, event.end_date) }}</div>
-        <div class="body">
-          <div>
-            <strong>{{ event.type_name }}</strong> &bull; <strong>{{ event.venue.name }}</strong> &bull; {{ event.venue.city.name }}<span v-if="event.venue.city.states">, {{ event.venue.city.states[0].abbr }}</span>
-          </div>
-        </div>
-      </div>
-      <!-- Locals -->
-      <div class="grid is-30 is-mobile-100" v-if="event.fee">
-        <strong>Fee</strong> {{ formatCurrency(event.fee) }}<br />
-        <strong>Registration Start</strong> {{ formatTime(event.start_date + ' ' + event.registration_start_time) }}<br />
-        <strong>Registration End</strong> {{ formatTime(event.start_date + ' ' + event.registration_end_time) }}<br />
-      </div>
-      <!-- Nationals -->
-      <div class="grid is-30 is-mobile-100" v-if="event.event_schedule_uri">
-        <a :href="event.event_schedule_uri" target="_blank">Schedule (PDF)</a>,
-        <a :href="event.flyer_uri" target="_blank">Flier (PDF)</a>
-      </div>
+  <div class="row is-item">
+
+    <!-- Component: Event Action Bar -->
+    <event-action-bar :event="event"></event-action-bar>
+
+  </div>
+
+  <!-- Event Detail -->
+  <div class="row is-item" v-if="event.fee">
+    <div class="grid is-100">
+      <strong>Fee</strong> {{ formatCurrency(event.fee) }}<br />
+      <strong>Registration Start</strong> {{ formatTime(event.start_date + ' ' + event.registration_start_time) }}<br />
+      <strong>Registration End</strong> {{ formatTime(event.start_date + ' ' + event.registration_end_time) }}<br />
     </div>
   </div>
 
+  <div class="row is-item" v-if="event.event_schedule_uri">
+    <div class="grid is-100">
+      <a :href="event.event_schedule_uri" target="_blank">Schedule (PDF)</a>,
+      <a :href="event.flyer_uri" target="_blank">Flier (PDF)</a>
+    </div>
+  </div>
+  <!-- Event detail -->
+
   <!-- Map -->
-  <div class="content row">
+  <div class="row">
     <gmap-map
       :options="defaultOptions"
       :draggable="false"
@@ -48,27 +43,11 @@
     </gmap-map>
   </div>
 
-<!-- Venue Detail -->
-<div v-if="event.venue.city.states">
-  <venue-detail
-    :id="event.venue.id"
-    :name="event.venue.name"
-    :slug="event.venue.slug"
-    :image="event.venue.image_uri"
-    :description="event.venue.description"
-    :street_address="event.venue.street_address"
-    :city="event.venue.city.name"
-    :state_abbr="event.venue.city.states[0].abbr"
-    :zip_code="event.venue.zip_code"
-    :phone_number="event.venue.phone_number"
-    :email="event.venue.email"
-    :primary_contact="event.venue.primary_contact"
-    :website="event.venue.website"
-  ></venue-detail>
-</div>
+  <!-- Venue Detail -->
+  <venue-detail :venue="event.venue"></venue-detail>
 
   <!-- Upcoming Events this month -->
-  <event-list :title="'Related Events'" :data="relatedEvents.data"></event-list>
+  <event-list :title="'Events at this Venue'" :data="relatedEvents.data"></event-list>
 
 </div>
 </template>
@@ -78,6 +57,8 @@ import MyMixin from '../../mixin.js';
 import moment from 'moment';
 import VenueDetail from '../../components/partials/VenueDetail';
 import EventList from '../../components/partials/EventList';
+import EventActionBar from '../../components/Event/ActionBar';
+
 import Close from '../../components/Close';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue';
@@ -96,7 +77,8 @@ export default {
   components: {
     'venue-detail': VenueDetail,
     'event-list': EventList,
-    'close': Close
+    'close': Close,
+    'event-action-bar': EventActionBar
   },
   props: ['id', 'slug'],
   data() {
@@ -109,7 +91,8 @@ export default {
         mapTypeControl: false,
       },
       relatedEvents: [],
-      pageTitle: '...'
+      pageTitle: '...',
+      landingUrl: `${window.location.origin}${window.location.pathname}${window.location.search}`
     }
   },
   metaInfo() {
@@ -168,5 +151,8 @@ export default {
 #event-single {
   position: absolute;
   top: 0;
+}
+.title {
+  margin-bottom: 10px;
 }
 </style>

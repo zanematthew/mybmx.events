@@ -1,10 +1,10 @@
 <template>
   <social-sharing :url="url" inline-template>
     <div class="content">
-      <network network="facebook" class="grid row is-item link">
+      <network network="facebook" class="grid is-100 row is-item link">
         <icon name="facebook-square" class="align-icon fb"></icon> Facebook
       </network>
-      <network network="twitter" class="grid row is-item link">
+      <network network="twitter" class="grid is-100 row is-item link">
         <icon name="twitter-square" class="align-icon twitter"></icon> Twitter
       </network>
     </div>

@@ -3,16 +3,16 @@
     <close class="grid row is-item" v-on:beforeBack="beforeBack"></close>
     <div v-if="showMenu">
       <div v-if="event.venue.id">
-        <router-link :to="{ name: 'share' }" v-on:click.native="hideMenu" class="grid row is-item">
+        <router-link :to="{ name: 'share' }" v-on:click.native="hideMenu" class="grid is-100 row is-item">
           <icon name="share-square-o" class="align-icon"></icon> Share
         </router-link>
-        <router-link :to="{ name: 'event-single', params: { id: id } }" class="grid row is-item">
+        <router-link :to="{ name: 'event-single', params: { id: id } }" class="grid is-100 row is-item">
           <icon name="calendar" class="align-icon"></icon> View Event...
         </router-link>
-        <router-link :to="{ name: 'venue-single', params: { id: event.venue.id } }" class="grid row is-item" v-if="event.venue.id">
+        <router-link :to="{ name: 'venue-single', params: { id: event.venue.id } }" class="grid is-100 row is-item" v-if="event.venue.id">
           <icon name="map-o" class="align-icon"></icon> View Venue...
         </router-link>
-        <router-link :to="{ name: 'add-to', params: { id: event.venue.id } }" v-on:click.native="hideMenu" class="grid row is-item">
+        <router-link :to="{ name: 'add-to', params: { id: event.venue.id } }" v-on:click.native="hideMenu" class="grid is-100 row is-item">
           <icon name="list-alt" class="align-icon"></icon> Add to Schedule
         </router-link>
       </div>
@@ -55,9 +55,5 @@ export default {
   top: 0;
   width: 100%;
   background: rgba(255, 255, 255, 0.75);
-}
-.align-icon {
-  margin-bottom: -2px;
-  margin-right: 10px;
 }
 </style>

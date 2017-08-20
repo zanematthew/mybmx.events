@@ -1,7 +1,14 @@
 <template>
 <div class="venue">
-  <!-- Map -->
   <close class="row is-item grid is-100"></close>
+
+  <div class="top-helper row">
+    <router-link v-if="venue.id" :to="{ name: 'action-main', params: { id: venue.id, landingUrl: landingUrl } }" class="align-right menu-thingy">
+      <icon name="ellipsis-h"></icon>
+    </router-link>
+    <venue-detail :venue="venue"></venue-detail>
+  </div>
+
   <div class="content row">
     <gmap-map
       :options="defaultOptions"
@@ -18,23 +25,7 @@
       ></gmap-marker>
     </gmap-map>
   </div>
-  <div class="row content">
-    <venue-detail
-    :id="venue.id"
-    :name="venue.name"
-    :slug="venue.slug"
-    :image="venue.image_uri"
-    :description="venue.description"
-    :street_address="venue.street_address"
-    :city="venue.city.name"
-    :state_abbr="venue.city.states[0].abbr"
-    :zip_code="venue.zip_code"
-    :phone_number="venue.phone_number"
-    :email="venue.email"
-    :primary_contact="venue.primary_contact"
-    :website="venue.website"
-    ></venue-detail>
-  </div>
+
   <event-list :title="venue.name" :data="venue.events"></event-list>
 </div>
 </template>
@@ -73,7 +64,8 @@ export default {
         mapTypeControl: false,
         scrollwheel: false
       },
-      pageTitle: '...'
+      pageTitle: '...',
+      landingUrl: `${window.location.origin}${window.location.pathname}${window.location.search}`
     }
   },
   metaInfo() {
@@ -100,12 +92,24 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .close-container {
   opacity: .75;
   background: #fff;
 }
 .venue {
   position: absolute;
+}
+.title {
+  margin-bottom: 10px;
+}
+.top-helper {
+  position: relative;
+  .menu-thingy {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px;
+  }
 }
 </style>

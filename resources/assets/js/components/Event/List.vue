@@ -1,25 +1,27 @@
 <template>
-<!-- EventList -->
 <div>
   <state-select :type="this.$route.name"></state-select>
   <secondary-nav :items="items"></secondary-nav>
-  <list-items :events="events.data"></list-items>
+  <div class="content">
+    <div class="row is-item" v-for="event in events.data">
+      <action-bar :event="event"></action-bar>
+    </div>
+  </div>
   <pager :data="events" :name="'when'"></pager>
 </div>
-<!--  EventList -->
 </template>
 <script>
 import Event from '../../models/Event';
 import moment from 'moment';
 import StateSelect from '../../components/StateSelect';
-import ListItems from '../../components/Event/ListItems';
 import Pager from '../../components/partials/Pager';
+import ActionBar from '../../components/Event/ActionBar';
 
 export default {
   components: {
     'state-select': StateSelect,
-    'list-items': ListItems,
-    'pager': Pager
+    'pager': Pager,
+    'action-bar': ActionBar
   },
   props: ['when'],
   data() {
@@ -52,6 +54,9 @@ export default {
     }
   },
   mounted() {
+    if (!_.isEmpty(window.laravel.user)) {
+      this.$store.dispatch('fetchAllScheduledEventIds');
+    }
     Event.events(events => this.events = events, this.$route.params.when, this.$route.query);
   },
   watch: {

@@ -1,14 +1,16 @@
 <template>
-  <div>
-    <list-items :events="scheduled.events"></list-items>
+  <div class="content">
+    <div class="row is-item" v-for="event in scheduled.events">
+      <action-bar :event="event"></action-bar>
+    </div>
   </div>
 </template>
 <script>
-import ListItems from '../../components/Event/ListItems';
+import ActionBar from '../../components/Event/ActionBar';
 
 export default {
   components: {
-    'list-items': ListItems
+    'action-bar': ActionBar
   },
   computed: {
     scheduled() {

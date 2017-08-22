@@ -1,9 +1,7 @@
 <template>
 <div id="event-single" class="content">
   <close class="row is-item grid is-100"></close>
-  <div class="row is-item">
-    <action-bar :event="event"></action-bar>
-  </div>
+  <action-bar :event="event" class="row is-item"></action-bar>
 
   <!-- Event Detail -->
   <div class="row is-item" v-if="event.fee">
@@ -41,7 +39,7 @@
   </div>
 
   <!-- Venue Detail -->
-  <venue-detail :venue="event.venue"></venue-detail>
+  <venue-detail :venue="event.venue" class="row is-item grid is-100"></venue-detail>
 
   <!-- Upcoming Events this month -->
   <div class="row is-item grid is-100">
@@ -57,7 +55,7 @@
 <script>
 import MyMixin from '../../mixin.js';
 import moment from 'moment';
-import VenueDetail from '../../components/partials/VenueDetail';
+import contact from '../../components/Venue/Contact';
 import EventActionBar from '../../components/Event/ActionBar';
 
 import Close from '../../components/Close';
@@ -76,7 +74,7 @@ var numeral = require('numeral');
 export default {
   mixins: [MyMixin],
   components: {
-    'venue-detail': VenueDetail,
+    contact,
     'close': Close,
     'action-bar': EventActionBar
   },

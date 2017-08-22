@@ -1,6 +1,8 @@
 <template>
 <div>
-  <schedule-add></schedule-add>
+  <div class="row is-item grid is-100">
+    <schedule-add></schedule-add>
+  </div>
   <div v-for="schedule in schedules" class="content row is-item form">
     <div class="grid is-80">
       <schedule-make-default :schedule="schedule"></schedule-make-default>

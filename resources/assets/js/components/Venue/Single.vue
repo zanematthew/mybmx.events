@@ -2,11 +2,9 @@
 <div class="venue content">
   <close class="row is-item grid is-100"></close>
 
-  <div class="top-helper row">
-    <router-link v-if="venue.id" :to="{ name: 'action-main', params: { id: venue.id, landingUrl: landingUrl } }" class="align-right menu-thingy">
-      <icon name="ellipsis-h"></icon>
-    </router-link>
-    <venue-detail :venue="venue"></venue-detail>
+  <div class="top-helper">
+    <venue-action-bar :venue="venue" class="grid is-100 row is-item"></venue-action-bar>
+    <venue-detail :venue="venue" class="grid is-100 row is-item"></venue-detail>
   </div>
 
   <div class="content row">
@@ -49,15 +47,17 @@ Vue.use(VueGoogleMaps, {
   }
 });
 
-import VenueDetail from '../../components/partials/VenueDetail';
+import contact from '../../components/Venue/Contact';
 import Close from '../../components/Close';
 import ActionBar from '../../components/Event/ActionBar';
+import VenueActionBar from '../../components/Venue/ActionBar';
 
 export default {
   components: {
-    'venue-detail': VenueDetail,
+    contact,
     'close': Close,
     'action-bar': ActionBar,
+    'venue-action-bar': VenueActionBar,
   },
   props: ['id', 'slug'],
   data() {

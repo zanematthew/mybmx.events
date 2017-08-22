@@ -32,12 +32,12 @@ export default {
   },
   computed: {
     landingUrl() {
-      return `${window.location.origin}${window.location.pathname}${window.location.search}`;
+      return this.getLandingUrl();
     }
   },
   watch: {
     '$route' (to, from) {
-      this.landingUrl = `${window.location.origin}${window.location.pathname}${window.location.search}`;
+      this.landingUrl = this.getLandingUrl();
     }
   }
 }

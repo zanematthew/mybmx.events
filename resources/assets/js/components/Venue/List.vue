@@ -1,37 +1,22 @@
 <template>
 <div>
-<!-- VenueList -->
   <state-select :type="this.$route.name"></state-select>
-  <div class="content is-item row" v-for="venue in venues.data">
-    <div class="venue-mini">
-      <div class="grid is-30">
-        <div class="image">
-          <img :src="venue.image_uri">
-        </div>
-      </div>
-      <div class="grid is-70">
-        <div class="title">
-          <router-link :to="{ name: 'venue-single', params: { id: venue.id, slug: venue.slug } }">{{ venue.name }}</router-link>
-        </div>
-          <div class="body">
-            <div>{{ venue.street_address }}<br /><span v-if="venue.city.states">{{ venue.city.name }}, {{ venue.city.states[0].abbr }}</span></div>
-        </div>
-        <div><strong>{{ eventCount(venue.events) }}</strong> {{ eventCountText(venue.events) }}</div>
-      </div>
-    </div>
+  <div class="content is-item row grid is-100" v-for="venue in venues.data">
+    <venue-action-bar :venue="venue"></venue-action-bar>
   </div>
   <pager :data="venues" :name="'venues'" :meta="{beforePageTitle: 'Venues'}"></pager>
-  <!-- VenueList -->
 </div>
 </template>
 <script>
 import Pager from '../../components/partials/Pager';
 import StateSelect from '../../components/StateSelect';
+import VenueActionBar from '../../components/Venue/ActionBar';
 
 export default {
   components: {
     'pager': Pager,
-    'state-select': StateSelect
+    'state-select': StateSelect,
+    'venue-action-bar': VenueActionBar
   },
   props: ['state'],
   data() {
@@ -43,12 +28,6 @@ export default {
     this.request();
   },
   methods: {
-    eventCount(events) {
-      return events.length;
-    },
-    eventCountText(events) {
-      return events.length > 1 ? 'Events' : 'Event';
-    },
     request() {
       axios.get('/api/venues/', {
         params: this.$route.query

@@ -1,14 +1,8 @@
 <template>
-  <div class="content row is-item">
-    <form v-on:submit.stop.prevent="addSchedule" class="form">
-      <div class="grid is-80">
-        <input type="text" placeholder="Schedule Name..." v-model="name" required />
-      </div>
-      <div class="grid is-20">
-        <input type="submit" value="Add Schedule" v-bind:disabled="name == ''" />
-      </div>
-    </form>
-  </div>
+  <form v-on:submit.stop.prevent="addSchedule" class="form">
+    <input type="text" placeholder="Schedule Name..." v-model="name" required class="name" />
+    <input type="submit" value="Add Schedule" v-bind:disabled="name == ''" class="inline-button" />
+  </form>
 </template>
 <script>
 export default {
@@ -31,3 +25,14 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.form {
+  .name {
+    width: 65%;
+    margin-right: 10px;
+  }
+  .inline-button {
+    width: 30%;
+  }
+}
+</style>

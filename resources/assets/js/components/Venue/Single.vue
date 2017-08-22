@@ -1,5 +1,5 @@
 <template>
-<div class="venue">
+<div class="venue content">
   <close class="row is-item grid is-100"></close>
 
   <div class="top-helper row">
@@ -26,7 +26,12 @@
     </gmap-map>
   </div>
 
-  <event-list :title="venue.name" :data="venue.events"></event-list>
+  <div class="row is-item grid is-100">
+    <h2 class="title">{{ venue.name }}</h2>
+  </div>
+  <div class="row is-item" v-for="event in venue.events">
+    <action-bar :event="event"></action-bar>
+  </div>
 </div>
 </template>
 <script>
@@ -45,14 +50,14 @@ Vue.use(VueGoogleMaps, {
 });
 
 import VenueDetail from '../../components/partials/VenueDetail';
-import EventList from '../../components/partials/EventList';
 import Close from '../../components/Close';
+import ActionBar from '../../components/Event/ActionBar';
 
 export default {
   components: {
     'venue-detail': VenueDetail,
-    'event-list': EventList,
-    'close': Close
+    'close': Close,
+    'action-bar': ActionBar,
   },
   props: ['id', 'slug'],
   data() {

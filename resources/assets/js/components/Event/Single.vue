@@ -2,10 +2,7 @@
 <div id="event-single" class="content">
   <close class="row is-item grid is-100"></close>
   <div class="row is-item">
-
-    <!-- Component: Event Action Bar -->
-    <event-action-bar :event="event"></event-action-bar>
-
+    <action-bar :event="event"></action-bar>
   </div>
 
   <!-- Event Detail -->
@@ -47,7 +44,12 @@
   <venue-detail :venue="event.venue"></venue-detail>
 
   <!-- Upcoming Events this month -->
-  <event-list :title="'Events at this Venue'" :data="relatedEvents.data"></event-list>
+  <div class="row is-item grid is-100">
+    <h2 class="title">Events at this Venue</h2>
+  </div>
+  <div class="row is-item" v-for="event in relatedEvents.data">
+    <action-bar :event="event"></action-bar>
+  </div>
 
 </div>
 </template>
@@ -56,7 +58,6 @@
 import MyMixin from '../../mixin.js';
 import moment from 'moment';
 import VenueDetail from '../../components/partials/VenueDetail';
-import EventList from '../../components/partials/EventList';
 import EventActionBar from '../../components/Event/ActionBar';
 
 import Close from '../../components/Close';
@@ -76,9 +77,8 @@ export default {
   mixins: [MyMixin],
   components: {
     'venue-detail': VenueDetail,
-    'event-list': EventList,
     'close': Close,
-    'event-action-bar': EventActionBar
+    'action-bar': EventActionBar
   },
   props: ['id', 'slug'],
   data() {

@@ -26,9 +26,6 @@ export default {
       if (typeof this.$route.query.states != 'undefined') {
         return { states: this.$route.query.states };
       }
-    },
-    getLandingUrl() {
-      return `${window.location.origin}${window.location.pathname}${window.location.search}`;
     }
   }
 };

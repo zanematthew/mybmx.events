@@ -1,6 +1,6 @@
 <template>
 <div>
-  <router-link v-if="venue.id" :to="{ name: 'action-main', params: { id: venue.id, landingUrl: landingUrl } }" class="align-right menu-thingy">
+  <router-link v-if="venue.id" :to="{ name: 'action-main', params: { id: venue.id } }" class="align-right menu-thingy">
     <icon name="ellipsis-h"></icon>
   </router-link>
   <div class="grid is-30" v-if="venue.image_uri">
@@ -32,16 +32,6 @@ export default {
   methods: {
     eventCount(events) {
       return events.length;
-    },
-  },
-  computed: {
-    landingUrl() {
-      return this.getLandingUrl();
-    }
-  },
-  watch: {
-    '$route' (to, from) {
-      this.landingUrl = this.getLandingUrl();
     }
   }
 }

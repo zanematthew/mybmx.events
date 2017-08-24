@@ -69,8 +69,6 @@ export default {
         mapTypeControl: false,
         scrollwheel: false
       },
-      pageTitle: '...',
-      landingUrl: `${window.location.origin}${window.location.pathname}${window.location.search}`
     }
   },
   metaInfo() {

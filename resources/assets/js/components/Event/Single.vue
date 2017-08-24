@@ -89,8 +89,7 @@ export default {
         mapTypeControl: false,
       },
       relatedEvents: [],
-      pageTitle: '...',
-      landingUrl: `${window.location.origin}${window.location.pathname}${window.location.search}`
+      pageTitle: '...'
     }
   },
   metaInfo() {

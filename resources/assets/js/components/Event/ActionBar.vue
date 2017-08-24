@@ -3,7 +3,7 @@
     <schedule-add-to-master class="grid is-20 align-center" :event="event"></schedule-add-to-master>
     <div class="grid is-80">
       <router-link v-if="event.id" :to="{ name: 'event-single', params: { id: event.id, slug: event.slug } }" class="title">{{ event.title }}</router-link>
-      <router-link v-if="landingUrl" :to="{ name: 'action-main', params: { id: event.id, landingUrl: landingUrl } }" class="align-right">
+      <router-link :to="{ name: 'action-main', params: { id: event.id } }" class="align-right">
         <icon name="ellipsis-h"></icon>
       </router-link>
       <div>
@@ -29,16 +29,6 @@ export default {
   },
   components: {
     'schedule-add-to-master': ScheduleAddToMaster
-  },
-  computed: {
-    landingUrl() {
-      return this.getLandingUrl();
-    }
-  },
-  watch: {
-    '$route' (to, from) {
-      this.landingUrl = this.getLandingUrl();
-    }
   }
 }
 </script>

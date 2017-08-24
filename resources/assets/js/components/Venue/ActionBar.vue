@@ -15,7 +15,7 @@
       <span v-if="venue.city.states[0]" itemprop="addressRegion">{{ venue.city.states[0].abbr }}</span> <span>{{ venue.zip_code }}</span>
     </address>
   </div>
-  <div><strong>{{ eventCount(venue.events) }}</strong> {{ eventCountText(venue.events) }}</div>
+  <div><strong>{{ eventCount(venue.events) }}</strong> Events</div>
 </div>
 </template>
 <script>
@@ -33,9 +33,6 @@ export default {
     eventCount(events) {
       return events.length;
     },
-    eventCountText(events) {
-      return events.length > 1 ? 'Events' : 'Event';
-    }
   },
   computed: {
     landingUrl() {

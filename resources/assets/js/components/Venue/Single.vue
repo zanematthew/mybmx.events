@@ -48,14 +48,14 @@ Vue.use(VueGoogleMaps, {
 });
 
 import contact from '../../components/Venue/Contact';
-import Close from '../../components/Close';
+import close from '../../components/Close';
 import ActionBar from '../../components/Event/ActionBar';
 import VenueActionBar from '../../components/Venue/ActionBar';
 
 export default {
   components: {
     contact,
-    'close': Close,
+    close,
     'action-bar': ActionBar,
     'venue-action-bar': VenueActionBar,
   },

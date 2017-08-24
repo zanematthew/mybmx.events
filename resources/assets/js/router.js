@@ -84,7 +84,7 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/action/:id(\\d+)',
+    path: '/action/:id(\\d+)/',
     name: 'action-main',
     component: ActionMain,
     props: true,

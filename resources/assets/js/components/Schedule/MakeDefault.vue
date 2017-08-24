@@ -24,13 +24,10 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style scoped>
 .star {
   float: left;
   margin: 10px;
   color: #ffd800;
-}
-.main {
-  float: left;
 }
 </style>

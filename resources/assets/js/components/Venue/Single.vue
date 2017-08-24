@@ -4,7 +4,7 @@
 
   <div class="top-helper">
     <venue-action-bar :venue="venue" class="grid is-100 row is-item"></venue-action-bar>
-    <venue-detail :venue="venue" class="grid is-100 row is-item"></venue-detail>
+    <contact :venue="venue" class="grid is-100 row is-item"></contact>
   </div>
 
   <div class="content row">

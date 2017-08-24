@@ -39,7 +39,7 @@
   </div>
 
   <!-- Venue Detail -->
-  <venue-detail :venue="event.venue" class="row is-item grid is-100"></venue-detail>
+  <contact :venue="event.venue" class="row is-item grid is-100"></contact>
 
   <!-- Upcoming Events this month -->
   <div class="row is-item grid is-100">

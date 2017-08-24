@@ -54,9 +54,6 @@ export default {
     }
   },
   mounted() {
-    if (!_.isEmpty(window.laravel.user)) {
-      this.$store.dispatch('fetchAllScheduledEventIds');
-    }
     Event.events(events => this.events = events, this.$route.params.when, this.$route.query);
   },
   watch: {

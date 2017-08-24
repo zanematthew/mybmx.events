@@ -4,12 +4,25 @@ import User from '../../models/User';
 import * as types from '../mutation-types';
 
 const state = {
-  profile: { id: '', name: '' }
+  profile: { id: '', name: '' },
+  name: 'some name'
 };
 
 const getters = {
   isLoggedIn: state => {
     return !_.isEmpty(window.laravel.user);
+  },
+  name: state => {
+    return state.name;
+  },
+  masterSchedule: state => {
+    return state.schedule.master;
+  },
+  schedules: state => {
+    return state.schedule.schedules;
+  },
+  allEventIds: state => {
+    return state.schedule.allEventIds;
   }
 };
 
@@ -26,8 +39,6 @@ const actions = {
 
 const mutations = {
   [types.GET_PROFILE] (state, payload) {
-    // Map fields as needed
-    console.log(payload);
     state.profile = payload;
   }
 };

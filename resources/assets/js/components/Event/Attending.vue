@@ -1,11 +1,12 @@
 <template>
   <div class="content">
-    <div class="row is-item" v-for="event in scheduled.events">
+    <div class="row is-item" v-for="event in masterSchedule.events">
       <action-bar :event="event"></action-bar>
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import ActionBar from '../../components/Event/ActionBar';
 
 export default {
@@ -13,12 +14,9 @@ export default {
     'action-bar': ActionBar
   },
   computed: {
-    scheduled() {
-      return this.$store.state.user.schedule.master;
-    }
-  },
-  mounted() {
-    this.$store.dispatch('fetchAllScheduledEvents');
+    ...mapGetters([
+      'masterSchedule'
+    ])
   }
 }
 </script>

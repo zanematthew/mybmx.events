@@ -4,12 +4,19 @@
 </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     schedule: {
       type: Object,
       required: true
     }
+  },
+  computed: {
+    ...mapGetters([
+      'schedules'
+    ])
   },
   methods: {
     makeDefault(schedule) {
@@ -18,8 +25,8 @@ export default {
       });
     },
     isDefault(schedule) {
-      var foundIndex = this.$store.state.user.schedule.schedules.findIndex(items => items.id == schedule.id);
-      return this.$store.state.user.schedule.schedules[foundIndex].default;
+      var foundIndex = this.schedules.findIndex(items => items.id == schedule.id);
+      return this.schedules[foundIndex].default;
     }
   }
 }

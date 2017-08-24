@@ -76,7 +76,7 @@ import PrimaryNav from './components/PrimaryNav';
 import Clients from './components/passport/Clients';
 import AuthorizedClients from './components/passport/AuthorizedClients';
 import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
-import UserBar from './components/UserBar';
+import user from './components/UserBar';
 
 import store from './store';
 
@@ -97,7 +97,7 @@ const app = new Vue({
     'passport-clients': Clients,
     'passport-authorized-clients': AuthorizedClients,
     'passport-personal-access-tokens': PersonalAccessTokens,
-    'user-bar': UserBar
+    user
   },
   created: function () {
     // https://github.com/vue-bulma/nprogress/issues/13#issuecomment-312778499

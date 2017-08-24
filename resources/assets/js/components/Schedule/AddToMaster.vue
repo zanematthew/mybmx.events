@@ -4,12 +4,19 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     event: {
       type: Object,
       required: true
     },
+  },
+  computed: {
+    ...mapGetters([
+      'allEventIds'
+    ])
   },
   methods: {
     schedule(event) {
@@ -19,7 +26,7 @@ export default {
       this.$store.dispatch('addToMasterSchedule', event);
     },
     isScheduled(event) {
-      return this.$store.state.user.schedule.allEventIds.indexOf(event.id) != -1 ? true : false;
+      return this.allEventIds.indexOf(event.id) != -1 ? true : false;
     }
   }
 }

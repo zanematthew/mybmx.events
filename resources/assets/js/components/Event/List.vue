@@ -1,50 +1,30 @@
 <template>
 <div>
-  <state-select :type="this.$route.name"></state-select>
-  <secondary-nav :items="items"></secondary-nav>
-  <div class="content">
-    <div class="row is-item" v-for="event in events.data">
-      <action-bar :event="event"></action-bar>
-    </div>
-  </div>
-  <pager :data="events" :name="'when'"></pager>
+  <state :type="this.$route.name"></state>
+  <tabs :events="events" :when="'when'"></tabs>
 </div>
 </template>
 <script>
 import Event from '../../models/Event';
 import moment from 'moment';
-import StateSelect from '../../components/StateSelect';
-import Pager from '../../components/partials/Pager';
-import ActionBar from '../../components/Event/ActionBar';
+
+import state from '../../components/StateSelect';
+import tabs from '../../components/Event/Tabs';
 
 export default {
   components: {
-    'state-select': StateSelect,
-    'pager': Pager,
-    'action-bar': ActionBar
+    state,
+    tabs
   },
-  props: ['when'],
+  props: {
+    when: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
-      events: {},
-      items: [
-        {
-          title: 'This Month',
-          name: 'when',
-          params: { when: 'this-month' }
-        },
-        {
-          title: 'Next Month',
-          name: 'when',
-          params: { when: 'next-month' }
-        },
-        {
-          title: 'All Upcoming',
-          name: 'when',
-          params: { when: 'upcoming' }
-        },
-      ],
-      currentTab: {}
+      events: {}
     }
   },
   metaInfo() {
@@ -72,9 +52,6 @@ export default {
         monthName = 'Upcoming';
       }
       return monthName;
-    },
-    getCurrentEventIds() {
-      return _.map(this.events.data, 'id');
     }
   }
 }

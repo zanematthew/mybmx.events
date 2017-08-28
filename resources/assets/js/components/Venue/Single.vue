@@ -3,7 +3,7 @@
   <close class="row is-item grid is-100"></close>
 
   <div class="top-helper">
-    <venue-action-bar :venue="venue" class="grid is-100 row is-item"></venue-action-bar>
+    <action-bar :venue="venue" class="grid is-100 row is-item"></action-bar>
     <contact :venue="venue" class="grid is-100 row is-item"></contact>
   </div>
 
@@ -49,15 +49,13 @@ Vue.use(VueGoogleMaps, {
 
 import contact from '../../components/Venue/Contact';
 import close from '../../components/Close';
-import ActionBar from '../../components/Event/ActionBar';
-import VenueActionBar from '../../components/Venue/ActionBar';
+import ActionBar from '../../components/global/ActionBar';
 
 export default {
   components: {
     contact,
     close,
     'action-bar': ActionBar,
-    'venue-action-bar': VenueActionBar,
   props: {
     venue_id: {
       type: Number,

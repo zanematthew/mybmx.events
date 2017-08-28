@@ -7,7 +7,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import ActionBar from '../../components/Event/ActionBar';
+import ActionBar from '../../components/global/ActionBar';
 
 export default {
   components: {

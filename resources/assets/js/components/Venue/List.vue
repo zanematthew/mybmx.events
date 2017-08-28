@@ -2,7 +2,7 @@
 <div>
   <state-select :type="this.$route.name"></state-select>
   <div class="content is-item row grid is-100" v-for="venue in venues.data">
-    <venue-action-bar :venue="venue"></venue-action-bar>
+    <action-bar :venue="venue"></action-bar>
   </div>
   <pager :data="venues" :name="'venues'" :meta="{beforePageTitle: 'Venues'}"></pager>
 </div>
@@ -10,13 +10,13 @@
 <script>
 import Pager from '../../components/partials/Pager';
 import StateSelect from '../../components/StateSelect';
-import VenueActionBar from '../../components/Venue/ActionBar';
+import ActionBar from '../../components/global/ActionBar';
 
 export default {
   components: {
     'pager': Pager,
     'state-select': StateSelect,
-    'venue-action-bar': VenueActionBar
+    'action-bar': ActionBar
   },
   props: ['state'],
   data() {

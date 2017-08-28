@@ -23,7 +23,7 @@ https://ypereirareis.github.io/blog/2017/04/25/vuejs-two-way-data-binding-state-
 </div>
 </template>
 <script>
-import MyMixin from '../../mixin.js';
+import MyMixin from '~/mixin.js';
 
 export default {
   mixins: [MyMixin],

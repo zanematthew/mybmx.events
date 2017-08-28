@@ -15,9 +15,9 @@
 </div>
 </template>
 <script>
-import pager from '../../components/partials/Pager';
-import actionBar from '../../components/global/ActionBar';
-import Event from '../../models/Event';
+import pager from '~/components/global/Pager';
+import actionBar from '~/components/global/ActionBar';
+import Event from '~/models/Event';
 
 export default {
   components: {

@@ -16,11 +16,11 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import Schedule from '../../models/Schedule';
-import ScheduleAdd from '../../components/Schedule/Add';
-import ScheduleMakeDefault from '../../components/Schedule/MakeDefault';
-import ScheduleRename from '../../components/Schedule/Rename';
-import Dropdown from '../../components/Dropdown';
+import Schedule from '~/models/Schedule';
+import ScheduleAdd from '~/components/Schedule/Add';
+import ScheduleMakeDefault from '~/components/Schedule/MakeDefault';
+import ScheduleRename from '~/components/Schedule/Rename';
+import Dropdown from '~/components/Dropdown';
 
 export default {
   components: {

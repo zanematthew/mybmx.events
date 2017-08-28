@@ -53,12 +53,12 @@
 </template>
 
 <script>
-import MyMixin from '../../mixin.js';
+import MyMixin from '~/mixin.js';
 import moment from 'moment';
-import contact from '../../components/Venue/Contact';
-import EventActionBar from '../../components/global/ActionBar';
+import contact from '~/components/Venue/Contact';
+import EventActionBar from '~/components/global/ActionBar';
 
-import Close from '../../components/Close';
+import Close from '~/components/Close';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue';
 

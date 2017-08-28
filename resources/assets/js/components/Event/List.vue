@@ -5,11 +5,11 @@
 </div>
 </template>
 <script>
-import Event from '../../models/Event';
+import Event from '~/models/Event';
 import moment from 'moment';
 
-import state from '../../components/StateSelect';
-import tabs from '../../components/Event/Tabs';
+import state from '~/components/StateSelect';
+import tabs from '~/components/Event/Tabs';
 
 export default {
   components: {

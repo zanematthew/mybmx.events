@@ -37,8 +37,8 @@
 </div>
 </template>
 <script>
-import MyMixin from '../../mixin.js';
-import ScheduleAddToMaster from '../../components/Schedule/AddToMaster';
+import MyMixin from '~/mixin.js';
+import ScheduleAddToMaster from '~/components/Schedule/AddToMaster';
 
 export default {
   mixins: [MyMixin],

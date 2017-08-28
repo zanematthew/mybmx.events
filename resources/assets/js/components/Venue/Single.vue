@@ -58,8 +58,15 @@ export default {
     close,
     'action-bar': ActionBar,
     'venue-action-bar': VenueActionBar,
+  props: {
+    venue_id: {
+      type: Number,
+      required: true
+    },
+    slug: {
+      type: String
+    }
   },
-  props: ['id', 'slug'],
   data() {
     return {
       venue: { city: { states: [{abbr:''}] } },
@@ -76,12 +83,17 @@ export default {
       title: this.pageTitle
     }
   },
+  computed: {
+    venueId() {
+      return this.$route.params.venue_id;
+    }
+  },
   mounted() {
     this.request();
   },
   methods: {
     request() {
-      axios.get('/api/venue/'+this.id).then(response => {
+      axios.get('/api/venue/'+this.venue_id).then(response => {
         this.venue = response.data;
         this.event = response.data;
         this.center.lat = parseInt(response.data.lat);

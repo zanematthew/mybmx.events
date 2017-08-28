@@ -48,7 +48,7 @@ const routes = [
     props: true,
     children: [
       {
-        path: ':id(\\d+)/:slug?',
+        path: ':venue_id(\\d+)/:slug?',
         component: VenueSingle,
         name: 'venue-single',
         props: true

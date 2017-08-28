@@ -9,7 +9,7 @@
         <router-link :to="{ name: 'event-single', params: { id: id } }" class="grid is-100 row is-item">
           <icon name="calendar" class="align-icon"></icon> View Event...
         </router-link>
-        <router-link :to="{ name: 'venue-single', params: { id: event.venue.id } }" class="grid is-100 row is-item" v-if="event.venue.id">
+        <router-link :to="{ name: 'venue-single', params: { venue_id: event.venue.id } }" class="grid is-100 row is-item" v-if="event.venue.id">
           <icon name="map-o" class="align-icon"></icon> View Venue...
         </router-link>
         <router-link :to="{ name: 'add-to', params: { id: event.venue.id } }" v-on:click.native="hideMenu" class="grid is-100 row is-item">

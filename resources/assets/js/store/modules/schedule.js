@@ -1,8 +1,8 @@
 'use strict';
 /*jslint vars: true, devel: true*/
 
-import Schedule from '../../models/Schedule';
-import * as types from '../mutation-types';
+import Schedule from '~/models/Schedule';
+import * as types from '~/store/mutation-types';
 
 /**
  * The initial state of our scheduling module.

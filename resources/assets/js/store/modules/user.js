@@ -1,7 +1,7 @@
 'use strict';
 import schedule from './schedule';
-import User from '../../models/User';
-import * as types from '../mutation-types';
+import User from '~/models/User';
+import * as types from '~/store/mutation-types';
 
 const state = {
   profile: { id: '', name: '' },

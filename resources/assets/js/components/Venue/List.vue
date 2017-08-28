@@ -9,7 +9,7 @@
 </template>
 <script>
 import Pager from '~/components/partials/Pager';
-import StateSelect from '~/components/StateSelect';
+import StateSelect from '~/components/global/StateSelect';
 import ActionBar from '~/components/global/ActionBar';
 
 export default {

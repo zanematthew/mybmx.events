@@ -1,11 +1,11 @@
 <template>
-  <div>
+<!--   <div>
     Logged in: {{ isLoggedIn }}
     Name: {{ name }}
     <a v-on:click="logout()">Logout</a>
     <a v-if="isLoggedIn" v-on:click="logout()">Logout</a>
     <a v-else href="/redirect/facebook">Login with Facebook</a>
-  </div>
+  </div> -->
 </template>
 <script>
 import { mapGetters } from 'vuex'

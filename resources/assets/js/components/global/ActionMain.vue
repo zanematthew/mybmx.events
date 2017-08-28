@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import close from '~/components/Close';
+import close from '~/components/global/Close';
 
 export default {
   components: {

@@ -12,8 +12,8 @@ import VenueList from './components/Venue/List';
 import ScheduleRouterView from './components/Schedule/RouterView';
 import ScheduleList from './components/Schedule/List';
 
-import ActionMain from './components/ActionMain';
-import Share from './components/Share';
+import ActionMain from './components/global/ActionMain';
+import Share from './components/global/Share';
 import AddTo from './components/AddTo';
 
 const NotFoundComponent = { template: '<div>404</div>' };

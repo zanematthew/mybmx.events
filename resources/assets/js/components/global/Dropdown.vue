@@ -57,7 +57,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "../../sass/variables";
+@import "../../../sass/variables";
 .dropdown {
   position: relative;
   .dropdown-trigger {

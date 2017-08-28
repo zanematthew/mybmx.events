@@ -8,7 +8,7 @@
 import Event from '~/models/Event';
 import moment from 'moment';
 
-import state from '~/components/StateSelect';
+import state from '~/components/global/StateSelect';
 import tabs from '~/components/Event/Tabs';
 
 export default {

@@ -41,7 +41,7 @@ Vue.use(VueGoogleMaps, {
 });
 
 import contact from '~/components/Venue/Contact';
-import close from '~/components/Close';
+import close from '~/components/global/Close';
 import actionBar from '~/components/global/ActionBar';
 import tabs from '~/components/Event/Tabs';
 
@@ -99,6 +99,7 @@ export default {
 }
 .venue {
   position: absolute;
+  width: 100%;
 }
 .title {
   margin-bottom: 10px;

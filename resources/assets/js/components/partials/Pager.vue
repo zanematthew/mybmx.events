@@ -19,7 +19,7 @@
         <icon name="angle-right"></icon>
       </router-link>
     </span>
-    <div class="nav-item count alight-right">Total {{ data.total }}</div>
+    <div class="nav-item count align-right">Total {{ data.total }}</div>
   </div>
 </template>
 <script>

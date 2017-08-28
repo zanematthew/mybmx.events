@@ -15,7 +15,7 @@
   </div>
 
   <div v-else-if="venue">
-    <router-link v-if="venue.id" :to="{ name: 'action-main', params: { venue_id: venue.id } }" class="align-right menu-thingy"><icon name="ellipsis-h"></icon></router-link>
+    <router-link v-if="venue.id" :to="{ name: 'action-main', params: { id: venue.id } }" class="align-right menu-thingy"><icon name="ellipsis-h"></icon></router-link>
     <div class="grid is-30" v-if="venue.image_uri">
       <img :src="venue.image_uri" itemprop="image" alt="Photo of Jane Joe">
     </div>

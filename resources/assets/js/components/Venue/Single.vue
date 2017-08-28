@@ -58,7 +58,7 @@ export default {
     'action-bar': ActionBar,
   props: {
     venue_id: {
-      type: Number,
+      type: String,
       required: true
     },
     slug: {

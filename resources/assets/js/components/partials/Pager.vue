@@ -2,7 +2,7 @@
   <div class="row nav is-tertiary meta pagination">
     <span v-if="data.last_page > 1">
       <router-link :to="{
-        name: name,
+        name: router_view,
         query: Object.assign({}, this.$route.query, {
           page: this.nextPrevPage( data.prev_page_url )
         })
@@ -11,7 +11,7 @@
       </router-link>
       <span class="nav-item">{{ data.current_page }}/{{ data.last_page }}</span>
       <router-link :to="{
-        name: name,
+        name: router_view,
           query: Object.assign({}, this.$route.query, {
             page: this.nextPrevPage( data.next_page_url )
           })
@@ -29,6 +29,11 @@ export default {
   props: {
     name: String,
     data: Object,
+  },
+  data() {
+    return {
+      router_view: this.$route.name
+    }
   },
   methods: {
     nextPrevPage(url) {

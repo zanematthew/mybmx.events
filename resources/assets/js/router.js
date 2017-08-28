@@ -48,10 +48,10 @@ const routes = [
     props: true,
     children: [
       {
-        path: ':venue_id(\\d+)/:slug?',
+        path: ':venue_id(\\d+)/:slug/events/:when/',
         component: VenueSingle,
-        name: 'venue-single',
-        props: true
+        name: 'venue-single-events',
+        props: true,
       },
       {
         path: ':state?',

@@ -20,8 +20,7 @@
       <img :src="venue.image_uri" itemprop="image" alt="Photo of Jane Joe">
     </div>
     <div class="grid is-70 address">
-      <router-link :to="{ name: 'venue-single', params: { venue_id: venue.id, slug: venue.slug } }" class="title">{{ venue.name }}</router-link>
-      <!-- <span v-if="description" itemprop="description"><p>{{ description }}</p></span> -->
+      <router-link :to="{ name: 'venue-single-events', params: { venue_id: venue.id, slug: venue.slug, when: 'this-month' } }" class="title" v-if="venue.id">{{ venue.name }}</router-link>
       <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
         <span v-if="venue.street_address" itemprop="streetAddress">{{ venue.street_address }}</span><br>
         <span itemprop="addressLocality">{{ venue.city.name }}</span>,

@@ -115,10 +115,11 @@ class EventController extends Controller
      */
     public function year($year = null)
     {
-        return \App\Event::with('venue.city.states')
-                ->whereYear('start_date', $year)
-                ->orderBy('start_date', 'asc')
-                ->paginate($this->paginate);
+        $q = \App\Event::with('venue.city.states');
+        $q = $this->handleRequest($q);
+        return $q->whereYear('start_date', $year)
+                 ->orderBy('start_date', 'asc')
+                 ->paginate($this->paginate);
     }
 
     /**
@@ -131,11 +132,12 @@ class EventController extends Controller
      */
     public function yearMonth($year = null, $month = null)
     {
-        return \App\Event::with('venue.city.states')
-            ->whereYear('start_date', $year)
-            ->whereMonth('start_date', $month)
-            ->orderBy('start_date', 'asc')
-            ->paginate($this->paginate);
+        $q = \App\Event::with('venue.city.states');
+        $q = $this->handleRequest($q);
+        return $q->whereYear('start_date', $year)
+                 ->whereMonth('start_date', $month)
+                 ->orderBy('start_date', 'asc')
+                 ->paginate($this->paginate);
     }
 
     /**

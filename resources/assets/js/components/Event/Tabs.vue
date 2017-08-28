@@ -1,66 +1,72 @@
 <template>
-<div>
-  <!-- Events Tabbed -->
-  <secondary-nav :items="items"></secondary-nav>
-  <div class="content">
-    <div class="row is-item" v-for="event in events.data">
-      <action-bar :event="event"></action-bar>
-    </div>
+<div class="row">
+  <div class="nav is-underlined is-tertiary is-spacious">
+    <span v-for="item in items">
+      <router-link :to="{
+        name: route_name,
+        params: item.params
+      }" class="nav-item">{{ item.title }}</router-link>
+    </span>
   </div>
-  <pager :data="events" :name="'when'"></pager>
-  <!-- Events Tabbed -->
+  <div class="row is-item" v-for="event in events.data">
+    <action-bar :event="event"></action-bar>
+  </div>
+  <pager :data="events"></pager>
 </div>
 </template>
 <script>
-import moment from 'moment';
-import Pager from '../../components/partials/Pager';
-import ActionBar from '../../components/Event/ActionBar';
+import pager from '../../components/partials/Pager';
+import actionBar from '../../components/global/ActionBar';
+import Event from '../../models/Event';
 
 export default {
   components: {
-    'pager': Pager,
-    'action-bar': ActionBar
+    pager,
+    actionBar
   },
-  props: ['when', 'events'],
   data() {
     return {
       items: [
         {
           title: 'This Month',
-          name: 'when',
           params: { when: 'this-month' }
         },
         {
           title: 'Next Month',
-          name: 'when',
           params: { when: 'next-month' }
         },
         {
           title: 'All Upcoming',
-          name: 'when',
           params: { when: 'upcoming' }
         },
       ],
-      currentTab: {}
+      events: {},
+      route_name: this.$route.name
     }
   },
-  metaInfo() {
-    return {
-      title: this.getMonthName(),
-      titleTemplate: '%s | My BMX Events'
-    }
+  mounted() {
+    this.request();
   },
   methods: {
-    getMonthName() {
-      var monthName;
-      if (this.when == 'this-month') {
-        monthName = moment().format('MMMM');
-      } else if (this.when == 'next-month') {
-        monthName = moment().add(1, 'month').format('MMMM');
-      } else if (this.when == 'upcoming') {
-        monthName = 'Upcoming';
-      }
-      return monthName;
+    request() {
+      Event.events(
+        events => this.events = events,
+        this.when,
+        _.merge(this.$route.query, {venue_id: this.venueId})
+      );
+    }
+  },
+  computed: {
+    venueId() {
+      return this.$route.params.venue_id || '';
+    },
+    when() {
+      return this.$route.params.when || '';
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      this.request();
     }
   }
 }

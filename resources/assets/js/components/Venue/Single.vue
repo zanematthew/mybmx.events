@@ -1,7 +1,6 @@
 <template>
 <div class="venue content">
   <close class="row is-item grid is-100"></close>
-
   <div class="top-helper">
     <action-bar :venue="venue" class="grid is-100 row is-item"></action-bar>
     <contact :venue="venue" class="grid is-100 row is-item"></contact>
@@ -23,13 +22,7 @@
       ></gmap-marker>
     </gmap-map>
   </div>
-
-  <div class="row is-item grid is-100">
-    <h2 class="title">{{ venue.name }}</h2>
-  </div>
-  <div class="row is-item" v-for="event in venue.events">
-    <action-bar :event="event"></action-bar>
-  </div>
+  <tabs></tabs>
 </div>
 </template>
 <script>
@@ -49,21 +42,15 @@ Vue.use(VueGoogleMaps, {
 
 import contact from '../../components/Venue/Contact';
 import close from '../../components/Close';
-import ActionBar from '../../components/global/ActionBar';
+import actionBar from '../../components/global/ActionBar';
+import tabs from '../../components/Event/Tabs';
 
 export default {
   components: {
     contact,
     close,
-    'action-bar': ActionBar,
-  props: {
-    venue_id: {
-      type: String,
-      required: true
-    },
-    slug: {
-      type: String
-    }
+    actionBar,
+    tabs
   },
   data() {
     return {
@@ -74,6 +61,7 @@ export default {
         mapTypeControl: false,
         scrollwheel: false
       },
+      pageTitle: '...'
     }
   },
   metaInfo() {
@@ -91,9 +79,8 @@ export default {
   },
   methods: {
     request() {
-      axios.get('/api/venue/'+this.venue_id).then(response => {
+      axios.get('/api/venue/'+this.venueId).then(response => {
         this.venue = response.data;
-        this.event = response.data;
         this.center.lat = parseInt(response.data.lat);
         this.center.lng = parseInt(response.data.long);
         this.markers = [{

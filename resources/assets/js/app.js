@@ -63,8 +63,6 @@ Vue.use(VueAnalytics, {
 });
 
 import StateSelect from './components/StateSelect';
-import SecondaryNav from './components/global/SecondaryNav';
-Vue.component('secondary-nav', SecondaryNav);
 
 var SocialSharing = require('vue-social-sharing');
 Vue.use(SocialSharing);

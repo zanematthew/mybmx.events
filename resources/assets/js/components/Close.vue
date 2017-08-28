@@ -9,7 +9,7 @@ export default {
   methods: {
     back() {
       this.$emit('beforeBack');
-      if (this.$route.name == 'venue-single') {
+      if (this.$route.name == 'venue-single-events') {
         router.push({ name: 'venues' });
       } else if (this.$route.name == 'event-single') {
         router.push({ name: 'events' });

@@ -1,7 +1,7 @@
 <template>
 <div>
   <state :type="this.$route.name"></state>
-  <tabs :events="events" :when="'when'"></tabs>
+  <tabs></tabs>
 </div>
 </template>
 <script>
@@ -22,23 +22,10 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      events: {}
-    }
-  },
   metaInfo() {
     return {
       title: this.getMonthName(),
       titleTemplate: '%s | My BMX Events'
-    }
-  },
-  mounted() {
-    Event.events(events => this.events = events, this.$route.params.when, this.$route.query);
-  },
-  watch: {
-    '$route' (to, from) {
-      Event.events(events => this.events = events, this.when, this.$route.query);
     }
   },
   methods: {

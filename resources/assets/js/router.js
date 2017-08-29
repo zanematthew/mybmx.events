@@ -72,7 +72,8 @@ const routes = [
       {
         path: 'schedules',
         name: 'your-schedules',
-        component: ScheduleList
+        component: ScheduleList,
+        meta: { requiresAuth: true },
       }
     ]
   },
@@ -94,6 +95,13 @@ const routes = [
         name: 'share',
         component: Share,
         props: true
+      },
+      {
+        path: 'add-to',
+        name: 'add-to',
+        component: AddTo,
+        props: true,
+        meta: { requiresAuth: true }
       }
     ]
   },

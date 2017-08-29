@@ -43,9 +43,6 @@ const actions = {
   },
   fetchAllScheduledEvents({commit, state}) {
     return new Promise((resolve, reject) => {
-      if (state.master.length !== 0) {
-        return;
-      }
       Schedule.getAttendingEventsMaster(response => {
         commit(types.GET_ALL_EVENTS, response);
         resolve(response);
@@ -62,11 +59,19 @@ const actions = {
     });
   },
 
+  // TOGGLE_EVENT_TO_SCHEDULE
+  toggleEventToSchedule({commit, state}, payload) {
+    console.log(payload);
+    return new Promise((resolve, reject) => {
+      Schedule.toggleEventToSchedule(response => {
+        commit(types.TOGGLE_EVENT_TO_SCHEDULE, response);
+        resolve(response);
+      }, payload.id, payload.scheduleId); // ...spread
+    });
+  },
+
   fetchAllSchedules({commit, state}) {
     return new Promise((resolve, reject) => {
-      if (state.schedules.length !== 0) {
-        return;
-      }
       Schedule.getScheduels(response => {
         commit(types.GET_ALL_SCHEDULES, response);
         resolve(response);
@@ -128,6 +133,11 @@ const mutations = {
         state.allEventIds.splice(i, 1);
       }
     }
+  },
+  [types.TOGGLE_EVENT_TO_SCHEDULE] (state, payload) {
+    console.log('update state with payload');
+    console.log(state);
+    console.log(payload);
   },
   [types.GET_ALL_SCHEDULES] (state, payload) {
     state.schedules = payload;

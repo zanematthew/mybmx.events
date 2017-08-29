@@ -76,7 +76,9 @@ import AuthorizedClients from './components/passport/AuthorizedClients';
 import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
 import user from './components/UserBar';
 
+import { sync } from 'vuex-router-sync'
 import store from './store';
+sync(store, router) // done.
 
 const app = new Vue({
   router,

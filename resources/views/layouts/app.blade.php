@@ -19,6 +19,9 @@
                 @yield('content')
             </div>
         </div>
+        <script>
+            let authuser = {!! Auth::user() ? : '{}' !!};
+        </script>
         <script src="{{ mix('js/app.js') }}"></script>
         <script>
         window.laravel = <?php echo json_encode([

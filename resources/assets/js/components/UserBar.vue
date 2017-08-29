@@ -1,11 +1,10 @@
 <template>
-<!--   <div>
-    Logged in: {{ isLoggedIn }}
-    Name: {{ name }}
-    <a v-on:click="logout()">Logout</a>
-    <a v-if="isLoggedIn" v-on:click="logout()">Logout</a>
-    <a v-else href="/redirect/facebook">Login with Facebook</a>
-  </div> -->
+  <div>
+    <p>
+      <a v-if="isLoggedIn" v-on:click="logout()">Logout</a>
+      <a v-else href="/login">Login</a>
+    </p>
+  </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -16,20 +15,31 @@ export default {
     ...mapGetters([
       'name',
       'isLoggedIn'
-    ])
+    ]),
+    authUser() {
+      return authuser;
+    }
   },
   methods: {
     logout() {
       User.logout(response => {
-        console.log(response);
+        window.location.reload();
       });
     }
   },
   mounted() {
-    this.$store.dispatch('fetchProfile');
-    this.$store.dispatch('fetchAllSchedules');
-    this.$store.dispatch('fetchAllScheduledEvents');
-    this.$store.dispatch('fetchAllScheduledEventIds');
+
+    this.$store.commit('SET_PROFILE', this.authUser);
+    this.isLoggedIn;
+
+    if (this.isLoggedIn) {
+      this.$store.dispatch('fetchProfile');
+      this.$store.dispatch('fetchAllSchedules');
+      this.$store.dispatch('fetchAllScheduledEvents');
+      this.$store.dispatch('fetchAllScheduledEventIds');
+    } else {
+      console.log('Not logged in.');
+    }
   }
 }
 </script>

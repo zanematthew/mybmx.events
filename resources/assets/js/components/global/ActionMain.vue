@@ -58,9 +58,11 @@ export default {
 </script>
 <style>
 .container {
-  position: absolute;
-  top: 0;
+  position: relative;
+  top: -51px;
   width: 100%;
+}
+.close-container {
   background: rgba(255, 255, 255, 0.75);
 }
 </style>

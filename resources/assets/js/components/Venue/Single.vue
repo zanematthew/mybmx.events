@@ -98,8 +98,8 @@ export default {
   background: #fff;
 }
 .venue {
-  position: absolute;
-  width: 100%;
+  position: relative;
+  top: -51px;
 }
 .title {
   margin-bottom: 10px;

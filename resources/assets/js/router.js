@@ -114,8 +114,5 @@ const routes = [
 export default new VueRouter({
   mode: 'history',
   routes,
-  linkActiveClass: 'is-active',
-  scrollBehavior (to, from, savedPosition) {
-    return { x: 0, y: 0};
-  }
+  linkActiveClass: 'is-active'
 });

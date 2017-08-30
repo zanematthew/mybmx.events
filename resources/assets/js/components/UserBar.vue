@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <p>
+  <div class="login-logout">
       <a v-if="isLoggedIn" v-on:click="logout()">Logout</a>
       <a v-else href="/login">Login</a>
-    </p>
   </div>
 </template>
 <script>
@@ -13,8 +11,7 @@ import User from '~/models/User';
 export default {
   computed: {
     ...mapGetters([
-      'name',
-      'isLoggedIn'
+      'isLoggedIn',
     ]),
     authUser() {
       return authuser;
@@ -29,16 +26,18 @@ export default {
   },
   mounted() {
 
-    this.$store.commit('SET_PROFILE', this.authUser);
-    this.isLoggedIn;
+    this.$store.commit('SET_AUTHUSER', this.authUser);
 
     if (this.isLoggedIn) {
       this.$store.dispatch('fetchAllSchedules');
       this.$store.dispatch('fetchAllScheduledEvents');
       this.$store.dispatch('fetchAllScheduledEventIds');
-    } else {
-      console.log('Not logged in.');
     }
   }
 }
 </script>
+<style>
+.login-logout {
+  padding: 5px;
+}
+</style>

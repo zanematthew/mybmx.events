@@ -6,10 +6,17 @@
   }"
   class="nav-item"
   ><icon :name="item.icon"></icon></router-link>
+  <router-link v-if="isLoggedIn" :to="{ name: 'schedules' }" class="nav-item icon-avatar">
+    <span class="avatar"><img :src="avatar" /></span>
+  </router-link>
+  <router-link v-else :to="{ name: 'schedules' }" class="nav-item">
+    <icon :name="'user'"></icon>
+  </router-link>
 </div>
 </template>
 <script>
 import MyMixin from '~/mixin.js';
+import { mapGetters } from 'vuex';
 
 export default {
   mixins: [MyMixin],
@@ -31,14 +38,15 @@ export default {
             name: 'Attending',
             id: 'attending',
             icon: 'calendar-check-o',
-          },
-          {
-            name: 'Your Items',
-            id: 'schedules',
-            icon: 'user',
           }
         ]
     }
+  },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn',
+      'avatar'
+    ])
   }
 }
 </script>
@@ -50,6 +58,16 @@ export default {
   .nav-item {
     display: table-cell;
     text-align: center;
+  }
+  .avatar {
+    height: 32px;
+    width: 32px;
+    overflow: hidden;
+    margin: 0 auto;
+    border-radius: 100%;
+    display: inline-block;
+    position: relative;
+    top: 7px;
   }
 }
 </style>

@@ -17,16 +17,23 @@
         <div id="app">
             <div class="app-container">
                 @yield('content')
+                <user class="row is-item"></user>
             </div>
         </div>
         <script>
-            let authuser = {!! Auth::user() ? : '{}' !!};
+            @if (Auth::check())
+                let authuser = {
+                    default: {!! Auth::user() !!},
+                    social_account: {
+                        facebook: {
+                            avatar: "{!! Auth::user()->avatar !!}"
+                        }
+                    }
+                };
+            @else
+                let authuser = '{}';
+            @endif
         </script>
         <script src="{{ mix('js/app.js') }}"></script>
-        <script>
-        window.laravel = <?php echo json_encode([
-            'user' => Auth::user()
-        ]); ?>
-        </script>
     </body>
 </html>

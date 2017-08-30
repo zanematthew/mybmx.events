@@ -23,10 +23,10 @@ import router from './router';
 Vue.use(VueRouter);
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (_.isEmpty(window.laravel.user)) {
-      window.location.replace(`${window.location.origin}/login/`);
-    } else {
+    if (store.getters.isLoggedIn === true) {
       next();
+    } else {
+      window.location.replace(`${window.location.origin}/login/`);
     }
   } else {
     next();

@@ -1,6 +1,6 @@
 'use strict';
 // User Mutations
-export const SET_PROFILE = 'SET_PROFILE';
+export const SET_AUTHUSER = 'SET_AUTHUSER';
 
 // Schedule Mutations
 export const ADD_EVENT_TO_MASTER_SCHEDULE = 'ADD_EVENT_TO_MASTER_SCHEDULE';

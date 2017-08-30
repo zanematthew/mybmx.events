@@ -4,15 +4,13 @@ import User from '~/models/User';
 import * as types from '~/store/mutation-types';
 
 const state = {
-  profile: {}
+  default: {},
+  social_account: { facebook: { avatar: '' } },
 };
 
 const getters = {
   isLoggedIn: state => {
-    return ! _.isUndefined(state.profile.id);
-  },
-  name: state => {
-    return state.profile.name;
+    return ! _.isEmpty(state.default);
   },
   masterSchedule: state => {
     return state.schedule.master;
@@ -22,14 +20,18 @@ const getters = {
   },
   allEventIds: state => {
     return state.schedule.allEventIds;
+  },
+  avatar: state => {
+    return _.isUndefined(state.social_account) ? '' : state.social_account.facebook.avatar;
   }
 };
 
 const actions = {};
 
 const mutations = {
-  [types.SET_PROFILE] (state, payload) {
-    state.profile = payload;
+  [types.SET_AUTHUSER] (state, payload) {
+    state.default = payload.default;
+    state.social_account = payload.social_account;
   }
 };
 

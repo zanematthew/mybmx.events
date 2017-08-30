@@ -1,13 +1,11 @@
 <template>
 <div class="nav is-underlined is-primary">
-  <span v-for="item in items">
-    <router-link :to="{
-      name: item.id,
-      params: item.params,
-    }"
-    class="nav-item"
-    >{{ item.name }}</router-link>
-  </span>
+  <router-link v-for="item in items" :key="item.id" :to="{
+    name: item.id,
+    params: item.params,
+  }"
+  class="nav-item"
+  ><icon :name="item.icon"></icon></router-link>
 </div>
 </template>
 <script>
@@ -21,22 +19,37 @@ export default {
           {
             name: 'Events',
             id: 'events',
+            icon: 'calendar',
             params: { 'when': 'this-month' }
           },
           {
             name: 'Venues',
-            id: 'venues'
+            id: 'venues',
+            icon: 'map-o',
           },
           {
             name: 'Attending',
-            id: 'attending'
+            id: 'attending',
+            icon: 'calendar-check-o',
           },
           {
             name: 'Your Items',
-            id: 'schedules'
+            id: 'schedules',
+            icon: 'user',
           }
         ]
     }
   }
 }
 </script>
+<style lang="scss">
+.is-primary {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  .nav-item {
+    display: table-cell;
+    text-align: center;
+  }
+}
+</style>

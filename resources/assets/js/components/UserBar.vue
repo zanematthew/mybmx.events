@@ -33,7 +33,6 @@ export default {
     this.isLoggedIn;
 
     if (this.isLoggedIn) {
-      this.$store.dispatch('fetchProfile');
       this.$store.dispatch('fetchAllSchedules');
       this.$store.dispatch('fetchAllScheduledEvents');
       this.$store.dispatch('fetchAllScheduledEventIds');

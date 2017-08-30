@@ -25,21 +25,9 @@ const getters = {
   }
 };
 
-const actions = {
-  fetchProfile({commit, state}) {
-    return new Promise((resolve, reject) => {
-      User.profile(response => {
-        commit(types.GET_PROFILE, response);
-        resolve(response);
-      });
-    });
-  }
-};
+const actions = {};
 
 const mutations = {
-  [types.GET_PROFILE] (state, payload) {
-    state.profile = payload;
-  },
   [types.SET_PROFILE] (state, payload) {
     state.profile = payload;
   }

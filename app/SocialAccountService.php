@@ -22,6 +22,7 @@ class SocialAccountService
             $account = new SocialAccount([
                 'provider_user_id' => $providerUser->getId(),
                 'provider'         => $providerName,
+                'avatar'           => $providerUser->getAvatar(),
             ]);
 
             $user = User::whereEmail($providerUser->getEmail())->first();

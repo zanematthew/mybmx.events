@@ -32,4 +32,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Schedule');
     }
+
+    public function socialAccount()
+    {
+        return $this->hasOne('App\SocialAccount');
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->socialAccount()->first()->avatar;
+    }
 }

@@ -106,6 +106,10 @@ const routes = [
     ]
   },
   {
+    path: '/',
+    redirect: { name: 'events' }
+  },
+  {
     path: '*',
     component: NotFoundComponent
   }

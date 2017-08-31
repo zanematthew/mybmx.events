@@ -14,7 +14,7 @@ import ScheduleList from './components/Schedule/List';
 
 import ActionMain from './components/global/ActionMain';
 import Share from './components/global/Share';
-import AddTo from './components/AddTo';
+import AddTo from './components/Schedule/AddTo';
 
 const NotFoundComponent = { template: '<div>404</div>' };
 

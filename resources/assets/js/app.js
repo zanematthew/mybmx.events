@@ -74,7 +74,7 @@ import PrimaryNav from './components/global/PrimaryNav';
 import Clients from './components/passport/Clients';
 import AuthorizedClients from './components/passport/AuthorizedClients';
 import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
-import user from './components/UserBar';
+import user from './components/User/UserBar';
 
 import { sync } from 'vuex-router-sync'
 import store from './store';

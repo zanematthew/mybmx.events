@@ -12,15 +12,6 @@ const getters = {
   isLoggedIn: state => {
     return ! _.isEmpty(state.default);
   },
-  masterSchedule: state => {
-    return state.schedule.master;
-  },
-  schedules: state => {
-    return state.schedule.schedules;
-  },
-  allEventIds: state => {
-    return state.schedule.allEventIds;
-  },
   avatar: state => {
     return _.isUndefined(state.social_account) ? '' : state.social_account.facebook.avatar;
   }

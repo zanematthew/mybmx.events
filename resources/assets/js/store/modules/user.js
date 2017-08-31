@@ -1,12 +1,15 @@
 'use strict';
+// https://stackoverflow.com/questions/42295340/how-to-clear-state-in-vuex-store
 import * as types from '~/store/mutation-types';
 
 const state = {
   default: {},
+  // @todo maybe move to module
   social_account: { facebook: { avatar: '' } },
 };
 
 const getters = {
+  // @todo maybe move to root vuex
   isLoggedIn: state => {
     return ! _.isEmpty(state.default);
   },

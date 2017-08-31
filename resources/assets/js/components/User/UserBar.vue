@@ -6,6 +6,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+// @todo move to vuex
 import User from '~/api/User';
 
 export default {

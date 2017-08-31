@@ -130,6 +130,7 @@ const actions = {
  * The ONLY way to update the state of our store, is by committing a mutation.
  */
 const mutations = {
+  // @todo this should be just a getter
   [types.SCHEDULED_EVENT_IDS] (state, payload) {
     state.allEventIds = payload;
   },
@@ -148,12 +149,15 @@ const mutations = {
     console.log(state);
     console.log(payload);
   },
+  // @todo this should be just a getter
   [types.GET_ALL_SCHEDULES] (state, payload) {
     state.schedules = payload;
   },
+  // @todo this should be just a getter
   [types.GET_ALL_EVENTS] (state, payload) {
     state.master = payload;
   },
+  // @todo this should be just a getter
   [types.ADD_SCHEDULE] (state, payload) {
     state.schedules.unshift(payload);
   },

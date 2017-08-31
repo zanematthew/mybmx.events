@@ -124,6 +124,9 @@ const app = new Vue({
   mounted() {
     this.$store.commit('SET_AUTHUSER', this.authUser);
     if (this.isLoggedIn) {
+      // @todo
+      // These need to be moved to the vuex main?
+      // or placed within their respected component?
       this.$store.dispatch('fetchAllSchedules');
       this.$store.dispatch('fetchAllScheduledEvents');
       this.$store.dispatch('fetchAllScheduledEventIds');

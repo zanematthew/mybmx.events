@@ -16,7 +16,6 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import Schedule from '~/api/Schedule';
 import ScheduleAdd from '~/components/Schedule/Add';
 import ScheduleMakeDefault from '~/components/Schedule/MakeDefault';
 import ScheduleRename from '~/components/Schedule/Rename';

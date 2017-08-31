@@ -1,6 +1,6 @@
 'use strict';
 import schedule from './schedule';
-import User from '~/models/User';
+import User from '~/api/User';
 import * as types from '~/store/mutation-types';
 
 const state = {

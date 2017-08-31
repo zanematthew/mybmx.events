@@ -25,7 +25,7 @@
 <script>
 import pager from '~/components/global/Pager';
 import actionBar from '~/components/global/ActionBar';
-import Event from '~/models/Event';
+import Event from '~/api/Event';
 
 export default {
   components: {

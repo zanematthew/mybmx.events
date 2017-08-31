@@ -5,7 +5,7 @@
 </div>
 </template>
 <script>
-import Event from '~/models/Event';
+import Event from '~/api/Event';
 import moment from 'moment';
 
 import state from '~/components/global/StateSelect';

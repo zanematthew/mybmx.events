@@ -86,9 +86,6 @@ const app = new Vue({
   router,
   nprogress,
   store,
-  data: {
-    user: window.laravel.user
-  },
   metaInfo: {
     title: '...',
     titleTemplate: '%s | My BMX Events'

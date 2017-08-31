@@ -80,6 +80,8 @@ import { sync } from 'vuex-router-sync'
 import store from './store';
 sync(store, router) // done.
 
+import { mapGetters } from 'vuex'
+
 const app = new Vue({
   router,
   nprogress,
@@ -113,5 +115,21 @@ const app = new Vue({
     }, function (error) {
         return Promise.reject(error);
     });
+  },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ]),
+    authUser() {
+      return authuser;
+    }
+  },
+  mounted() {
+    this.$store.commit('SET_AUTHUSER', this.authUser);
+    if (this.isLoggedIn) {
+      this.$store.dispatch('fetchAllSchedules');
+      this.$store.dispatch('fetchAllScheduledEvents');
+      this.$store.dispatch('fetchAllScheduledEventIds');
+    }
   }
 }).$mount('#app');

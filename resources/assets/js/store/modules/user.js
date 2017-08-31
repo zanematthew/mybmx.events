@@ -1,6 +1,4 @@
 'use strict';
-import schedule from './schedule';
-import User from '~/api/User';
 import * as types from '~/store/mutation-types';
 
 const state = {
@@ -30,8 +28,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
-  modules: {
-    schedule
-  }
+  mutations
 };

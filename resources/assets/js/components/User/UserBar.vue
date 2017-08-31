@@ -12,26 +12,13 @@ export default {
   computed: {
     ...mapGetters([
       'isLoggedIn',
-    ]),
-    authUser() {
-      return authuser;
-    }
+    ])
   },
   methods: {
     logout() {
       User.logout(response => {
         window.location.reload();
       });
-    }
-  },
-  mounted() {
-
-    this.$store.commit('SET_AUTHUSER', this.authUser);
-
-    if (this.isLoggedIn) {
-      this.$store.dispatch('fetchAllSchedules');
-      this.$store.dispatch('fetchAllScheduledEvents');
-      this.$store.dispatch('fetchAllScheduledEventIds');
     }
   }
 }

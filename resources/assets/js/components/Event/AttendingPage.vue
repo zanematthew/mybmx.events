@@ -6,11 +6,11 @@
   </div>
 </template>
 <script>
-import ActionBar from '~/components/global/ActionBar';
+import actionBar from '~/components/global/ActionBar';
 
 export default {
   components: {
-    'action-bar': ActionBar
+    actionBar
   },
   computed: {
     masterSchedule() {

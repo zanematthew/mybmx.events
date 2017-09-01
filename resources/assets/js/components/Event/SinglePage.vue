@@ -55,10 +55,10 @@
 <script>
 import MyMixin from '~/mixin.js';
 import moment from 'moment';
-import EventActionBar from '~/components/global/ActionBar';
 import contact from '~/components/global/Contact';
+import actionBar from '~/components/global/ActionBar';
 
-import Close from '~/components/global/Close';
+import close from '~/components/global/Close';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue';
 
@@ -75,8 +75,8 @@ export default {
   mixins: [MyMixin],
   components: {
     contact,
-    'close': Close,
-    'action-bar': EventActionBar
+    close,
+    actionBar,
   },
   props: ['id', 'slug'],
   data() {

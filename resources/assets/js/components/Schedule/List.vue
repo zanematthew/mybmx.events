@@ -15,7 +15,6 @@
 </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
 import ScheduleAdd from '~/components/Schedule/Add';
 import ScheduleMakeDefault from '~/components/Schedule/MakeDefault';
 import ScheduleRename from '~/components/Schedule/Rename';
@@ -29,9 +28,9 @@ export default {
     'dropdown': Dropdown
   },
   computed: {
-    ...mapGetters([
-      'schedules'
-    ])
+    schedules() {
+      return this.$store.state.schedule.schedules;
+    }
   },
   methods: {
     triggerRename(schedule) {

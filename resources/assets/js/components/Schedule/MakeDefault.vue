@@ -4,8 +4,6 @@
 </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
   props: {
     schedule: {
@@ -14,9 +12,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'schedules'
-    ])
+    schedules() {
+      return this.$store.state.schedule.schedules;
+    }
   },
   methods: {
     makeDefault(schedule) {

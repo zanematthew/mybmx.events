@@ -4,8 +4,6 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
   props: {
     event: {
@@ -14,14 +12,15 @@ export default {
     },
   },
   computed: {
-    ...mapGetters([
-      'allEventIds'
-    ])
+    allEventIds() {
+      return this.$store.state.schedule.allEventIds;
+    }
   },
   methods: {
     schedule(event) {
       this.$store.dispatch('addToMasterSchedule', event);
     },
+    // @todo move to getter in Vuex
     isScheduled(event) {
       return this.allEventIds.indexOf(event.id) != -1 ? true : false;
     }

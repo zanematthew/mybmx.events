@@ -14,9 +14,9 @@ export default {
     'action-bar': ActionBar
   },
   computed: {
-    ...mapGetters([
-      'masterSchedule'
-    ])
+    masterSchedule() {
+      return this.$store.state.schedule.master
+    }
   }
 }
 </script>

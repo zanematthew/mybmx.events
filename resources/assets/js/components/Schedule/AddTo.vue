@@ -9,7 +9,6 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
 import router from '~/router';
 import ScheduleAdd from '~/components/Schedule/Add';
 
@@ -23,9 +22,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'schedules'
-    ])
+    schedules() {
+      return this.$store.state.schedule.schedules;
+    }
   },
   methods: {
     addTo(schedule) {

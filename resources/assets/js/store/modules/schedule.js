@@ -23,16 +23,7 @@ const getters = {
   isDefaultGetter: (state, getters) => (schedule) => {
     var foundIndex = state.schedules.findIndex(items => items.id == schedule.id);
     return state.schedules[foundIndex].default;
-  },
-  schedules: state => {
-    return state.schedules;
-  },
-  masterSchedule: state => {
-    return state.master;
-  },
-  allEventIds: state => {
-    return state.allEventIds;
-  },
+  }
 };
 
 /**

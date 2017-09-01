@@ -27,7 +27,7 @@ const routes = [
     props: true,
     children: [
       {
-        path: ':id(\\d+)/:slug?',
+        path: ':id(\\d+)/:slug/:when',
         component: EventSinglePage,
         name: 'event-single',
         props: true

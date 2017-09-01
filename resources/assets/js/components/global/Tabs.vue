@@ -4,7 +4,8 @@
     <span v-for="item in items">
       <router-link :to="{
         name: route_name,
-        params: item.params
+        params: item.params,
+        query: query
       }" class="nav-item">{{ item.title }}</router-link>
     </span>
   </div>
@@ -28,6 +29,17 @@ import actionBar from '~/components/global/ActionBar';
 import Event from '~/api/Event';
 
 export default {
+  computed: {
+    venue_id() {
+      return this.$route.params.venue_id;
+    },
+    when() {
+      return this.$route.params.when;
+    },
+    query() {
+      return this.$route.query;
+    }
+  },
   components: {
     pager,
     actionBar
@@ -60,16 +72,8 @@ export default {
       Event.events(
         events => this.events = events,
         this.when,
-        _.merge(this.$route.query, {venue_id: this.venueId})
+        _.merge(this.$route.query, {venue_id: this.venue_id})
       );
-    }
-  },
-  computed: {
-    venueId() {
-      return this.$route.params.venue_id || '';
-    },
-    when() {
-      return this.$route.params.when || '';
     }
   },
   watch: {

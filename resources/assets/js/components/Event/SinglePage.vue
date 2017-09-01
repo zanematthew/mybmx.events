@@ -1,52 +1,48 @@
 <template>
 <div id="event-single" class="content">
   <close class="row is-item grid is-100"></close>
-  <action-bar :event="event" class="row is-item"></action-bar>
+  <div class="event-helper row">
+    <action-bar :event="event" class="row is-item"></action-bar>
 
-  <!-- Event Detail -->
-  <div class="row is-item" v-if="event.fee">
-    <div class="grid is-100">
-      <strong>Fee</strong> {{ formatCurrency(event.fee) }}<br />
-      <strong>Registration Start</strong> {{ formatTime(event.start_date + ' ' + event.registration_start_time) }}<br />
-      <strong>Registration End</strong> {{ formatTime(event.start_date + ' ' + event.registration_end_time) }}<br />
+    <!-- Event Detail -->
+    <div class="row is-item" v-if="event.fee">
+      <div class="grid is-100">
+        <strong>Fee</strong> {{ formatCurrency(event.fee) }}<br />
+        <strong>Registration Start</strong> {{ formatTime(event.start_date + ' ' + event.registration_start_time) }}<br />
+        <strong>Registration End</strong> {{ formatTime(event.start_date + ' ' + event.registration_end_time) }}<br />
+      </div>
     </div>
-  </div>
 
-  <div class="row is-item" v-if="event.event_schedule_uri">
-    <div class="grid is-100">
-      <a :href="event.event_schedule_uri" target="_blank">Schedule (PDF)</a>,
-      <a :href="event.flyer_uri" target="_blank">Flier (PDF)</a>
+    <div class="row is-item" v-if="event.event_schedule_uri">
+      <div class="grid is-100">
+        <a :href="event.event_schedule_uri" target="_blank">Schedule (PDF)</a>,
+        <a :href="event.flyer_uri" target="_blank">Flier (PDF)</a>
+      </div>
     </div>
-  </div>
-  <!-- Event detail -->
+    <!-- Event detail -->
 
-  <!-- Map -->
-  <div class="row">
-    <gmap-map
-      :options="defaultOptions"
-      :draggable="false"
-      :center="center"
-      :zoom="7"
-      style="width: 100%; height: 300px"
-    >
-      <gmap-marker
-        :key="index"
-        v-for="(m, index) in markers"
-        :position="m.position"
-        @click="center=m.position"
-      ></gmap-marker>
-    </gmap-map>
-  </div>
+    <!-- Map -->
+    <div class="row">
+      <gmap-map
+        :options="defaultOptions"
+        :draggable="false"
+        :center="center"
+        :zoom="7"
+        style="width: 100%; height: 300px"
+      >
+        <gmap-marker
+          :key="index"
+          v-for="(m, index) in markers"
+          :position="m.position"
+          @click="center=m.position"
+        ></gmap-marker>
+      </gmap-map>
+    </div>
 
-  <!-- Venue Detail -->
-  <contact :venue="event.venue" class="row is-item grid is-100"></contact>
+    <!-- Venue Detail -->
+    <contact :venue="event.venue" class="row is-item grid is-100"></contact>
 
-  <!-- Upcoming Events this month -->
-  <div class="row is-item grid is-100">
-    <h2 class="title">Events at this Venue</h2>
-  </div>
-  <div class="row is-item" v-for="event in relatedEvents.data">
-    <action-bar :event="event"></action-bar>
+    <tabs></tabs>
   </div>
 
 </div>
@@ -71,12 +67,14 @@ Vue.use(VueGoogleMaps, {
 
 var numeral = require('numeral');
 
+import tabs from '~/components/global/Tabs';
 export default {
   mixins: [MyMixin],
   components: {
     contact,
     close,
     actionBar,
+    tabs
   },
   props: ['id', 'slug'],
   data() {
@@ -151,5 +149,8 @@ export default {
 }
 .title {
   margin-bottom: 10px;
+}
+.event-helper {
+  background: #fff;
 }
 </style>

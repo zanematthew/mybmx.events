@@ -6,9 +6,16 @@
         <router-link :to="{ name: 'share' }" v-on:click.native="hideMenu" class="grid is-100 row is-item">
           <icon name="share-square-o" class="align-icon"></icon> Share
         </router-link>
-        <router-link :to="{ name: 'event-single', params: { id: id } }" class="grid is-100 row is-item">
+
+
+      <router-link :to="{ name: 'event-single',
+        params: { id: event.id, slug: event.slug, when: 'this-month' },
+        query: { venue_id: event.venue.id }
+        }" class="grid is-100 row is-item">
           <icon name="calendar" class="align-icon"></icon> View Event...
         </router-link>
+
+
         <router-link :to="{
         name: 'venue-single-events',
         params: {
@@ -36,13 +43,17 @@ export default {
   },
   data() {
     return {
-      id: this.$route.params.id,
       event: { venue: { id: '' } },
       showMenu: true
     }
   },
+  computed: {
+    event_id() {
+      return this.$route.params.id;
+    }
+  },
   mounted() {
-    axios.get(`/api/event/${this.id}/`).then(response => {
+    axios.get(`/api/event/${this.event_id}/`).then(response => {
       this.event = response.data;
     });
   },

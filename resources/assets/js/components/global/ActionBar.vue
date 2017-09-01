@@ -3,8 +3,13 @@
   <div v-if="event">
     <schedule-add-to-master class="grid is-20 align-center" :event="event"></schedule-add-to-master>
     <div class="grid is-80">
-      <router-link v-if="event.id" :to="{ name: 'event-single', params: { id: event.id, slug: event.slug }, query: { venue_id: event.venue.id } }" class="title">{{ event.title }}</router-link>
-      <router-link :to="{ name: 'action-main', params: { id: event.id } }" class="align-right">
+
+      <router-link v-if="event.id" :to="{ name: 'event-single',
+      params: { id: event.id, slug: event.slug, when: 'this-month' },
+      query: { venue_id: event.venue.id }
+      }" class="title">{{ event.title }}</router-link>
+
+      <router-link v-if="event.id" :to="{ name: 'action-main', params: { id: event.id } }" class="align-right">
         <icon name="ellipsis-h"></icon>
       </router-link>
       <br /><strong>{{ fromNow(event.start_date) }}</strong>, {{ startEndDate(event.start_date, event.end_date) }}

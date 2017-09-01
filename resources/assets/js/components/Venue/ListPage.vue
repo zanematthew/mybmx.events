@@ -8,15 +8,15 @@
 </div>
 </template>
 <script>
-import Pager from '~/components/global/Pager';
-import StateSelect from '~/components/global/StateSelect';
-import ActionBar from '~/components/global/ActionBar';
+import pager from '~/components/global/Pager';
+import stateSelect from '~/components/global/StateSelect';
+import actionBar from '~/components/global/ActionBar';
 
 export default {
   components: {
-    'pager': Pager,
-    'state-select': StateSelect,
-    'action-bar': ActionBar
+    pager,
+    stateSelect,
+    actionBar
   },
   props: ['state'],
   data() {
@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     request() {
+      // @todo move to api/Venues.js
       axios.get('/api/venues/', {
         params: this.$route.query
       }).then(response => {

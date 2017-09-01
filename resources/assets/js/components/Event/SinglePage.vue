@@ -51,10 +51,12 @@
 <script>
 import MyMixin from '~/mixin.js';
 import moment from 'moment';
+
 import contact from '~/components/global/Contact';
 import actionBar from '~/components/global/ActionBar';
-
 import close from '~/components/global/Close';
+import tabs from '~/components/global/Tabs';
+
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue';
 
@@ -67,7 +69,6 @@ Vue.use(VueGoogleMaps, {
 
 var numeral = require('numeral');
 
-import tabs from '~/components/global/Tabs';
 export default {
   mixins: [MyMixin],
   components: {
@@ -106,6 +107,7 @@ export default {
       return numeral(number).format('$0,0[.]00');
     },
     request() {
+      // @todo move to api/Event.js
       axios.get('/api/event/'+this.id+'/').then(response => {
         this.event = response.data;
         this.center.lat = parseInt(response.data.venue.lat);
@@ -116,6 +118,7 @@ export default {
         this.pageTitle = `${this.event.venue.name} // ${this.event.title}`;
         return response.data;
       }).then(response => {
+        // @todo add to api/Event.js
         axios.get('/api/events/', {
           params: {
             this_month: true,

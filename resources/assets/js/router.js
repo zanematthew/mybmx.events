@@ -6,8 +6,8 @@ import EventListPage from './components/Event/ListPage';
 import EventAttendingPage from './components/Event/AttendingPage';
 
 import VenueRouterView from './components/Venue/RouterView';
-import VenueSingle from './components/Venue/Single';
-import VenueList from './components/Venue/List';
+import VenueSinglePage from './components/Venue/SinglePage';
+import VenueListPage from './components/Venue/ListPage';
 
 import ScheduleRouterView from './components/Schedule/RouterView';
 import ScheduleList from './components/Schedule/List';
@@ -49,14 +49,14 @@ const routes = [
     children: [
       {
         path: ':venue_id(\\d+)/:slug/events/:when/',
-        component: VenueSingle,
+        component: VenueSinglePage,
         name: 'venue-single-events',
         props: true,
       },
       {
         path: ':state?',
         name: 'state-list',
-        component: VenueList,
+        component: VenueListPage,
         props: true
       }
     ]

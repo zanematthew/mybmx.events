@@ -79,6 +79,7 @@ export default {
   },
   methods: {
     request() {
+      // @todo move to api/Venue.js
       axios.get('/api/venue/'+this.venueId).then(response => {
         this.venue = response.data;
         this.center.lat = parseInt(response.data.lat);

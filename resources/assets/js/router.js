@@ -1,9 +1,9 @@
 import VueRouter from 'vue-router';
 
 import EventRouterView from './components/Event/RouterView';
-import EventSingle from './components/Event/Single';
-import EventList from './components/Event/List';
-import EventAttending from './components/Event/Attending';
+import EventSinglePage from './components/Event/SinglePage';
+import EventListPage from './components/Event/ListPage';
+import EventAttendingPage from './components/Event/AttendingPage';
 
 import VenueRouterView from './components/Venue/RouterView';
 import VenueSingle from './components/Venue/Single';
@@ -28,13 +28,13 @@ const routes = [
     children: [
       {
         path: ':id(\\d+)/:slug?',
-        component: EventSingle,
+        component: EventSinglePage,
         name: 'event-single',
         props: true
       },
       {
         path: ':when',
-        component: EventList,
+        component: EventListPage,
         name: 'when',
         props: true
       }
@@ -79,7 +79,7 @@ const routes = [
   },
   {
     path: '/attending/',
-    component: EventAttending,
+    component: EventAttendingPage,
     name: 'attending',
     props: true,
     meta: { requiresAuth: true }

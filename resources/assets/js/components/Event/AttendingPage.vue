@@ -6,7 +6,6 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
 import ActionBar from '~/components/global/ActionBar';
 
 export default {

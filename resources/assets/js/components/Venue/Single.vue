@@ -43,7 +43,7 @@ Vue.use(VueGoogleMaps, {
 import contact from '~/components/Venue/Contact';
 import close from '~/components/global/Close';
 import actionBar from '~/components/global/ActionBar';
-import tabs from '~/components/Event/Tabs';
+import tabs from '~/components/global/Tabs';
 
 export default {
   components: {

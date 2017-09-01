@@ -9,7 +9,7 @@ import Event from '~/api/Event';
 import moment from 'moment';
 
 import state from '~/components/global/StateSelect';
-import tabs from '~/components/Event/Tabs';
+import tabs from '~/components/global/Tabs';
 
 export default {
   components: {

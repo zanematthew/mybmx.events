@@ -55,8 +55,8 @@
 <script>
 import MyMixin from '~/mixin.js';
 import moment from 'moment';
-import contact from '~/components/Venue/Contact';
 import EventActionBar from '~/components/global/ActionBar';
+import contact from '~/components/global/Contact';
 
 import Close from '~/components/global/Close';
 import * as VueGoogleMaps from 'vue2-google-maps';

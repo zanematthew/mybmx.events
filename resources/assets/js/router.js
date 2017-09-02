@@ -10,7 +10,7 @@ import VenueSinglePage from './components/Venue/SinglePage';
 import VenueListPage from './components/Venue/ListPage';
 
 import ScheduleRouterView from './components/Schedule/RouterView';
-import ScheduleList from './components/Schedule/List';
+import ScheduleListPage from './components/Schedule/ListPage';
 
 import ActionMain from './components/global/ActionMain';
 import Share from './components/global/Share';
@@ -72,7 +72,7 @@ const routes = [
       {
         path: 'schedules',
         name: 'your-schedules',
-        component: ScheduleList,
+        component: ScheduleListPage,
         meta: { requiresAuth: true },
       }
     ]

@@ -1,20 +1,16 @@
+'use strict';
+
 import VueRouter from 'vue-router';
-
-import EventRouterView from './components/Event/RouterView';
-import EventSinglePage from './components/Event/SinglePage';
-import EventListPage from './components/Event/ListPage';
-import EventAttendingPage from './components/Event/AttendingPage';
-
-import VenueRouterView from './components/Venue/RouterView';
-import VenueSinglePage from './components/Venue/SinglePage';
-import VenueListPage from './components/Venue/ListPage';
-
-import ScheduleRouterView from './components/Schedule/RouterView';
-import ScheduleListPage from './components/Schedule/ListPage';
-
-import ActionMain from './components/global/ActionMain';
-import Share from './components/global/Share';
-import AddTo from './components/Schedule/AddTo';
+import RouterView from './components/Pages/RouterView';
+import EventSinglePage from './components/Pages/EventSinglePage';
+import EventListPage from './components/Pages/EventListPage';
+import AttendingPage from './components/Pages/AttendingPage';
+import VenueSinglePage from './components/Pages/VenueSinglePage';
+import VenueListPage from './components/Pages/VenueListPage';
+import ScheduleListPage from './components/Pages/ScheduleListPage';
+import ActionMainPage from './components/Pages/ActionMainPage';
+import SharePage from './components/Pages/SharePage';
+import AddToPage from '~/components/Pages/AddToPage';
 
 const NotFoundComponent = { template: '<div>404</div>' };
 
@@ -22,7 +18,7 @@ const routes = [
   {
     path: '/browse/events',
     redirect: { name: 'when', params: { when: 'this-month' } },
-    component: EventRouterView,
+    component: RouterView,
     name: 'events',
     props: true,
     children: [
@@ -43,7 +39,7 @@ const routes = [
   {
     path: '/browse/venues/',
     redirect: { name: 'state-list' },
-    component: VenueRouterView,
+    component: RouterView,
     name: 'venues',
     props: true,
     children: [
@@ -64,7 +60,7 @@ const routes = [
   {
     path: '/items',
     redirect: { name: 'your-schedules'},
-    component: ScheduleRouterView,
+    component: RouterView,
     name: 'schedules',
     props: true,
     meta: { requiresAuth: true },
@@ -79,7 +75,7 @@ const routes = [
   },
   {
     path: '/attending/',
-    component: EventAttendingPage,
+    component: AttendingPage,
     name: 'attending',
     props: true,
     meta: { requiresAuth: true }
@@ -87,19 +83,19 @@ const routes = [
   {
     path: '/action/:id(\\d+)/',
     name: 'action-main',
-    component: ActionMain,
+    component: ActionMainPage,
     props: true,
     children: [
       {
         path: 'share',
         name: 'share',
-        component: Share,
+        component: SharePage,
         props: true
       },
       {
         path: 'add-to',
         name: 'add-to',
-        component: AddTo,
+        component: AddToPage,
         props: true,
         meta: { requiresAuth: true }
       }

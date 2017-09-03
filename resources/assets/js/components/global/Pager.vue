@@ -1,25 +1,23 @@
 <template>
-  <div class="row nav is-tertiary meta pagination">
+  <div class="row is-item">
     <span v-if="data.last_page > 1">
       <router-link :to="{
         name: router_view,
         query: Object.assign({}, this.$route.query, {
           page: this.nextPrevPage( data.prev_page_url )
         })
-      }" class="nav-item" exact>
-        <icon name="angle-left"></icon>
+      }" class="nav-item align-left grid is-50" exact>
+        <icon name="angle-left" scale="2"></icon>
       </router-link>
-      <span class="nav-item">{{ data.current_page }}/{{ data.last_page }}</span>
       <router-link :to="{
         name: router_view,
           query: Object.assign({}, this.$route.query, {
             page: this.nextPrevPage( data.next_page_url )
           })
-        }" class="nav-item" exact>
-        <icon name="angle-right"></icon>
+        }" class="nav-item align-right grid is-50" exact>
+        <icon name="angle-right" scale="2"></icon>
       </router-link>
     </span>
-    <div class="nav-item count align-right">Total {{ data.total }}</div>
   </div>
 </template>
 <script>

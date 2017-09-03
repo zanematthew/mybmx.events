@@ -10,7 +10,7 @@
 </template>
 <script>
 import router from '~/router';
-import ScheduleAdd from '~/components/Schedule/Add';
+import ScheduleAdd from '~/components/global/AddSchedule';
 
 export default {
   components: {

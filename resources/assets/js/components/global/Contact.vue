@@ -14,11 +14,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.address {
-  .title {
-    margin-bottom: 10px;
-  }
-}
 .icon-menu {
   li {
     list-style-type: none;

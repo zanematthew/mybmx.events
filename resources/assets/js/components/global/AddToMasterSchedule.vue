@@ -18,7 +18,11 @@ export default {
   },
   methods: {
     schedule(event) {
-      this.$store.dispatch('addToMasterSchedule', event);
+      if (this.$store.isLoggedIn) {
+        this.$store.dispatch('addToMasterSchedule', event);
+      } else {
+        window.location.replace(`${window.location.origin}/login/`);
+      }
     },
     // @todo move to getter in Vuex
     isScheduled(event) {

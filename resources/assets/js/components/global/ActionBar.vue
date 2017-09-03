@@ -1,38 +1,35 @@
 <template>
 <div class="content">
-  <div v-if="event">
-    <schedule-add-to-master class="grid is-20 align-center" :event="event"></schedule-add-to-master>
-    <div class="grid is-80">
+  <div v-if="event" class="action-bar">
 
-      <router-link v-if="event.id" :to="{ name: 'event-single',
+    <schedule-add-to-master :event="event" class="grid is-15"></schedule-add-to-master>
+
+    <router-link v-if="event.id" :to="{ name: 'event-single',
       params: { id: event.id, slug: event.slug, when: 'this-month' },
       query: { venue_id: event.venue.id }
-      }" class="title">{{ event.title }}</router-link>
+      }" class="grid is-70 title-click-area">
+        <div class="title">{{ event.title }} {{ event.venue.name }}</div>
+        <span v-if="event.venue">
+          {{ event.venue.city.name }}<span v-if="event.venue.city.states">, {{ event.venue.city.states[0].abbr }}</span>
+        </span>
+        {{ startEndDate(event.start_date, event.end_date) }}
+    </router-link>
 
-      <router-link v-if="event.id" :to="{ name: 'action-main', params: { id: event.id } }" class="align-right">
-        <icon name="ellipsis-h"></icon>
-      </router-link>
-      <br /><strong>{{ fromNow(event.start_date) }}</strong>, {{ startEndDate(event.start_date, event.end_date) }}
-      <div v-if="event.venue">
-        <strong>{{ event.type_name }}</strong> &bull; <strong>{{ event.venue.name }}</strong> &bull; {{ event.venue.city.name }}<span v-if="event.venue.city.states">, {{ event.venue.city.states[0].abbr }}</span>
-      </div>
-    </div>
+    <router-link v-if="event.id" :to="{ name: 'action-main', params: { id: event.id } }" class="align-right grid is-15 detail-click-area">
+      <icon name="ellipsis-h"></icon>
+    </router-link>
   </div>
 
-  <div v-else-if="venue">
-    <div class="grid is-30" v-if="venue.image_uri">
+  <div v-else-if="venue" class="action-bar">
+    <div class="grid is-20 image-area" v-if="venue.image_uri">
       <img :src="venue.image_uri" itemprop="image" alt="Photo of Jane Joe">
     </div>
-    <div class="grid is-70 address">
-      <router-link v-if="venue.id" :to="{ name: 'action-main', params: { id: venue.id } }" class="align-right menu-thingy"><icon name="ellipsis-h"></icon></router-link>
+    <div class="grid is-65 title-click-area">
       <router-link :to="{ name: 'venue-single-events', params: { venue_id: venue.id, slug: venue.slug, when: 'this-month' } }" class="title" v-if="venue.id">{{ venue.name }}</router-link>
-      <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-        <span v-if="venue.street_address" itemprop="streetAddress">{{ venue.street_address }}</span><br>
-        <span itemprop="addressLocality">{{ venue.city.name }}</span>,
-        <span v-if="venue.city.states[0]" itemprop="addressRegion">{{ venue.city.states[0].abbr }}</span> <span>{{ venue.zip_code }}</span>
-      </address>
-      <div v-if="venue.events"><strong>{{ eventCount(venue.events) }}</strong> Events</div>
     </div>
+    <router-link v-if="venue.id" :to="{ name: 'action-main', params: { id: venue.id } }" class="align-right grid is-15 detail-click-area">
+      <icon name="ellipsis-h"></icon>
+    </router-link>
   </div>
 
   <div v-else class="title">
@@ -53,11 +50,27 @@ export default {
   },
   components: {
     'schedule-add-to-master': ScheduleAddToMaster
-  },
-  methods: {
-    eventCount(events) {
-      return events.length;
-    }
   }
 }
 </script>
+<style lang="scss">
+@import "../../../sass/variables";
+.action-bar {
+  max-height: 80px;
+  min-height: 80px;
+  height: 80px;
+}
+.title-click-area {
+  height: 100%;
+  padding-top: $padding;
+}
+.detail-click-area {
+  height: 100%;
+  color: #000;
+  padding-top: $padding;
+}
+.image-area {
+  padding-top: $padding;
+  padding-bottom: $padding;
+}
+</style>

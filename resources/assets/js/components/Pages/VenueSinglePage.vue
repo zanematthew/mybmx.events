@@ -4,6 +4,12 @@
   <div class="top-helper">
     <action-bar :venue="venue" class="grid is-100 row is-item"></action-bar>
     <contact :venue="venue" class="grid is-100 row is-item"></contact>
+    <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="row is-item grid is-100">
+      <span v-if="venue.street_address" itemprop="streetAddress">{{ venue.street_address }}</span><br>
+      <span itemprop="addressLocality">{{ venue.city.name }}</span>,
+      <span v-if="venue.city.states[0]" itemprop="addressRegion">{{ venue.city.states[0].abbr }}</span> <span>{{ venue.zip_code }}</span>
+    </address>
+    <div v-if="venue.events" class="row is-item grid is-100"><strong>{{ eventCount(venue.events) }}</strong> Events</div>
   </div>
 
   <div class="content row">
@@ -89,6 +95,9 @@ export default {
         }];
         this.pageTitle = this.venue.name;
       });
+    },
+    eventCount(events) {
+      return events.length;
     }
   }
 }

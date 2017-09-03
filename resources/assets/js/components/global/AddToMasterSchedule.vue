@@ -27,3 +27,11 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+@import "../../../sass/variables";
+.attend-container {
+  height: 100%;
+  padding-top: $padding;
+  text-align: center;
+}
+</style>

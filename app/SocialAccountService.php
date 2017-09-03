@@ -40,8 +40,10 @@ class SocialAccountService
             $account->save();
 
             // Create the default schedule;
+            // @todo remove this? Its handled via an EventServiceProvider
+            // This needs to fire the EventServiceProvider
             $schedule = Schedule::create([
-                'name'    => 'Master',
+                'name'    => 'master',
                 'default' => true,
             ]);
             $schedule->user()->associate($user);

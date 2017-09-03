@@ -8,9 +8,9 @@
 </div>
 </template>
 <script>
-import pager from '~/components/global/Pager';
-import stateSelect from '~/components/global/StateSelect';
-import actionBar from '~/components/global/ActionBar';
+import pager from '~/components/Global/Pager';
+import stateSelect from '~/components/Global/StateSelect';
+import actionBar from '~/components/Global/ActionBar';
 
 export default {
   components: {

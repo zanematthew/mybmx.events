@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import close from '~/components/global/Close';
+import close from '~/components/Global/Close';
 
 export default {
   components: {

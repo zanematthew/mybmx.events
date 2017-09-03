@@ -62,7 +62,7 @@ Vue.use(VueAnalytics, {
   }
 });
 
-import StateSelect from './components/global/StateSelect';
+import StateSelect from './components/Global/StateSelect';
 
 var SocialSharing = require('vue-social-sharing');
 Vue.use(SocialSharing);
@@ -70,11 +70,11 @@ Vue.use(SocialSharing);
 /**
  * Laravel Passport -- API/JWT https://laravel.com/docs/5.4/passport
  */
-import PrimaryNav from './components/global/PrimaryNav';
+import PrimaryNav from './components/Global/PrimaryNav';
 import Clients from './components/passport/Clients';
 import AuthorizedClients from './components/passport/AuthorizedClients';
 import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
-import user from './components/global/UserBar';
+import user from './components/Global/UserBar';
 
 import { sync } from 'vuex-router-sync'
 import store from './store';

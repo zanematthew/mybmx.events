@@ -20,7 +20,7 @@
 </div>
 </template>
 <script>
-import ScheduleDelete from '~/components/global/DeleteSchedule';
+import ScheduleDelete from '~/components/Global/DeleteSchedule';
 
 export default {
   components: {

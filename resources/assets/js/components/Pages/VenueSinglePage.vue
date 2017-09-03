@@ -40,10 +40,10 @@ Vue.use(VueGoogleMaps, {
   }
 });
 
-import contact from '~/components/global/Contact';
-import close from '~/components/global/Close';
-import actionBar from '~/components/global/ActionBar';
-import tabs from '~/components/global/Tabs';
+import contact from '~/components/Global/Contact';
+import close from '~/components/Global/Close';
+import actionBar from '~/components/Global/ActionBar';
+import tabs from '~/components/Global/Tabs';
 
 export default {
   components: {

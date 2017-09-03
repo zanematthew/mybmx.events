@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import actionBar from '~/components/global/ActionBar';
+import actionBar from '~/components/Global/ActionBar';
 
 export default {
   components: {

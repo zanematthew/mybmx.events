@@ -15,10 +15,10 @@
 </div>
 </template>
 <script>
-import scheduleAdd from '~/components/global/AddSchedule';
-import scheduleMakeDefault from '~/components/global/SetDefaultSchedule';
-import scheduleRename from '~/components/global/RenameSchedule';
-import dropdown from '~/components/global/Dropdown';
+import scheduleAdd from '~/components/Global/AddSchedule';
+import scheduleMakeDefault from '~/components/Global/SetDefaultSchedule';
+import scheduleRename from '~/components/Global/RenameSchedule';
+import dropdown from '~/components/Global/Dropdown';
 
 export default {
   components: {

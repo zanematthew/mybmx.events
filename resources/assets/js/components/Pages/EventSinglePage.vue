@@ -52,10 +52,10 @@
 import MyMixin from '~/mixin.js';
 import moment from 'moment';
 
-import contact from '~/components/global/Contact';
-import actionBar from '~/components/global/ActionBar';
-import close from '~/components/global/Close';
-import tabs from '~/components/global/Tabs';
+import contact from '~/components/Global/Contact';
+import actionBar from '~/components/Global/ActionBar';
+import close from '~/components/Global/Close';
+import tabs from '~/components/Global/Tabs';
 
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue';

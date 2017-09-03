@@ -24,8 +24,8 @@
 </div>
 </template>
 <script>
-import pager from '~/components/global/Pager';
-import actionBar from '~/components/global/ActionBar';
+import pager from '~/components/Global/Pager';
+import actionBar from '~/components/Global/ActionBar';
 import Event from '~/api/Event';
 
 export default {

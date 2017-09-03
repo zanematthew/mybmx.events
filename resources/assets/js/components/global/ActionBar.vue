@@ -43,7 +43,7 @@
 </template>
 <script>
 import MyMixin from '~/mixin.js';
-import ScheduleAddToMaster from '~/components/global/AddToMasterSchedule';
+import ScheduleAddToMaster from '~/components/Global/AddToMasterSchedule';
 
 export default {
   mixins: [MyMixin],

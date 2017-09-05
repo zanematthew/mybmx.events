@@ -43,4 +43,9 @@ class User extends Authenticatable
         // @todo fix for no avatar
         return $this->socialAccount()->first()->avatar;
     }
+
+    public function library()
+    {
+        return $this->hasMany('App\Library');
+    }
 }

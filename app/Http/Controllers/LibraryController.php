@@ -20,20 +20,25 @@ class LibraryController extends Controller
             'item_type' => $fqc,
         ])->pluck('id')->first();
 
+        $detached = [];
+        $attached = [];
+
         if ($foundItemId) {
-            $return = [
-                'deleted' => Library::destroy($foundItemId)
-            ];
+            Library::destroy($foundItemId);
+            $detached = $foundItemId;
         } else {
             $library            = new Library;
             $library->item_id   = $request->item_id;
             $library->item_type = $fqc;
             $library->user_id   = Auth::id();
             $library->save();
-            $return = $library->getAttributes();
+            $attached = $request->item_id;
         }
 
-        return response()->json($return);
+        return response()->json([
+            'attached' => [ $attached ],
+            'detached' => [ $detached ],
+        ]);
     }
 
     public function index(): \Illuminate\Http\JsonResponse
@@ -58,7 +63,14 @@ class LibraryController extends Controller
                 }
             }
         }
-        return response()->json($collection);
+
+        $cleaned = [];
+        foreach ($collection as $key => $value) {
+            $item_type = strtolower(str_replace('App\\', '', $key));
+            $cleaned[ $item_type ] = $value;
+        }
+
+        return response()->json($cleaned);
     }
 
     public function typeToFqc($type = null)

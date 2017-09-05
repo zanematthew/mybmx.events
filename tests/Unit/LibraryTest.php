@@ -39,10 +39,11 @@ class LibraryTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonStructure([
-                'id',
-                'created_at',
-                'updated_at',
+            ->assertJson([
+                'attached' => [
+                    0 => $eventId
+                ],
+                'detached' => [],
             ]);
 
         $response = $this->delete(route('library.toggle.item', [
@@ -55,8 +56,11 @@ class LibraryTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonStructure([
-                'deleted'
+            ->assertJson([
+                'attached' => [],
+                'detached' => [
+                    0 => $eventId
+                ],
             ]);
     }
 
@@ -97,9 +101,9 @@ class LibraryTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJsonStructure([
-                'App\Event'    => [],
-                'App\Venue'    => [],
-                'App\Schedule' => [],
+                'event'    => [],
+                'venue'    => [],
+                'schedule' => [],
             ]);
     }
 }

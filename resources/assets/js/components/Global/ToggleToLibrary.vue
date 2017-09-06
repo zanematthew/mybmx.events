@@ -1,6 +1,6 @@
 <template>
-  <a :class="added ? 'is-active' : ''" v-on:click.stop.prevent="toggle" class="add-to-library">
-    <icon scale="2" :name="added ? 'check-circle' : 'plus-circle'"></icon>
+  <a :class="added ? 'is-active' : ''" v-on:click.stop.prevent="toggle" class="star add-to-library">
+    <icon :name="added ? 'star' : 'star-o'"></icon>
   </a>
 </template>
 <script>

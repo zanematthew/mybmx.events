@@ -35,9 +35,9 @@ export default {
             icon: 'map-o',
           },
           {
-            name: 'Attending',
-            id: 'attending',
-            icon: 'calendar-check-o',
+            name: 'collections',
+            id: 'collections',
+            icon: 'star-o',
           }
         ]
     }

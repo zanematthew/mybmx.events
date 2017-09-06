@@ -11,6 +11,8 @@ import ScheduleListPage from './components/Pages/ScheduleListPage';
 import ActionMainPage from './components/Pages/ActionMainPage';
 import SharePage from './components/Pages/SharePage';
 import AddToPage from '~/components/Pages/AddToPage';
+import CollectionListPage from '~/components/Pages/CollectionListPage';
+import CollectionSinglePage from '~/components/Pages/CollectionSinglePage';
 
 const NotFoundComponent = { template: '<div>404</div>' };
 
@@ -70,6 +72,21 @@ const routes = [
         name: 'your-schedules',
         component: ScheduleListPage,
         meta: { requiresAuth: true },
+      }
+    ]
+  },
+  {
+    path: '/collections/',
+    component: CollectionListPage,
+    name: 'collections',
+    props: true,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: ':item_type',
+        component: CollectionSinglePage,
+        name: 'collection-type',
+        props: true
       }
     ]
   },

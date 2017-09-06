@@ -46,7 +46,7 @@ class LibraryTest extends TestCase
                 'detached' => [],
             ]);
 
-        $response = $this->delete(route('library.toggle.item', [
+        $response = $this->post(route('library.toggle.item', [
             'item_id'   => $eventId,
             'item_type' => 'event',
         ]), [

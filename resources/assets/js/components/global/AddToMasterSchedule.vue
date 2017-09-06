@@ -4,6 +4,8 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     event: {
@@ -12,13 +14,16 @@ export default {
     },
   },
   computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ]),
     allEventIds() {
       return this.$store.state.schedule.allEventIds;
     }
   },
   methods: {
     schedule(event) {
-      if (this.$store.isLoggedIn) {
+      if (this.isLoggedIn) {
         this.$store.dispatch('addToMasterSchedule', event);
       } else {
         window.location.replace(`${window.location.origin}/login/`);

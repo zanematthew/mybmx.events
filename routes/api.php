@@ -38,9 +38,13 @@ Route::group([
 
     Route::delete('/schedule/{id}/delete/', 'ScheduleController@delete')->name('user.schedule.delete');
 
-    Route::post('/library/toggle/{id}/{type}/', 'LibraryController@toggle')->name('library.toggle.item');
-    Route::delete('/library/toggle/{id}/{type}/', 'LibraryController@toggle')->name('library.toggle.item');
-    Route::get('/library/', 'LibraryController@index')->name('library.get.items');
+    /*
+    |--------------------------------------------------------------------------
+    | Library API Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::post('/library/toggle/{id}/{type}/' , 'LibraryController@toggle')->name('library.toggle.item');
+    Route::get('/library/'                     , 'LibraryController@index')->name('library.get.items');
 });
 
 Route::group(['prefix' => 'venue'], function () {

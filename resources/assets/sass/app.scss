@@ -80,6 +80,9 @@
   &.is-50 {
     width: 50%;
   }
+  &.is-55 {
+    width: 55%;
+  }
   &.is-60 {
     width: 60%;
   }
@@ -240,18 +243,6 @@ img {
     color: $medium-gray;
     cursor: pointer;
     width: 100%;
-  }
-}
-
-.attend-container {
-  .fa-icon {
-    color: #d9d9d9;
-    cursor: pointer;
-  }
-  &.attending {
-    .fa-icon {
-      color: $primary-focus-color;
-    }
   }
 }
 

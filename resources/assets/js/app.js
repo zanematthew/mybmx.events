@@ -127,6 +127,7 @@ const app = new Vue({
       // @todo
       // These need to be moved to the vuex main?
       // or placed within their respected component?
+      this.$store.dispatch('fetchAllLibraryItems');
       this.$store.dispatch('fetchAllSchedules');
       this.$store.dispatch('fetchAllScheduledEvents');
       this.$store.dispatch('fetchAllScheduledEventIds');

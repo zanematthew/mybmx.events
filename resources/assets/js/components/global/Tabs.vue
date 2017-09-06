@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <action-bar :event="event" :key="event.id" v-for="event in events.data" class="row"></action-bar>
+  <action-bar :item="event" :key="event.id" v-for="event in events.data" class="row"></action-bar>
 
   <pager :data="events"></pager>
 </div>

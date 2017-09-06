@@ -2,7 +2,7 @@
 <div id="event-single" class="content">
   <close class="row is-item grid is-100"></close>
   <div class="event-helper row">
-    <action-bar :event="event" class="row is-item"></action-bar>
+    <action-bar :item="event" class="row is-item"></action-bar>
 
     <!-- Event Detail -->
     <div class="row is-item" v-if="event.fee">

@@ -1,9 +1,7 @@
 <template>
 <div>
   <state-select :type="this.$route.name"></state-select>
-  <div class="row" v-for="venue in venues.data">
-    <action-bar :venue="venue"></action-bar>
-  </div>
+  <action-bar :item="venue" class="row" v-for="venue in venues.data" :key="venue.id"></action-bar>
   <pager :data="venues" :name="'venues'" :meta="{beforePageTitle: 'Venues'}"></pager>
 </div>
 </template>

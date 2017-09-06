@@ -1,43 +1,37 @@
 <template>
-<div class="content">
-  <div v-if="event" class="action-bar">
+  <div class="content action-bar">
 
-    <toggle-to-library :item_id="event.id" :item_type="'event'" class="grid is-15"></toggle-to-library>
+    <!-- Library Area -->
+    <toggle-to-library v-if="item.id" :item_id="item.id" :item_type="itemType" class="grid is-15"></toggle-to-library>
 
-    <router-link v-if="event.id" :to="{ name: 'event-single',
-      params: { id: event.id, slug: event.slug, when: 'this-month' },
-      query: { venue_id: event.venue.id }
+    <!-- Image Area -->
+    <div class="grid is-15 image-area" v-if="item.image_uri">
+      <div class="avatar">
+        <img :src="item.image_uri" itemprop="image" alt="Photo of Jane Joe">
+      </div>
+    </div>
+
+    <!-- Title Area (Event) -->
+    <router-link v-if="item.venue" :to="{ name: 'event-single',
+      params: { id: item.id, slug: item.slug, when: 'this-month' },
+      query: { venue_id: item.venue.id }
       }" class="grid is-70 title-click-area">
-        <div class="title">{{ event.title }} {{ event.venue.name }}</div>
-        <span v-if="event.venue">
-          {{ event.venue.city.name }}<span v-if="event.venue.city.states">, {{ event.venue.city.states[0].abbr }}</span>
+        <div class="title">{{ item.title }}</div>
+        <span v-if="item.venue">
+          {{ item.venue.city.name }}<span v-if="item.venue.city.states">, {{ item.venue.city.states[0].abbr }}</span>
         </span>
-        {{ startEndDate(event.start_date, event.end_date) }}
+        {{ startEndDate(item.start_date, item.end_date) }}
     </router-link>
 
-    <router-link v-if="event.id" :to="{ name: 'action-main', params: { id: event.id } }" class="align-right grid is-15 detail-click-area">
-      <icon name="ellipsis-h"></icon>
-    </router-link>
+    <!-- Title Area (Venue) -->
+    <router-link v-else :to="{ name: 'venue-single-events',
+      params: { venue_id: item.id, slug: item.slug, when: 'this-month' }
+      }" class="grid is-50 title-click-area title">{{ item.name }}</router-link>
+
+    <!-- Detail Area -->
+    <router-link :to="{ name: 'action-main', params: { id: item.id } }" class="align-right grid is-15 detail-click-area"><icon name="ellipsis-h"></icon></router-link>
   </div>
 
-  <div v-else-if="venue" class="action-bar">
-    <toggle-to-library v-if="venue.id" :item_id="venue.id" :item_type="'venue'" class="grid is-15"></toggle-to-library>
-    <div class="grid is-20 image-area" v-if="venue.image_uri">
-      <img :src="venue.image_uri" itemprop="image" alt="Photo of Jane Joe">
-    </div>
-    <div class="grid is-50 title-click-area">
-      <router-link :to="{ name: 'venue-single-events', params: { venue_id: venue.id, slug: venue.slug, when: 'this-month' } }" class="title" v-if="venue.id">{{ venue.name }}</router-link>
-    </div>
-    <router-link v-if="venue.id" :to="{ name: 'action-main', params: { id: venue.id } }" class="align-right grid is-15 detail-click-area">
-      <icon name="ellipsis-h"></icon>
-    </router-link>
-  </div>
-
-  <div v-else class="title">
-    No item to take action on.
-  </div>
-
-</div>
 </template>
 <script>
 import MyMixin from '~/mixin.js';
@@ -46,11 +40,15 @@ import toggleToLibrary from '~/components/Global/toggleToLibrary';
 export default {
   mixins: [MyMixin],
   props: {
-    event: { id: '' },
-    venue: { id: '' }
+    item: { id: '' }
   },
   components: {
     toggleToLibrary
+  },
+  computed: {
+    itemType() {
+      return this.item.venue ? 'event' : 'venue';
+    }
   }
 }
 </script>

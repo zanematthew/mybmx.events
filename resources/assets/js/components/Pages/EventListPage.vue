@@ -18,7 +18,8 @@ export default {
     when: {
       type: String,
       required: true
-    }
+    },
+    type: String
   },
   metaInfo() {
     return {

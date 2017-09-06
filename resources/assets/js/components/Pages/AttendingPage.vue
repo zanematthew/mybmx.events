@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="row is-item" v-for="event in masterSchedule.events">
-      <action-bar :event="event"></action-bar>
+      <action-bar :item="event"></action-bar>
     </div>
   </div>
 </template>

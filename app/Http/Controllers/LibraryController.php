@@ -101,4 +101,27 @@ class LibraryController extends Controller
         }
         return $modelFqc;
     }
+
+    // @todo needs test
+    public function getItemsByType(Request $request)
+    {
+        $model = $this->typeToFqc($request->item_type);
+
+        // @todo Remove this and all switches
+        switch ($request->item_type) {
+            case 'event':
+                return $model::with('venue.city.states')->whereIn('id', $request->item_ids)->paginate();
+                break;
+            case 'venue':
+                return $model::whereIn('id', $request->item_ids)->paginate();
+                break;
+            case 'schedule':
+                dd('special');
+                break;
+            default:
+                break;
+        }
+
+
+    }
 }

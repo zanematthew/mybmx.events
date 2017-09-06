@@ -59,15 +59,5 @@ export default {
     display: table-cell;
     text-align: center;
   }
-  .avatar {
-    height: 32px;
-    width: 32px;
-    overflow: hidden;
-    margin: 0 auto;
-    border-radius: 100%;
-    display: inline-block;
-    position: relative;
-    top: 7px;
-  }
 }
 </style>

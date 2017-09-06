@@ -63,6 +63,7 @@ export default {
   .add-to-library {
     line-height: 80px;
     height: 100%;
+    text-align: center;
   }
 }
 .title-click-area {
@@ -77,5 +78,6 @@ export default {
 .image-area {
   padding-top: $padding;
   padding-bottom: $padding;
+  text-align: center;
 }
 </style>

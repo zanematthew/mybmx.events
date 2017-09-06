@@ -40,14 +40,14 @@
   img {}
   color: #545454;
   font-size: 14px;
-  .title {
+}
+
+.title {
+  color: #000;
+  font-size: 16px;
+  a {
     color: #000;
-    font-size: 16px;
-    a {
-      color: #000;
-    }
   }
-  .body {}
 }
 
 .grid {
@@ -145,7 +145,7 @@ img {
 }
 
 .count {
-  color: $medium-gray;
+  color: $dark-gray;
 }
 
 .align-left {
@@ -213,7 +213,7 @@ img {
     border: 1px solid $light-gray;
     padding: 10px;
     outline: none;
-    color: $medium-gray;
+    color: $dark-gray;
     width: 100%;
   }
 
@@ -240,7 +240,7 @@ img {
     background: transparent;
     padding: 10px;
     outline: none;
-    color: $medium-gray;
+    color: $dark-gray;
     cursor: pointer;
     width: 100%;
   }
@@ -255,7 +255,7 @@ img {
     }
   }
   .input-field-icon {
-    color: $medium-gray;
+    color: $dark-gray;
     position: absolute;
     top: 10px;
     left: 5px;
@@ -265,7 +265,7 @@ img {
 }
 
 .box {
-  color: $medium-gray;
+  color: $dark-gray;
   .main {
     background: #fff;
     padding: $padding;
@@ -324,4 +324,19 @@ body {
   .peg {
     box-shadow: 0 0 10px #f00, 0 0 5px #d22;
   }
+}
+
+.star {
+  &.is-active {
+    color: #ffd800;
+  }
+}
+
+.avatar {
+  height: 32px;
+  width: 32px;
+  overflow: hidden;
+  border-radius: 100%;
+  display: inline-block;
+  border: 1px solid $medium-gray;
 }

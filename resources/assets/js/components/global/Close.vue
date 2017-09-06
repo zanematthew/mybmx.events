@@ -24,6 +24,5 @@ export default {
 <style>
 .close-container {
   cursor: pointer;
-  color: #000;
 }
 </style>

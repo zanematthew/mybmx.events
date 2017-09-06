@@ -21,7 +21,7 @@
   </div>
 
   <div v-else-if="venue" class="action-bar">
-    <toggle-to-library :item_id="venue.id" :item_type="'venue'" class="grid is-15"></toggle-to-library>
+    <toggle-to-library v-if="venue.id" :item_id="venue.id" :item_type="'venue'" class="grid is-15"></toggle-to-library>
     <div class="grid is-20 image-area" v-if="venue.image_uri">
       <img :src="venue.image_uri" itemprop="image" alt="Photo of Jane Joe">
     </div>

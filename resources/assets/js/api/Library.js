@@ -10,5 +10,9 @@ class Library {
             item_type: payload.item_type
         }).then(({data}) => then(data));
     }
+
+    static getItemsContent(then, payload) {
+      return axios.post(`/api/user/library/${payload.item_type}/`, {...payload}).then(({data}) => then(data));
+    }
 }
 export default Library;

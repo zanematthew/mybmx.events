@@ -9,7 +9,12 @@ import * as types from '~/store/mutation-types';
 const state = {
   event: [],
   venue: [],
-  schedule: []
+  schedule: [],
+  items: {
+    event: [],
+    venue: [],
+    schedule: []
+  }
 };
 
 /**
@@ -21,7 +26,7 @@ const getters = {
    */
   isItemInLibrary: (state) => (item_id, item_type) => {
     return state[item_type].indexOf(item_id) !== -1;
-  }
+  },
 };
 
 /**
@@ -46,14 +51,21 @@ const actions = {
    * users library.
    */
   toggleLibraryItem({commit, state}, payload) {
-    return new Promise((resolve, response) => {
-      Library.toggleItem(response => {
-        commit(types.TOGGLE_LIBRARY_ITEM, {
-          response: response,
-          item_type: payload.item_type
-        });
-        resolve(response);
-      }, {...payload});
+    Library.toggleItem(response => {
+      commit(types.TOGGLE_LIBRARY_ITEM, {
+        response: response,
+        item_type: payload.item_type
+      });
+    }, {...payload});
+  },
+
+  // @todo read, "Object destructing"
+  fetchAllLibraryItemsContents({commit, state}, payload) {
+    Library.getItemsContent(response => {
+      commit(types.SET_LIBRARY_ITEMS_CONTENTS, { contents: response, item_type: payload.item_type});
+    }, {
+      item_ids: state[payload.item_type],
+      item_type: payload.item_type
     });
   }
 };
@@ -83,6 +95,10 @@ const mutations = {
     } else {
       return 'Broken';
     }
+  },
+
+  [types.SET_LIBRARY_ITEMS_CONTENTS] (state, payload) {
+    state.items[payload.item_type] = payload.contents;
   }
 };
 

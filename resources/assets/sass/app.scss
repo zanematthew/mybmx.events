@@ -286,11 +286,6 @@ ul {
   &.nav {
     list-style-type: none;
   }
-  li {
-    a {
-      // padding: 0 15px 0 0;
-    }
-  }
 }
 
 .align-icon {
@@ -304,8 +299,8 @@ body {
 
 #app {
   margin: 0 auto;
-  min-width: 410px;
-  max-width: 410px;
+  min-width: 320px;
+  max-width: 600px;
 }
 
 .app-container {

@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.0.0/dist/vue-multiselect.min.css">
 
     </head>
-    <body class="@yield('body_class')">
+    <body>
         <div id="app">
             <div class="app-container">
                 @yield('content')

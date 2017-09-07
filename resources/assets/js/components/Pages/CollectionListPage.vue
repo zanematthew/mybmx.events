@@ -31,16 +31,6 @@ export default {
     toggleMenu() {
       this.showMenu = !this.showMenu;
     }
-  },
-  mounted() {
-    if (this.routeName == 'collection-type') {
-      this.toggleMenu();
-    }
-  },
-  watch: {
-    '$route' (to, from) {
-
-    }
   }
 }
 </script>

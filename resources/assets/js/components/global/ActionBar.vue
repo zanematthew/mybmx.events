@@ -15,7 +15,7 @@
     <router-link v-if="item.venue" :to="{ name: 'event-single',
       params: { id: item.id, slug: item.slug, when: 'this-month' },
       query: { venue_id: item.venue.id }
-      }" class="grid is-70 title-click-area">
+      }" class="grid is-70 title-click-area" exact>
         <div class="title">{{ item.title }}</div>
         <div class="not-title">
           {{ startDate(item.start_date) }}<span v-if="item.venue"> &bull; {{ item.venue.city.name }}<span v-if="item.venue.city.states">, {{ item.venue.city.states[0].abbr }}</span></span>
@@ -25,7 +25,7 @@
     <!-- Title Area (Venue) -->
     <router-link v-else :to="{ name: 'venue-single-events',
       params: { venue_id: item.id, slug: item.slug, when: 'this-month' }
-      }" class="grid is-50 title-click-area title">{{ item.name }}</router-link>
+      }" class="grid is-50 title-click-area title" exact>{{ item.name }}</router-link>
 
     <!-- Detail Area -->
     <router-link :to="{ name: 'action-main', params: { id: item.id } }" class="align-right grid is-15 detail-click-area"><icon name="ellipsis-h"></icon></router-link>

@@ -138,13 +138,4 @@ export default {
 .vue-map-container {
   border: 1px solid $light-gray;
 }
-.single-page {
-  position: absolute;
-  top: 0;
-  .move-up {
-    float: left;
-    width: 100%;
-    background: #fff;
-  }
-}
 </style>

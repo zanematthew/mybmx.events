@@ -24,5 +24,9 @@ export default {
 <style>
 .close-container {
   cursor: pointer;
+  opacity: .75;
+  background: #fff;
+  max-height: 48px;
+  min-height: 48px;
 }
 </style>

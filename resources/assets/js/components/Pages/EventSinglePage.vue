@@ -1,25 +1,21 @@
 <template>
-<div id="event-single" class="content">
+<div class="single-page">
   <close class="row is-item grid is-100"></close>
-  <div class="event-helper row">
-    <action-bar :item="event" class="row is-item"></action-bar>
+  <div class="move-up">
+    <action-bar :item="event" class="row"></action-bar>
 
     <!-- Event Detail -->
-    <div class="row is-item" v-if="event.fee">
-      <div class="grid is-100">
-        <strong>Fee</strong> {{ formatCurrency(event.fee) }}<br />
-        <strong>Registration Start</strong> {{ formatTime(event.start_date + ' ' + event.registration_start_time) }}<br />
-        <strong>Registration End</strong> {{ formatTime(event.start_date + ' ' + event.registration_end_time) }}<br />
-      </div>
+    <div class="row is-item grid is-100" v-if="event.fee">
+      <strong>Fee</strong> {{ formatCurrency(event.fee) }}<br />
+      <strong>Registration Start</strong> {{ formatTime(event.start_date + ' ' + event.registration_start_time) }}<br />
+      <strong>Registration End</strong> {{ formatTime(event.start_date + ' ' + event.registration_end_time) }}<br />
     </div>
 
-    <div class="row is-item" v-if="event.event_schedule_uri">
-      <div class="grid is-100">
-        <a :href="event.event_schedule_uri" target="_blank">Schedule (PDF)</a>,
-        <a :href="event.flyer_uri" target="_blank">Flier (PDF)</a>
-      </div>
+    <!-- Event Schedule -->
+    <div class="row is-item grid is-100" v-if="event.event_schedule_uri">
+      <a :href="event.event_schedule_uri" target="_blank">Schedule (PDF)</a>,
+      <a :href="event.flyer_uri" target="_blank">Flier (PDF)</a>
     </div>
-    <!-- Event detail -->
 
     <!-- Map -->
     <div class="row">
@@ -42,9 +38,9 @@
     <!-- Venue Detail -->
     <contact :venue="event.venue" class="row is-item grid is-100"></contact>
 
+    <!-- Tabs -->
     <tabs></tabs>
   </div>
-
 </div>
 </template>
 
@@ -137,23 +133,18 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../../../sass/variables";
 .vue-map-container {
   border: 1px solid $light-gray;
 }
-.close-container {
-  opacity: .75;
-  background: #fff;
-}
-#event-single {
+.single-page {
   position: absolute;
   top: 0;
-}
-.title {
-  margin-bottom: 10px;
-}
-.event-helper {
-  background: #fff;
+  .move-up {
+    float: left;
+    width: 100%;
+    background: #fff;
+  }
 }
 </style>

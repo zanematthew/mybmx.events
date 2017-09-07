@@ -1,8 +1,9 @@
 <template>
-<div class="venue content">
+<div class="single-page">
   <close class="row is-item grid is-100"></close>
-  <div class="top-helper">
-    <action-bar :venue="venue" class="grid is-100 row is-item"></action-bar>
+
+  <div class="move-up">
+    <action-bar :item="venue" class="row"></action-bar>
     <contact :venue="venue" class="grid is-100 row is-item"></contact>
     <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="row is-item grid is-100">
       <span v-if="venue.street_address" itemprop="streetAddress">{{ venue.street_address }}</span><br>
@@ -10,25 +11,25 @@
       <span v-if="venue.city.states[0]" itemprop="addressRegion">{{ venue.city.states[0].abbr }}</span> <span>{{ venue.zip_code }}</span>
     </address>
     <div v-if="venue.events" class="row is-item grid is-100"><strong>{{ eventCount(venue.events) }}</strong> Events</div>
-  </div>
 
-  <div class="content row">
-    <gmap-map
-      :options="defaultOptions"
-      :draggable="false"
-      :center="center"
-      :zoom="7"
-      style="width: 100%; height: 300px"
-    >
-      <gmap-marker
-        :key="index"
-        v-for="(m, index) in markers"
-        :position="m.position"
-        @click="center=m.position"
-      ></gmap-marker>
-    </gmap-map>
+    <div class="content row">
+      <gmap-map
+        :options="defaultOptions"
+        :draggable="false"
+        :center="center"
+        :zoom="7"
+        style="width: 100%; height: 300px"
+      >
+        <gmap-marker
+          :key="index"
+          v-for="(m, index) in markers"
+          :position="m.position"
+          @click="center=m.position"
+        ></gmap-marker>
+      </gmap-map>
+    </div>
+    <tabs></tabs>
   </div>
-  <tabs></tabs>
 </div>
 </template>
 <script>
@@ -102,25 +103,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.close-container {
-  opacity: .75;
-  background: #fff;
-}
-.venue {
-  position: relative;
-  top: -51px;
-}
-.title {
-  margin-bottom: 10px;
-}
-.top-helper {
-  position: relative;
-  .menu-thingy {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 20px;
-  }
-}
-</style>

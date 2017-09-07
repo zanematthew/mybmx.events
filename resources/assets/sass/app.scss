@@ -238,41 +238,16 @@ img {
     cursor: pointer;
     width: 100%;
   }
-}
-
-.login {
-  background: $light-gray;
-  .icon-row {
-    position: relative;
-    input {
-      padding-left: 35px;
-    }
-  }
-  .input-field-icon {
-    color: $dark-gray;
-    position: absolute;
-    top: 10px;
-    left: 5px;
-    width: 30px;
-    text-align: center;
-  }
-}
-
-.box {
-  color: $dark-gray;
-  .main {
-    background: #fff;
-    padding: $padding;
-    margin: 10px 0;
-    border-radius: 4px;
-    box-shadow: 0px 0px 5px #ccc;
-  }
-
-  width: 450px;
-  margin: 40px auto;
-
   .row {
     margin-bottom: 10px;
+    &.is-item {
+      border: 0;
+    }
+  }
+  .form-item {
+    margin: 10px 0;
+    float: left;
+    width: 100%;
   }
 }
 
@@ -340,4 +315,14 @@ body {
     width: 100%;
     background: #fff;
   }
+}
+
+.login-with-facebook-container {
+  background: #4267b2;
+  padding: 10px;
+  border-radius: 2px;
+  text-align: center;
+  color: #fff;
+  float: left;
+  width: 100%;
 }

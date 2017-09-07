@@ -6,6 +6,13 @@ export default {
     fromNow(start_date) {
       return moment(start_date).fromNow();
     },
+    startDate(start_date) {
+      if (_.isUndefined(start_date)) {
+        return 'N/A';
+      }
+      var startDate = moment(start_date).format("ddd, MMM D");
+      return startDate;
+    },
     startEndDate(start_date, end_date) {
       if (typeof start_date == 'undefined' || typeof end_date == 'undefined') {
         return;

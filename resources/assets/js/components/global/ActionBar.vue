@@ -1,5 +1,5 @@
 <template>
-  <div class="content action-bar">
+  <div class="action-bar">
 
     <!-- Library Area -->
     <toggle-to-library v-if="item.id" :item_id="item.id" :item_type="itemType" class="grid is-15"></toggle-to-library>
@@ -17,10 +17,9 @@
       query: { venue_id: item.venue.id }
       }" class="grid is-70 title-click-area">
         <div class="title">{{ item.title }}</div>
-        <span v-if="item.venue">
-          {{ item.venue.city.name }}<span v-if="item.venue.city.states">, {{ item.venue.city.states[0].abbr }}</span>
-        </span>
-        {{ startEndDate(item.start_date, item.end_date) }}
+        <div class="not-title">
+          {{ startDate(item.start_date) }}<span v-if="item.venue"> &bull; {{ item.venue.city.name }}<span v-if="item.venue.city.states">, {{ item.venue.city.states[0].abbr }}</span></span>
+        </div>
     </router-link>
 
     <!-- Title Area (Venue) -->
@@ -40,7 +39,7 @@ import toggleToLibrary from '~/components/Global/toggleToLibrary';
 export default {
   mixins: [MyMixin],
   props: {
-    item: { id: '' }
+    item: { id: '', image_uri: '' }
   },
   components: {
     toggleToLibrary
@@ -67,6 +66,7 @@ export default {
 .title-click-area {
   height: 100%;
   padding-top: $padding;
+  padding-right: 0;
 }
 .detail-click-area {
   height: 100%;
@@ -77,5 +77,8 @@ export default {
   padding-top: $padding;
   padding-bottom: $padding;
   text-align: center;
+}
+.not-title {
+  font-size: 12px;
 }
 </style>

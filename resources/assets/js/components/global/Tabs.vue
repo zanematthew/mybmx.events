@@ -1,13 +1,11 @@
 <template>
-<div class="row">
-  <div class="nav is-underlined is-tertiary is-spacious">
-    <span v-for="item in items">
-      <router-link :to="{
-        name: route_name,
-        params: item.params,
-        query: query
-      }" class="nav-item">{{ item.title }}</router-link>
-    </span>
+<div>
+  <div class="row nav is-underlined is-tertiary">
+    <router-link v-for="item in items" :key="item.id" :to="{
+      name: route_name,
+      params: item.params,
+      query: query
+    }" class="nav-item">{{ item.title }}</router-link>
   </div>
 
   <div v-if="events.total === 0" class="row is-item">
@@ -67,6 +65,8 @@ export default {
   },
   methods: {
     request() {
+      // @todo once we add the option to add events
+      // this needs to be handled via the event store.
       Event.events(
         events => this.events = events,
         this.when,
@@ -81,3 +81,13 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+@import "../../../sass/variables";
+.is-tertiary {
+  .nav-item {
+    float: left;
+    width: 33.33%;
+    text-align: center;
+  }
+}
+</style>

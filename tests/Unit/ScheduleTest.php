@@ -338,6 +338,11 @@ class ScheduleTest extends TestCase
                 'created_at',
                 'updated_at',
                 'title',
+                'venue' => [
+                    'city' => [
+                        'states' => []
+                    ]
+                ]
             ]]);
     }
 }

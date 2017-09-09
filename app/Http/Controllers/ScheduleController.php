@@ -123,6 +123,7 @@ class ScheduleController extends Controller
             ->schedules()
             ->find($request->id)
             ->events()
+            ->with('venue.city.states')
             ->get()
         );
     }

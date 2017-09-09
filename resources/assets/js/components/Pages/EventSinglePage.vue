@@ -2,7 +2,7 @@
 <div class="single-page">
   <close class="row is-item grid is-100"></close>
   <div class="move-up">
-    <action-bar :item="event" class="row"></action-bar>
+    <action-bar :type="'event'" :item="event" class="row"></action-bar>
 
     <!-- Event Detail -->
     <div class="row is-item grid is-100" v-if="event.fee">

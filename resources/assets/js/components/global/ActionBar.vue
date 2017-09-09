@@ -2,7 +2,7 @@
   <div class="action-bar">
 
     <!-- Library Area -->
-    <toggle-to-library v-if="item.id" :item_id="item.id" :item_type="itemType" class="grid is-15"></toggle-to-library>
+    <toggle-to-library v-if="item.id" :item_id="item.id" :item_type="type" class="grid is-15"></toggle-to-library>
 
     <!-- Image Area -->
     <div class="grid is-15 image-area" v-if="item.image_uri">
@@ -12,7 +12,9 @@
     </div>
 
     <!-- Title Area (Event) -->
-    <router-link v-if="item.venue" :to="{ name: 'event-single',
+    <router-link v-if="type === 'event'"
+      :to="{
+      name: 'event-single',
       params: { id: item.id, slug: item.slug, when: 'this-month' },
       query: { venue_id: item.venue.id }
       }" class="grid is-70 title-click-area" exact>
@@ -23,7 +25,7 @@
     </router-link>
 
     <!-- Title Area (Venue) -->
-    <router-link v-else :to="{ name: 'venue-single-events',
+    <router-link v-if="type === 'venue'" :to="{ name: 'venue-single-events',
       params: { venue_id: item.id, slug: item.slug, when: 'this-month' }
       }" class="grid is-50 title-click-area title" exact>{{ item.name }}</router-link>
 
@@ -39,15 +41,14 @@ import toggleToLibrary from '~/components/Global/toggleToLibrary';
 export default {
   mixins: [MyMixin],
   props: {
-    item: { id: '', image_uri: '' }
+    item: { id: '', image_uri: '' },
+    type: {
+      type: String,
+      required: true
+    }
   },
   components: {
     toggleToLibrary
-  },
-  computed: {
-    itemType() {
-      return this.item.venue ? 'event' : 'venue';
-    }
   }
 }
 </script>

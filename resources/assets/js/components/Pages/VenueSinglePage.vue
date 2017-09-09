@@ -3,7 +3,7 @@
   <close class="row is-item grid is-100"></close>
 
   <div class="move-up">
-    <action-bar :item="venue" class="row"></action-bar>
+    <action-bar :type="'venue'" :item="venue" class="row"></action-bar>
     <contact :venue="venue" class="grid is-100 row is-item"></contact>
     <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="row is-item grid is-100">
       <span v-if="venue.street_address" itemprop="streetAddress">{{ venue.street_address }}</span><br>

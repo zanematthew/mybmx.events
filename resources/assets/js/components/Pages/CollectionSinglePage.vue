@@ -1,6 +1,6 @@
 <template>
   <div>
-    <action-bar v-if="items" :item="item" :key="item.id" v-for="item in items.data" class="row"></action-bar>
+    <action-bar :type="item_type" v-if="items" :item="item" :key="item.id" v-for="item in items.data" class="row"></action-bar>
   </div>
 </template>
 <script>

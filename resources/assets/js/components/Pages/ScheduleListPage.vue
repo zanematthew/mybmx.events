@@ -1,17 +1,17 @@
 <template>
 <div>
-  <div class="row is-item grid is-100">
-    <schedule-add></schedule-add>
-  </div>
+  <schedule-add class="row is-item grid is-100"></schedule-add>
   <div v-for="schedule in schedules" class="content row is-item form">
-    <div class="grid is-80">
-      <schedule-make-default :schedule="schedule"></schedule-make-default>
-      <schedule-rename :schedule="schedule" ref="renameRef"></schedule-rename>
-    </div>
-    <div class="grid is-20">
-      <dropdown :schedule="schedule" v-on:doRename="triggerRename"></dropdown>
-    </div>
+    <!-- <schedule-rename :schedule="schedule" ref="renameRef" class="grid is-85"></schedule-rename>     -->
+
+    <router-link :to="{
+    name: 'schedule-single',
+    params: { id: schedule.id, slug: schedule.slug, name: schedule.name }
+    }" class="grid is-85 title">{{ schedule.name }}</router-link>
+
+    <dropdown :schedule="schedule" v-on:doRename="triggerRename" class="grid is-15"></dropdown>
   </div>
+  <router-view></router-view>
 </div>
 </template>
 <script>

@@ -1,8 +1,6 @@
 <template>
   <div class="content">
-    <div class="row is-item" v-for="event in masterSchedule.events">
-      <action-bar :item="event"></action-bar>
-    </div>
+      <action-bar :type="'event'" :item="event" v-for="event in masterSchedule.events" :key="event.id" class="row is-item"></action-bar>
   </div>
 </template>
 <script>

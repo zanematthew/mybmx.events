@@ -5,7 +5,6 @@
 </template>
 <script>
 import actionBar from '~/components/Global/ActionBar';
-import Library from '~/api/Library';
 
 export default {
   components: {

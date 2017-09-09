@@ -78,7 +78,4 @@ export default {
   padding-bottom: $padding;
   text-align: center;
 }
-.not-title {
-  font-size: 12px;
-}
 </style>

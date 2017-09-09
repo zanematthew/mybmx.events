@@ -13,7 +13,10 @@ class Schedule {
   }
 
   static toggleEventToSchedule(then, eventId, scheduleId) {
-    return axios.post(`/api/user/schedule/toggle/${eventId}/to/${scheduleId}/`).then(({data}) => then(data));
+    return axios.post(`/api/user/schedule/toggle/${eventId}/to/${scheduleId}/`, {
+      eventId: eventId,
+      scheduleId: scheduleId
+    }).then(({data}) => then(data));
   }
 
   static getScheduels(then) {

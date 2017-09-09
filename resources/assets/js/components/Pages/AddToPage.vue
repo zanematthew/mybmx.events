@@ -32,8 +32,7 @@ export default {
         id: this.id,
         scheduleId: schedule.id
       }).then(response => {
-        alert(`Added!\nRedirect to: ${this.landingUrl}`);
-        window.location.href = this.landingUrl;
+        alert(`Added!\nRedirect to: Some URL`);
       });
     }
   }

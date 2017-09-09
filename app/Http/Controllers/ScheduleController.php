@@ -116,4 +116,14 @@ class ScheduleController extends Controller
         $deleted = $scheduleWithEvents->delete();
         return response()->json($deleted);
     }
+
+    public function events(Request $request): \Illuminate\Http\JsonResponse
+    {
+        return response()->json(Auth::user()
+            ->schedules()
+            ->find($request->id)
+            ->events()
+            ->get()
+        );
+    }
 }

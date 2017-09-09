@@ -306,4 +306,38 @@ class ScheduleTest extends TestCase
                 'detached' => []
             ]);
     }
+
+    /**
+     * Get all Events for a given Schedule.
+     *
+     * @group schedule
+     */
+    public function testEvents()
+    {
+
+        $user = factory(\App\User::class)->create();
+
+        Passport::actingAs($user);
+
+        $schedule = new \App\Schedule;
+        $schedule->user()->associate($user);
+        $schedule->save();
+
+        $events = factory(\App\Event::class, 5)->create();
+        $firstThreeEvents = array_slice($events->toArray(), 0, 3);
+        $schedule->events()->toggle(array_pluck($firstThreeEvents, 'id'));
+
+        $response = $this->get(route('user.schedule.events', [
+            'id' => $schedule->id
+        ]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([[
+                'id',
+                'created_at',
+                'updated_at',
+                'title',
+            ]]);
+    }
 }

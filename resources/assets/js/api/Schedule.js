@@ -45,5 +45,9 @@ class Schedule {
       name: name
     }).then(({data}) => then(data));
   }
+
+  static events(then, id) {
+    return axios.get(`/api/user/schedule/events/${id}/`).then(({data}) => then(data));
+  }
 }
 export default Schedule;

@@ -10,7 +10,8 @@ import * as types from '~/store/mutation-types';
 const state = {
   allEventIds: [],
   schedules: [],
-  master: []
+  master: [],
+  realSchedules: {}
 };
 
 /**
@@ -114,6 +115,12 @@ const actions = {
         resolve(response);
       }, payload.id, payload.name);
     });
+  },
+
+  fetchScheduleEvents({commit, state}, payload) {
+    Schedule.events(response => {
+      commit(types.GET_ALL_EVENTS_FOR_GIVEN_SCHEDULE, { id: payload, events: response});
+    }, payload);
   }
 };
 
@@ -184,6 +191,10 @@ const mutations = {
   [types.RENAME_SCHEDULE] (state, payload) {
     var foundIndex = state.schedules.findIndex(items => items.id == payload.id);
     Object.assign(state.schedules[foundIndex], payload);
+  },
+
+  [types.GET_ALL_EVENTS_FOR_GIVEN_SCHEDULE] (state, payload) {
+    Vue.set(state.realSchedules, payload.id, payload.events);
   }
 };
 

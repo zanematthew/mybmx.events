@@ -7,13 +7,15 @@ import * as types from '~/store/mutation-types';
  * The initial state of our scheduling module.
  */
 const state = {
+  // These are array of IDs only.
   event: [],
   venue: [],
   schedule: [],
+  // These are objects containing
   items: {
-    event: [],
-    venue: [],
-    schedule: []
+    event: {},
+    venue: {},
+    schedule: {}
   }
 };
 

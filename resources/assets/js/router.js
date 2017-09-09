@@ -8,6 +8,7 @@ import AttendingPage from './components/Pages/AttendingPage';
 import VenueSinglePage from './components/Pages/VenueSinglePage';
 import VenueListPage from './components/Pages/VenueListPage';
 import ScheduleListPage from './components/Pages/ScheduleListPage';
+import ScheduleSinglePage from './components/Pages/ScheduleSinglePage';
 import ActionMainPage from './components/Pages/ActionMainPage';
 import SharePage from './components/Pages/SharePage';
 import AddToPage from '~/components/Pages/AddToPage';
@@ -30,6 +31,7 @@ const routes = [
         name: 'event-single',
         props: true
       },
+      // @todo rename this to 'event-list'
       {
         path: ':when',
         component: EventListPage,
@@ -60,18 +62,23 @@ const routes = [
     ]
   },
   {
-    path: '/items',
-    redirect: { name: 'your-schedules'},
-    component: RouterView,
+    path: '/schedules',
     name: 'schedules',
+    component: RouterView,
+    redirect: { name: 'schedule-list' },
     props: true,
-    meta: { requiresAuth: true },
     children: [
       {
-        path: 'schedules',
-        name: 'your-schedules',
+        path: 'all',
+        name: 'schedule-list',
         component: ScheduleListPage,
-        meta: { requiresAuth: true },
+        props: true
+      },
+      {
+        path: ':id(\\d+)/:slug?',
+        name: 'schedule-single',
+        component: ScheduleSinglePage,
+        props: true
       }
     ]
   },
@@ -80,13 +87,14 @@ const routes = [
     component: CollectionListPage,
     name: 'collections',
     props: true,
-    meta: { requiresAuth: true },
+    // meta: { requiresAuth: true },
     children: [
       {
         path: ':item_type',
         component: CollectionSinglePage,
         name: 'collection-type',
-        props: true
+        props: true,
+        // meta: { requiresAuth: true }
       }
     ]
   },
@@ -114,7 +122,7 @@ const routes = [
         name: 'add-to',
         component: AddToPage,
         props: true,
-        meta: { requiresAuth: true }
+        // meta: { requiresAuth: true }
       }
     ]
   },

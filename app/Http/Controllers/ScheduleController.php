@@ -62,7 +62,7 @@ class ScheduleController extends Controller
     {
         $schedule = Auth::user()->schedules()->findOrFail($request->id);
         $schedule->name = $request->name;
-        $updated        = $schedule->save();
+        $schedule->save();
 
         return response()->json($schedule);
     }

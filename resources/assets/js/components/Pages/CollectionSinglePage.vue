@@ -1,7 +1,10 @@
 <template>
-  <div>
+  <div v-if="items">
     <router-link :to="{ name: 'collection-list' }" class="row is-item grid"><icon name="chevron-left"></icon></router-link>
-    <action-bar :type="item_type" v-if="items" :item="item" :key="item.id" v-for="item in items.data" class="row"></action-bar>
+    <action-bar :type="item_type" :item="item" :key="item.id" v-for="item in items.data" class="row"></action-bar>
+  </div>
+  <div v-else class="align-center row is-item grid is-100">
+    <icon name="refresh" spin></icon>
   </div>
 </template>
 <script>

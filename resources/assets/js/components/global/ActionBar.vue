@@ -1,8 +1,8 @@
 <template>
-  <div class="action-bar">
+  <div class="action-bar" v-if="item.id">
 
     <!-- Library Area -->
-    <toggle-to-library v-if="item.id" :item_id="item.id" :item_type="type" class="grid is-15"></toggle-to-library>
+    <toggle-to-library :item_id="item.id" :item_type="type" class="grid is-15"></toggle-to-library>
 
     <!-- Image Area -->
     <div class="grid is-15 image-area" v-if="item.image_uri">
@@ -31,6 +31,9 @@
 
     <!-- Detail Area -->
     <router-link :to="{ name: 'action-main', params: { id: item.id } }" class="align-right grid is-15 detail-click-area"><icon name="ellipsis-h"></icon></router-link>
+  </div>
+  <div v-else class="align-center row is-item grid is-100">
+    <icon name="refresh" spin></icon>
   </div>
 
 </template>

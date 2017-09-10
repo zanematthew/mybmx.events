@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-link :to="{ name: 'collection-list' }" class="row is-item grid"><icon name="chevron-left"></icon></router-link>
     <action-bar :type="item_type" v-if="items" :item="item" :key="item.id" v-for="item in items.data" class="row"></action-bar>
   </div>
 </template>

@@ -11,7 +11,6 @@
 
     <dropdown :schedule="schedule" v-on:doRename="triggerRename" class="grid is-15"></dropdown>
   </div>
-  <router-view></router-view>
 </div>
 </template>
 <script>

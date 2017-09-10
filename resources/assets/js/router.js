@@ -84,11 +84,17 @@ const routes = [
   },
   {
     path: '/collections/',
-    component: CollectionListPage,
-    name: 'collections',
+    component: RouterView,
+    name: 'collection',
+    redirect: { name: 'collection-list' },
     props: true,
-    // meta: { requiresAuth: true },
     children: [
+      {
+        path: 'all',
+        name: 'collection-list',
+        component: CollectionListPage,
+        props: true,
+      },
       {
         path: ':item_type',
         component: CollectionSinglePage,

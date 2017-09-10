@@ -37,10 +37,9 @@ export default {
             icon: 'map-o',
           },
           {
-            name: 'collections',
-            id: 'collections',
-            icon: 'star-o',
-            params: { showMenu: true }
+            name: 'Collections',
+            id: 'collection',
+            icon: 'star-o'
           }
         ]
     }

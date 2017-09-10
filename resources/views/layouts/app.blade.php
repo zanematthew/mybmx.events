@@ -17,7 +17,7 @@
         <div id="app">
             <div class="app-container">
                 @yield('content')
-                <user class="row is-item"></user>
+                <user class="row is-item align-center"></user>
             </div>
         </div>
         <script>

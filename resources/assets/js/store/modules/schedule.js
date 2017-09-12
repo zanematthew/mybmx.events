@@ -8,7 +8,6 @@ import * as types from '~/store/mutation-types';
  * The initial state of our scheduling module.
  */
 const state = {
-  allEventIds: [],
   schedules: [],
   realSchedules: {}
 };
@@ -30,17 +29,6 @@ const getters = {
  * Actions commit mutations, these are to be used for asynchronous request.
  */
 const actions = {
-  fetchAllScheduledEventIds({commit, state}) {
-    return new Promise((resolve, reject) => {
-      if (state.allEventIds.length !== 0){
-        return;
-      }
-      Schedule.getAttendingEventIds(response => {
-        commit(types.SCHEDULED_EVENT_IDS, response);
-        resolve(response);
-      });
-    });
-  },
   // How do handle the reject?
   addToMasterSchedule({commit, state}, payload) {
     return new Promise((resolve, reject) => {
@@ -119,10 +107,6 @@ const actions = {
  * The ONLY way to update the state of our store, is by committing a mutation.
  */
 const mutations = {
-  // @todo this should be just a getter
-  [types.SCHEDULED_EVENT_IDS] (state, payload) {
-    state.allEventIds = payload;
-  },
   [types.ADD_EVENT_TO_MASTER_SCHEDULE] (state, payload) {
     if (payload.attached.length == 1){
       state.allEventIds.push(payload.attached[0]);

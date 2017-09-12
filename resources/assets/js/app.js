@@ -129,7 +129,6 @@ const app = new Vue({
       // or placed within their respected component?
       this.$store.dispatch('fetchAllLibraryItems');
       this.$store.dispatch('fetchAllSchedules');
-      this.$store.dispatch('fetchAllScheduledEventIds');
     }
   }
 }).$mount('#app');

@@ -1,9 +1,5 @@
 'use strict';
 class Schedule {
-  static getAttendingEventIds(then) {
-    return axios.get('/api/user/schedule/master/event/ids/').then(({data}) => then(data));
-  }
-
   static toggleEventToSchedule(then, eventId, scheduleId) {
     return axios.post(`/api/user/schedule/toggle/${eventId}/to/${scheduleId}/`, {
       eventId: eventId,

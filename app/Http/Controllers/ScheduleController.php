@@ -19,26 +19,6 @@ class ScheduleController extends Controller
         );
     }
 
-    public function masterEventIds(): \Illuminate\Http\JsonResponse
-    {
-        $schedules = Auth::user()
-            ->schedules()
-            ->where('name', 'master')
-            ->whereHas('events')
-            ->with('events')
-            ->get()
-            ->map(function ($item) {
-                return $item->events->pluck('id');
-            });
-        $eventIds = [];
-        foreach($schedules as $k => $v) {
-            foreach ($v as $vv) {
-                $eventIds[] = $vv;
-            }
-        }
-        return response()->json($eventIds);
-    }
-
     public function store(Schedule $schedule): \Illuminate\Http\JsonResponse
     {
         $schedule->name = request('name');
@@ -72,16 +52,6 @@ class ScheduleController extends Controller
             ->findOrFail($request->scheduleId)
             ->events()
             ->toggle($request->eventId)
-        );
-    }
-
-    public function attendingEvents(): \Illuminate\Http\JsonResponse
-    {
-        return response()->json(Auth::user()
-            ->schedules()
-            ->whereHas('events')
-            ->with('events')
-            ->get()
         );
     }
 

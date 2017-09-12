@@ -12,6 +12,8 @@ const state = {
   venue: [],
   schedule: [],
   // These are objects containing
+  // @todo these need to be removed, you should be able to "star" a schedule
+  // just like an event, venue, or later any arbitrary item.
   items: {
     event: {},
     venue: {},

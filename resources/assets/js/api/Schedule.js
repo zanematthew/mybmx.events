@@ -8,10 +8,6 @@ class Schedule {
     return axios.get('/api/user/schedule/attending/events/master/').then(({data}) => then(data));
   }
 
-  static toggleAttendToMaster(then, eventId) {
-    return axios.post(`/api/user/schedule/master/attend/${eventId}/`).then(({data}) => then(data));
-  }
-
   static toggleEventToSchedule(then, eventId, scheduleId) {
     return axios.post(`/api/user/schedule/toggle/${eventId}/to/${scheduleId}/`, {
       eventId: eventId,

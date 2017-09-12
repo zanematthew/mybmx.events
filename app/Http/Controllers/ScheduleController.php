@@ -85,17 +85,6 @@ class ScheduleController extends Controller
         );
     }
 
-    public function masterAttend(Request $request): \Illuminate\Http\JsonResponse
-    {
-        return response()->json(Auth::user()
-            ->schedules()
-            ->where('name', 'master')
-            ->firstOrFail()
-            ->events()
-            ->toggle($request->id)
-        );
-    }
-
     public function attendingEvents(): \Illuminate\Http\JsonResponse
     {
         return response()->json(Auth::user()

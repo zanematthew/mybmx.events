@@ -4,7 +4,6 @@ import VueRouter from 'vue-router';
 import RouterView from './components/Pages/RouterView';
 import EventSinglePage from './components/Pages/EventSinglePage';
 import EventListPage from './components/Pages/EventListPage';
-import AttendingPage from './components/Pages/AttendingPage';
 import VenueSinglePage from './components/Pages/VenueSinglePage';
 import VenueListPage from './components/Pages/VenueListPage';
 import ScheduleListPage from './components/Pages/ScheduleListPage';
@@ -103,13 +102,6 @@ const routes = [
         // meta: { requiresAuth: true }
       }
     ]
-  },
-  {
-    path: '/attending/',
-    component: AttendingPage,
-    name: 'attending',
-    props: true,
-    meta: { requiresAuth: true }
   },
   {
     path: '/action/:id(\\d+)/',

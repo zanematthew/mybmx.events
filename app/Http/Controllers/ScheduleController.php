@@ -39,16 +39,6 @@ class ScheduleController extends Controller
         return response()->json($eventIds);
     }
 
-    public function attendingEventsMaster(): \Illuminate\Http\JsonResponse
-    {
-        return response()->json(Auth::user()
-            ->schedules()
-            ->where('name', 'master')
-            ->with('events.venue.city.states')
-            ->first()
-        );
-    }
-
     public function store(Schedule $schedule): \Illuminate\Http\JsonResponse
     {
         $schedule->name = request('name');

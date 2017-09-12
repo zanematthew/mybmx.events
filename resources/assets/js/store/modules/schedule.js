@@ -10,7 +10,6 @@ import * as types from '~/store/mutation-types';
 const state = {
   allEventIds: [],
   schedules: [],
-  master: [],
   realSchedules: {}
 };
 
@@ -38,14 +37,6 @@ const actions = {
       }
       Schedule.getAttendingEventIds(response => {
         commit(types.SCHEDULED_EVENT_IDS, response);
-        resolve(response);
-      });
-    });
-  },
-  fetchAllScheduledEvents({commit, state}) {
-    return new Promise((resolve, reject) => {
-      Schedule.getAttendingEventsMaster(response => {
-        commit(types.GET_ALL_EVENTS, response);
         resolve(response);
       });
     });
@@ -150,10 +141,6 @@ const mutations = {
   // @todo this should be just a getter
   [types.GET_ALL_SCHEDULES] (state, payload) {
     state.schedules = payload;
-  },
-  // @todo this should be just a getter
-  [types.GET_ALL_EVENTS] (state, payload) {
-    state.master = payload;
   },
   // @todo this should be just a getter
   [types.ADD_SCHEDULE] (state, payload) {

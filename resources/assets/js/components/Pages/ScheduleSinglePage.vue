@@ -5,7 +5,7 @@
       <router-link :to="{ name: 'when', params: { when: 'this-month' } }" class="grid row is-item title align-center">Add Events to this Schedule.</router-link>
     </div>
     <div v-else>
-      <action-bar :type="'event'" :item="item" :key="item.id" v-for="item in items" class="row"></action-bar>
+      <action-bar :type="'event'" :item="item" :key="item.id" v-for="item in items.events" class="row"></action-bar>
     </div>
   </div>
   <div v-else class="align-center row is-item grid is-100">
@@ -22,14 +22,11 @@ export default {
   props: ['id'],
   computed: {
     items() {
-      return this.$store.state.schedule.realSchedules[this.id];
+      return this.$store.getters.getEventsInScheduleByScheduleId(this.id);
     },
     count() {
-      return _.isUndefined(this.items) ? 0 : this.items.length;
+      return _.isUndefined(this.items.events) ? 0 : this.items.events.length;
     }
-  },
-  mounted() {
-    this.$store.dispatch('fetchScheduleEvents', this.id);
   }
 }
 </script>

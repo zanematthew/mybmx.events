@@ -8,8 +8,7 @@ import * as types from '~/store/mutation-types';
  * The initial state of our scheduling module.
  */
 const state = {
-  schedules: [],
-  realSchedules: {}
+  schedules: []
 };
 
 /**
@@ -22,6 +21,10 @@ const getters = {
   isDefaultGetter: (state, getters) => (schedule) => {
     var foundIndex = state.schedules.findIndex(items => items.id == schedule.id);
     return state.schedules[foundIndex].default;
+  },
+  getEventsInScheduleByScheduleId: (state) => (id) => {
+    var foundIndex = state.schedules.findIndex(items => items.id == id);
+    return state.schedules[foundIndex];
   }
 };
 
@@ -29,16 +32,6 @@ const getters = {
  * Actions commit mutations, these are to be used for asynchronous request.
  */
 const actions = {
-  // How do handle the reject?
-  addToMasterSchedule({commit, state}, payload) {
-    return new Promise((resolve, reject) => {
-      Schedule.toggleAttendToMaster(response => {
-        commit(types.ADD_EVENT_TO_MASTER_SCHEDULE, response);
-        resolve(response);
-      }, payload.id);
-    });
-  },
-
   // TOGGLE_EVENT_TO_SCHEDULE
   toggleEventToSchedule({commit, state}, payload) {
     console.log(payload);
@@ -94,12 +87,6 @@ const actions = {
         resolve(response);
       }, payload.id, payload.name);
     });
-  },
-
-  fetchScheduleEvents({commit, state}, payload) {
-    Schedule.events(response => {
-      commit(types.GET_ALL_EVENTS_FOR_GIVEN_SCHEDULE, { id: payload, events: response});
-    }, payload);
   }
 };
 
@@ -107,16 +94,6 @@ const actions = {
  * The ONLY way to update the state of our store, is by committing a mutation.
  */
 const mutations = {
-  [types.ADD_EVENT_TO_MASTER_SCHEDULE] (state, payload) {
-    if (payload.attached.length == 1){
-      state.allEventIds.push(payload.attached[0]);
-    } else if (payload.detached.length == 1){
-      var i = state.allEventIds.indexOf(payload.detached[0]);
-      if ( i != -1) {
-        state.allEventIds.splice(i, 1);
-      }
-    }
-  },
   [types.TOGGLE_EVENT_TO_SCHEDULE] (state, payload) {
     console.log('update state with payload');
     console.log(state);
@@ -162,10 +139,6 @@ const mutations = {
   [types.RENAME_SCHEDULE] (state, payload) {
     var foundIndex = state.schedules.findIndex(items => items.id == payload.id);
     Object.assign(state.schedules[foundIndex], payload);
-  },
-
-  [types.GET_ALL_EVENTS_FOR_GIVEN_SCHEDULE] (state, payload) {
-    Vue.set(state.realSchedules, payload.id, payload.events);
   }
 };
 

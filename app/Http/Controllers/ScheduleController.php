@@ -14,6 +14,7 @@ class ScheduleController extends Controller
         return response()->json(Auth::user()
             ->schedules()
             ->where('name', '!=', 'Master')
+            ->with('events.venue.city.states') // @todo needs updated test
             ->orderBy('updated_at', 'desc')
             ->get()
         );

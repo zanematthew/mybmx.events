@@ -34,7 +34,7 @@
       params: { id: item.id, slug: item.slug } }" class="grid is-50 title-click-area title" exact>{{ item.name }}</router-link>
 
     <!-- Detail Area -->
-    <router-link :to="{ name: 'action-main', params: { id: item.id } }" class="align-right grid is-15 detail-click-area"><icon name="ellipsis-h"></icon></router-link>
+    <router-link :to="{ name: 'action-routerview', params: { id: item.id } }" class="align-right grid is-15 detail-click-area"><icon name="ellipsis-h"></icon></router-link>
   </div>
   <div v-else class="align-center row is-item grid is-100">
     <icon name="refresh" spin></icon>

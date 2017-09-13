@@ -1,5 +1,7 @@
 <template>
-  <social-sharing :url="url" inline-template>
+  <div>
+    <close class="grid row is-item"></close>
+    <social-sharing :url="url" inline-template>
     <div class="content">
       <network network="facebook" class="grid is-100 row is-item link">
         <icon name="facebook-square" class="align-icon fb"></icon> Facebook
@@ -8,10 +10,16 @@
         <icon name="twitter-square" class="align-icon twitter"></icon> Twitter
       </network>
     </div>
-  </social-sharing>
+    </social-sharing>
+  </div>
 </template>
 <script>
+import close from '~/components/Global/Close';
+
 export default {
+  components: {
+    close
+  },
   data() {
     return {
       id: this.$route.params.id,

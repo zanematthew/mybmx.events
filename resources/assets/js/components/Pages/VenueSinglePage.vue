@@ -1,35 +1,32 @@
 <template>
-<div class="single-page">
-  <close class="row is-item grid is-100"></close>
+<div>
+  <router-link :to="{ name: 'venue-list-page' }" class="row is-item grid" exact><icon name="chevron-left"></icon></router-link>
+  <action-bar :type="'venue'" :item="venue" class="row"></action-bar>
+  <contact :venue="venue" class="grid is-100 row is-item"></contact>
+  <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="row is-item grid is-100">
+    <span v-if="venue.street_address" itemprop="streetAddress">{{ venue.street_address }}</span><br>
+    <span itemprop="addressLocality">{{ venue.city.name }}</span>,
+    <span v-if="venue.city.states[0]" itemprop="addressRegion">{{ venue.city.states[0].abbr }}</span> <span>{{ venue.zip_code }}</span>
+  </address>
+  <div v-if="venue.events" class="row is-item grid is-100"><strong>{{ eventCount(venue.events) }}</strong> Events</div>
 
-  <div class="move-up">
-    <action-bar :type="'venue'" :item="venue" class="row"></action-bar>
-    <contact :venue="venue" class="grid is-100 row is-item"></contact>
-    <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="row is-item grid is-100">
-      <span v-if="venue.street_address" itemprop="streetAddress">{{ venue.street_address }}</span><br>
-      <span itemprop="addressLocality">{{ venue.city.name }}</span>,
-      <span v-if="venue.city.states[0]" itemprop="addressRegion">{{ venue.city.states[0].abbr }}</span> <span>{{ venue.zip_code }}</span>
-    </address>
-    <div v-if="venue.events" class="row is-item grid is-100"><strong>{{ eventCount(venue.events) }}</strong> Events</div>
-
-    <div class="content row">
-      <gmap-map
-        :options="defaultOptions"
-        :draggable="false"
-        :center="center"
-        :zoom="7"
-        style="width: 100%; height: 300px"
-      >
-        <gmap-marker
-          :key="index"
-          v-for="(m, index) in markers"
-          :position="m.position"
-          @click="center=m.position"
-        ></gmap-marker>
-      </gmap-map>
-    </div>
-    <tabs></tabs>
+  <div class="content row">
+    <gmap-map
+      :options="defaultOptions"
+      :draggable="false"
+      :center="center"
+      :zoom="7"
+      style="width: 100%; height: 300px"
+    >
+      <gmap-marker
+        :key="index"
+        v-for="(m, index) in markers"
+        :position="m.position"
+        @click="center=m.position"
+      ></gmap-marker>
+    </gmap-map>
   </div>
+  <tabs></tabs>
 </div>
 </template>
 <script>
@@ -48,14 +45,12 @@ Vue.use(VueGoogleMaps, {
 });
 
 import contact from '~/components/Global/Contact';
-import close from '~/components/Global/Close';
 import actionBar from '~/components/Global/ActionBar';
 import tabs from '~/components/Global/Tabs';
 
 export default {
   components: {
     contact,
-    close,
     actionBar,
     tabs
   },

@@ -19,7 +19,7 @@ const NotFoundComponent = { template: '<div>404</div>' };
 const routes = [
   {
     path: '/browse/events',
-    redirect: { name: 'when', params: { when: 'this-month' } },
+    redirect: { name: 'event-list-page', params: { when: 'this-month' } },
     component: RouterView,
     name: 'events',
     props: true,
@@ -33,14 +33,14 @@ const routes = [
       {
         path: ':when',
         component: EventListPage,
-        name: 'when',
+        name: 'event-list-page',
         props: true
       }
     ]
   },
   {
     path: '/browse/venues/',
-    redirect: { name: 'state-list-page' },
+    redirect: { name: 'venue-list-page' },
     component: RouterView,
     name: 'venues',
     props: true,
@@ -53,7 +53,7 @@ const routes = [
       },
       {
         path: ':state?',
-        name: 'state-list-page',
+        name: 'venue-list-page',
         component: VenueListPage,
         props: true
       }
@@ -103,11 +103,18 @@ const routes = [
     ]
   },
   {
-    path: '/action/:id(\\d+)/',
-    name: 'action-main',
-    component: ActionMainPage,
+    path: '/action/',
+    component: RouterView,
+    name: 'action-routerview',
+    redirect: { name: 'action-main' },
     props: true,
     children: [
+      {
+        path: ':id(\\d+)',
+        name: 'action-main',
+        component: ActionMainPage,
+        props: true,
+      },
       {
         path: 'share',
         name: 'share',

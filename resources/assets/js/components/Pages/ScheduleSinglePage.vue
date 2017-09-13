@@ -2,7 +2,7 @@
   <div v-if="items">
     <router-link :to="{ name: 'schedule-list-page' }" class="row is-item grid"><icon name="chevron-left"></icon></router-link>
     <div v-if="count === 0">
-      <router-link :to="{ name: 'when', params: { when: 'this-month' } }" class="grid row is-item title align-center">Add Events to this Schedule.</router-link>
+      <router-link :to="{ name: 'event-list-page', params: { when: 'this-month' } }" class="grid row is-item title align-center">Add Events to this Schedule.</router-link>
     </div>
     <div v-else>
       <action-bar :type="'event'" :item="item" :key="item.id" v-for="item in items.events" class="row"></action-bar>

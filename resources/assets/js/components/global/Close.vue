@@ -1,5 +1,5 @@
 <template>
-  <div class="close-container" v-on:click.prevent="back">
+  <div class="grid row is-item close-container" v-on:click.prevent="back">
     <icon name="chevron-left"></icon>
   </div>
 </template>

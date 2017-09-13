@@ -1,11 +1,16 @@
 <template>
-  <div class="grid row is-item close-container" v-on:click.prevent="back">
+  <div v-if="hasHistory" class="grid row is-item close-container" v-on:click.prevent="back">
     <icon name="chevron-left"></icon>
   </div>
 </template>
 <script>
 import router from '~/router';
 export default {
+  computed: {
+    hasHistory() {
+      return window.history.length > 2 ? 1 : 0;
+    }
+  },
   methods: {
     back() {
       this.$emit('beforeBack');
@@ -16,6 +21,7 @@ export default {
       } else if (window.history.length > 2) {
         router.go(-1);
       } else {
+        console.log('no history');
       }
     }
   }
@@ -24,8 +30,6 @@ export default {
 <style>
 .close-container {
   cursor: pointer;
-  opacity: .75;
-  background: #fff;
   max-height: 48px;
   min-height: 48px;
 }

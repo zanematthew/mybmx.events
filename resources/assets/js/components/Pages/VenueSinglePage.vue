@@ -1,6 +1,5 @@
 <template>
 <div>
-  <router-link :to="{ name: 'venue-list-page' }" class="row is-item grid" exact><icon name="chevron-left"></icon></router-link>
   <action-bar :type="'venue'" :item="venue" class="row"></action-bar>
   <contact :venue="venue" class="grid is-100 row is-item"></contact>
   <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="row is-item grid is-100">

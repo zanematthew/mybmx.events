@@ -1,6 +1,5 @@
 <template>
   <div v-if="items">
-    <router-link :to="{ name: 'schedule-list-page' }" class="row is-item grid"><icon name="chevron-left"></icon></router-link>
     <div v-if="count === 0">
       <router-link :to="{ name: 'event-list-page', params: { when: 'this-month' } }" class="grid row is-item title align-center">Add Events to this Schedule.</router-link>
     </div>

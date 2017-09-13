@@ -1,6 +1,5 @@
 <template>
 <div>
-  <router-link :to="{ name: 'event-list-page' }" class="row is-item grid"><icon name="chevron-left"></icon></router-link>
   <action-bar :type="'event'" :item="event" class="row"></action-bar>
 
   <!-- Event Detail -->

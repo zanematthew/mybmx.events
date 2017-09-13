@@ -1,6 +1,5 @@
 <template>
   <div>
-    <close class="grid row is-item"></close>
     <social-sharing :url="url" inline-template>
     <div class="content">
       <network network="facebook" class="grid is-100 row is-item link">
@@ -14,12 +13,7 @@
   </div>
 </template>
 <script>
-import close from '~/components/Global/Close';
-
 export default {
-  components: {
-    close
-  },
   data() {
     return {
       id: this.$route.params.id,

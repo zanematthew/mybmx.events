@@ -1,6 +1,5 @@
 <template>
   <div>
-    <close></close>
     <router-link :to="{ name: 'share' }" class="grid is-100 row is-item">
       <icon name="share-square-o" class="align-icon"></icon> Share
     </router-link>
@@ -26,12 +25,7 @@
   </div>
 </template>
 <script>
-import close from '~/components/Global/Close';
-
 export default {
-  components: {
-    close
-  },
   data() {
     return {
       event: { venue: { id: '' } }

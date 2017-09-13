@@ -14,15 +14,18 @@ export default {
   methods: {
     back() {
       this.$emit('beforeBack');
-      if (this.$route.name == 'venue-single-events') {
-        router.push({ name: 'venues' });
-      } else if (this.$route.name == 'event-single-page') {
-        router.push({ name: 'events' });
-      } else if (window.history.length > 2) {
-        router.go(-1);
-      } else {
-        console.log('no history');
-      }
+      router.go(-1);
+      // @todo not sure yet how to handle this,
+      // maybe have a; < and an x icon
+      // if (this.$route.name == 'venue-single-events') {
+      //   router.push({ name: 'venues' });
+      // } else if (this.$route.name == 'event-single-page') {
+      //   router.push({ name: 'events' });
+      // } else if (window.history.length > 2) {
+      //   router.go(-1);
+      // } else {
+      //   console.log('no history');
+      // }
     }
   }
 }

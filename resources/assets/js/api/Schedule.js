@@ -21,12 +21,6 @@ class Schedule {
     return axios.delete(`/api/user/schedule/${id}/delete/`).then(({data}) => then(data));
   }
 
-  static toggleDefault(then, id) {
-    return axios.post(`/api/user/schedule/${id}/toggle-default/`, {
-      id: id
-    }).then(({data}) => then(data));
-  }
-
   static rename(then, id, name) {
     return axios.post(`/api/user/schedule/${id}/update/`, {
       id: id,

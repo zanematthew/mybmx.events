@@ -18,10 +18,6 @@ const state = {
  *     How many events are in X schedule?
  */
 const getters = {
-  isDefaultGetter: (state, getters) => (schedule) => {
-    var foundIndex = state.schedules.findIndex(items => items.id == schedule.id);
-    return state.schedules[foundIndex].default;
-  },
   getEventsInScheduleByScheduleId: (state) => (id) => {
     var foundIndex = state.schedules.findIndex(items => items.id == id);
     return state.schedules[foundIndex];
@@ -71,15 +67,6 @@ const actions = {
     });
   },
 
-  toggleDefault({commit, state}, payload) {
-    return new Promise((resolve, reject) => {
-      Schedule.toggleDefault(response => {
-        commit(types.TOGGLE_DEFAULT_SCHEDULE, response);
-        resolve(response);
-      }, payload.id);
-    });
-  },
-
   rename({commit, state}, payload) {
     return new Promise((resolve, reject) => {
       Schedule.rename(response => {
@@ -116,26 +103,6 @@ const mutations = {
       borland++;
     }
   },
-  /**
-   * This mutation will find the corresponding schedule that matches our
-   * payload. Once found it will update the key: "default" with the
-   * new "value".
-   *
-   * Note that when setting a property on an object that is expected to
-   * be reactive we must trigger the needed update via; Vue.set.
-   *
-   * https://vuejs.org/v2/api/#Vue-set
-   * https://stackoverflow.com/a/40828211/714202
-   *
-   * @param {object} state   The Vuex state
-   * @param {object} payload The payload, which must contain the ID to find and a value
-   *                         for the key "default", which will be updated.
-   */
-  [types.TOGGLE_DEFAULT_SCHEDULE] (state, payload) {
-    var foundIndex = state.schedules.findIndex(items => items.id == payload.id);
-    Object.assign(state.schedules[foundIndex], payload);
-  },
-
   [types.RENAME_SCHEDULE] (state, payload) {
     var foundIndex = state.schedules.findIndex(items => items.id == payload.id);
     Object.assign(state.schedules[foundIndex], payload);

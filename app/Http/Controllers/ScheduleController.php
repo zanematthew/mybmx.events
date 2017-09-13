@@ -38,14 +38,6 @@ class ScheduleController extends Controller
         return response()->json($schedule);
     }
 
-    public function toggleDefault(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $schedule = Auth::user()->schedules()->findOrFail($request->id);
-        $schedule->default = $schedule->default ? false : true;
-        $schedule->save();
-        return response()->json($schedule);
-    }
-
     public function toggleEventTo(Request $request) :\Illuminate\Http\JsonResponse
     {
         return response()->json(Auth::user()

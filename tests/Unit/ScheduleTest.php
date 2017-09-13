@@ -99,32 +99,6 @@ class ScheduleTest extends TestCase
         $this->assertNotEquals($oldName, \App\Schedule::find($schedule->id)->pluck('name'));
     }
 
-    public function testToggleDefault()
-    {
-        $user = factory(\App\User::class)->create();
-        Passport::actingAs($user);
-        $schedule = factory(\App\Schedule::class)->create([
-            'user_id' => $user->id,
-        ]);
-        $oldDefault = $schedule->default;
-
-        $response = $this->json('POST', route('user.schedule.toggle.default', [
-            'id' => $schedule->id,
-        ]));
-        $response
-            ->assertStatus(200)
-            ->assertJsonStructure([
-                'id',
-                'created_at',
-                'updated_at',
-                'name',
-                'user_id',
-                'default',
-                'slug',
-            ]);
-        $this->assertNotEquals($oldDefault, \App\Schedule::find($schedule->id)->pluck('default'));
-    }
-
     public function testDelete()
     {
         $user = factory(\App\User::class)->create();

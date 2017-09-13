@@ -15,14 +15,12 @@
 </template>
 <script>
 import scheduleAdd from '~/components/Global/AddSchedule';
-import scheduleMakeDefault from '~/components/Global/SetDefaultSchedule';
 import scheduleRename from '~/components/Global/RenameSchedule';
 import dropdown from '~/components/Global/Dropdown';
 
 export default {
   components: {
     scheduleAdd,
-    scheduleMakeDefault,
     scheduleRename,
     dropdown
   },

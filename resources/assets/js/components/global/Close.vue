@@ -11,7 +11,7 @@ export default {
       this.$emit('beforeBack');
       if (this.$route.name == 'venue-single-events') {
         router.push({ name: 'venues' });
-      } else if (this.$route.name == 'event-single') {
+      } else if (this.$route.name == 'event-single-page') {
         router.push({ name: 'events' });
       } else if (window.history.length > 2) {
         router.go(-1);

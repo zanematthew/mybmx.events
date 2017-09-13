@@ -14,12 +14,12 @@
     <!-- Title Area (Event) -->
     <router-link v-if="type === 'event'"
       :to="{
-      name: 'event-single',
+      name: 'event-single-page',
       params: { id: item.id, slug: item.slug, when: 'this-month' },
       query: { venue_id: item.venue.id }
       }" class="grid is-70 title-click-area" exact>
         <div class="title">{{ item.title }}</div>
-        <div class="not-title">
+        <div class="not-title" v-if="item.start_date">
           {{ startDate(item.start_date) }}<span v-if="item.venue"> &bull; {{ item.venue.city.name }}<span v-if="item.venue.city.states">, {{ item.venue.city.states[0].abbr }}</span></span>
         </div>
     </router-link>
@@ -30,7 +30,7 @@
       }" class="grid is-50 title-click-area title" exact>{{ item.name }}</router-link>
 
     <!-- Title Area (Schedule) -->
-    <router-link v-if="type === 'schedule'" :to="{ name: 'schedule-single',
+    <router-link v-if="type === 'schedule'" :to="{ name: 'schedule-single-page',
       params: { id: item.id, slug: item.slug } }" class="grid is-50 title-click-area title" exact>{{ item.name }}</router-link>
 
     <!-- Detail Area -->

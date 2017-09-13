@@ -1,6 +1,6 @@
 <template>
   <div v-if="items">
-    <router-link :to="{ name: 'collection-list' }" class="row is-item grid"><icon name="chevron-left"></icon></router-link>
+    <router-link :to="{ name: 'collection-list-page' }" class="row is-item grid"><icon name="chevron-left"></icon></router-link>
     <action-bar :type="item_type" :item="item" :key="item.id" v-for="item in items.data" class="row"></action-bar>
   </div>
   <div v-else class="align-center row is-item grid is-100">

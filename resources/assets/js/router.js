@@ -27,10 +27,9 @@ const routes = [
       {
         path: ':id(\\d+)/:slug/:when',
         component: EventSinglePage,
-        name: 'event-single',
+        name: 'event-single-page',
         props: true
       },
-      // @todo rename this to 'event-list'
       {
         path: ':when',
         component: EventListPage,
@@ -41,7 +40,7 @@ const routes = [
   },
   {
     path: '/browse/venues/',
-    redirect: { name: 'state-list' },
+    redirect: { name: 'state-list-page' },
     component: RouterView,
     name: 'venues',
     props: true,
@@ -54,7 +53,7 @@ const routes = [
       },
       {
         path: ':state?',
-        name: 'state-list',
+        name: 'state-list-page',
         component: VenueListPage,
         props: true
       }
@@ -64,18 +63,18 @@ const routes = [
     path: '/schedules',
     name: 'schedules',
     component: RouterView,
-    redirect: { name: 'schedule-list' },
+    redirect: { name: 'schedule-list-page' },
     props: true,
     children: [
       {
         path: 'all',
-        name: 'schedule-list',
+        name: 'schedule-list-page',
         component: ScheduleListPage,
         props: true
       },
       {
         path: ':id(\\d+)/:slug?',
-        name: 'schedule-single',
+        name: 'schedule-single-page',
         component: ScheduleSinglePage,
         props: true
       }
@@ -85,12 +84,12 @@ const routes = [
     path: '/collections/',
     component: RouterView,
     name: 'collection',
-    redirect: { name: 'collection-list' },
+    redirect: { name: 'collection-list-page' },
     props: true,
     children: [
       {
         path: 'all',
-        name: 'collection-list',
+        name: 'collection-list-page',
         component: CollectionListPage,
         props: true,
       },

@@ -26,7 +26,6 @@ Route::group([
 
     Route::post('/schedule/new/'                 , 'ScheduleController@store')->name('user.schedule.store');
     Route::post('/schedule/{id}/update/'         , 'ScheduleController@update')->name('user.schedule.update');
-    Route::post('/schedule/{id}/toggle-default/' , 'ScheduleController@toggleDefault')->name('user.schedule.toggle.default');
 
     Route::post('/schedule/toggle/{eventId}/to/{scheudleId}' , 'ScheduleController@toggleEventTo')->name('user.schedule.event.toggle');
 

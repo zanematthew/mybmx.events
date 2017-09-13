@@ -29,6 +29,10 @@
       params: { venue_id: item.id, slug: item.slug, when: 'this-month' }
       }" class="grid is-50 title-click-area title" exact>{{ item.name }}</router-link>
 
+    <!-- Title Area (Schedule) -->
+    <router-link v-if="type === 'schedule'" :to="{ name: 'schedule-single',
+      params: { id: item.id, slug: item.slug } }" class="grid is-50 title-click-area title" exact>{{ item.name }}</router-link>
+
     <!-- Detail Area -->
     <router-link :to="{ name: 'action-main', params: { id: item.id } }" class="align-right grid is-15 detail-click-area"><icon name="ellipsis-h"></icon></router-link>
   </div>

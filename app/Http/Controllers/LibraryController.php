@@ -83,6 +83,7 @@ class LibraryController extends Controller
      * @param  string $type The item type.
      * @return string
      */
+    // @todo throw 404 exception
     public function typeToFqc($type = null): string
     {
         switch ($type) {
@@ -113,15 +114,13 @@ class LibraryController extends Controller
                 return $model::with('venue.city.states')->whereIn('id', $request->item_ids)->paginate();
                 break;
             case 'venue':
+            // @todo needs test
+            case 'schedule':
                 return $model::whereIn('id', $request->item_ids)->paginate();
                 break;
-            case 'schedule':
-                dd('special');
-                break;
             default:
+                return response()->json("Not found: $model.");
                 break;
         }
-
-
     }
 }

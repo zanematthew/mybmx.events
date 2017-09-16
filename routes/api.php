@@ -37,7 +37,6 @@ Route::group([
     |--------------------------------------------------------------------------
     */
     Route::post('/library/toggle/{id}/{type}/' , 'LibraryController@toggle')->name('library.toggle.item');
-    Route::post('/library/{item_type}/', 'LibraryController@getItemsByType')->name('library.get.items');
     Route::get('/library/'                     , 'LibraryController@index')->name('library.get.items');
 });
 

@@ -21,6 +21,7 @@ class CreateLibraryTable extends Migration
 
             // Relationship
             $table->integer('user_id')->unsigned();
+            // @todo onDelete cascade
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

@@ -72,7 +72,7 @@ class LibraryTest extends TestCase
      * Send GET request
      * @group library
      */
-    public function testGetItemsFromLibraryOrganizedByType()
+    public function testIndex()
     {
         $user = factory(User::class)->create();
         Passport::actingAs($user);
@@ -97,13 +97,28 @@ class LibraryTest extends TestCase
         }
 
         // Get ALL items from User Library
+        // @todo limit API calls to only whats needed on the front-end!
         $response = $this->get(route('library.get.items'));
         $response
             ->assertStatus(200)
             ->assertJsonStructure([
-                'event'    => [],
-                'venue'    => [],
-                'schedule' => [],
+                'App\Event'    => [
+                    0 => [
+                        'title',
+                        'venue' => []
+                    ]
+                ],
+                'App\Schedule' => [
+                    0 => [
+                        'id',
+                        'name'
+                    ]
+                ],
+                'App\Venue'    => [
+                    0 => [
+                        'name'
+                    ]
+                ],
             ]);
     }
 }

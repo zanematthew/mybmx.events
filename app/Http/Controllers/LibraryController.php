@@ -56,22 +56,34 @@ class LibraryController extends Controller
      */
     public function index(): \Illuminate\Http\JsonResponse
     {
-        $items = Auth::user()
+        $libraries = Auth::user()
             ->library()
-            ->orderBy('item_type', 'asc')
+            ->with(['event.venue.city.states', 'venue', 'schedule'])
             ->get()
+            ->groupBy('item_type')
             ->toArray();
 
-        $contents = [];
-        foreach ($items as $item) {
-            $contents[ $item['item_type'] ][] = $item['item_id'];
+        $filtered = [];
+
+        // Warning, keep the below code collapsed!
+        // Nothing to see here, move on, keep moving...
+        foreach ($libraries as $item => $values) {
+            if ($item == 'App\Event') {
+                foreach ($values as $value) {
+                    $filtered[$item][] = $value['event'];
+                }
+            } elseif ($item == 'App\Schedule') {
+                foreach ($values as $value) {
+                    $filtered[$item][] = $value['schedule'];
+                }
+            } elseif ($item == 'App\Venue') {
+                foreach ($values as $value) {
+                    $filtered[$item][] = $value['venue'];
+                }
+            }
         }
 
-        return response()->json([
-            'event'    => $contents['App\Event'] ?? [],
-            'schedule' => $contents['App\Schedule'] ?? [],
-            'venue'    => $contents['App\Venue'] ?? [],
-        ]);
+        return response()->json($filtered);
     }
 
     /**
@@ -101,26 +113,5 @@ class LibraryController extends Controller
                 break;
         }
         return $modelFqc;
-    }
-
-    // @todo needs test
-    public function getItemsByType(Request $request)
-    {
-        $model = $this->typeToFqc($request->item_type);
-
-        // @todo Remove this and all switches
-        switch ($request->item_type) {
-            case 'event':
-                return $model::with('venue.city.states')->whereIn('id', $request->item_ids)->paginate();
-                break;
-            case 'venue':
-            // @todo needs test
-            case 'schedule':
-                return $model::whereIn('id', $request->item_ids)->paginate();
-                break;
-            default:
-                return response()->json("Not found: $model.");
-                break;
-        }
     }
 }

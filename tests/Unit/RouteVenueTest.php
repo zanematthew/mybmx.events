@@ -6,12 +6,19 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Laravel\Passport\Passport;
 
 class RouteVenueTest extends TestCase
 {
 
     use DatabaseMigrations;
     use DatabaseTransactions;
+
+    public function setUp()
+    {
+        parent::setUp();
+        Passport::actingAs(factory(\App\User::class)->create());
+    }
 
     public function testSingleVenue()
     {
@@ -24,7 +31,8 @@ class RouteVenueTest extends TestCase
             'id' => $venue->id,
         ]));
 
-        $this->assertCount(6, $response->decodeResponseJson()[0]['events']);
+        // @TODO only venue, not venue event count.
+        // $this->assertCount(6, $response->decodeResponseJson()[0]['events']);
     }
 
     public function testStateVenues()
@@ -36,11 +44,6 @@ class RouteVenueTest extends TestCase
             'city_id' => $cityState->city_id,
         ]);
 
-        // 6 venues total.
-        $response = $this->get(route('venues.state'));
-        $this->assertCount(6, $response->decodeResponseJson()['data']);
-
-        // 2 are in MD
         $state = \App\State::find($cityState->state_id);
         $response = $this->get(route('venues.state', [
             'state' => $state->abbr,

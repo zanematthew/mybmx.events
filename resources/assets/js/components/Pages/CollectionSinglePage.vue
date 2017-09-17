@@ -1,6 +1,6 @@
 <template>
   <div v-if="items">
-    <action-bar :type="item_type" :item="item" :key="item.id" v-for="item in items.data" class="row"></action-bar>
+    <action-bar :type="item_type" :item="item" :key="item.id" v-for="item in items" class="row"></action-bar>
   </div>
   <div v-else class="align-center row is-item grid is-100">
     <icon name="refresh" spin></icon>
@@ -18,15 +18,8 @@ export default {
   },
   computed: {
     items() {
-      return this.$store.state.library.items[this.item_type];
+      return this.$store.state.library[this.item_type];
     }
-  },
-  mounted() {
-    this.$store.dispatch('fetchAllLibraryItems').then(response => {
-      this.$store.dispatch('fetchAllLibraryItemsContents', {
-        item_type: this.item_type
-      });
-    });
   }
 }
 </script>

@@ -98,7 +98,6 @@ const routes = [
         component: CollectionSinglePage,
         name: 'collection-type',
         props: true,
-        // meta: { requiresAuth: true }
       }
     ]
   },
@@ -126,7 +125,6 @@ const routes = [
         name: 'add-to',
         component: AddToPage,
         props: true,
-        // meta: { requiresAuth: true }
       }
     ]
   },

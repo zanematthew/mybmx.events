@@ -11,17 +11,25 @@
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.0.0/dist/vue-multiselect.min.css">
-
     </head>
     <body>
         <div id="app">
             <div class="app-container">
                 @yield('content')
-                <user class="row is-item align-center"></user>
             </div>
         </div>
+        @auth
+            <a href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                         document.getElementById('logout-form').submit();"
+                class="row is-item align-center">Logout</a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+            </form>
+        @endauth
+
         <script>
-            @if (Auth::check())
+            @auth
                 let authuser = {
                     default: {!! Auth::user() !!},
                     social_account: {
@@ -30,9 +38,11 @@
                         }
                     }
                 };
-            @else
+            @endauth
+
+            @guest
                 let authuser = '{}';
-            @endif
+            @endguest
         </script>
         <script src="{{ mix('js/app.js') }}"></script>
     </body>

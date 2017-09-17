@@ -19,6 +19,7 @@
     }" class="grid is-100 row is-item" v-if="event.venue.id">
       <icon name="map-o" class="align-icon"></icon> View Venue...
     </router-link>
+    <!-- @todo Add/Remove -->
     <router-link :to="{ name: 'add-to', params: { id: event.venue.id } }" class="grid is-100 row is-item">
       <icon name="list-alt" class="align-icon"></icon> Add to Schedule
     </router-link>

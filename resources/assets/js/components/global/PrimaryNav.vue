@@ -7,11 +7,8 @@
     }"
     class="nav-item"
     ><icon :name="item.icon"></icon></router-link>
-    <router-link v-if="isLoggedIn" :to="{ name: 'schedules' }" class="nav-item icon-avatar">
+    <router-link :to="{ name: 'schedules' }" class="nav-item icon-avatar">
       <span class="avatar"><img :src="avatar" /></span>
-    </router-link>
-    <router-link v-else :to="{ name: 'schedules' }" class="nav-item">
-      <icon :name="'user'"></icon>
     </router-link>
   </div>
 </div>
@@ -46,7 +43,6 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'isLoggedIn',
       'avatar'
     ])
   }

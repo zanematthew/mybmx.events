@@ -28,38 +28,30 @@ class LibraryTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $eventId = factory(Event::class)->create()->pluck('id')->first();
+        $event = factory(Event::class)->create();
         $response = $this->post(route('library.toggle.item', [
-            'item_id'   => $eventId,
+            'item_id'   => $event->id,
             'item_type' => 'event',
         ]), [
-            'item_id'   => $eventId,
+            'item_id'   => $event->id,
+            'item_type' => 'event',
+        ]);
+
+        $response = $this->post(route('library.toggle.item', [
+            'item_id'   => $event->id,
+            'item_type' => 'event',
+        ]), [
+            'item_id'   => $event->id,
             'item_type' => 'event',
         ]);
 
         $response
             ->assertStatus(200)
             ->assertJson([
-                'attached' => [
-                    0 => $eventId
-                ],
-                'detached' => [],
-            ]);
-
-        $response = $this->post(route('library.toggle.item', [
-            'item_id'   => $eventId,
-            'item_type' => 'event',
-        ]), [
-            'item_id'   => $eventId,
-            'item_type' => 'event',
-        ]);
-
-        $response
-            ->assertStatus(200)
-            ->assertJson([
-                'attached' => [],
+                'attached' => false,
                 'detached' => [
-                    0 => $eventId
+                    'id'    => $event->id,
+                    'title' => $event->title,
                 ],
             ]);
     }

@@ -21,17 +21,6 @@ window.laravel = { user: {} };
 import VueRouter from 'vue-router';
 import router from './router';
 Vue.use(VueRouter);
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn === true) {
-      next();
-    } else {
-      window.location.replace(`${window.location.origin}/login/`);
-    }
-  } else {
-    next();
-  }
-});
 
 import Meta from 'vue-meta';
 Vue.use(Meta);
@@ -62,7 +51,7 @@ Vue.use(VueAnalytics, {
   }
 });
 
-import StateSelect from './components/Global/StateSelect';
+import stateSelect from './components/Global/StateSelect';
 
 var SocialSharing = require('vue-social-sharing');
 Vue.use(SocialSharing);
@@ -70,17 +59,16 @@ Vue.use(SocialSharing);
 /**
  * Laravel Passport -- API/JWT https://laravel.com/docs/5.4/passport
  */
-import PrimaryNav from './components/Global/PrimaryNav';
+import primaryNav from './components/Global/PrimaryNav';
 import Clients from './components/passport/Clients';
 import AuthorizedClients from './components/passport/AuthorizedClients';
 import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
-import user from './components/Global/UserBar';
 
-import { sync } from 'vuex-router-sync'
+import { sync } from 'vuex-router-sync';
 import store from './store';
-sync(store, router) // done.
+sync(store, router); // done.
 
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 const app = new Vue({
   router,
@@ -91,12 +79,11 @@ const app = new Vue({
     titleTemplate: '%s | My BMX Events'
   },
   components: {
-    'state-select': StateSelect,
-    'primary-nav': PrimaryNav,
+    stateSelect,
+    primaryNav,
     'passport-clients': Clients,
     'passport-authorized-clients': AuthorizedClients,
-    'passport-personal-access-tokens': PersonalAccessTokens,
-    user
+    'passport-personal-access-tokens': PersonalAccessTokens
   },
   created: function () {
     // https://github.com/vue-bulma/nprogress/issues/13#issuecomment-312778499

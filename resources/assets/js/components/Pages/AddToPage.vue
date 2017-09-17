@@ -32,7 +32,7 @@ export default {
         id: this.id,
         scheduleId: schedule.id
       }).then(response => {
-        alert(`Added!\nRedirect to: Some URL`);
+        console.log(response);
       });
     }
   }

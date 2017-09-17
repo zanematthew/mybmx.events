@@ -13,10 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| User managed content routes
+|--------------------------------------------------------------------------
+*/
 Route::group([
     'prefix'     => 'user',
     'middleware' => 'auth:api',
     ], function () {
+
     Route::get('/', function (Request $request) {
         return $request->user();
     });
@@ -40,12 +46,24 @@ Route::group([
     Route::get('/library/'                     , 'LibraryController@index')->name('library.get.items');
 });
 
-Route::group(['prefix' => 'venue'], function () {
+/*
+|--------------------------------------------------------------------------
+| Venue(s) routes
+|--------------------------------------------------------------------------
+*/
+// @todo Stop making routes plural/combine events + event, etc.
+Route::group([
+    'prefix'     => 'venue',
+    'middleware' => 'auth:api',
+    ], function () {
     Route::get('/{id}/{slug?}', 'VenueController@single')->name('venue.single');
     Route::get('/events/{id}', 'VenueController@events')->name('venue.events');
 });
 
-Route::group(['prefix' => 'venues'], function () {
+Route::group([
+    'prefix'     => 'venues',
+    'middleware' => 'auth:api',
+    ], function () {
     Route::get('/{state}', 'VenueController@state')->name('venues.state');
     Route::get('/', 'VenueController@index')->name('venues');
 });
@@ -65,9 +83,12 @@ Route::group(['prefix' => 'venues'], function () {
 */
 Route::get('/event/{id}/{slug?}', function ($id, $slug = '') {
     return App\Event::with('venue.city.states')->where('id', $id)->first();
-})->name('event.single');
+})->name('event.single')->middleware('auth:api');
 
-Route::group(['prefix' => 'events'], function () {
+Route::group([
+    'prefix'     => 'events',
+    'middleware' => 'auth:api',
+    ], function () {
 
     Route::get('/', 'EventController@index')->name('events.index');
     Route::get('/{state}', 'EventController@state')->name('events.state');
@@ -86,4 +107,4 @@ Route::group(['prefix' => 'events'], function () {
 
 Route::get('/states', function () {
     return response()->json(\App\State::select('name','abbr')->orderBy('name')->get());
-});
+})->middleware('auth:api');

@@ -6,11 +6,18 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Laravel\Passport\Passport;
 
 class RouteEventTest extends TestCase
 {
     use DatabaseMigrations;
     use DatabaseTransactions;
+
+    public function setUp()
+    {
+        parent::setUp();
+        Passport::actingAs(factory(\App\User::class)->create());
+    }
 
     // /{id}/{slug}
     public function testSingleEvent()

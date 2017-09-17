@@ -31,7 +31,12 @@ class LibraryController extends Controller
         ])->with($request->item_type)->get()->first();
 
         if (is_null($foundItem)) {
-            $foundItem = $fqc::find($request->item_id);
+            if ($request->item_type === 'event') {
+                $foundItem = $fqc::with('venue.city.states')->find($request->item_id);
+            } else {
+                $foundItem = $fqc::find($request->item_id);
+            }
+
             $library->item_id   = $foundItem->id;
             $library->item_type = $fqc;
             $library->user_id   = Auth::id();

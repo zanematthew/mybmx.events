@@ -11,14 +11,6 @@ const state = {
   event: [],
   venue: [],
   schedule: [],
-  // These are objects containing
-  // @todo these need to be removed, you should be able to "star" a schedule
-  // just like an event, venue, or later any arbitrary item.
-  items: {
-    event: {},
-    venue: {},
-    schedule: {}
-  }
 };
 
 /**
@@ -29,7 +21,7 @@ const getters = {
    * Determine if a given item is in the users Library.
    */
   isItemInLibrary: (state) => (item_id, item_type) => {
-    return state[item_type].indexOf(item_id) !== -1;
+    return ! _.isUndefined(_.find(state[item_type], {id: item_id}));
   },
 };
 
@@ -43,8 +35,8 @@ const actions = {
    */
   fetchAllLibraryItems({commit}) {
     return new Promise((resolve) => {
-      Library.getItems(response => {
-        commit(types.GET_LIBRARY_ITEMS, response);
+      Library.getIndex(response => {
+        commit(types.SET_LIBRARY_ITEMS, response);
         resolve(response);
       });
     });
@@ -61,16 +53,6 @@ const actions = {
         item_type: payload.item_type
       });
     }, {...payload});
-  },
-
-  // @todo read, "Object destructing"
-  fetchAllLibraryItemsContents({commit, state}, payload) {
-    Library.getItemsContent(response => {
-      commit(types.SET_LIBRARY_ITEMS_CONTENTS, { contents: response, item_type: payload.item_type});
-    }, {
-      item_ids: state[payload.item_type],
-      item_type: payload.item_type
-    });
   }
 };
 
@@ -81,28 +63,27 @@ const mutations = {
   /**
    * Set the state of our application.
    */
-  [types.GET_LIBRARY_ITEMS] (state, payload) {
-    state.event    = payload.event;
-    state.schedule = payload.schedule;
-    state.venue    = payload.venue;
+  [types.SET_LIBRARY_ITEMS] (state, payload) {
+    var items = _.mapKeys(payload, function(value, key) {
+      return _.toLower(_.replace(key, 'App\\', ''));
+    });
+    state.event    = items.event || [];
+    state.venue    = items.venue || [];
+    state.schedule = items.schedule || [];
   },
 
   /**
    * Add/remove an item from the state of our application.
    */
   [types.TOGGLE_LIBRARY_ITEM] (state, payload) {
-    if (payload.response.attached.length == 1){
-      state[payload.item_type].push(payload.response.attached[0]);
-    } else if (payload.response.detached.length == 1) {
-      var foundKey = state[payload.item_type].indexOf(payload.response.detached[0]);
-      Vue.delete(state[payload.item_type], foundKey);
+    if (payload.response.attached === false){
+      let key = _.findKey(state[payload.item_type], {id: payload.response.detached.id});
+      Vue.delete(state[payload.item_type], key);
+    } else if (payload.response.detached === false) {
+      state[payload.item_type].push(payload.response.attached);
     } else {
       return 'Broken';
     }
-  },
-
-  [types.SET_LIBRARY_ITEMS_CONTENTS] (state, payload) {
-    state.items[payload.item_type] = payload.contents;
   }
 };
 

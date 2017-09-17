@@ -1,6 +1,6 @@
 'use strcit';
 class Library {
-    static getItems(then) {
+    static getIndex(then) {
         return axios.get(`/api/user/library/`).then(({data}) => then(data));
     }
 
@@ -9,10 +9,6 @@ class Library {
             item_id: payload.item_id,
             item_type: payload.item_type
         }).then(({data}) => then(data));
-    }
-
-    static getItemsContent(then, payload) {
-      return axios.post(`/api/user/library/${payload.item_type}/`, {...payload}).then(({data}) => then(data));
     }
 }
 export default Library;

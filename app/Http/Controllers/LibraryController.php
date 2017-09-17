@@ -21,31 +21,30 @@ class LibraryController extends Controller
      * @param  Library $library The Library model
      * @return Object           JsonResponse
      */
+    // @todo update unit test for new return
     public function toggle(Request $request, Library $library): \Illuminate\Http\JsonResponse
     {
         $fqc = $this->typeToFqc($request->item_type);
-        $foundItemId = Library::where([
+        $foundItem = Library::where([
             'item_id'   => $request->item_id,
             'item_type' => $fqc,
-        ])->pluck('id')->first();
+        ])->with($request->item_type)->get()->first();
 
-        $detached = [];
-        $attached = [];
-
-        if ($foundItemId) {
-            $library->destroy($foundItemId);
-            $detached[] = $request->item_id;
-        } else {
-            $library->item_id   = $request->item_id;
+        if (is_null($foundItem)) {
+            $foundItem = $fqc::find($request->item_id);
+            $library->item_id   = $foundItem->id;
             $library->item_type = $fqc;
             $library->user_id   = Auth::id();
             $library->save();
-            $attached[] = $request->item_id;
+            $attached = $foundItem;
+        } else {
+            $library->destroy($foundItem->id);
+            $detached = $foundItem['event'];
         }
 
         return response()->json([
-            'attached' => $attached,
-            'detached' => $detached,
+            'attached' => $attached ?? false,
+            'detached' => $detached ?? false,
         ]);
     }
 

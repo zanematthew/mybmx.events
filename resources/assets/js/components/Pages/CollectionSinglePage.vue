@@ -19,7 +19,16 @@ export default {
   computed: {
     items() {
       return this.$store.state.library[this.item_type];
+    },
+    typeTitle() {
+      return _.startCase(this.item_type);
     }
-  }
+  },
+  metaInfo() {
+    return {
+      title: this.typeTitle,
+      titleTemplate: 'Collections >> %s | My BMX Events'
+    }
+  },
 }
 </script>

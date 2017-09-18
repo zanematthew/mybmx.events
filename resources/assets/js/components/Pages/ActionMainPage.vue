@@ -41,6 +41,11 @@ export default {
     axios.get(`/api/event/${this.event_id}/`).then(response => {
       this.event = response.data;
     });
-  }
+  },
+  metaInfo() {
+    return {
+      titleTemplate: 'Action | My BMX Events'
+    }
+  },
 }
 </script>

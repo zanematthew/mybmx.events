@@ -12,8 +12,10 @@
 import pager from '~/components/Global/Pager';
 import stateSelect from '~/components/Global/StateSelect';
 import actionBar from '~/components/Global/ActionBar';
+import MyMixin from '~/mixin.js';
 
 export default {
+  mixins: [MyMixin],
   components: {
     pager,
     stateSelect,
@@ -41,6 +43,17 @@ export default {
   watch: {
     '$route' (to, from) {
       this.request();
+    }
+  },
+  computed: {
+    pageNumber() {
+      return this.$store.state.route.query.page || 1;
+    }
+  },
+  metaInfo() {
+    return {
+      title: `Venues | Page ${this.pageNumber}`,
+      titleTemplate: '%s | My BMX Events'
     }
   }
 }

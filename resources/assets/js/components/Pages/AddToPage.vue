@@ -35,6 +35,11 @@ export default {
         console.log(response);
       });
     }
-  }
+  },
+  metaInfo() {
+    return {
+      titleTemplate: 'Action >> Add To Schedule | My BMX Events'
+    }
+  },
 }
 </script>

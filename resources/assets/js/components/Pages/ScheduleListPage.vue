@@ -17,6 +17,11 @@ export default {
     schedules() {
       return this.$store.state.schedule.schedules;
     }
-  }
+  },
+  metaInfo() {
+    return {
+      titleTemplate: 'Schedules | My BMX Events'
+    }
+  },
 }
 </script>

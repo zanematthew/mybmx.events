@@ -29,6 +29,11 @@ export default {
     axios.get(`/api/event/${this.$route.params.id}/`).then(response => {
       this.item = response.data
     });
+  },
+  metaInfo() {
+    return {
+      titleTemplate: 'Action >> Share | My BMX Events'
+    }
   }
 }
 </script>

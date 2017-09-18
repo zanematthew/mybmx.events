@@ -25,7 +25,16 @@ export default {
     },
     count() {
       return _.isUndefined(this.items.events) ? 0 : this.items.events.length;
+    },
+    scheduleName() {
+      return this.items.name;
     }
-  }
+  },
+  metaInfo() {
+    return {
+      title: this.scheduleName,
+      titleTemplate: 'Schedules >> %s | My BMX Events'
+    }
+  },
 }
 </script>

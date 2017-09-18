@@ -23,6 +23,11 @@ export default {
         }
       ]
     }
-  }
+  },
+  metaInfo() {
+    return {
+      titleTemplate: 'Collections | My BMX Events'
+    }
+  },
 }
 </script>

@@ -21,9 +21,14 @@ export default {
     },
     type: String
   },
+  computed: {
+    pageNumber() {
+      return this.$store.state.route.query.page || 1;
+    }
+  },
   metaInfo() {
     return {
-      title: this.getMonthName(),
+      title: `${this.getMonthName()} | Page ${this.pageNumber}`,
       titleTemplate: '%s | My BMX Events'
     }
   },

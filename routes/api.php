@@ -27,13 +27,12 @@ Route::group([
         return $request->user();
     });
 
-    Route::get('/schedule'                          , 'ScheduleController@index')->name('user.schedule.index');
-    Route::get('/schedule/events/{id}/'             , 'ScheduleController@events')->name('user.schedule.events');
-
-    Route::post('/schedule/new/'                 , 'ScheduleController@store')->name('user.schedule.store');
-    Route::post('/schedule/{id}/update/'         , 'ScheduleController@update')->name('user.schedule.update');
+    Route::get('/schedule/events/{id}/' , 'ScheduleController@events')->name('user.schedule.events');
+    Route::get('/schedule'              , 'ScheduleController@index')->name('user.schedule.index');
 
     Route::post('/schedule/toggle/{eventId}/to/{scheudleId}' , 'ScheduleController@toggleEventTo')->name('user.schedule.event.toggle');
+    Route::post('/schedule/{id}/update/'                     , 'ScheduleController@update')->name('user.schedule.update');
+    Route::post('/schedule/new/'                             , 'ScheduleController@store')->name('user.schedule.store');
 
     Route::delete('/schedule/{id}/delete/', 'ScheduleController@delete')->name('user.schedule.delete');
 
@@ -51,21 +50,14 @@ Route::group([
 | Venue(s) routes
 |--------------------------------------------------------------------------
 */
-// @todo Stop making routes plural/combine events + event, etc.
-Route::group([
-    'prefix'     => 'venue',
-    'middleware' => 'auth:api',
-    ], function () {
-    Route::get('/{id}/{slug?}', 'VenueController@single')->name('venue.single');
-    Route::get('/events/{id}', 'VenueController@events')->name('venue.events');
-});
-
 Route::group([
     'prefix'     => 'venues',
     'middleware' => 'auth:api',
     ], function () {
-    Route::get('/{state}', 'VenueController@state')->name('venues.state');
-    Route::get('/', 'VenueController@index')->name('venues');
+    Route::get('/{id}/{slug?}' , 'VenueController@single')->name('venue.single');
+    Route::get('/events/{id}'  , 'VenueController@events')->name('venue.events');
+    Route::get('/{state}'      , 'VenueController@state')->name('venues.state');
+    Route::get('/'             , 'VenueController@index')->name('venues');
 });
 
 /*
@@ -81,28 +73,27 @@ Route::group([
 | next_month: All events next month
 | upcoming: All events from today into the future
 */
-Route::get('/event/{id}/{slug?}', function ($id, $slug = '') {
-    return App\Event::with('venue.city.states')->where('id', $id)->first();
-})->name('event.single')->middleware('auth:api');
-
 Route::group([
     'prefix'     => 'events',
     'middleware' => 'auth:api',
     ], function () {
 
+    Route::get('/{state}' , 'EventController@state')->name('events.state');
+    Route::get('/{type}'  , 'EventController@type')->name('events.type');
+
+    Route::get('/{id}/{slug?}'          , 'EventController@single')->name('event.single');
+    Route::get('/{year}/{month}/{type}' , 'EventController@yearMonthType')->name('events.year.month.type');
+    Route::get('/{year}/{month}'        , 'EventController@yearMonth')->name('events.year.month');
+    Route::get('/{year}/{type}'         , 'EventController@yearType')->name('events.year.type');
+    Route::get('/{year}'                , 'EventController@year')->name('events.year');
+
+    Route::get('/{year}/{month}/{type}/{state}' , 'EventController@yearMonthTypeState')->name('events.year.month.type.state');
+    Route::get('/{year}/{month}/{state}'        , 'EventController@yearMonthState')->name('events.year.month.state');
+    Route::get('/{year}/{type}/{state}'         , 'EventController@yearTypeState')->name('events.year.type.state');
+    Route::get('/{year}/{state}'                , 'EventController@yearState')->name('events.year.state');
+
+
     Route::get('/', 'EventController@index')->name('events.index');
-    Route::get('/{state}', 'EventController@state')->name('events.state');
-    Route::get('/{type}', 'EventController@type')->name('events.type');
-
-    Route::get('/{year}', 'EventController@year')->name('events.year');
-    Route::get('/{year}/{month}', 'EventController@yearMonth')->name('events.year.month');
-    Route::get('/{year}/{type}', 'EventController@yearType')->name('events.year.type');
-    Route::get('/{year}/{month}/{type}', 'EventController@yearMonthType')->name('events.year.month.type');
-
-    Route::get('/{year}/{state}', 'EventController@yearState')->name('events.year.state');
-    Route::get('/{year}/{type}/{state}', 'EventController@yearTypeState')->name('events.year.type.state');
-    Route::get('/{year}/{month}/{state}', 'EventController@yearMonthState')->name('events.year.month.state');
-    Route::get('/{year}/{month}/{type}/{state}', 'EventController@yearMonthTypeState')->name('events.year.month.type.state');
 });
 
 Route::get('/states', function () {

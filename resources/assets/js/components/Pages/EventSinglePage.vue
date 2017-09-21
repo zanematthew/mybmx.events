@@ -99,7 +99,7 @@ export default {
     },
     request() {
       // @todo move to api/Event.js
-      axios.get('/api/event/'+this.id+'/').then(response => {
+      axios.get('/api/events/'+this.id+'/').then(response => {
         this.event = response.data;
         this.center.lat = parseInt(response.data.venue.lat);
         this.center.lng = parseInt(response.data.venue.long);

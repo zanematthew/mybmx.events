@@ -38,7 +38,7 @@ export default {
     }
   },
   mounted() {
-    axios.get(`/api/event/${this.event_id}/`).then(response => {
+    axios.get(`/api/events/${this.event_id}/`).then(response => {
       this.event = response.data;
     });
   },

@@ -1,10 +1,10 @@
 <template>
-  <div v-if="items">
+  <div v-if="schedule">
     <div v-if="count === 0">
       <router-link :to="{ name: 'event-list-page', params: { when: 'this-month' } }" class="grid row is-item title align-center">Add Events to this Schedule.</router-link>
     </div>
     <div v-else>
-      <action-bar :type="'event'" :item="item" :key="item.id" v-for="item in items.events" class="row"></action-bar>
+      <action-bar :type="'event'" :item="item" :key="item.id" v-for="item in schedule.events" class="row"></action-bar>
     </div>
   </div>
   <div v-else class="align-center row is-item grid is-100">
@@ -20,19 +20,25 @@ export default {
   },
   props: ['id'],
   computed: {
-    items() {
+    schedule() {
       return this.$store.getters.getEventsInScheduleByScheduleId(this.id);
     },
+    // @todo getter schedule event count
     count() {
-      return _.isUndefined(this.items.events) ? 0 : this.items.events.length;
+      return _.isUndefined(this.schedule.events) ? 0 : this.schedule.events.length;
     },
-    scheduleName() {
-      return this.items.name;
-    }
   },
+  // @todo this is throwing an error, it is running before the computed property schedule()
   metaInfo() {
+    let name = '';
+    if (_.isUndefined(this.schedule)){
+      name = 'no name';
+    } else {
+      name = this.schedule.name;
+    }
+    console.log(name);
     return {
-      title: this.scheduleName,
+      title: name,
       titleTemplate: 'Schedules >> %s | My BMX Events'
     }
   },

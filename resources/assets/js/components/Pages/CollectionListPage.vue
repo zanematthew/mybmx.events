@@ -1,6 +1,6 @@
 <template>
   <div>
-      <router-link v-for="item in item_types" :key="item.id" :to="{ name: 'collection-type', params: { item_type: item.id } }" class="grid is-100 row is-item title">{{ item.name }}</router-link>
+      <router-link v-for="item in item_types" :key="item.id" :to="{ name: 'collection-type', params: { item_type: item.type } }" class="grid is-100 row is-item title">{{ item.name }}</router-link>
   </div>
 </template>
 <script>
@@ -10,15 +10,15 @@ export default {
     return {
       item_types: [
         {
-          id: 'event',
+          type: 'event',
           name: 'Event'
         },
         {
-          id: 'venue',
+          type: 'venue',
           name: 'Venue',
         },
         {
-          id: 'schedule',
+          type: 'schedule',
           name: 'Schedule'
         }
       ]

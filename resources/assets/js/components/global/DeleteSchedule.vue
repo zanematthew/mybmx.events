@@ -1,16 +1,21 @@
 <template>
   <div>
-    <span v-on:click.stop.prevent="destroy(schedule)" class="delete">Delete</span>
+    <a href="#" v-on:click.stop.prevent="destroy(id)" class="delete"><icon name="trash-o" class="align-icon"></icon>Delete</a>
   </div>
 </template>
 <script>
 export default {
-  props: ['schedule'],
+  props: ['id'],
+  computed: {
+    name() {
+      return this.$route.query.name || 'Name unavailable';
+    }
+  },
   methods: {
     destroy(schedule) {
-      if (window.confirm(`Delete schedule: ${schedule.name}. Are you sure?`)) {
+      if (window.confirm(`Delete schedule: "${this.name}". Are you sure?`)) {
         this.$store.dispatch('delete', {
-          id: schedule.id
+          id: this.id
         });
       }
     }

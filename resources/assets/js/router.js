@@ -102,6 +102,19 @@ const routes = [
     ]
   },
   {
+    //
+    // /action/295/schedule/
+    // /action/295/schedule/share/
+    // /action/295/schedule/toggle/952/
+    //
+    // /action/295/event/
+    // /action/295/event/share/
+    // /action/295/event/toggle/952/
+    //
+    // /action/295/venue/
+    // /action/295/venue/share/
+    // /action/295/venue/toggle/952/
+    //
     path: '/action/',
     component: RouterView,
     name: 'action-routerview',
@@ -109,7 +122,8 @@ const routes = [
     props: true,
     children: [
       {
-        path: ':id(\\d+)',
+        // This works for upper case as well; https://github.com/vuejs/vue-router/pull/1215
+        path: ':id(\\d+)/:type([a-z]+)',
         name: 'action-main',
         component: ActionMainPage,
         props: true,

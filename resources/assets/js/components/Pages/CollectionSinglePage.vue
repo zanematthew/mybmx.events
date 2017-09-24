@@ -1,4 +1,6 @@
 <template>
+  <!-- @todo handle when there are no schedules.
+  There are no <strong>Schedules</strong> added to your Collection. -->
   <div v-if="items">
     <action-bar :type="item_type" :item="item" :key="item.id" v-for="item in items" class="row"></action-bar>
   </div>
@@ -19,14 +21,11 @@ export default {
   computed: {
     items() {
       return this.$store.state.library[this.item_type];
-    },
-    typeTitle() {
-      return _.startCase(this.item_type);
     }
   },
   metaInfo() {
     return {
-      title: this.typeTitle,
+      title: _.startCase(this.item_type),
       titleTemplate: 'Collections >> %s | My BMX Events'
     }
   },

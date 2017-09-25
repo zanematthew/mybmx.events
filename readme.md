@@ -1,51 +1,123 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Setup
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+1. Run migrations
+2. Seed Database
+3. Run Unit Test
+4. Develop
 
-## About Laravel
+# Database
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+## Migrations
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Seeding
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+# Models
 
-## Learning Laravel
+All Models are defined using the [`php artian make:model <Model>`](https://laravel.com/docs/5.4/eloquent#defining-models) command.
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+This application has the following models:
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+    * City
+        * One City belongs to many States
+    * State
+        * One State has many Cities
+    * Event
+        * Many Events belongs to many Schedules
+        * One Event belongs to one Venue
+    * Venue
+        * One Venue has many Events
+        * One Venue belongs to one City
+    * Schedule
+        * Many Schedules belongs to one user
+    * User
+        * One User has many Schedules
 
-## Laravel Sponsors
+## Model Factories
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
+Test data generated with [Faker](https://github.com/fzaninotto/Faker) will result in strange scenarios, i.e., Event start and end dates will date back into the 1900's.
 
-- **[Vehikl](http://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Styde](https://styde.net)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
+**Fake Event**
 
-## Contributing
+An Event cannot exists without a Venue. When faking an Event a Venue, City, and State are created. Each item is related accordingly.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+`factory(App\Event::class)->create(); // One Event`
 
-## Security Vulnerabilities
+`factory(App\Event::class, 5)->create(); // 5 Events, this will also create 5 Venues, Cities, and States`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+**Fake Schedule, with Fake Events**
 
-## License
+A fake Schedule will create a fake Event, along with needed relations.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+`factory(App\EventSchedule::class)->create();`
+
+# Routes
+
+## API Routes
+
+These are handled via Laravel. These are the routes for interacting with the database.
+
+http://mybmx.events/api/event/{id}/{slug?}
+http://mybmx.events/api/events/{state?}
+http://mybmx.events/api/events/{year}/{state?}
+http://mybmx.events/api/events/{year}/{month}/{state?}
+http://mybmx.events/api/events/{year}/{type}/{state?}
+http://mybmx.events/api/events/{year}/{month}/{type}/{state?}
+
+http://mybmx.events/api/venue/{id}/{slug?}
+http://mybmx.events/api/venues/{state?}
+
+http://mybmx.events/{vue?}
+Catch all for VueRouter.
+
+## Front-end Routes
+
+These are handled by VueJS.
+
+http://mybmx.events/event/{id}/{slug?}
+http://mybmx.events/events/{state?}
+http://mybmx.events/events/{year}/{state?}
+http://mybmx.events/events/{year}/{month}/{state?}
+http://mybmx.events/events/{year}/{type}/{state?}
+http://mybmx.events/events/{year}/{month}/{type}/{state?}
+
+**Links**
+
+* [Laravel Routes Documentation](https://laravel.com/docs/5.4/routing).
+* List routes `php artisan route:list`.
+
+## Events
+
+**Plural**
+`events/`, Return _all_ Events for the _current_ year (Y).
+`events/<year>/`, Return _all_ Events for a given year (Y).
+`events/<year>/<month>`, Return _all_ Events for a given year (Y), and month (n).
+`events/<year>/<month>/<type>`
+
+Plus state abbr
+
+**Singular**
+`event/<name>/<id>`, Return a single Event.
+
+## Venues
+
+`venues/`, Return _all_ Venues for _current_ state.
+`venues/<state abbr>`, Return _all_ Venues by state abbreviation.
+`venue/<name>/<id>`, Return a _single_ Venue prefixed with the name and Venue id.
+`venue/<name>/events/<id>`, Return a _single_ Venue with _all_ Events for the _current_ Venue, and _current_ year (Y), prefixed with the Venue id.
+`venue/<name>/events/<year>/<id>`, Return a _single_ Venue with _all_ Events for the _current_ Venue, year (Y) provided, prefixed with the Venue id.
+`venue/<name>/events/<year>/<month>/<id>`, Return a _single_ Venue with _all_ Events for the _current_ venue, given a year (Y), and month (n) prefixed with the Venue id.
+
+## Resource Routes
+
+### Schedule
+
+`schedule/`
+`schedule/<id>/edit`
+`schedule/<id>/add/<event id>/`
+
+### Login, Register, Socialite
+
+# Testing
+
+`.env`, DB_DATABASE_TEST mysql_testing
+`config/database.php`

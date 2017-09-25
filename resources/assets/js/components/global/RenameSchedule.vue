@@ -6,7 +6,7 @@ https://ypereirareis.github.io/blog/2017/04/25/vuejs-two-way-data-binding-state-
 -->
 <div>
   <div :class="{editing: schedule == editing }">
-    <span v-on:dblclick.stop.prevent="edit(schedule)">{{ schedule.name }}</span>
+    <div class="title" v-on:dblclick.stop.prevent="edit(schedule)">{{ schedule.name }}</div>
     <span class="edit">
     <input
       type="text"
@@ -16,10 +16,10 @@ https://ypereirareis.github.io/blog/2017/04/25/vuejs-two-way-data-binding-state-
       v-on:keyup.enter="doneEdit(schedule, $event.target.value)"
       v-on:keyup.esc="cancelEdit(schedule)"
       />
-      <span class="meta">Press Enter to save, ESC to exit</span>
+      <span class="not-title">Press Enter to save, ESC to exit</span>
     </span>
   </div>
-  <div class="meta">Last updated {{ fromNow(schedule.updated_at) }}</div>
+  <div class="not-title">Last updated {{ fromNow(schedule.updated_at) }}</div>
 </div>
 </template>
 <script>

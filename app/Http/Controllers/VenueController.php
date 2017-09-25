@@ -55,10 +55,10 @@ class VenueController extends Controller
         return \App\Venue::with('events', 'city.states')->where('id', $venueId)->first();
     }
 
-    public function events($eventId = null)
+    public function events($venueId = null)
     {
-        return \App\Events::where('venue_id', $eventId)->whereBetween('start_date', [
-            date('Y-m-d', strotime('today')),
+        return \App\Event::where('venue_id', $venueId)->whereBetween('start_date', [
+            date('Y-m-d', strtotime('today')),
             date('Y-m-d', strtotime('last day of this month')),
         ])->paginate($this->paginate);
     }

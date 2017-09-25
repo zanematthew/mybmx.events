@@ -240,4 +240,9 @@ class EventController extends Controller
                 ->orderBy('start_date', 'asc')
                 ->paginate($this->paginate);
     }
+
+    public function single($id = null, $slug = null)
+    {
+        return \App\Event::with('venue.city.states')->where('id', $id)->first();
+    }
 }

@@ -78,6 +78,7 @@ class RouteEventTest extends TestCase
      * Verify the events index will return events.
      *
      * @return void
+     * @group route-event
      */
     public function testEvents()
     {
@@ -109,6 +110,7 @@ class RouteEventTest extends TestCase
      * retrieves 5 events based on a state.
      *
      * @return void.
+     * @group route-event
      */
     public function testEventsState()
     {
@@ -158,6 +160,7 @@ class RouteEventTest extends TestCase
      * will return 3 events based on type.
      *
      * @return void
+     * @group route-event
      */
     public function testType()
     {
@@ -192,6 +195,7 @@ class RouteEventTest extends TestCase
      * start date of 2010. Verify route will return 3 events for 2020.
      *
      * @return void
+     * @group route-event
      */
     public function testYear()
     {
@@ -215,6 +219,7 @@ class RouteEventTest extends TestCase
      * the year and month.
      *
      * @return void.
+     * @group route-event
      */
     public function testYearMonth()
     {
@@ -239,6 +244,7 @@ class RouteEventTest extends TestCase
      * type.
      *
      * @return void.
+     * @group route-event
      */
     public function testYearType()
     {
@@ -264,6 +270,7 @@ class RouteEventTest extends TestCase
      * Verify correct events are returned based on year and state.
      *
      * @return void.
+     * @group route-event
      */
     public function testEventsYearState()
     {
@@ -294,6 +301,7 @@ class RouteEventTest extends TestCase
      * when queried on state/year/type the correct events are returned.
      *
      * @return void.
+     * @group route-event
      */
     public function testEventsYearTypeState()
     {
@@ -326,6 +334,7 @@ class RouteEventTest extends TestCase
      * events are returned when queried by year, month, and state.
      *
      * @return void.
+     * @group route-event
      */
     public function testEventsYearMonthState()
     {
@@ -356,6 +365,7 @@ class RouteEventTest extends TestCase
      * Verify when queried by state the correct number is returned.
      *
      * @return void.
+     * @group route-event
      */
     public function testEventsYearMonthTypeState()
     {

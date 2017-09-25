@@ -81,11 +81,11 @@ Route::group([
     Route::get('/{state}' , 'EventController@state')->name('events.state');
     Route::get('/{type}'  , 'EventController@type')->name('events.type');
 
-    Route::get('/{id}/{slug?}'          , 'EventController@single')->name('event.single');
     Route::get('/{year}/{month}/{type}' , 'EventController@yearMonthType')->name('events.year.month.type');
     Route::get('/{year}/{month}'        , 'EventController@yearMonth')->name('events.year.month');
     Route::get('/{year}/{type}'         , 'EventController@yearType')->name('events.year.type');
     Route::get('/{year}'                , 'EventController@year')->name('events.year');
+    Route::get('/{id}/{slug?}'          , 'EventController@single')->name('event.single');
 
     Route::get('/{year}/{month}/{type}/{state}' , 'EventController@yearMonthTypeState')->name('events.year.month.type.state');
     Route::get('/{year}/{month}/{state}'        , 'EventController@yearMonthState')->name('events.year.month.state');

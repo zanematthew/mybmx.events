@@ -60,7 +60,7 @@ class EventController extends Controller
      *
      * @return object Paginated Event model with; venue, city, and state. Ordered by start date ascending.
      */
-    public function index()
+    public function index(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $q = \App\Event::with('venue.city.states');
         $q = $this->handleRequest($q);
@@ -76,7 +76,7 @@ class EventController extends Controller
      *
      * @return object        Paginated Event model.
      */
-    public function state($state = null)
+    public function state($state = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $q = \App\Event::with('venue.city.states')
             ->whereHas('venue.city.states', function ($query) use ($state) {
@@ -95,7 +95,7 @@ class EventController extends Controller
      *
      * @return object       Paginated Event model based on type.
      */
-    public function type($type = null)
+    public function type($type = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
 
         $q = \App\Event::with('venue.city.states');
@@ -113,7 +113,7 @@ class EventController extends Controller
      *
      * @return object       Paginated events model based on year.
      */
-    public function year($year = null)
+    public function year($year = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $q = \App\Event::with('venue.city.states');
         $q = $this->handleRequest($q);
@@ -130,7 +130,7 @@ class EventController extends Controller
      *
      * @return object        Paginated events.
      */
-    public function yearMonth($year = null, $month = null)
+    public function yearMonth($year = null, $month = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $q = \App\Event::with('venue.city.states');
         $q = $this->handleRequest($q);
@@ -148,7 +148,7 @@ class EventController extends Controller
      *
      * @return object       Paginated events based on year and type.
      */
-    public function yearType($year = null, $type = null)
+    public function yearType($year = null, $type = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return \App\Event::with('venue.city.states')
             ->whereYear('start_date', $year)
@@ -165,7 +165,7 @@ class EventController extends Controller
      *
      * @return object        Paginated events based on year and state.
      */
-    public function yearState($year = null, $state = null)
+    public function yearState($year = null, $state = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return \App\Event::with('venue.city.states')
             ->whereHas('venue.city.states', function ($query) use ($state) {
@@ -185,7 +185,7 @@ class EventController extends Controller
      *
      * @return object        Paginated events based on year, type and state.
      */
-    public function yearTypeState($year = null, $type = null, $state = null)
+    public function yearTypeState($year = null, $type = null, $state = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return \App\Event::with('venue.city.states')
             ->whereHas('venue.city.states', function ($query) use ($state) {
@@ -206,7 +206,7 @@ class EventController extends Controller
      *
      * @return object        Paginated events based on year, month, state.
      */
-    public function yearMonthState($year = null, $month = null, $state = null)
+    public function yearMonthState($year = null, $month = null, $state = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return \App\Event::with('venue.city.states')
             ->whereHas('venue.city.states', function ($query) use ($state) {
@@ -228,7 +228,7 @@ class EventController extends Controller
      *
      * @return object        Paginated events based on year, month, state.
      */
-    public function yearMonthTypeState($year = null, $month = null, $type = null, $state = null)
+    public function yearMonthTypeState($year = null, $month = null, $type = null, $state = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return \App\Event::with('venue.city.states')
                 ->whereHas('venue.city.states', function ($query) use ($state) {

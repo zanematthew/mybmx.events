@@ -29,8 +29,8 @@ class RouteServiceProvider extends ServiceProvider
             'type'  => '[a-z]+(?:-[a-z]+)*$',
             'year'  => '^\d{4}$',
             'month' => '^\d{2}$',
-            'id'    => '[0-9]+',
-            'slug'  => '[a-z0-9-]+',
+            'id'    => '[0-9]+', // @todo "year" will also be caught by this
+            'slug'  => '[a-z0-9-]+', // @todo "type" is also a "slug"
             'vue'   => '[\/\w\.-]*',
         ]);
         parent::boot();

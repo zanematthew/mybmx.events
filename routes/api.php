@@ -54,15 +54,21 @@ Route::group([
     'prefix'     => 'venues',
     'middleware' => 'auth:api',
     ], function () {
-    Route::get('/{id}/{slug?}' , 'VenueController@single')->name('venue.single');
     Route::get('/events/{id}'  , 'VenueController@events')->name('venue.events');
     Route::get('/{state}'      , 'VenueController@state')->name('venues.state');
     Route::get('/'             , 'VenueController@index')->name('venues');
 });
 
+Route::group([
+    'prefix'     => 'venue',
+    'middleware' => 'auth:api',
+    ], function() {
+    Route::get('/{id}/{slug?}' , 'VenueController@single')->name('venue.single');
+});
+
 /*
 |--------------------------------------------------------------------------
-| Events Routes
+| Events Routes -- Plural
 |--------------------------------------------------------------------------
 |
 | All events routes are prefixed with [/api/]events. URL constraints are
@@ -85,15 +91,25 @@ Route::group([
     Route::get('/{year}/{month}'        , 'EventController@yearMonth')->name('events.year.month');
     Route::get('/{year}/{type}'         , 'EventController@yearType')->name('events.year.type');
     Route::get('/{year}'                , 'EventController@year')->name('events.year');
-    Route::get('/{id}/{slug?}'          , 'EventController@single')->name('event.single');
-
     Route::get('/{year}/{month}/{type}/{state}' , 'EventController@yearMonthTypeState')->name('events.year.month.type.state');
     Route::get('/{year}/{month}/{state}'        , 'EventController@yearMonthState')->name('events.year.month.state');
     Route::get('/{year}/{type}/{state}'         , 'EventController@yearTypeState')->name('events.year.type.state');
     Route::get('/{year}/{state}'                , 'EventController@yearState')->name('events.year.state');
 
-
     Route::get('/', 'EventController@index')->name('events.index');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Event Routes -- Singular
+|--------------------------------------------------------------------------
+|
+*/
+Route::group([
+    'prefix'     => 'event',
+    'middleware' => 'auth:api',
+    ], function() {
+    Route::get('/{id}/{slug?}'          , 'EventController@single')->name('event.single');
 });
 
 Route::get('/states', function () {

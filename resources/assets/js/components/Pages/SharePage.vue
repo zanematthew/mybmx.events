@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted() {
-    axios.get(`/api/events/${this.$route.params.id}/`).then(response => {
+    axios.get(`/api/event/${this.$route.params.id}/`).then(response => {
       this.item = response.data
     });
   },

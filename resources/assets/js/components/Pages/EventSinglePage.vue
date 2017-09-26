@@ -99,7 +99,7 @@ export default {
     },
     request() {
       // @todo move to api/Event.js
-      axios.get('/api/events/'+this.id+'/').then(response => {
+      axios.get('/api/event/'+this.id+'/').then(response => {
         this.event = response.data;
         this.center.lat = parseInt(response.data.venue.lat);
         this.center.lng = parseInt(response.data.venue.long);
@@ -110,7 +110,7 @@ export default {
         return response.data;
       }).then(response => {
         // @todo add to api/Event.js
-        axios.get('/api/events/', {
+        axios.get('/api/event/', {
           params: {
             this_month: true,
             venue_id: response.venue_id,

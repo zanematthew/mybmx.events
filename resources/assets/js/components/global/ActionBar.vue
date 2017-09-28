@@ -21,7 +21,7 @@
       class="grid is-50 title-click-area" exact>
         <div class="title">{{ item.title }}</div>
         <div class="not-title" v-if="item.start_date">
-          {{ startDate(item.start_date) }}<span v-if="item.venue"> &bull; {{ item.venue.city.name }}<span v-if="item.venue.city.states">, {{ item.venue.city.states[0].abbr }}</span></span>
+          {{ startDate(item.start_date) }}<span v-if="item.venue"> &bull; {{ item.venue.city.name }}<span v-if="item.venue.city.states[0]">, {{ item.venue.city.states[0].abbr }}</span></span>
         </div>
     </router-link>
 
@@ -35,7 +35,10 @@
     <!-- Title Area (Schedule) -->
     <router-link v-if="type === 'schedule'" :to="{ name: 'schedule-single-page',
       params: { id: item.id, slug: item.slug }
-      }" class="grid is-50 title-click-area title" exact>{{ item.name }}</router-link>
+      }" class="grid is-50 title-click-area" exact>
+      <div class="title">{{ item.name }}</div>
+      <div class="not-title">Updated {{ fromNow(item.updated_at) }}</div>
+    </router-link>
 
     <!-- Detail Area -->
     <router-link :to="{

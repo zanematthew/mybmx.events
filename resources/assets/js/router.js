@@ -9,6 +9,7 @@ import VenueListPage from './components/Pages/VenueListPage';
 import ScheduleListPage from './components/Pages/ScheduleListPage';
 import ScheduleSinglePage from './components/Pages/ScheduleSinglePage';
 import ActionMainPage from './components/Pages/ActionMainPage';
+import ActionFormPage from './components/Pages/ActionFormPage';
 import SharePage from './components/Pages/SharePage';
 import AddToPage from '~/components/Pages/AddToPage';
 import CollectionListPage from '~/components/Pages/CollectionListPage';
@@ -115,6 +116,9 @@ const routes = [
     // /action/295/venue/share/
     // /action/295/venue/toggle/952/
     //
+    // /action/295/schedule/edit/
+    // @todo review "nested routes", we can probably remove the RouterView in lieu of
+    // empty sub-route paths.
     path: '/action/',
     component: RouterView,
     name: 'action-routerview',
@@ -127,6 +131,13 @@ const routes = [
         name: 'action-main',
         component: ActionMainPage,
         props: true,
+      },
+      // Can't use nested children because this has no RouterView to bind(?) to.
+      {
+        path: ':id(\\d+)/:type([a-z]+)/edit',
+        name: 'action-edit',
+        component: ActionFormPage,
+        props: true
       },
       {
         path: 'share',

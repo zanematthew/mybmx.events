@@ -5,13 +5,11 @@
     <icon name="share-square-o" class="align-icon"></icon> Share
   </router-link>
 
-  <div v-if="type === 'schedule'">
-    View Schedule<br />
-    Rename Schedule
-  </div>
+  <router-link v-if="type === 'schedule'" :to="{ name: 'action-edit' }" class="grid is-100 row is-item" exact>
+    <icon name="pencil-square-o" class="align-icon"></icon>Rename Schedule</router-link>
 
   <router-link v-if="type === 'schedule'" :to="{ name: 'schedule-single-page',
-      params: { id: item.id, slug: item.slug } }" class="grid is-100 row is-item" exact>View Events</router-link>
+      params: { id: item.id, slug: item.slug } }" class="grid is-100 row is-item" exact><icon name="calendar" class="align-icon"></icon>View Events</router-link>
 
     <!-- View Event -->
     <!-- Pass down the slug, and event.venue.id from the parent, via "meta" -->
@@ -19,7 +17,7 @@
     params: { id: item.id, slug: item.slug, when: 'this-month' },
     query: { venue_id: item.venue_id }
     }" class="grid is-100 row is-item">
-      <icon name="calendar" class="align-icon"></icon> View Event...
+      <icon name="calendar" class="align-icon"></icon>View Event...
     </router-link>
 
     <!-- View Venue -->
@@ -31,7 +29,7 @@
       when: 'this-month'
       }
     }" class="grid is-100 row is-item" v-if="type === 'venue' || type === 'event'">
-      <icon name="map-o" class="align-icon"></icon> View Venue...
+      <icon name="map-o" class="align-icon"></icon>View Venue...
     </router-link>
 
     <!-- @todo Add/Remove -->

@@ -21,6 +21,9 @@ const getters = {
   getEventsInScheduleByScheduleId: (state) => (id) => {
     var foundIndex = state.schedules.findIndex(items => items.id == id);
     return state.schedules[foundIndex];
+  },
+  getScheduleById: (state) => (id) => {
+    return state.schedules.find(schedule => schedule.id == id);
   }
 };
 

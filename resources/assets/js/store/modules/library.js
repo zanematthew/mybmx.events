@@ -23,6 +23,15 @@ const getters = {
   isItemInLibrary: (state) => (item_id, item_type) => {
     return ! _.isUndefined(_.find(state[item_type], {id: item_id}));
   },
+  // @todo add a new getter
+  // Get library items by Type, an item is stored elsewhere, i.e., this
+  // is not the single source of truth. If an item name changes, i.e.,
+  // a schedule is already in the library, and then renamed, this
+  // currently does not reflect that change.
+  //
+  // if state[item_type] === 'schedules'
+  //    rebuild state[item_type] from matching IDs found in this.state.schedule.schedules
+  //
 };
 
 /**

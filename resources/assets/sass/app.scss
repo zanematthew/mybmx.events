@@ -17,14 +17,11 @@
   margin: 0 5px;
 }
 
-.row  {
+.row {
   float: left;
   width: 100%;
-}
-
-.row {
   &:last-child {
-    border-bottom: 0;
+    // border-bottom: 0;
   }
   border-bottom: 1px solid $light-gray;
   &.is-item {

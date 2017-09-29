@@ -5,11 +5,30 @@
     <icon name="share-square-o" class="align-icon"></icon> Share
   </router-link>
 
-  <router-link v-if="type === 'schedule'" :to="{ name: 'action-edit' }" class="grid is-100 row is-item" exact>
-    <icon name="pencil-square-o" class="align-icon"></icon>Rename Schedule</router-link>
-
-  <router-link v-if="type === 'schedule'" :to="{ name: 'schedule-single-page',
-      params: { id: item.id, slug: item.slug } }" class="grid is-100 row is-item" exact><icon name="calendar" class="align-icon"></icon>View Events</router-link>
+  <!--
+  |
+  | Name: Action Edit
+  | Type: Schedule
+  | Action Items: Rename, View Events, Delete
+  |
+  -->
+  <div v-if="type === 'schedule'">
+    <router-link :to="{
+      name: 'action-edit'
+    }" class="grid is-100 row is-item" exact>
+      <icon name="pencil-square-o" class="align-icon"></icon>Rename Schedule
+    </router-link>
+    <router-link :to="{
+      name: 'schedule-single-page',
+      params: {
+        id: item.id,
+        slug: item.slug
+      }
+    }" class="grid is-100 row is-item" exact>
+      <icon name="calendar" class="align-icon"></icon>View Events
+    </router-link>
+    <delete-schedule :id="item.id" class="grid is-100 row is-item"></delete-schedule>
+  </div>
 
     <!-- View Event -->
     <!-- Pass down the slug, and event.venue.id from the parent, via "meta" -->
@@ -38,7 +57,6 @@
       <icon name="list-alt" class="align-icon"></icon>Add to Schedule
     </router-link>
 
-    <delete-schedule :id="item.id" class="grid is-100 row is-item" v-if="type === 'schedule'"></delete-schedule>
   </div>
 </template>
 <script>

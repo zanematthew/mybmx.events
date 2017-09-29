@@ -35,7 +35,7 @@
     <!-- Title Area (Schedule) -->
     <router-link v-if="type === 'schedule'" :to="{ name: 'schedule-single-page',
       params: { id: item.id, slug: item.slug }
-      }" class="grid is-50 title-click-area" exact>
+      }" class="grid is-70 title-click-area" exact>
       <div class="title">{{ item.name }}</div>
       <div class="not-title">Updated {{ fromNow(item.updated_at) }}</div>
     </router-link>

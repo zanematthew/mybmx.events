@@ -1,6 +1,5 @@
 <template>
   <div v-if="venues.data">
-    <state-select :type="this.$route.name"></state-select>
     <action-bar :type="'venue'" :item="venue" class="row" v-for="venue in venues.data" :key="venue.id"></action-bar>
     <pager :data="venues" :name="'venues'" :meta="{beforePageTitle: 'Venues'}"></pager>
   </div>
@@ -10,7 +9,6 @@
 </template>
 <script>
 import pager from '~/components/Global/Pager';
-import stateSelect from '~/components/Global/StateSelect';
 import actionBar from '~/components/Global/ActionBar';
 import MyMixin from '~/mixin.js';
 
@@ -18,7 +16,6 @@ export default {
   mixins: [MyMixin],
   components: {
     pager,
-    stateSelect,
     actionBar
   },
   props: ['state'],

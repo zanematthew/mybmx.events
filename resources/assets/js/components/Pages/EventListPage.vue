@@ -1,17 +1,14 @@
 <template>
 <div>
-  <state :type="this.$route.name"></state>
   <tabs></tabs>
 </div>
 </template>
 <script>
 import moment from 'moment';
-import state from '~/components/Global/StateSelect';
 import tabs from '~/components/Global/Tabs';
 
 export default {
   components: {
-    state,
     tabs
   },
   props: {

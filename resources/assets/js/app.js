@@ -51,8 +51,6 @@ Vue.use(VueAnalytics, {
   }
 });
 
-import stateSelect from './components/Global/StateSelect';
-
 var SocialSharing = require('vue-social-sharing');
 Vue.use(SocialSharing);
 
@@ -79,7 +77,6 @@ const app = new Vue({
     titleTemplate: '%s | My BMX Events'
   },
   components: {
-    stateSelect,
     primaryNav,
     'passport-clients': Clients,
     'passport-authorized-clients': AuthorizedClients,

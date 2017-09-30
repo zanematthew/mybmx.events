@@ -52,8 +52,11 @@ export default {
 @import "../../../sass/variables";
 .masthead {
   background: #f5f5f5;
-  border-bottom: 1px solid $light-gray;
+  border-top: 1px solid $medium-gray;
   min-height: 40px;
+
+  position: fixed;
+  bottom: 0;
 }
 
 .is-primary {
@@ -63,6 +66,8 @@ export default {
     text-align: center;
     width: 25%;
     float: left;
+
+    margin-bottom: -1px;
   }
 }
 

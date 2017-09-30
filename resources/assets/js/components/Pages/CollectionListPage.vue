@@ -1,10 +1,18 @@
 <template>
   <div>
-      <router-link v-for="item in item_types" :key="item.id" :to="{ name: 'collection-type', params: { item_type: item.type } }" class="grid is-100 row is-item title">{{ item.name }}</router-link>
+    <div v-for="(value, key, index) in items" :key="key">
+        <div class="title row grid is-item">{{ key }}</div>
+        <action-bar :type="key" :item="collected" v-for="collected in value" :key="collected.id" class="row"></action-bar>
+    </div>
   </div>
 </template>
 <script>
+import actionBar from '~/components/Global/ActionBar';
+
 export default {
+  components: {
+    actionBar
+  },
   data() {
     // @todo derive from vuex Library as a getter getLibraryItemTypes
     return {
@@ -22,6 +30,11 @@ export default {
           name: 'Schedule'
         }
       ]
+    }
+  },
+  computed: {
+    items() {
+      return this.$store.state.library || [];
     }
   },
   metaInfo() {

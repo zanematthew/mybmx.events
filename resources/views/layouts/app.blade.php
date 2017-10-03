@@ -10,23 +10,22 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.0.0/dist/vue-multiselect.min.css">
     </head>
     <body>
         <div id="app">
             <div class="app-container">
                 @yield('content')
+                @auth
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();"
+                        class="row is-item align-center">Logout</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+                @endauth
             </div>
         </div>
-        @auth
-            <a href="{{ route('logout') }}"
-                onclick="event.preventDefault();
-                         document.getElementById('logout-form').submit();"
-                class="row is-item align-center">Logout</a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>
-        @endauth
 
         <script>
             @auth

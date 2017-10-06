@@ -267,7 +267,8 @@ body {
   color: #545454;
 }
 
-#app {
+#app,
+.container {
   margin: 0 auto;
   min-width: 320px;
   max-width: 600px;
@@ -279,7 +280,6 @@ body {
   background: #fff;
   border: solid $light-gray;
   border-width: 0 1px 1px;
-  position: relative;
 }
 
 #nprogress {

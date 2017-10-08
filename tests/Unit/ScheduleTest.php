@@ -113,6 +113,9 @@ class ScheduleTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * @group schedule
+     */
     public function testToggleEventTo()
     {
         // Create user
@@ -135,11 +138,13 @@ class ScheduleTest extends TestCase
             'scheduleId' => $schedule->id,
         ]);
 
+        // @todo for now its the full event.
+        // but only checking for event ID
         $response
             ->assertStatus(200)
             ->assertJson([
                 'attached' => [
-                    0 => $event->id
+                    'id' => $event->id
                 ],
                 'detached' => []
             ]);

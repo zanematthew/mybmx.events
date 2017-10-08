@@ -40,12 +40,19 @@ class ScheduleController extends Controller
 
     public function toggleEventTo(Request $request) :\Illuminate\Http\JsonResponse
     {
-        return response()->json(Auth::user()
+        $toggled = Auth::user()
             ->schedules()
             ->findOrFail($request->scheduleId)
             ->events()
-            ->toggle($request->eventId)
-        );
+            ->toggle($request->eventId);
+
+        // @todo find away not to make another request here.
+        $event = \App\Event::find($request->eventId);
+
+        return response()->json([
+            'attached' => $toggled['attached'] ? $event : false,
+            'detached' => $toggled['detached'] ? $event : false,
+        ]);
     }
 
     public function delete(Request $request): \Illuminate\Http\JsonResponse

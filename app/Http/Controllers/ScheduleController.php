@@ -26,7 +26,7 @@ class ScheduleController extends Controller
         $schedule->user()->associate(Auth::user());
         $schedule->save();
 
-        return response()->json($schedule->getAttributes());
+        return response()->json(array_merge($schedule->getAttributes(),['events' => []]));
     }
 
     public function update(Request $request): \Illuminate\Http\JsonResponse

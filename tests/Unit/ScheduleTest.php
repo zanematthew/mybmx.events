@@ -43,6 +43,9 @@ class ScheduleTest extends TestCase
         $this->assertCount(2, $response->getData());
     }
 
+    /**
+     * @group schedule
+     */
     public function testStore()
     {
         Passport::actingAs(factory(\App\User::class)->create());
@@ -58,6 +61,7 @@ class ScheduleTest extends TestCase
                 'name',
                 'created_at',
                 'updated_at',
+                'events',
         ]);
     }
 

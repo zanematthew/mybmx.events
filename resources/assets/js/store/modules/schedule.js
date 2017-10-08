@@ -31,14 +31,15 @@ const getters = {
  * Actions commit mutations, these are to be used for asynchronous request.
  */
 const actions = {
-  // TOGGLE_EVENT_TO_SCHEDULE
   toggleEventToSchedule({commit, state}, payload) {
-    console.log(payload);
     return new Promise((resolve, reject) => {
       Schedule.toggleEventToSchedule(response => {
-        commit(types.TOGGLE_EVENT_TO_SCHEDULE, response);
+        commit(types.TOGGLE_EVENT_TO_SCHEDULE, {
+          response, // [ 'attached' => $e || false, 'detached' => $e || false, ]
+          payload // [ 'id', 'scheduleId' ]
+        });
         resolve(response);
-      }, payload.id, payload.scheduleId); // ...spread
+      }, payload);
     });
   },
 
@@ -52,7 +53,6 @@ const actions = {
   },
 
   addSchedule({commit, state}, payload) {
-    console.log(payload);
     return new Promise((resolve, reject) => {
       Schedule.addSchedule(response => {
         commit(types.ADD_SCHEDULE, response);
@@ -85,9 +85,15 @@ const actions = {
  */
 const mutations = {
   [types.TOGGLE_EVENT_TO_SCHEDULE] (state, payload) {
-    console.log('update state with payload');
-    console.log(state);
-    console.log(payload);
+    let scheduleKey = _.findKey(state.schedules, {id: payload.payload.scheduleId});
+    if (_.isEmpty(payload.response.attached)) {
+      let eventKey = _.findKey(state.schedules[scheduleKey].events, {id: payload.payload.eventId});
+      Vue.delete(state.schedules[scheduleKey].events, eventKey);
+    } else if (_.isEmpty(payload.response.detached)) {
+      state.schedules[scheduleKey].events.push(payload.response.attached);
+    } else {
+      console.log('Oops.');
+    }
   },
   // @todo this should be just a getter
   [types.GET_ALL_SCHEDULES] (state, payload) {

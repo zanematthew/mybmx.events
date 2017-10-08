@@ -21,7 +21,16 @@
       class="grid is-50 title-click-area" exact>
         <div class="title">{{ item.title }}</div>
         <div class="not-title" v-if="item.start_date">
-          {{ startDate(item.start_date) }}<span v-if="item.venue"> &bull; {{ item.venue.city.name }}<span v-if="item.venue.city.states[0]">, {{ item.venue.city.states[0].abbr }}</span></span>
+          {{ startDate(item.start_date) }}
+          <router-link :to="{
+          name: 'event-list-page',
+          query: {
+            state: item.venue.city.states[0].abbr,
+            this_month: true
+          }
+        }"
+        v-if="item.venue"
+        class="not-active"> &bull; {{ item.venue.city.name }}<span v-if="item.venue.city.states[0]">, {{ item.venue.city.states[0].abbr }}</span></router-link>
         </div>
     </router-link>
 
@@ -44,7 +53,7 @@
     <router-link :to="{
       name: 'action-main',
       params: { id: item.id, type: type },
-      query: { slug: item.slug, name: item.name, venue_id: item.venue_id }
+      query: { slug: item.slug, name: nameOrTitle, venue_id: item.venue_id }
     }" class="align-right grid is-15 detail-click-area"><icon name="ellipsis-h"></icon></router-link>
   </div>
   <div v-else class="align-center row is-item grid is-100">
@@ -70,6 +79,9 @@ export default {
       if (this.type === 'schedule')
         return;
       return this.item.image_uri || this.item.venue.image_uri;
+    },
+    nameOrTitle() {
+      return this.item.name || this.item.title;
     }
   },
   components: {
@@ -103,5 +115,8 @@ export default {
   padding-top: $padding;
   padding-bottom: $padding;
   text-align: center;
+}
+.not-active {
+  color: $link-gray;
 }
 </style>

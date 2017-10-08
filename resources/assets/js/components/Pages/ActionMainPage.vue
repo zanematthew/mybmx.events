@@ -53,7 +53,11 @@
 
     <!-- @todo Add/Remove -->
     <!-- Event -->
-    <router-link v-if="type === 'event'" :to="{ name: 'add-to', params: { id: item.venue_id } }" class="grid is-100 row is-item">
+    <router-link v-if="type === 'event'" :to="{
+      name: 'add-to',
+      params: { id: item.id },
+      query: { name: nameOrTitle }
+    }" class="grid is-100 row is-item">
       <icon name="list-alt" class="align-icon"></icon>Add to Schedule
     </router-link>
 
@@ -79,7 +83,10 @@ export default {
   computed: {
     ...mapGetters([
       'type'
-    ])
+    ]),
+    nameOrTitle() {
+      return this.item.name || this.item.title;
+    }
   },
   mounted() {
     // Build item?

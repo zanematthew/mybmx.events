@@ -1,7 +1,15 @@
 <template>
   <div class="content">
-    <div v-for="schedule in schedules" class="grid is-100 row is-item">
-      <div class="title" v-on:click="addTo(schedule)">{{ schedule.name }}</div>
+    <div v-for="schedule in schedules" class="grid is-100 row is-item" v-on:click="addTo(schedule)">
+      <!--
+        Needs to be a component.
+        ActionBar based, rename, delete
+      -->
+      <div class="title">
+        {{ schedule.name }}
+        <div v-if="schedule.events" class="not-title align-right">{{ schedule.events.length }}</div>
+        <div v-else class="not-title align-right">0</div>
+      </div>
     </div>
     <div class="grid is-100 row is-item">
       <schedule-add></schedule-add>
@@ -18,7 +26,7 @@ export default {
   },
   data() {
     return {
-      id: this.$route.params.id
+      id: _.parseInt(this.$route.params.id)
     }
   },
   computed: {
@@ -29,10 +37,10 @@ export default {
   methods: {
     addTo(schedule) {
       this.$store.dispatch('toggleEventToSchedule', {
-        id: this.id,
+        eventId: this.id,
         scheduleId: schedule.id
       }).then(response => {
-        console.log(response);
+        // console.log(response);
       });
     }
   },

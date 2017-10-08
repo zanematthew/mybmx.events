@@ -145,8 +145,13 @@ const routes = [
         component: SharePage,
         props: true
       },
+      //
+      // @todo This should be universal, same concept for
+      // toggling an item to a collection!
+      // add/:type/to/
+      //
       {
-        path: 'add-to',
+        path: 'add/:type([a-z]+)/:id(\\d+)/to',
         name: 'add-to',
         component: AddToPage,
         props: true,

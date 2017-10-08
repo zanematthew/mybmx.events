@@ -32,11 +32,20 @@ const getters = {
  */
 const actions = {
   toggleEventToSchedule({commit, state}, payload) {
+
+    let key   = _.findKey(state.schedules, {id: payload.scheduleId}),
+        index = state.schedules[key].events.findIndex(items => items.id == payload.eventId);
+
+    if (index !== -1) {
+      if (window.confirm(`This event's already in your schedule.\nRemove it?`) === false) {
+        return;
+      }
+    }
     return new Promise((resolve, reject) => {
       Schedule.toggleEventToSchedule(response => {
         commit(types.TOGGLE_EVENT_TO_SCHEDULE, {
           response, // [ 'attached' => $e || false, 'detached' => $e || false, ]
-          payload // [ 'id', 'scheduleId' ]
+          payload // [ 'eventId', 'scheduleId' ]
         });
         resolve(response);
       }, payload);

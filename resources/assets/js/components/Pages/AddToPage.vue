@@ -19,6 +19,7 @@
 <script>
 import router from '~/router';
 import ScheduleAdd from '~/components/Global/AddSchedule';
+import Noty from 'noty';
 
 export default {
   components: {
@@ -40,7 +41,21 @@ export default {
         eventId: this.id,
         scheduleId: schedule.id
       }).then(response => {
-        // console.log(response);
+        if (_.isUndefined(response)) {
+          return;
+        }
+        new Noty({
+          text: response.attached ? 'Added' : 'Removed',
+          type: 'success',
+          theme: 'relax',
+          timeout: 300,
+          layout: 'top',
+          progressBar: true,
+          animation: {
+            open: 'animated fadeInDownBig', // Animate.css class names
+            close: 'animated fadeOutUpBig' // Animate.css class names
+          }
+        }).show();
       });
     }
   },
@@ -48,6 +63,6 @@ export default {
     return {
       titleTemplate: 'Action >> Add To Schedule | My BMX Events'
     }
-  },
+  }
 }
 </script>

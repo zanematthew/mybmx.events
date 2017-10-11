@@ -15,6 +15,7 @@
     "laravel-mix": "^1.4"
   },
   "dependencies": {
+    "animate.css": "^3.5.2",
     "axios": "^0.15.3",
     "google-maps-image-api": "^1.0.3",
     "lodash": "^4.17.4",

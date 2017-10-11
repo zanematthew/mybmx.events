@@ -3,6 +3,8 @@
 @import 'base';
 @import 'masthead';
 @import 'nprogress';
+@import 'animate';
+@import '~noty/lib/noty.css';
 
 .location {
   color: $secondary-focus-color;

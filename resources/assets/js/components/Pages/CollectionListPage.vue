@@ -13,25 +13,6 @@ export default {
   components: {
     actionBar
   },
-  data() {
-    // @todo derive from vuex Library as a getter getLibraryItemTypes
-    return {
-      item_types: [
-        {
-          type: 'event',
-          name: 'Event'
-        },
-        {
-          type: 'venue',
-          name: 'Venue',
-        },
-        {
-          type: 'schedule',
-          name: 'Schedule'
-        }
-      ]
-    }
-  },
   computed: {
     items() {
       return this.$store.state.library || [];

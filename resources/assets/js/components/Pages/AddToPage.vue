@@ -66,3 +66,6 @@ export default {
   }
 }
 </script>
+<!-- Mabye we can just imoprt Noty this way? -->
+<!-- See; https://vue-loader.vuejs.org/en/start/spec.html -->
+<!-- <style src="todomvc-app-css/index.css"> -->

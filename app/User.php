@@ -41,6 +41,7 @@ class User extends Authenticatable
     public function getAvatarAttribute()
     {
         // @todo fix for no avatar
+        // See; withDefault
         return $this->socialAccount()->first()->avatar;
     }
 

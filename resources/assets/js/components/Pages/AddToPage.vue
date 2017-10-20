@@ -18,12 +18,12 @@
 </template>
 <script>
 import router from '~/router';
-import ScheduleAdd from '~/components/Global/AddSchedule';
+import scheduleAdd from '~/components/Global/AddSchedule';
 import Noty from 'noty';
 
 export default {
   components: {
-    'schedule-add': ScheduleAdd
+    scheduleAdd
   },
   data() {
     return {

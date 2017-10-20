@@ -16,6 +16,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
+        'App\Events\BeforeScheduleDeleted' => [
+            'App\Listeners\RemoveScheduleFromLibrary',
+            'App\Listeners\RemoveEventsFromSchedule',
+        ],
         'Illuminate\Auth\Events\Registered' => [
         ],
     ];

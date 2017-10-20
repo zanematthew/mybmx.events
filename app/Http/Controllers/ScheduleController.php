@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use \App\Schedule as Schedule;
+use App\Events\BeforeScheduleDeleted;
 
 class ScheduleController extends Controller
 {
@@ -57,12 +58,14 @@ class ScheduleController extends Controller
 
     public function delete(Request $request): \Illuminate\Http\JsonResponse
     {
-        $scheduleWithEvents = Auth::user()
+        $userSchedule = Auth::user()
             ->schedules()
             ->findOrFail($request->id);
 
-        $scheduleWithEvents->events()->detach();
-        $deleted = $scheduleWithEvents->delete();
+        event(new BeforeScheduleDeleted($userSchedule));
+
+        $deleted = $userSchedule->delete();
+
         return response()->json($deleted);
     }
 

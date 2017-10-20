@@ -20,11 +20,11 @@
 </div>
 </template>
 <script>
-import ScheduleDelete from '~/components/Global/DeleteSchedule';
+import cheduleDelete from '~/components/Global/DeleteSchedule';
 
 export default {
   components: {
-    'schedule-delete': ScheduleDelete,
+    cheduleDelete,
   },
   props: ['schedule'],
   data() {

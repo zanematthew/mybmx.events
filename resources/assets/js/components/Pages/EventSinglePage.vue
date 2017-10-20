@@ -68,7 +68,16 @@ export default {
     actionBar,
     tabs
   },
-  props: ['id', 'slug'],
+  props: {
+    id: {
+      type: [Number, String],
+      required: true
+    },
+    slug: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       event: { venue: { city: { states: '' } } },

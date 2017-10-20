@@ -18,7 +18,11 @@ export default {
     pager,
     actionBar
   },
-  props: ['state'],
+  props: {
+    state: {
+      type: String
+    }
+  },
   data() {
     return {
       venues: {}

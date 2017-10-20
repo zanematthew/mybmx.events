@@ -5,7 +5,12 @@
 </template>
 <script>
 export default {
-  props: ['id'],
+  props: {
+    id: {
+      type: [Number, String],
+      required: true
+    }
+  },
   computed: {
     name() {
       return this.$route.query.name || 'Name unavailable';

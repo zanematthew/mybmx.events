@@ -10,7 +10,12 @@
 </template>
 <script>
 export default {
-  props: ['venue']
+  props: {
+    venue: {
+      type: Object,
+      required: true
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

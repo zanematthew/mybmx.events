@@ -18,7 +18,12 @@ export default {
   components: {
     actionBar
   },
-  props: ['id'],
+  props: {
+    id: {
+      type: [Number, String],
+      required: true
+    }
+  },
   computed: {
     schedule() {
       return this.$store.getters.getEventsInScheduleByScheduleId(this.id);

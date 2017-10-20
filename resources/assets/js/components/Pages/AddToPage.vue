@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div v-for="schedule in schedules" class="grid is-100 row is-item pseudo-link" v-on:click="addTo(schedule)">
+    <div v-for="schedule in schedules" :key="schedule.id" class="grid is-100 row is-item pseudo-link" v-on:click="addTo(schedule)">
       <!--
         Needs to be a component.
         ActionBar based, rename, delete

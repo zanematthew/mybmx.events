@@ -3,14 +3,12 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\Passport\Passport;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ScheduleTest extends TestCase
 {
-    use DatabaseMigrations;
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     // Create 7 schedules total
     // Assign 3 to a random user from the factory

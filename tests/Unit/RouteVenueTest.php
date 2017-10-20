@@ -30,9 +30,7 @@ class RouteVenueTest extends TestCase
         $response = $this->get(route('venue.single', [
             'id' => $venue->id,
         ]));
-
-        // @TODO only venue, not venue event count.
-        // $this->assertCount(6, $response->decodeResponseJson()[0]['events']);
+        $response->assertStatus(200);
     }
 
     public function testStateVenues()

@@ -39,7 +39,12 @@
       :to="{
       name: 'venue-single-events',
       params: { venue_id: item.id, slug: item.slug, when: 'this-month' }
-      }" class="grid is-50 title-click-area title" exact>{{ item.name }}</router-link>
+      }" class="grid is-50 title-click-area title" exact>
+      <div class="title">{{ item.name }}</div>
+      <div class="not-title">
+        {{ item.city.name }}<span v-if="item.city.states[0]">, {{ item.city.states[0].abbr }}</span>
+      </div>
+    </router-link>
 
     <!-- Title Area (Schedule) -->
     <router-link v-if="type === 'schedule'" :to="{ name: 'schedule-single-page',

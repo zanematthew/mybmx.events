@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import router from '~/router';
 export default {
   props: {
     id: {
@@ -21,6 +22,8 @@ export default {
       if (window.confirm(`Delete schedule: "${this.name}". Are you sure?`)) {
         this.$store.dispatch('delete', {
           id: this.id
+        }).then(response => {
+          router.go(-1);
         });
       }
     }

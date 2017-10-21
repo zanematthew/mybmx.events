@@ -56,6 +56,7 @@ export default {
             close: 'animated fadeOutUpBig' // Animate.css class names
           }
         }).show();
+        router.go(-1);
       });
     }
   },

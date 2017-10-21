@@ -1,7 +1,7 @@
 <template>
 <div>
   <action-bar :type="'venue'" :item="venue" class="row"></action-bar>
-  <contact :venue="venue" class="grid is-100 row is-item"></contact>
+  <venue-contact :venue="venue" class="grid is-100 row is-item"></venue-contact>
   <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="row is-item grid is-100">
     <span v-if="venue.street_address" itemprop="streetAddress">{{ venue.street_address }}</span><br>
     <span itemprop="addressLocality">{{ venue.city.name }}</span>,
@@ -25,7 +25,7 @@
       ></gmap-marker>
     </gmap-map>
   </div>
-  <tabs></tabs>
+  <tabs-events></tabs-events>
 </div>
 </template>
 <script>
@@ -43,15 +43,15 @@ Vue.use(VueGoogleMaps, {
   }
 });
 
-import contact from '~/components/Global/Contact';
-import actionBar from '~/components/Global/ActionBar';
-import tabs from '~/components/Global/Tabs';
+import venueContact from '~/components/VenueContact';
+import actionBar from '~/components/ActionBar';
+import tabsEvents from '~/components/TabsEvents';
 
 export default {
   components: {
-    contact,
+    venueContact,
     actionBar,
-    tabs
+    tabsEvents
   },
   data() {
     return {

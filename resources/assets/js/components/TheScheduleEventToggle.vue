@@ -12,18 +12,18 @@
       </div>
     </div>
     <div class="grid is-100 row is-item">
-      <schedule-add></schedule-add>
+      <schedule-button-add></schedule-button-add>
     </div>
   </div>
 </template>
 <script>
 import router from '~/router';
-import scheduleAdd from '~/components/Global/AddSchedule';
+import scheduleButtonAdd from '~/components/ScheduleButtonAdd';
 import Noty from 'noty';
 
 export default {
   components: {
-    scheduleAdd
+    scheduleButtonAdd
   },
   data() {
     return {

@@ -51,7 +51,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "../../../sass/variables";
+@import "../../sass/variables";
 .masthead {
   position: fixed;
   bottom: 0;

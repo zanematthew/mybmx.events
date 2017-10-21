@@ -1,19 +1,19 @@
 'use strict';
 
 import VueRouter from 'vue-router';
-import RouterView from './components/Pages/RouterView';
-import EventSinglePage from './components/Pages/EventSinglePage';
-import EventListPage from './components/Pages/EventListPage';
-import VenueSinglePage from './components/Pages/VenueSinglePage';
-import VenueListPage from './components/Pages/VenueListPage';
-import ScheduleListPage from './components/Pages/ScheduleListPage';
-import ScheduleSinglePage from './components/Pages/ScheduleSinglePage';
-import ActionMainPage from './components/Pages/ActionMainPage';
-import ActionFormPage from './components/Pages/ActionFormPage';
-import SharePage from './components/Pages/SharePage';
-import AddToPage from '~/components/Pages/AddToPage';
-import CollectionListPage from '~/components/Pages/CollectionListPage';
-import CollectionSinglePage from '~/components/Pages/CollectionSinglePage';
+import TheRouterView from './components/TheRouterView';
+import TheSingleEvent from './components/TheSingleEvent';
+import TheListEvent from './components/TheListEvent';
+import TheSingleVenue from './components/TheSingleVenue';
+import TheListVenue from './components/TheListVenue';
+import TheListSchedule from './components/TheListSchedule';
+import TheSingleSchedule from './components/TheSingleSchedule';
+import TheAction from './components/TheAction';
+import TheScheduleFormRename from './components/TheScheduleFormRename';
+import TheShare from './components/TheShare';
+import TheScheduleEventToggle from '~/components/TheScheduleEventToggle';
+import TheListCollection from '~/components/TheListCollection';
+import TheSingleCollection from '~/components/TheSingleCollection';
 
 const NotFoundComponent = { template: '<div>404</div>' };
 
@@ -21,19 +21,19 @@ const routes = [
   {
     path: '/browse/events',
     redirect: { name: 'event-list-page', params: { when: 'this-month' } },
-    component: RouterView,
+    component: TheRouterView,
     name: 'events',
     props: true,
     children: [
       {
         path: ':id(\\d+)/:slug/:when',
-        component: EventSinglePage,
+        component: TheSingleEvent,
         name: 'event-single-page',
         props: true
       },
       {
         path: ':when',
-        component: EventListPage,
+        component: TheListEvent,
         name: 'event-list-page',
         props: true
       }
@@ -42,20 +42,20 @@ const routes = [
   {
     path: '/browse/venues/',
     redirect: { name: 'venue-list-page' },
-    component: RouterView,
+    component: TheRouterView,
     name: 'venues',
     props: true,
     children: [
       {
         path: ':venue_id(\\d+)/:slug/events/:when/',
-        component: VenueSinglePage,
+        component: TheSingleVenue,
         name: 'venue-single-events',
         props: true,
       },
       {
         path: ':state?',
         name: 'venue-list-page',
-        component: VenueListPage,
+        component: TheListVenue,
         props: true
       }
     ]
@@ -63,27 +63,27 @@ const routes = [
   {
     path: '/schedules',
     name: 'schedules',
-    component: RouterView,
+    component: TheRouterView,
     redirect: { name: 'schedule-list-page' },
     props: true,
     children: [
       {
         path: 'all',
         name: 'schedule-list-page',
-        component: ScheduleListPage,
+        component: TheListSchedule,
         props: true
       },
       {
         path: ':id(\\d+)/:slug?',
         name: 'schedule-single-page',
-        component: ScheduleSinglePage,
+        component: TheSingleSchedule,
         props: true
       }
     ]
   },
   {
     path: '/collections/',
-    component: RouterView,
+    component: TheRouterView,
     name: 'collection',
     redirect: { name: 'collection-list-page' },
     props: true,
@@ -91,12 +91,12 @@ const routes = [
       {
         path: 'all',
         name: 'collection-list-page',
-        component: CollectionListPage,
+        component: TheListCollection,
         props: true,
       },
       {
         path: ':item_type',
-        component: CollectionSinglePage,
+        component: TheSingleCollection,
         name: 'collection-type',
         props: true,
       }
@@ -117,10 +117,10 @@ const routes = [
     // /action/295/venue/toggle/952/
     //
     // /action/295/schedule/edit/
-    // @todo review "nested routes", we can probably remove the RouterView in lieu of
+    // @todo review "nested routes", we can probably remove the TheRouterView in lieu of
     // empty sub-route paths.
     path: '/action/',
-    component: RouterView,
+    component: TheRouterView,
     name: 'action-routerview',
     redirect: { name: 'action-main' },
     props: true,
@@ -129,20 +129,20 @@ const routes = [
         // This works for upper case as well; https://github.com/vuejs/vue-router/pull/1215
         path: ':id(\\d+)/:type([a-z]+)',
         name: 'action-main',
-        component: ActionMainPage,
+        component: TheAction,
         props: true,
       },
-      // Can't use nested children because this has no RouterView to bind(?) to.
+      // Can't use nested children because this has no TheRouterView to bind(?) to.
       {
         path: ':id(\\d+)/:type([a-z]+)/edit',
         name: 'action-edit',
-        component: ActionFormPage,
+        component: TheScheduleFormRename,
         props: true
       },
       {
         path: 'share',
         name: 'share',
-        component: SharePage,
+        component: TheShare,
         props: true
       },
       //
@@ -153,7 +153,7 @@ const routes = [
       {
         path: 'add/:type([a-z]+)/:id(\\d+)/to',
         name: 'add-to',
-        component: AddToPage,
+        component: TheScheduleEventToggle,
         props: true,
       }
     ]

@@ -34,10 +34,10 @@
   </div>
 
   <!-- Venue Detail -->
-  <contact :venue="event.venue" class="row is-item grid is-100"></contact>
+  <venue-contact :venue="event.venue" class="row is-item grid is-100"></venue-contact>
 
   <!-- Tabs -->
-  <tabs></tabs>
+  <tabs-events></tabs-events>
 </div>
 </template>
 
@@ -45,9 +45,9 @@
 import MyMixin from '~/mixin.js';
 import moment from 'moment';
 
-import contact from '~/components/Global/Contact';
-import actionBar from '~/components/Global/ActionBar';
-import tabs from '~/components/Global/Tabs';
+import venueContact from '~/components/VenueContact';
+import actionBar from '~/components/ActionBar';
+import tabsEvents from '~/components/TabsEvents';
 
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue';
@@ -64,9 +64,9 @@ var numeral = require('numeral');
 export default {
   mixins: [MyMixin],
   components: {
-    contact,
+    venueContact,
     actionBar,
-    tabs
+    tabsEvents
   },
   props: {
     id: {
@@ -138,7 +138,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "../../../sass/variables";
+@import "../../sass/variables";
 .vue-map-container {
   border: 1px solid $light-gray;
 }

@@ -2,7 +2,7 @@
   <div class="action-bar" v-if="item.id">
 
     <!-- Library Area -->
-    <toggle-to-library :item_id="item.id" :item_type="type" class="grid is-15"></toggle-to-library>
+    <library-item-toggle :item_id="item.id" :item_type="type" class="grid is-15"></library-item-toggle>
 
     <!-- Image Area -->
     <div class="grid is-15 image-area" v-if="imageUri">
@@ -63,7 +63,7 @@
 </template>
 <script>
 import MyMixin from '~/mixin.js';
-import toggleToLibrary from '~/components/Global/toggleToLibrary';
+import libraryItemToggle from '~/components/LibraryItemToggle';
 
 export default {
   mixins: [MyMixin],
@@ -85,12 +85,12 @@ export default {
     }
   },
   components: {
-    toggleToLibrary
+    libraryItemToggle
   }
 }
 </script>
 <style lang="scss">
-@import "../../../sass/variables";
+@import "../../sass/variables";
 .action-bar {
   max-height: 80px;
   min-height: 80px;

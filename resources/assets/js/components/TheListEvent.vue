@@ -1,15 +1,15 @@
 <template>
 <div>
-  <tabs></tabs>
+  <tabs-events></tabs-events>
 </div>
 </template>
 <script>
 import moment from 'moment';
-import tabs from '~/components/Global/Tabs';
+import tabsEvents from '~/components/TabsEvents';
 
 export default {
   components: {
-    tabs
+    tabsEvents
   },
   props: {
     when: {

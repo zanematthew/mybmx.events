@@ -27,7 +27,7 @@
     }" class="grid is-100 row is-item" exact>
       <icon name="calendar" class="align-icon"></icon>View Events
     </router-link>
-    <delete-schedule :id="item.id" class="grid is-100 row is-item"></delete-schedule>
+    <schedule-button-delete :id="item.id" class="grid is-100 row is-item"></schedule-button-delete>
   </div>
 
     <!-- View Event -->
@@ -65,11 +65,11 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import deleteSchedule from '~/components/Global/DeleteSchedule';
+import scheduleButtonDelete from '~/components/ScheduleButtonDelete';
 
 export default {
   components: {
-    deleteSchedule,
+    scheduleButtonDelete,
   },
   data() {
     return {

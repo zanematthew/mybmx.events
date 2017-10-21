@@ -16,12 +16,12 @@
 
   <action-bar :type="'event'" :item="event" :key="event.id" v-for="event in events.data" class="row"></action-bar>
 
-  <pager :data="events"></pager>
+  <the-pager :data="events"></the-pager>
 </div>
 </template>
 <script>
-import pager from '~/components/Global/Pager';
-import actionBar from '~/components/Global/ActionBar';
+import thePager from '~/components/ThePager';
+import actionBar from '~/components/ActionBar';
 import Event from '~/api/Event';
 
 export default {
@@ -37,7 +37,7 @@ export default {
     }
   },
   components: {
-    pager,
+    thePager,
     actionBar
   },
   data() {
@@ -82,7 +82,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "../../../sass/variables";
+@import "../../sass/variables";
 .is-tertiary {
   .nav-item {
     float: left;

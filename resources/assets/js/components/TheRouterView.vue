@@ -5,7 +5,7 @@
 </div>
 </template>
 <script>
-import close from '~/components/Global/Close';
+import close from '~/components/Close';
 export default {
   components: {
     close

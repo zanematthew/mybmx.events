@@ -1,21 +1,21 @@
 <template>
   <div v-if="venues.data">
     <action-bar :type="'venue'" :item="venue" class="row" v-for="venue in venues.data" :key="venue.id"></action-bar>
-    <pager :data="venues" :name="'venues'" :meta="{beforePageTitle: 'Venues'}"></pager>
+    <the-pager :data="venues" :name="'venues'" :meta="{beforePageTitle: 'Venues'}"></the-pager>
   </div>
   <div v-else class="align-center row is-item grid is-100">
     <icon name="refresh" spin></icon>
   </div>
 </template>
 <script>
-import pager from '~/components/Global/Pager';
-import actionBar from '~/components/Global/ActionBar';
+import thePager from '~/components/ThePager';
+import actionBar from '~/components/ActionBar';
 import MyMixin from '~/mixin.js';
 
 export default {
   mixins: [MyMixin],
   components: {
-    pager,
+    thePager,
     actionBar
   },
   props: {

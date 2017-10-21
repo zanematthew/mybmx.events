@@ -57,7 +57,7 @@ Vue.use(SocialSharing);
 /**
  * Laravel Passport -- API/JWT https://laravel.com/docs/5.4/passport
  */
-import primaryNav from './components/Global/PrimaryNav';
+import primaryNav from './components/ThePrimaryNav';
 import Clients from './components/passport/Clients';
 import AuthorizedClients from './components/passport/AuthorizedClients';
 import PersonalAccessTokens from './components/passport/PersonalAccessTokens';

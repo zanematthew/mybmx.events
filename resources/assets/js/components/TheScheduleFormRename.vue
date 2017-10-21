@@ -47,7 +47,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "../../../sass/variables";
+@import "../../sass/variables";
 .inline-button {
   margin-top: 20px;
 }

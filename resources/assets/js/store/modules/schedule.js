@@ -110,7 +110,9 @@ const mutations = {
   },
   // @todo this should be just a getter
   [types.ADD_SCHEDULE] (state, payload) {
-    state.schedules.push(payload);
+    // If your on the add to schedule page.
+    // state.schedules.push(payload);
+    state.schedules.unshift(payload);
   },
   [types.DELETE_SCHEDULE] (state, payload) {
     var borland = 0;

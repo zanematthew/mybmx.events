@@ -14,9 +14,6 @@ import TheShare from './components/TheShare';
 import TheScheduleEventToggle from '~/components/TheScheduleEventToggle';
 import TheListCollection from '~/components/TheListCollection';
 import TheSingleCollection from '~/components/TheSingleCollection';
-
-const NotFoundComponent = { template: '<div>404</div>' };
-
 const routes = [
   {
     path: '/browse/events',
@@ -164,7 +161,9 @@ const routes = [
   },
   {
     path: '*',
-    component: NotFoundComponent
+    component: {
+      template: `<div class="grid row"><p><br />404 Page Not Found</p></div>`
+    }
   }
 ];
 

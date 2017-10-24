@@ -181,6 +181,9 @@ return [
 
         // Socialite
         Laravel\Socialite\SocialiteServiceProvider::class,
+
+        // Laravel GeoIP
+        \Torann\GeoIP\GeoIPServiceProvider::class,
     ],
 
     /*
@@ -231,7 +234,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Goutte' => Weidner\Goutte\GoutteFacade::class, // [2]
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-
+        'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
     ],
 
 ];

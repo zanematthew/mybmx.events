@@ -10,7 +10,8 @@
         "laravel/passport": "^3.0",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
-        "torann/geoip": "^1.0",
+        "php-http/guzzle6-adapter": "^1.1",
+        "toin0u/geocoder-laravel": "^4.0",
         "weidner/goutte": "^1.0"
     },
     "require-dev": {

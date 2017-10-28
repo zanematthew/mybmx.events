@@ -1,7 +1,7 @@
 <template>
 <div class="masthead row">
   <div class="nav is-underlined is-primary container">
-    <div class="another-div grid is-100">
+    <div class="another-div row">
       <router-link v-for="item in items" :key="item.id" :to="{
         name: item.id,
         params: item.params,
@@ -24,6 +24,11 @@ export default {
   data() {
     return {
         items: [
+          {
+            name: 'Search',
+            id: 'search',
+            icon: 'search',
+          },
           {
             name: 'Events',
             id: 'events',
@@ -63,9 +68,8 @@ export default {
   .nav-item {
     padding: 15px 0 10px;
     text-align: center;
-    width: 25%;
+    width: 20%;
     float: left;
-
     margin-bottom: -1px;
   }
 }

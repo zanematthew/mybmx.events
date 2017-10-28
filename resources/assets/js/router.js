@@ -14,6 +14,8 @@ import TheShare from './components/TheShare';
 import TheScheduleEventToggle from '~/components/TheScheduleEventToggle';
 import TheListCollection from '~/components/TheListCollection';
 import TheSingleCollection from '~/components/TheSingleCollection';
+import TheSearchResults from '~/components/TheSearchResults';
+
 const routes = [
   {
     path: '/browse/events',
@@ -164,7 +166,28 @@ const routes = [
     component: {
       template: `<div class="grid row"><p><br />404 Page Not Found</p></div>`
     }
-  }
+  },
+  // /search/places/?state=md&venue=123&date=jan
+  // /search/events/
+  // /search/venues/
+  // /search/people/
+  // /search/tags/
+  // /search/:type/:query
+  {
+    path: '/search/',
+    redirect: { name: 'search-results-places', params: { type: 'places' } },
+    component: TheSearchResults,
+    name: 'search',
+    props: true,
+    children: [
+      {
+        path: ':type',
+        component: TheSearchResults,
+        name: 'search-results-places',
+        props: true
+      }
+    ]
+  },
 ];
 
 export default new VueRouter({

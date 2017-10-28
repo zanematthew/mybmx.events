@@ -46,9 +46,6 @@
 .grid {
   float: left;
   padding: 0 $padding;
-  & + .grid {
-    padding-left: 0;
-  }
   &.is-10 {
     width: 10%;
   }
@@ -96,8 +93,6 @@
   }
   &.is-100 {
     width: 100%;
-    padding-left: $padding !important;
-    padding-right: $padding !important;
   }
 }
 
@@ -294,6 +289,9 @@ body {
 
 .star {
   &.is-active {
+    .fa-icon {
+      color: #ffd800;
+    }
     color: #ffd800;
   }
 }
@@ -325,4 +323,16 @@ body {
 
 .pseudo-link {
   cursor: pointer;
+}
+
+.fa-icon {
+  color: $dark-gray;
+}
+
+input[type="text"] {
+  outline: 0;
+  border: 1px solid $light-gray;
+  border-radius: 2px;
+  padding: 10px;
+  width: 100%;
 }

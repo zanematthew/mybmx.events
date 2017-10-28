@@ -33,7 +33,7 @@
                     default: {!! Auth::user() !!},
                     social_account: {
                         facebook: {
-                            avatar: "{!! Auth::user()->avatar !!}"
+                            avatar: "{!! Auth::user()->socialAccount->avatar !!}"
                         }
                     }
                 };

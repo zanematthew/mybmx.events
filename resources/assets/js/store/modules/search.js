@@ -23,8 +23,10 @@ const getters = {};
 const actions = {
   getSearchResults({commit, state}) {
     console.log('Send API request to get search results//');
-    console.log('Using: ' + state.keyword);
-    console.log('Using: ' + state.type);
+    console.log('Keyword: ' + state.keyword);
+    console.log('Type: ' + state.type);
+    console.log('Update URL with: ?keyword='+state.keyword+'&type='+state.type);
+    console.log('//');
     if (_.isEmpty(state.keyword)) {
       commit(types.UPDATE_SEARCH_RESULTS, {});
     } else {

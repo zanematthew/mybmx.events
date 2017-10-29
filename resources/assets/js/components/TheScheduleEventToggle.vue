@@ -11,9 +11,7 @@
         <div v-else class="not-title align-right">0</div>
       </div>
     </div>
-    <div class="grid is-100 row is-item">
-      <schedule-button-add></schedule-button-add>
-    </div>
+    <schedule-button-add></schedule-button-add>
   </div>
 </template>
 <script>

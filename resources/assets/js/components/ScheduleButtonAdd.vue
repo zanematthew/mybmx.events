@@ -1,6 +1,6 @@
 <template>
-  <form v-on:submit.stop.prevent="addSchedule" class="form row">
-    <div class="grid is-85 no-padding">
+  <form v-on:submit.stop.prevent="addSchedule" class="form row is-item">
+    <div class="grid is-85">
       <input
       type="text"
       placeholder="Schedule Name..."
@@ -9,9 +9,12 @@
       class="name" />
     </div>
 
-    <div class="grid is-15 temp">
-      <button type="submit" v-bind:disabled="name == ''" ><icon name="plus"></icon></button>
-    </div>
+    <button
+      class="grid is-10 no-padding"
+      type="submit"
+      v-bind:disabled="name == ''"
+      ><icon name="plus"></icon></button>
+
   </form>
 </template>
 <script>
@@ -36,18 +39,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.form {
-  .name {
-    border: 0;
-    padding: 20px;
-  }
-  .no-padding {
-    padding: 0;
-  }
-}
-.temp {
-  text-align: center;
+.no-padding {
   padding: 10px;
-  display: block;
 }
 </style>

@@ -6,10 +6,10 @@
       - action/ add new schedule field
       - schedules/all add new schedule
     -->
-    <div class="icon-inside-field">
-      <icon name="search"></icon>
-      <input type="text" placeholder="Search" />
-    </div>
+  <form class="form icon-inside-field">
+    <icon name="search"></icon>
+    <input type="text" placeholder="Search" />
+  </form>
   </div>
 </template>
 <script>

@@ -41,7 +41,9 @@
       params: { venue_id: item.id, slug: item.slug, when: 'this-month' }
       }" class="grid is-50 title-click-area title" exact>
       <div class="title">{{ item.name }}</div>
-      <div class="not-title">
+      <div
+        class="not-title"
+        v-if="item.city">
         {{ item.city.name }}<span v-if="item.city.states[0]">, {{ item.city.states[0].abbr }}</span>
       </div>
     </router-link>

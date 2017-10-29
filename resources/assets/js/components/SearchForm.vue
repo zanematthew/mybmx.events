@@ -8,19 +8,38 @@
     -->
   <form class="form icon-inside-field">
     <icon name="search"></icon>
-    <input type="text" placeholder="Search" />
+    <input
+      type="text"
+      placeholder="Search"
+      v-model="keyword"
+      />
   </form>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
+
 export default {
-  props: {},
-  data() {
-    return {}
+  computed: {
+    keyword: {
+      get () {
+        return this.$store.state.search.keyword;
+      },
+      set (value) {
+        this.$store.commit('UPDATE_KEYWORD', value);
+      }
+    }
   },
-  computed: {},
-  methods: {},
-  mounted() {}
+  methods: {
+    search: _.debounce(function(){
+      this.$store.dispatch('getSearchResults');
+    }, 500)
+  },
+  watch: {
+    keyword: function () {
+      this.search();
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

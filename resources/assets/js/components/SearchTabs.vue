@@ -10,40 +10,27 @@
 
   <div class="grid row is-item">
     Search Results here, type: {{ type }}
+    <div v-for="result in results" :key="result.title">
+      {{ result.title }}<br />
+    </div>
   </div>
-  <!-- <action-bar :type="'event'" :item="event" :key="event.id" v-for="event in events.data" class="row"></action-bar> -->
-
-  <!-- <the-pager :data="events"></the-pager> -->
 </div>
 </template>
 <script>
-import thePager from '~/components/ThePager';
-import actionBar from '~/components/ActionBar';
-import Event from '~/api/Event';
-
 export default {
   computed: {
-    venue_id() {
-      return this.$route.params.venue_id;
-    },
     type() {
       return this.$route.params.type;
     },
     query() {
       return this.$route.query;
+    },
+    results() {
+      return this.$store.state.search.results[this.type] || [];
     }
-  },
-  components: {
-    thePager,
-    actionBar
   },
   data() {
     return {
-      // places
-      // events
-      // venues
-      // people
-      // tags
       items: [
         {
           title: 'Places',
@@ -58,27 +45,19 @@ export default {
           params: { type: 'venues' }
         },
       ],
-      events: {},
       route_name: this.$route.name
     }
   },
   mounted() {
-    this.request();
-  },
-  methods: {
-    request() {
-      // @todo once we add the option to add events
-      // this needs to be handled via the event store.
-      // Event.events(
-      //   events => this.events = events,
-      //   this.when,
-      //   _.merge(this.$route.query, {venue_id: this.venue_id})
-      // );
-    }
+    this.$store.commit('UPDATE_SEARCH_TYPE', {
+      type: this.$store.state.route.params.type
+    });
   },
   watch: {
     '$route' (to, from) {
-      this.request();
+      this.$store.commit('UPDATE_SEARCH_TYPE', {
+        type: this.$store.state.route.params.type
+      });
     }
   }
 }

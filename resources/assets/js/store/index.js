@@ -6,6 +6,7 @@ import * as getters from './getters';
 import user from './modules/user';
 import schedule from './modules/schedule';
 import library from './modules/library';
+import search from './modules/search';
 
 Vue.use(Vuex);
 
@@ -15,7 +16,8 @@ export default new Vuex.Store({
     modules: {
         user,
         schedule,
-        library
+        library,
+        search
     },
     strict: true
 });

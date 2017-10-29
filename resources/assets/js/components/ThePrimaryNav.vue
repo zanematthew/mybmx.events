@@ -55,7 +55,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../../sass/variables";
 .masthead {
   position: fixed;
@@ -66,7 +66,7 @@ export default {
 
 .is-primary {
   .nav-item {
-    padding: 15px 0 10px;
+    padding: 10px 0 10px;
     text-align: center;
     width: 20%;
     float: left;
@@ -76,8 +76,7 @@ export default {
 
 .nav-item {
  &.icon-avatar {
-    min-height: 45px;
-    padding: 6px 0 0;
+    padding: 5px 0 0;
   }
 }
 
@@ -85,6 +84,5 @@ export default {
   background: #f5f5f5;
   border: solid $medium-gray;
   border-width: 1px 1px 0 1px;
-  min-height: 40px;
 }
 </style>

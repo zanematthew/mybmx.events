@@ -175,7 +175,7 @@ const routes = [
   // /search/:type/:query
   {
     path: '/search/',
-    redirect: { name: 'search-results-places', params: { type: 'places' } },
+    redirect: { name: 'search-results', params: { type: 'places' } },
     component: TheSearchResults,
     name: 'search',
     props: true,
@@ -183,7 +183,7 @@ const routes = [
       {
         path: ':type',
         component: TheSearchResults,
-        name: 'search-results-places',
+        name: 'search-results',
         props: true
       }
     ]

@@ -115,3 +115,11 @@ Route::group([
 Route::get('/states', function () {
     return response()->json(\App\State::select('name','abbr')->orderBy('name')->get());
 })->middleware('auth:api');
+
+Route::group([
+    'prefix'     => 'search',
+    'middleware' => 'auth:api',
+    ], function() {
+        Route::post('/{type}/{keyword}', 'SearchEventController@index')->name('search.index');
+    }
+);

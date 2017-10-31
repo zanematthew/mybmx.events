@@ -2,31 +2,42 @@
 <div>
   <div class="row nav is-underlined is-tertiary">
     <router-link v-for="item in items" :key="item.id" :to="{
-      name: route_name,
+      name: 'search-results',
       params: item.params,
       query: query
     }" class="nav-item">{{ item.title }}</router-link>
   </div>
 
-  <div class="grid row is-item">
-    Search Results here, type: {{ type }}
-    <div v-for="result in results" :key="result.title">
-      {{ result.title }}<br />
-    </div>
-  </div>
+  <action-bar
+    :type="type"
+    :item="result"
+    :key="result.id"
+    v-for="result in results[type]"
+    class="row"></action-bar>
+
 </div>
 </template>
 <script>
+import actionBar from '~/components/ActionBar';
+
 export default {
+  components: {
+    actionBar
+  },
   computed: {
+    // This denotes the App\Model type
+    // Although there is no "places".
     type() {
       return this.$route.params.type;
     },
     query() {
       return this.$route.query;
     },
-    results() {
-      return this.$store.state.search.results[this.type] || [];
+    keyword() {
+      return this.$store.state.search.keyword;
+    },
+    getResultsDelay() {
+      return this.$store.state.search.getResultsDelay;
     }
   },
   data() {
@@ -34,31 +45,45 @@ export default {
       items: [
         {
           title: 'Places',
-          params: { type: 'places' }
+          params: { type: 'place' }
         },
         {
           title: 'Events',
-          params: { type: 'events' }
+          params: { type: 'event' }
         },
         {
           title: 'Venues',
-          params: { type: 'venues' }
+          params: { type: 'venue' }
         },
       ],
-      route_name: this.$route.name
+      results: []
     }
   },
+  // @todo Search to/from query params?
   mounted() {
-    this.$store.commit('UPDATE_SEARCH_TYPE', {
-      type: this.$store.state.route.params.type
-    });
+    this.updateSearchType();
+    this.getResults();
   },
   watch: {
     '$route' (to, from) {
+      this.updateSearchType();
+    },
+    keyword: function (newKeyword) {
+      this.getResults();
+    }
+  },
+  methods: {
+    // Need to result to prior ES(5?) style, due to the
+    // way de-bounce works.
+    updateSearchType: function () {
       this.$store.commit('UPDATE_SEARCH_TYPE', {
         type: this.$store.state.route.params.type
       });
-    }
+    },
+    getResults: _.debounce(function () {
+      this.results = [];
+      this.results = this.$store.state.search.results;
+    }, this.getResultsDelay)
   }
 }
 </script>

@@ -1,12 +1,11 @@
 <template>
-  <div class="grid row is-item">
-    <!--
-    This base form style should be used for;
-      - search field
-      - action/ add new schedule field
-      - schedules/all add new schedule
-    -->
-  <form class="form icon-inside-field">
+  <!--
+  This base form style should be used for;
+    - search field
+    - action/ add new schedule field
+    - schedules/all add new schedule
+  -->
+  <form class="grid row is-item form icon-inside-field">
     <icon name="search"></icon>
     <input
       type="text"
@@ -14,7 +13,6 @@
       v-model="keyword"
       />
   </form>
-  </div>
 </template>
 <script>
 import { mapState } from 'vuex';
@@ -51,8 +49,8 @@ export default {
   }
   .fa-icon {
     position: absolute;
-    top: 30%;
-    left: 10px;
+    top: 28px;
+    left: 30px;
   }
 }
 </style>

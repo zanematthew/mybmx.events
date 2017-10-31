@@ -1,6 +1,7 @@
 'use strict';
 /*jslint vars: true, devel: true*/
 
+import Search from '~/api/Search';
 import * as types from '~/store/mutation-types';
 
 /**
@@ -9,7 +10,10 @@ import * as types from '~/store/mutation-types';
 const state = {
     keyword: '',
     type: '',
-    results: {}
+    results: {},
+    typeDelay: 500, // Time to wait until done type to request results
+    getResultDelay: 100 // Time to wait to fetch results from the store.
+    // @todo state.getResultDelay should not be needed?
 };
 
 /**
@@ -22,15 +26,15 @@ const getters = {};
  */
 const actions = {
   getSearchResults({commit, state}) {
-    console.log('Send API request to get search results//');
-    console.log('Keyword: ' + state.keyword);
-    console.log('Type: ' + state.type);
-    console.log('Update URL with: ?keyword='+state.keyword+'&type='+state.type);
-    console.log('//');
     if (_.isEmpty(state.keyword)) {
-      commit(types.UPDATE_SEARCH_RESULTS, {});
+      commit(types.UPDATE_SEARCH_RESULTS, []);
     } else {
-      commit(types.UPDATE_SEARCH_RESULTS, {[state.type]: [{ title: 'A' }, { title: 'b' }]});
+      return new Promise((resolve) => {
+        Search.results(response => {
+          commit(types.UPDATE_SEARCH_RESULTS, response);
+          resolve(response);
+        }, {type: state.type, keyword: state.keyword});
+      });
     }
   }
 };
@@ -46,8 +50,7 @@ const mutations = {
     state.type = payload.type;
   },
   [types.UPDATE_SEARCH_RESULTS] (state, payload) {
-    console.log('Once action is performed for API request, update state//');
-    state.results = payload;
+    state.results[state.type] = payload;
   }
 };
 

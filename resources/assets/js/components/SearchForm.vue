@@ -26,12 +26,15 @@ export default {
       set (value) {
         this.$store.commit('UPDATE_KEYWORD', value);
       }
+    },
+    typeDelay() {
+      return this.$store.state.search.typeDelay;
     }
   },
   methods: {
     search: _.debounce(function(){
       this.$store.dispatch('getSearchResults');
-    }, 500)
+    }, this.typeDelay)
   },
   watch: {
     keyword: function () {

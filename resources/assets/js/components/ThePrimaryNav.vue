@@ -26,8 +26,9 @@ export default {
         items: [
           {
             name: 'Search',
-            id: 'search',
+            id: 'search-results',
             icon: 'search',
+            params: { type: 'event' }
           },
           {
             name: 'Events',

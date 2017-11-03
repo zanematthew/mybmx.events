@@ -33,12 +33,6 @@ export default {
     query() {
       return this.$route.query;
     },
-    keyword() {
-      return this.$store.state.search.keyword;
-    },
-    getResultsDelay() {
-      return this.$store.state.search.getResultsDelay;
-    }
   },
   data() {
     return {
@@ -62,14 +56,10 @@ export default {
   // @todo Search to/from query params?
   mounted() {
     this.updateSearchType();
-    this.getResults();
   },
   watch: {
     '$route' (to, from) {
       this.updateSearchType();
-    },
-    keyword: function (newKeyword) {
-      this.getResults();
     }
   },
   methods: {
@@ -79,11 +69,7 @@ export default {
       this.$store.commit('UPDATE_SEARCH_TYPE', {
         type: this.$store.state.route.params.type
       });
-    },
-    getResults: _.debounce(function () {
-      this.results = [];
-      this.results = this.$store.state.search.results;
-    }, this.getResultsDelay)
+    }
   }
 }
 </script>

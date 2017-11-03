@@ -174,19 +174,10 @@ const routes = [
   // /search/tags/
   // /search/:type/:query
   {
-    path: '/search/',
-    redirect: { name: 'search-results', params: { type: 'places' } },
+    path: '/search/:type([a-z]+)',
     component: TheSearchResults,
-    name: 'search',
+    name: 'search-results',
     props: true,
-    children: [
-      {
-        path: ':type',
-        component: TheSearchResults,
-        name: 'search-results',
-        props: true
-      }
-    ]
   },
 ];
 

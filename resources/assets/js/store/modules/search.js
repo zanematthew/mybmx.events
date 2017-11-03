@@ -8,12 +8,9 @@ import * as types from '~/store/mutation-types';
  * The initial state of our scheduling module.
  */
 const state = {
-    keyword: '',
-    type: '',
-    results: {},
-    typeDelay: 500, // Time to wait until done type to request results
-    getResultDelay: 100 // Time to wait to fetch results from the store.
-    // @todo state.getResultDelay should not be needed?
+  keyword: '',
+  type: '',
+  results: {}
 };
 
 /**
@@ -26,16 +23,16 @@ const getters = {};
  */
 const actions = {
   getSearchResults({commit, state}) {
-    if (_.isEmpty(state.keyword)) {
-      commit(types.UPDATE_SEARCH_RESULTS, []);
-    } else {
-      return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
+      if (_.isEmpty(state.keyword)){
+        commit(types.UPDATE_SEARCH_RESULTS, []);
+      } else {
         Search.results(response => {
           commit(types.UPDATE_SEARCH_RESULTS, response);
           resolve(response);
-        }, {type: state.type, keyword: state.keyword});
-      });
-    }
+        }, {...state});
+      }
+    });
   }
 };
 

@@ -13,15 +13,6 @@ export default {
   components: {
     searchTabs,
     searchForm
-  },
-  data() {
-    return {}
-  },
-  computed: {},
-  methods: {},
-  mounted() {}
+  }
 }
 </script>
-<style lang="scss">
-@import "../../sass/variables";
-</style>

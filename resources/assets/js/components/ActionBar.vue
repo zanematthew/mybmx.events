@@ -27,6 +27,9 @@
           query: {
             state: item.venue.city.states[0].abbr,
             this_month: true
+          },
+          params: {
+            when: 'this-month'
           }
         }"
         v-if="item.venue"

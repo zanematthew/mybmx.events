@@ -27,10 +27,11 @@ class SearchEventController extends Controller
     // start date (numeric)
     protected function index(Request $request): \Illuminate\Http\JsonResponse
     {
-        $results = Event::where([
-            ['start_date', '>=', Carbon::today()->toDateTimeString()],
-            ['title', 'like', "%{$request->keyword}%"],
-        ])->with('venue.city.states')->orderBy('start_date','asc')->limit(5)->get();
+        $results = Event::search($request->keyword)
+           ->where('start_date', '>=', Carbon::today()->toDateString())
+           ->with('venue.city.states')
+           ->take(5)
+           ->get();
 
         return response()->json($results);
     }

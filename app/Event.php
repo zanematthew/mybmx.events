@@ -2,10 +2,46 @@
 
 namespace App;
 
+use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
+
+    use Searchable;
+
+    protected $indexConfigurator = EventIndexConfigurator::class;
+
+    protected $searchRules = [
+        //
+    ];
+
+    // Here you can specify a mapping for a model fields.
+    protected $mapping = [
+        'properties' => [
+            'title' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'string',
+                        'index' => 'not_analyzed',
+                    ]
+                ]
+            ],
+            'type' => [
+                'type' => 'string',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'keyword',
+                        'index' => 'not_analyzed',
+                    ]
+                ]
+            ],
+            'start_date' => [
+                'type' => 'date',
+            ]
+        ]
+    ];
 
     protected $fillable = [
         'title',

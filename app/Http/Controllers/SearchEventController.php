@@ -28,11 +28,10 @@ class SearchEventController extends Controller
     protected function index(Request $request): \Illuminate\Http\JsonResponse
     {
         $results = Event::search($request->keyword)
-           ->where('start_date', '>=', Carbon::today()->toDateString())
-           ->with('venue.city.states')
-           ->take(5)
-           ->get();
-
+           // ->where('start_date', '>=', Carbon::today()->toDateString())
+           ->take(10)
+           ->get()
+           ->load('venue.city.states');
         return response()->json($results);
     }
 }

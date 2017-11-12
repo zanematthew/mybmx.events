@@ -120,6 +120,7 @@ Route::group([
     'prefix'     => 'search',
     'middleware' => 'auth:api',
     ], function() {
-        Route::post('/{type}/{keyword}', 'SearchEventController@index')->name('search.index');
+        Route::post('/venue/{keyword}', 'SearchVenueController@index')->name('search.index');
+        Route::post('/event/{keyword}', 'SearchEventController@index')->name('search.index');
     }
 );

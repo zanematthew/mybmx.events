@@ -181,12 +181,6 @@ return [
 
         // Socialite
         Laravel\Socialite\SocialiteServiceProvider::class,
-
-        // Scout
-        Laravel\Scout\ScoutServiceProvider::class,
-
-        // Elasticsearch driver
-        ScoutElastic\ScoutElasticServiceProvider::class,
     ],
 
     /*

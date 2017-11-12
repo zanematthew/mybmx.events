@@ -1,5 +1,9 @@
 <?php
 
+Route::get('/test-search', function(){
+    dd(App\Event::search('race')->take(10)->get());
+});
+
 Route::get('/geolocation', function() {
     dd(app('geocoder')->reverse(40.911488,-73.782355)->get()->first());
     // dd(app('geocoder')->geocode('New Rochelle, NY')->get());

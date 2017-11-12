@@ -6,12 +6,13 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "babenkoivan/scout-elasticsearch-driver": "^2.3",
         "laravel/framework": "5.5.*",
         "laravel/passport": "^3.0",
+        "laravel/scout": "^3.0",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "php-http/guzzle6-adapter": "^1.1",
+        "tamayo/laravel-scout-elastic": "^3.0",
         "toin0u/geocoder-laravel": "^4.0",
         "weidner/goutte": "^1.0"
     },

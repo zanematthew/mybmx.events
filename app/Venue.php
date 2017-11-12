@@ -2,29 +2,10 @@
 
 namespace App;
 
-use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class Venue extends Model
 {
-    use Searchable;
-
-    protected $indexConfigurator = EventIndexConfigurator::class;
-
-    protected $mapping = [
-        'properties' => [
-            'name' => [
-                'type' => 'string',
-                'fields' => [
-                    'raw' => [
-                        'type' => 'string',
-                        'index' => 'not_analyzed',
-                    ]
-                ]
-            ],
-        ]
-    ];
-
     protected $fillable = [
         'name',
         'district',

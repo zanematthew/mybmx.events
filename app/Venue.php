@@ -44,3 +44,24 @@ class Venue extends Model
         return str_slug($this->name);
     }
 }
+    /**
+     * The data from our model being to the search engine.
+     * This will later need to mapped via an index.
+     *
+     * @return array
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'name'        => $this->name,
+            'website'     => $this->website,
+            'description' => $this->description,
+            'zip_code'    => $this->zip_code,
+            'latitude'    => $this->lat,
+            'longitude'   => $this->long,
+            'latlon'      => sprintf('%f,%f', $this->lat, $this->long),
+            'city'        => $this->city->name,
+            'state'       => $this->city->states()->first()->name ?? null,
+        ];
+    }
+}

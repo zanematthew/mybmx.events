@@ -14,9 +14,15 @@ class ElasticsearchEventTest extends TestCase
     public function has_static_mapping()
     {
         $map = [
-            'title'    => ['type' => 'text'],
-            'type'     => ['type' => 'keyword'],
-            'datetime' => ['type' => 'date'],
+            'title'     => ['type' => 'text'],
+            'type'      => ['type' => 'keyword'],
+            'datetime'  => ['type' => 'date'],
+            'zip_code'  => ['type' => 'integer'],
+            'latitude'  => ['type' => 'float'],
+            'longitude' => ['type' => 'float'],
+            'latlon'    => ['type' => 'geo_point'],
+            'city'      => ['type' => 'keyword'],
+            'state'     => ['type' => 'keyword'],
         ];
         $this->assertTrue($map === \App\Event::elasticsearchMapping());
     }

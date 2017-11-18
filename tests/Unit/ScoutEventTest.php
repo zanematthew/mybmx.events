@@ -27,11 +27,16 @@ class ScoutEventTest extends TestCase
      */
     public function has_searchable_array()
     {
-        $event = factory(Event::class)->create();
+        $event = factory(\App\Event::class)->create();
         $this->assertEmpty(array_diff([
             'title',
             'type',
             'datetime',
+            'latitude',
+            'longitude',
+            'latlon',
+            'city',
+            'state',
         ], array_keys($event->toSearchableArray())));
     }
 }

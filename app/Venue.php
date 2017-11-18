@@ -70,15 +70,15 @@ class Venue extends Model
     public static function elasticsearchMapping()
     {
         return [
-            'name' => ['type' => 'text'],
-            'website' => ['type' => 'text'],
+            'name'        => ['type' => 'text'],
+            'website'     => ['type' => 'text'],
             'description' => ['type' => 'text'],
-            'zip_code' => ['type' => 'integer'],
-            'latitude' => ['type' => 'float'],
-            'longitude' => ['type' => 'float'],
-            'latlon' => ['type' => 'geo_point'],
-            'city' => ['type' => 'keyword'],
-            'state' => ['type' => 'keyword'],
+            'zip_code'    => ['type' => 'integer'],
+            'latitude'    => ['type' => 'float'],
+            'longitude'   => ['type' => 'float'],
+            'latlon'      => ['type' => 'geo_point'],
+            'city'        => ['type' => 'keyword'],
+            'state'       => ['type' => 'keyword'],
         ];
     }
 }

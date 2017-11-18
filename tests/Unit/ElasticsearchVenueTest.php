@@ -26,4 +26,19 @@ class ElasticsearchVenueTest extends TestCase
         ];
         $this->assertTrue($map === \App\Venue::elasticsearchMapping());
     }
+
+    /**
+     * Both the searchable array and index mapping must contain the same keys
+     *
+     * @group elasticsearch-venue-test
+     * @test
+     */
+    public function searchable_array_mapping()
+    {
+        $venue = factory(\App\Venue::class)->create();
+        $this->assertEmpty(array_diff(
+            array_keys($venue->toSearchableArray()),
+            array_keys(\App\Venue::elasticsearchMapping())
+        ));
+    }
 }

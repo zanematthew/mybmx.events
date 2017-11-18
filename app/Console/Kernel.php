@@ -29,6 +29,8 @@ class Kernel extends ConsoleKernel
 
         Commands\ShovleParseVenuePageFromDetailIdCommand::class,
 
+        Commands\ElasticsearchCreateIndexMapping::class,
+
     ];
 
     /**

@@ -232,6 +232,7 @@ return [
         'Goutte' => Weidner\Goutte\GoutteFacade::class, // [2]
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Venue' => App\Venue::class,
+        'Event' => App\Event::class,
     ],
 
 ];

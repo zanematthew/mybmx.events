@@ -63,4 +63,13 @@ class Event extends Model
             'datetime'  => date('Y-m-d\TH:i:s\Z', strtotime($this->start_date .' '. $this->registration_start_time)),
         ];
     }
+
+    public static function elasticsearchMapping(): array
+    {
+        return [
+            'title'    => ['type' => 'text'],
+            'type'     => ['type' => 'keyword'],
+            'datetime' => ['type' => 'date'],
+        ];
+    }
 }

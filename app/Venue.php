@@ -43,7 +43,7 @@ class Venue extends Model
     {
         return str_slug($this->name);
     }
-}
+
     /**
      * The data from our model being to the search engine.
      * This will later need to mapped via an index.

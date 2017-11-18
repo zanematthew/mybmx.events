@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Venue extends Model
 {
+
     use Searchable;
+
     protected $fillable = [
         'name',
         'district',
@@ -62,6 +64,21 @@ class Venue extends Model
             'latlon'      => sprintf('%f,%f', $this->lat, $this->long),
             'city'        => $this->city->name,
             'state'       => $this->city->states()->first()->name ?? null,
+        ];
+    }
+
+    public static function elasticsearchMapping()
+    {
+        return [
+            'name' => ['type' => 'text'],
+            'website' => ['type' => 'text'],
+            'description' => ['type' => 'text'],
+            'zip_code' => ['type' => 'integer'],
+            'latitude' => ['type' => 'float'],
+            'longitude' => ['type' => 'float'],
+            'latlon' => ['type' => 'geo_point'],
+            'city' => ['type' => 'keyword'],
+            'state' => ['type' => 'keyword'],
         ];
     }
 }

@@ -50,4 +50,17 @@ class Event extends Model
     {
         return ucwords(str_replace('-', ' ', $this->type));
     }
+
+    /**
+     * Date formats;
+     * https://www.elastic.co/guide/en/elasticsearch/reference/current/date.html
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'title'     => $this->title,
+            'type'      => $this->type,
+            'datetime'  => date('Y-m-d\TH:i:s\Z', strtotime($this->start_date .' '. $this->registration_start_time)),
+        ];
+    }
 }

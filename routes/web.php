@@ -1,14 +1,73 @@
 <?php
 
 Route::get('/test-search', function(){
-    dd(App\Event::search('race')->take(10)->get());
+
+    // ES Version: 5.6
+    // Events by type
+    // Closets events; from this weekend
+    $results = App\Event::search('', function($engine, $query, $options) {
+        $options['body']['query']['bool']['filter'] = [
+            'range' => ['datetime' => [
+                'gte'=> Illuminate\Support\Carbon::today()->toDateString(),
+            ]]
+        ];
+        $options['body']['sort']['_geo_distance'] = [
+            'latlon'        => '39.290385,-76.612189',
+            'order'         => 'asc',
+            'unit'          => 'km',
+            'mode'          => 'min',
+            'distance_type' => 'arc',
+        ];
+        return $engine->search($options);
+    })->take(20)->get()->load('venue.city.states')->toArray();
+    dd($results);
+
+    // Keyword, sorted by closest;
+    // $results = App\Venue::search('new york', function($engine, $query, $options) {
+    //     $options['body']['sort']['_geo_distance'] = [
+    //         'latlon'        => '39.290385,-76.612189',
+    //         'order'         => 'asc',
+    //         'unit'          => 'km',
+    //         'mode'          => 'min',
+    //         'distance_type' => 'arc',
+    //     ];
+    //     return $engine->search($options);
+    // })->take(100)->get()->load('city.states')->pluck('name');
+    // dd($results);
+
+    // Just distance
+    // https://www.elastic.co/guide/en/elasticsearch/reference/5.4/search-request-sort.html
+    $results = App\Venue::search('', function($engine, $query, $options) {
+        $options['body']['query']['bool']['filter']['geo_distance'] = [
+            'distance' => '500km',
+            'latlon'   => ['lat' => 37.7045743, 'lon' => -122.2010459],
+        ];
+        $options['body']['sort']['_geo_distance'] = [
+            'latlon'        => '37.7045743,-122.2010459',
+            'order'         => 'asc',
+            'unit'          => 'km',
+            'mode'          => 'min',
+            'distance_type' => 'arc',
+        ];
+        return $engine->search($options);
+    })->take(20)->get()->load('city.states')->pluck('name');
+    dd($results);
+
+    // Event keyword
+    $results = App\Event::search('race')
+           // ->where('start_date', '>=', Illuminate\Support\Carbon::today()->toDateString())
+           ->where('start_date', '>', '2017-11-01')
+           ->take(10)
+           ->get()
+           ->load('venue.city.states');
+    dd($results);
 });
 
-Route::get('/geolocation', function() {
-    dd(app('geocoder')->reverse(40.911488,-73.782355)->get()->first());
-    // dd(app('geocoder')->geocode('New Rochelle, NY')->get());
-    // dd(app('geocoder')->geocode('8.8.8.8')->get());
-});
+// Route::get('/geolocation', function() {
+//     dd(app('geocoder')->reverse(40.911488,-73.782355)->get()->first());
+//     // dd(app('geocoder')->geocode('New Rochelle, NY')->get());
+//     // dd(app('geocoder')->geocode('8.8.8.8')->get());
+// });
 
 /*
 |--------------------------------------------------------------------------

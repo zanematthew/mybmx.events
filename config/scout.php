@@ -76,9 +76,9 @@ return [
     ],
 
     'elasticsearch' => [
-        'index' => env('ELASTICSEARCH_INDEX', 'homestead'),
+        'index' => env('ELASTICSEARCH_INDEX'),
         'hosts' => [
-            env('ELASTICSEARCH_HOST', 'http://localhost'),
+            env('ELASTICSEARCH_HOST'),
         ],
     ],
 

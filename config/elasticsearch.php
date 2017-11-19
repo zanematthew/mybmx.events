@@ -1,5 +1,6 @@
 <?php
 
+// Version; 5.6.3
 return [
     /**
      * You can specify one of several different connections when building an
@@ -171,7 +172,7 @@ return [
         'testing' => [
             'hosts' => [
                 [
-                    'host'   => 'localhost-testing',
+                    'host'   => 'localhost',
                     'port'   => env('ELASTICSEARCH_PORT', 9200),
                     'scheme' => env('ELASTICSEARCH_SCHEME', null),
                     'user'   => env('ELASTICSEARCH_USER', null),
@@ -203,6 +204,22 @@ return [
             'serializer'         => null,
             'connectionFactory'  => null,
             'endpoint'           => null,
+        ],
+    ],
+    // https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
+    'indexParams' => [
+        'index' => env('ELASTICSEARCH_INDEX'),
+        'body' => [
+            'mappings' => [
+                'venue' => [
+                    '_all'       => ['enabled' => false],
+                    'properties' => \App\Venue::elasticsearchMapping()
+                ],
+                'event' => [
+                    '_all'       => ['enabled' => false],
+                    'properties' => \App\Event::elasticsearchMapping()
+                ]
+            ]
         ],
     ],
 ];

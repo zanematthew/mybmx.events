@@ -7,6 +7,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ElasticsearchEventTest extends TestCase
 {
+
+    use RefreshDatabase;
+
     /**
      * @group elasticsearch-event-test
      * @test

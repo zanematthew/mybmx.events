@@ -7,6 +7,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ElasticsearchVenueTest extends TestCase
 {
+
+    use RefreshDatabase;
+
     /**
      * @group elasticsearch-venue-test
      * @test

@@ -211,13 +211,11 @@ return [
         'index' => env('ELASTICSEARCH_INDEX'),
         'body' => [
             'mappings' => [
-                'venue' => [
-                    '_all'       => ['enabled' => false],
-                    'properties' => \App\Venue::elasticsearchMapping()
-                ],
-                'event' => [
-                    '_all'       => ['enabled' => false],
-                    'properties' => \App\Event::elasticsearchMapping()
+                'doc' => [
+                    'properties' => array_merge(
+                        \App\Venue::elasticsearchMapping(),
+                        \App\Event::elasticsearchMapping()
+                    )
                 ]
             ]
         ],

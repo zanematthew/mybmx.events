@@ -65,7 +65,8 @@ class Event extends Model
             'longitude' => $this->venue->long,
             'latlon'    => sprintf('%f,%f', $this->venue->lat, $this->venue->long),
             'city'      => $this->venue->city->name,
-            'state'     => $this->venue->city->states()->first()->name ?? null
+            'state'     => $this->venue->city->states()->first()->name ?? null,
+            'z_type'    => strtolower(get_class($this)),
         ];
     }
 
@@ -81,6 +82,7 @@ class Event extends Model
             'latlon'      => ['type' => 'geo_point'],
             'city'        => ['type' => 'keyword'],
             'state'       => ['type' => 'keyword'],
+            'z_type'      => ['type' => 'keyword'],
         ];
     }
 }

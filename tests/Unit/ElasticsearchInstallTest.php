@@ -7,6 +7,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ElasticsearchInstallTest extends TestCase
 {
+
+    use RefreshDatabase;
+
     /**
      * Both the Scout searchable array and Elasticsearch index mapping must contain the same keys.
      *

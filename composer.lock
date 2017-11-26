@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ffd49a3a85f030f0933bd18c1eab221a",
+    "content-hash": "b3439c87edc4137aaf624ea236ae1817",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -4088,54 +4088,6 @@
                 "dump"
             ],
             "time": "2017-11-07T14:16:22+00:00"
-        },
-        {
-            "name": "tamayo/laravel-scout-elastic",
-            "version": "3.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ErickTamayo/laravel-scout-elastic.git",
-                "reference": "97deb01452f947b3c515545c2ee65804f1a59853"
-            },
-            "require": {
-                "elasticsearch/elasticsearch": "^5.0",
-                "laravel/scout": "^3.0",
-                "php": ">=5.6.4"
-            },
-            "require-dev": {
-                "fzaninotto/faker": "~1.4",
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "~5.0"
-            },
-            "suggest": {
-                "elasticsearch/elasticsearch": "Required to use the Elasticsearch engine (^5.0)."
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "ScoutEngines\\Elasticsearch\\ElasticsearchProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "ScoutEngines\\Elasticsearch\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "ScoutEngines\\Elasticsearch\\Test\\": "tests"
-                }
-            },
-            "description": "Elastic Driver for Laravel Scout",
-            "keywords": [
-                "elastic",
-                "elasticsearch",
-                "laravel",
-                "scout"
-            ],
-            "time": "2017-10-24T15:43:54+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

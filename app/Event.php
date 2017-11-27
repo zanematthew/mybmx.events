@@ -66,7 +66,7 @@ class Event extends Model
             'latlon'    => sprintf('%f,%f', $this->venue->lat, $this->venue->long),
             'city'      => $this->venue->city->name,
             'state'     => $this->venue->city->states()->first()->name ?? null,
-            'z_type'    => strtolower(get_class($this)),
+            'z_type'    => 'event',
         ];
     }
 

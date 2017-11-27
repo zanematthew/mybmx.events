@@ -64,7 +64,7 @@ class Venue extends Model
             'latlon'      => sprintf('%f,%f', $this->lat, $this->long),
             'city'        => $this->city->name,
             'state'       => $this->city->states()->first()->name ?? null,
-            'z_type'      => strtolower(get_class($this)),
+            'z_type'      => 'venue',
         ];
     }
 

@@ -34,13 +34,14 @@ class ScoutInstallTest extends TestCase
         $this->assertTrue([
             'title',
             'type',
-            'datetime',
+            'registration',
             'latitude',
             'longitude',
             'latlon',
             'city',
             'state',
             'z_type',
+            'created_at',
         ] === array_keys($event->toSearchableArray()));
     }
 
@@ -77,6 +78,7 @@ class ScoutInstallTest extends TestCase
             'city',
             'state',
             'z_type',
+            'created_at',
         ] === array_keys($venue->toSearchableArray()));
     }
 }

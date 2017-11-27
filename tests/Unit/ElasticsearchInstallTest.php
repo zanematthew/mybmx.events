@@ -50,19 +50,20 @@ class ElasticsearchInstallTest extends TestCase
     public function verify_elasticsearch_mappings()
     {
         $map = [
-            'title'       => ['type' => 'text'],
-            'type'        => ['type' => 'keyword'],
-            'datetime'    => ['type' => 'date'],
-            'name'        => ['type' => 'text'],
-            'website'     => ['type' => 'text'],
-            'description' => ['type' => 'text'],
-            'zip_code'    => ['type' => 'integer'],
-            'latitude'    => ['type' => 'float'],
-            'longitude'   => ['type' => 'float'],
-            'latlon'      => ['type' => 'geo_point'],
-            'city'        => ['type' => 'keyword'],
-            'state'       => ['type' => 'keyword'],
-            'z_type'      => ['type' => 'keyword'],
+            'title'        => ['type' => 'text'],
+            'type'         => ['type' => 'keyword'],
+            'registration' => ['type' => 'date'],
+            'name'         => ['type' => 'text'],
+            'website'      => ['type' => 'text'],
+            'description'  => ['type' => 'text'],
+            'zip_code'     => ['type' => 'integer'],
+            'latitude'     => ['type' => 'float'],
+            'longitude'    => ['type' => 'float'],
+            'latlon'       => ['type' => 'geo_point'],
+            'city'         => ['type' => 'keyword'],
+            'state'        => ['type' => 'keyword'],
+            'z_type'       => ['type' => 'keyword'],
+            'created_at'   => ['type' => 'date'],
         ];
 
         $config = config('elasticsearch.indexParams')['body']['mappings']['doc']['properties'];

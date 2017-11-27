@@ -58,31 +58,33 @@ class Event extends Model
     public function toSearchableArray(): array
     {
         return [
-            'title'     => $this->title,
-            'type'      => $this->type,
-            'datetime'  => date('Y-m-d\TH:i:s\Z', strtotime($this->start_date .' '. $this->registration_start_time)),
-            'latitude'  => $this->venue->lat,
-            'longitude' => $this->venue->long,
-            'latlon'    => sprintf('%f,%f', $this->venue->lat, $this->venue->long),
-            'city'      => $this->venue->city->name,
-            'state'     => $this->venue->city->states()->first()->name ?? null,
-            'z_type'    => 'event',
+            'title'        => $this->title,
+            'type'         => $this->type,
+            'registration' => date('Y-m-d\TH:i:s\Z', strtotime($this->start_date .' '. $this->registration_start_time)),
+            'latitude'     => $this->venue->lat,
+            'longitude'    => $this->venue->long,
+            'latlon'       => sprintf('%f,%f', $this->venue->lat, $this->venue->long),
+            'city'         => $this->venue->city->name,
+            'state'        => $this->venue->city->states()->first()->name ?? null,
+            'z_type'       => 'event',
+            'created_at'   => date('Y-m-d\TH:i:s\Z', time()),
         ];
     }
 
     public static function elasticsearchMapping(): array
     {
         return [
-            'title'    => ['type' => 'text'],
-            'type'     => ['type' => 'keyword'],
-            'datetime' => ['type' => 'date'],
-            'zip_code'    => ['type' => 'integer'],
-            'latitude'    => ['type' => 'float'],
-            'longitude'   => ['type' => 'float'],
-            'latlon'      => ['type' => 'geo_point'],
-            'city'        => ['type' => 'keyword'],
-            'state'       => ['type' => 'keyword'],
-            'z_type'      => ['type' => 'keyword'],
+            'title'        => ['type' => 'text'],
+            'type'         => ['type' => 'keyword'],
+            'registration' => ['type' => 'date'],
+            'zip_code'     => ['type' => 'integer'],
+            'latitude'     => ['type' => 'float'],
+            'longitude'    => ['type' => 'float'],
+            'latlon'       => ['type' => 'geo_point'],
+            'city'         => ['type' => 'keyword'],
+            'state'        => ['type' => 'keyword'],
+            'z_type'       => ['type' => 'keyword'],
+            'created_at'   => ['type' => 'date'],
         ];
     }
 }

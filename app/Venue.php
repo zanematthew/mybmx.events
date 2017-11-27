@@ -65,6 +65,7 @@ class Venue extends Model
             'city'        => $this->city->name,
             'state'       => $this->city->states()->first()->name ?? null,
             'z_type'      => 'venue',
+            'created_at'  => date('Y-m-d\TH:i:s\Z', time()),
         ];
     }
 
@@ -81,6 +82,7 @@ class Venue extends Model
             'city'        => ['type' => 'keyword'],
             'state'       => ['type' => 'keyword'],
             'z_type'      => ['type' => 'keyword'],
+            'created_at'  => ['type' => 'date'],
         ];
     }
 }

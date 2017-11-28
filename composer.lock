@@ -4105,7 +4105,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zanematthew/laravel-scout-elastic.git",
-                "reference": "56cccfd62fd9982a07c96644690cccb9c5c75404"
+                "reference": "fec007a692e66a71da9daec461044ad4568871cf"
             },
             "require": {
                 "elasticsearch/elasticsearch": "^6.0",
@@ -4145,7 +4145,7 @@
                 "laravel",
                 "scout"
             ],
-            "time": "2017-11-26T16:41:19+00:00"
+            "time": "2017-11-27T00:57:41+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

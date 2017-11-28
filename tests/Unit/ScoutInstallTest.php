@@ -10,9 +10,9 @@ class ScoutInstallTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Verify the classes uses Laravel\Scout\Searchable
+     * Verify the class uses Laravel Scout
      *
-     * @group  scout-install
+     * @group scout-install
      * @test
      */
     public function event_uses_scout()

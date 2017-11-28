@@ -52,7 +52,9 @@ class Event extends Model
     }
 
     /**
-     * Date formats;
+     * The allowed keys that are being searched, and the
+     * any formatting if needed.
+     *
      * https://www.elastic.co/guide/en/elasticsearch/reference/current/date.html
      */
     public function toSearchableArray(): array

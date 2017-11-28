@@ -47,8 +47,8 @@ class Venue extends Model
     }
 
     /**
-     * The data from our model being to the search engine.
-     * This will later need to mapped via an index.
+     * The allowed keys that are being searched, and the
+     * any formatting if needed.
      *
      * @return array
      */

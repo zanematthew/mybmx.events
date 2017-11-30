@@ -46,9 +46,9 @@ class ScoutInstallTest extends TestCase
     }
 
     /**
-     * Verify the classes uses Laravel\Scout\Searchable
+     * Verify the class uses Laravel Scout
      *
-     * @group  scout-install
+     * @group scout-install
      * @test
      */
     public function venue_uses_scout()

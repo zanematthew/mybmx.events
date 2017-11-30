@@ -1,18 +1,97 @@
 <?php
 
 Route::get('/test-search', function(){
+// GET /test_index/_search
+// {
+//   "query" : {
+//     "bool": {
+//       "must": [
+//         {
+//           "match": {
+//             "z_type": "venue"
+//           }
+//         }
+//       ]
+//     }
+//   },
+//   "sort" : [
+//         {
+//             "_geo_distance" : {
+//                 "latlon" : "38.6364668,-77.2934339",
+//                 "order" : "asc",
+//                 "unit" : "km",
+//                 "mode" : "min",
+//                 "distance_type" : "arc"
+//             }
+//         }
+//     ],
+//     "size": 50
+// }
+// 38.6364668,-77.2934339; // Woodbridge, VA
+// 39.2628271,-76.6350047; // MD
 
-    // ES Version: 5.6
-    // Events by type
+    $r = App\Venue::search('', function ($engine, $query, $options) {
+        $options['body']['sort']['_geo_distance'] = [
+                'latlon'        => '39.2628271,-76.6350047',
+                'order'         => 'asc',
+                'unit'          => 'mi',
+                'mode'          => 'min',
+                'distance_type' => 'arc',
+        ];
+        return $engine->search($options);
+    })->where('z_type', 'venue')->take(10)->get()->pluck('name')->toArray();
+    dd($r);
+
+    $results = App\Venue::search('', function($engine, $query, $options) {
+        // $options['body']['query']['bool']['must'][] = [
+        //     'match_all' => new \stdClass()
+        // ];
+        $options['body']['sort']['_geo_distance'] = [
+            'latlon' => '39.2628271,-76.6350047', // VA
+            'order'         => 'asc',
+            'unit'          => 'km',
+            'mode'          => 'min',
+            'distance_type' => 'arc',
+        ];
+        return $engine->search($options);
+    })->take(300)->get()->pluck('name');
+    echo '<pre>';
+    print_r($results);
+    die();
+
+    // Closest venues
+    $results = App\Venue::search('', function($engine, $query, $options) {
+        $options['body']['query']['bool']['filter'] = [
+            'range' => [
+                'registration' => [
+                    'gte'=> Illuminate\Support\Carbon::today()->toDateString(),
+                ]
+            ]
+        ];
+        $options['body']['sort']['_geo_distance'] = [
+            'latlon'        => '39.2628271,-76.6350047',
+            // 'latlon' => '38.6364668,-77.2934339', // VA
+            'order'         => 'asc',
+            'unit'          => 'km',
+            'mode'          => 'min',
+            'distance_type' => 'arc',
+        ];
+        return $engine->search($options);
+    })->take(20)->get()->load('venue.city.states')->toArray();
+    dd($results);
+
     // Closets events; from this weekend
     $results = App\Event::search('', function($engine, $query, $options) {
         $options['body']['query']['bool']['filter'] = [
-            'range' => ['datetime' => [
-                'gte'=> Illuminate\Support\Carbon::today()->toDateString(),
-            ]]
+            'range' => [
+                'registration' => [
+                    'gte'=> Illuminate\Support\Carbon::today()->toDateString(),
+                ]
+            ]
         ];
         $options['body']['sort']['_geo_distance'] = [
-            'latlon'        => '39.290385,-76.612189',
+            'latlon'        => '39.2628271,-76.6350047',
+            // 'latlon' => '38.6364668,-77.2934339', // VA
             'order'         => 'asc',
             'unit'          => 'km',
             'mode'          => 'min',
@@ -23,9 +102,9 @@ Route::get('/test-search', function(){
     dd($results);
 
     // Keyword, sorted by closest;
-    // $results = App\Venue::search('new york', function($engine, $query, $options) {
+    // $results = App\Venue::search('chester', function($engine, $query, $options) {
     //     $options['body']['sort']['_geo_distance'] = [
-    //         'latlon'        => '39.290385,-76.612189',
+    //         'latlon'        => '39.2628271,-76.6350047', // Baltimore, MD
     //         'order'         => 'asc',
     //         'unit'          => 'km',
     //         'mode'          => 'min',
@@ -35,32 +114,27 @@ Route::get('/test-search', function(){
     // })->take(100)->get()->load('city.states')->pluck('name');
     // dd($results);
 
-    // Just distance
+    // Just distance, sorted by closets
     // https://www.elastic.co/guide/en/elasticsearch/reference/5.4/search-request-sort.html
-    $results = App\Venue::search('', function($engine, $query, $options) {
-        $options['body']['query']['bool']['filter']['geo_distance'] = [
-            'distance' => '500km',
-            'latlon'   => ['lat' => 37.7045743, 'lon' => -122.2010459],
-        ];
-        $options['body']['sort']['_geo_distance'] = [
-            'latlon'        => '37.7045743,-122.2010459',
-            'order'         => 'asc',
-            'unit'          => 'km',
-            'mode'          => 'min',
-            'distance_type' => 'arc',
-        ];
-        return $engine->search($options);
-    })->take(20)->get()->load('city.states')->pluck('name');
-    dd($results);
+    // $foo = App\Venue::search('bmx')->take(200)->get()->pluck('name');
+    // dd($foo);
 
-    // Event keyword
-    $results = App\Event::search('race')
-           // ->where('start_date', '>=', Illuminate\Support\Carbon::today()->toDateString())
-           ->where('start_date', '>', '2017-11-01')
-           ->take(10)
-           ->get()
-           ->load('venue.city.states');
-    dd($results);
+    // $results = App\Venue::search('', function($engine, $query, $options) {
+        // $options['body']['query']['bool']['filter']['geo_distance'] = [
+        //     'distance' => '500mi',
+        //     'latlon'   => '39.2628271,-76.6350047',
+        // ];
+        // $options['body']['sort']['_geo_distance'] = [
+        //     'latlon'        => '39.2628271,-76.6350047',
+        //     // 'latlon'        => '39.590010,-119.245782',
+        //     'order'         => 'asc',
+        //     'unit'          => 'km',
+        //     'mode'          => 'min',
+        //     'distance_type' => 'arc',
+        // ];
+    //     return $engine->search($options);
+    // })->take(4)->get()->load('city.states')->pluck('name');
+    // dd($results);
 });
 
 // Route::get('/geolocation', function() {

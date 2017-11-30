@@ -23,12 +23,32 @@
     }" class="nav-item">{{ item.title }}</router-link>
   </div>
 
-  <action-bar
-    :type="type"
-    :item="result"
-    :key="result.id"
-    v-for="result in results[type]"
-    class="row"></action-bar>
+  <div v-if="keyword ==='' && resultsCount >0">
+    <action-bar
+        :type="type"
+        :item="result"
+        :key="result.id"
+        v-for="result in results[type]"
+        class="row"></action-bar>
+  </div>
+  <div v-else-if="keyword">
+    <div v-if="resultsCount">
+      <action-bar
+        :type="type"
+        :item="result"
+        :key="result.id"
+        v-for="result in results[type]"
+        class="row"></action-bar>
+    </div>
+    <div class="grid row is-item" v-else>
+      No, results.
+    </div>
+  </div>
+  <div class="link grid row is-item"
+    v-else
+    v-on:click.prevent="currentLocationResults">
+    <icon name="location-arrow"></icon> Near current location.
+  </div>
 </div>
 </template>
 <script>
@@ -70,7 +90,8 @@ export default {
         },
       ],
       results: [],
-      placeholder: ''
+      placeholder: '',
+      resultsCount: 0,
     }
   },
   mounted() {
@@ -88,11 +109,8 @@ export default {
   },
   methods: {
     search: _.debounce(function(){
-      this.results = [];
-      this.$store.dispatch('getSearchResults').then(response => {
-        this.results = this.$store.state.search.results;
-      });
-    }, 250),
+      this.yaSearch();
+    }, 500),
     updateSearchType () {
       this.$store.commit('UPDATE_SEARCH_TYPE', {
         type: this.$store.state.route.params.type
@@ -112,6 +130,17 @@ export default {
         default:
           this.placeholder = 'Search';
       }
+    },
+    currentLocationResults() {
+      this.yaSearch();
+    },
+    yaSearch() {
+      this.results = [];
+      this.resultsCount = 1;
+      this.$store.dispatch('getSearchResults').then(response => {
+        this.results = this.$store.state.search.results;
+        this.resultsCount = this.results[this.type].length;
+      });
     }
   }
 }
@@ -134,6 +163,13 @@ export default {
     float: left;
     width: 33.33%;
     text-align: center;
+  }
+}
+.link {
+  color: $primary-focus-color;
+  .fa-icon {
+    margin-right: 10px;
+    color: $primary-focus-color;
   }
 }
 </style>

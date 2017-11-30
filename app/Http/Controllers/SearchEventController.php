@@ -1,17 +1,5 @@
 <?php
 
-// @todo
-//
-// General Search Notes
-//
-// There will be three types of searches;
-//
-// Places -- Fields; zip, city, state
-// Events -- Fields: Title, type, start date
-// Venues -- Fields: Name
-//
-// Or just go straight to Elastic search and have the "type"
-// adjust the "boost" accordingly.
 namespace App\Http\Controllers;
 
 use App\Event;
@@ -20,18 +8,33 @@ use Illuminate\Support\Carbon;
 
 class SearchEventController extends Controller
 {
-    // Search fields;
-    // title (string)
-    // type (string)
-    // fee (numeric)
-    // start date (numeric)
+    // Text search
+    // Date greater than today
+    // Sorted by proximity
     protected function index(Request $request): \Illuminate\Http\JsonResponse
     {
-        $results = Event::search($request->keyword)
-           // ->where('start_date', '>=', Carbon::today()->toDateString())
-           ->take(10)
-           ->get()
-           ->load('venue.city.states');
+        $text    = $request->text ?? '';
+        $latlong = $request->latlong ?? '39.290385,-76.612189';
+
+        $results = Event::search($text, function($engine, $query, $options) use ($latlong) {
+            $options['body']['query']['bool']['filter'] = [
+                'range' => ['registration' => [
+                    'gte'=> Carbon::today()->toDateString(),
+                ]]
+            ];
+            $options['body']['sort']['_geo_distance'] = [
+                'latlon'        => $latlong,
+                'order'         => 'asc',
+                'unit'          => 'km',
+                'mode'          => 'min',
+                'distance_type' => 'arc',
+            ];
+            return $engine->search($options);
+        })->take(20)->get()->load('venue.city.states');
+
         return response()->json($results);
     }
+
+    // Closest search
+    // Text search
 }

@@ -24,14 +24,10 @@ const getters = {};
 const actions = {
   getSearchResults({commit, state}) {
     return new Promise((resolve, reject) => {
-      if (_.isEmpty(state.keyword)){
-        commit(types.UPDATE_SEARCH_RESULTS, []);
-      } else {
-        Search.results(response => {
-          commit(types.UPDATE_SEARCH_RESULTS, response);
-          resolve(response);
-        }, {...state});
-      }
+      Search.results(response => {
+        commit(types.UPDATE_SEARCH_RESULTS, response);
+        resolve(response);
+      }, {...state});
     });
   }
 };

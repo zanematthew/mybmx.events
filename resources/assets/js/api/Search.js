@@ -1,7 +1,7 @@
 'use strict';
 class Search {
   static results(then, payload) {
-    return axios.post(`/api/search/${payload.type}/${payload.keyword}/`, {
+    return axios.get(`/api/search/${payload.type}/`, {
         type: payload.type,
         keyword: payload.keyword
     }).then(({data}) => then(data));

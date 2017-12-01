@@ -1,6 +1,7 @@
 {
   "globals": {
     "_": true,
-    "Vue": true
+    "Vue": true,
+    "axios": true,
   }
 }

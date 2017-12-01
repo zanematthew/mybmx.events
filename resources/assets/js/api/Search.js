@@ -2,8 +2,9 @@
 class Search {
   static results(then, payload) {
     return axios.get(`/api/search/${payload.type}/`, {
-        type: payload.type,
-        keyword: payload.keyword
+      params: {
+        text: payload.text
+      }
     }).then(({data}) => then(data));
   }
 }

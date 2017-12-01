@@ -8,7 +8,7 @@ import * as types from '~/store/mutation-types';
  * The initial state of our scheduling module.
  */
 const state = {
-  keyword: '',
+  text: '',
   type: '',
   results: {}
 };
@@ -37,7 +37,7 @@ const actions = {
  */
 const mutations = {
   [types.UPDATE_KEYWORD] (state, payload) {
-    state.keyword = payload;
+    state.text = payload;
   },
   [types.UPDATE_SEARCH_TYPE] (state, payload) {
     state.type = payload.type;

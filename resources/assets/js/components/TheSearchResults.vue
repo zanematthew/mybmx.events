@@ -11,7 +11,7 @@
     <input
       type="text"
       :placeholder="placeholder"
-      v-model="keyword"
+      v-model="text"
       />
   </form>
 
@@ -23,7 +23,7 @@
     }" class="nav-item">{{ item.title }}</router-link>
   </div>
 
-  <div v-if="keyword ==='' && resultsCount >0">
+  <div v-if="text ==='' && resultsCount >0">
     <action-bar
         :type="type"
         :item="result"
@@ -31,7 +31,7 @@
         v-for="result in results[type]"
         class="row"></action-bar>
   </div>
-  <div v-else-if="keyword">
+  <div v-else-if="text">
     <div v-if="resultsCount">
       <action-bar
         :type="type"
@@ -60,9 +60,9 @@ export default {
     actionBar,
   },
   computed: {
-    keyword: {
+    text: {
       get () {
-        return this.$store.state.search.keyword;
+        return this.$store.state.search.text;
       },
       set (value) {
         this.$store.commit('UPDATE_KEYWORD', value);
@@ -103,13 +103,23 @@ export default {
       this.updateSearchType();
       this.updatePlaceholder();
     },
-    keyword: function () {
+    text: function () {
       this.search();
     }
   },
   methods: {
     search: _.debounce(function(){
-      this.yaSearch();
+
+      if (_.isEmpty(this.text)) {
+        this.results = [];
+        return;
+      }
+      this.results = [];
+      this.resultsCount = 1;
+      this.$store.dispatch('getSearchResults').then(response => {
+        this.results = this.$store.state.search.results;
+        this.resultsCount = this.results[this.type].length;
+      });
     }, 500),
     updateSearchType () {
       this.$store.commit('UPDATE_SEARCH_TYPE', {
@@ -132,16 +142,8 @@ export default {
       }
     },
     currentLocationResults() {
-      this.yaSearch();
+      this.$store.commit('UPDATE_KEYWORD', 'Current Location');
     },
-    yaSearch() {
-      this.results = [];
-      this.resultsCount = 1;
-      this.$store.dispatch('getSearchResults').then(response => {
-        this.results = this.$store.state.search.results;
-        this.resultsCount = this.results[this.type].length;
-      });
-    }
   }
 }
 </script>

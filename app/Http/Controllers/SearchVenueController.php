@@ -22,24 +22,17 @@ class SearchVenueController extends Controller
     {
         $latlon = $request->latlon ?? '39.290385,-76.612189'; // Baltimore, MD
 
-        if ($request->text) {
-            return $this->text($request->text, $latlon);
+        if ($request->text === 'Current Location') {
+            return $this->distance($latlon);
         }
-        return $this->distance($latlon);
+        if ($request->text) {
+            return $this->text($request->text);
+        }
     }
 
-    protected function text(String $text, String $latlon): \Illuminate\Http\JsonResponse
+    protected function text(String $text): \Illuminate\Http\JsonResponse
     {
-        $results = Venue::search($text, function($engine, $query, $options) use ($latlon) {
-            $options['body']['sort']['_geo_distance'] = [
-                'latlon'        => $latlon,
-                'order'         => 'asc',
-                'unit'          => 'mi',
-                'mode'          => 'min',
-                'distance_type' => 'arc',
-            ];
-            return $engine->search($options);
-        })->where('z_type', $this->z_type)->take($this->take)->get();
+        $results = Venue::search($text)->where('z_type', $this->z_type)->take($this->take)->get();
 
         // If no results, provide option to search by current location only.
         if (empty($results->toArray())) {

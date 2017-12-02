@@ -94,6 +94,9 @@ export default {
         },
       ],
       results: [],
+      // @todo move count to be part of state.
+      // Restructure results state as;
+      // search.results[type] = [ count => 0, items = [] ];
       resultsCount: 0,
     }
   },
@@ -103,6 +106,12 @@ export default {
   watch: {
     '$route' (to, from) {
       this.updateSearchType();
+      // If we have results for a given type
+      // and the search text has _not_ changed
+      // there is no need to re-run the search.
+      if (_.isUndefined(this.$store.state.search.results[this.type])) {
+        this.search();
+      }
     },
     text: function () {
       this.search();

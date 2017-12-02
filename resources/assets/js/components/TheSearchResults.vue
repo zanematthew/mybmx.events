@@ -10,7 +10,7 @@
     <icon name="search"></icon>
     <input
       type="text"
-      :placeholder="placeholder"
+      placeholder="Search..."
       v-model="text"
       />
   </form>
@@ -94,18 +94,15 @@ export default {
         },
       ],
       results: [],
-      placeholder: '',
       resultsCount: 0,
     }
   },
   mounted() {
     this.updateSearchType();
-    this.updatePlaceholder();
   },
   watch: {
     '$route' (to, from) {
       this.updateSearchType();
-      this.updatePlaceholder();
     },
     text: function () {
       this.search();
@@ -128,21 +125,6 @@ export default {
       this.$store.commit('UPDATE_SEARCH_TYPE', {
         type: this.$store.state.route.params.type
       });
-    },
-    updatePlaceholder() {
-      switch (this.type) {
-        case 'event':
-          this.placeholder = 'Local Race';
-          break;
-        case 'place':
-          this.placeholder = 'Maryland';
-          break;
-        case 'venue':
-          this.placeholder = 'Chesapeake BMX';
-          break;
-        default:
-          this.placeholder = 'Search';
-      }
     },
     currentLocationResults() {
       this.$store.commit('UPDATE_KEYWORD', 'Current Location');

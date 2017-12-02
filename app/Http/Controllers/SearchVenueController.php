@@ -5,22 +5,16 @@ namespace App\Http\Controllers;
 use App\Venue;
 use Illuminate\Http\Request;
 
-class SearchVenueController extends Controller
+class SearchVenueController extends SearchController
 {
-    private $distance;
-    private $z_type;
-    private $take;
-
     public function __construct()
     {
-        $this->distance = '2000mi';
-        $this->z_type   = 'venue';
-        $this->take     = 20;
+        parent::__construct('venue');
     }
 
     protected function index(Request $request)
     {
-        $latlon = $request->latlon ?? '39.290385,-76.612189'; // Baltimore, MD
+        $latlon = $request->latlon ?? $this->defaultLatLon;
 
         if ($request->text === 'Current Location') {
             return $this->distance($latlon);
@@ -49,9 +43,9 @@ class SearchVenueController extends Controller
     // https://www.elastic.co/guide/en/elasticsearch/reference/5.4/search-request-sort.html
     protected function distance(String $latlon): \Illuminate\Http\JsonResponse
     {
-        $results = Venue::search('', function ($engine, $query, $options) {
+        $results = Venue::search('', function ($engine, $query, $options) use ($latlon) {
             $options['body']['sort']['_geo_distance'] = [
-                'latlon'        => '39.2628271,-76.6350047',
+                'latlon'        => $latlon,
                 'order'         => 'asc',
                 'unit'          => 'mi',
                 'mode'          => 'min',

@@ -23,32 +23,36 @@
     }" class="nav-item">{{ item.title }}</router-link>
   </div>
 
-  <div v-if="text ==='' && resultsCount >0">
-    <action-bar
-        :type="type"
-        :item="result"
-        :key="result.id"
-        v-for="result in results[type]"
-        class="row"></action-bar>
-  </div>
-  <div v-else-if="text">
-    <div v-if="resultsCount">
-      <action-bar
-        :type="type"
-        :item="result"
-        :key="result.id"
-        v-for="result in results[type]"
-        class="row"></action-bar>
-    </div>
-    <div class="grid row is-item" v-else>
-      No, results.
-    </div>
-  </div>
-  <div class="link grid row is-item"
-    v-else
+  <!-- Initial State -->
+  <!-- When the search box is empty, present the -->
+  <!-- user with the current location icon -->
+  <div
+    v-if="text === ''"
+    class="link grid row is-item"
     v-on:click.prevent="currentLocationResults">
     <icon name="location-arrow"></icon> Near current location.
   </div>
+
+  <!-- Has result state -->
+  <!-- When we have results display the action-bar -->
+  <!-- for each item in our result set. -->
+  <action-bar
+    v-if="resultsCount > 0"
+    :type="type"
+    :item="result"
+    :key="result.id"
+    v-for="result in results[type]"
+    class="row"></action-bar>
+
+  <!-- Has no result state -->
+  <!-- If we have text, and no results are found -->
+  <!-- then display a message. -->
+  <div
+    v-if="text && resultsCount === 0"
+    class="grid row is-item">
+    No results
+  </div>
+
 </div>
 </template>
 <script>
@@ -109,7 +113,6 @@ export default {
   },
   methods: {
     search: _.debounce(function(){
-
       if (_.isEmpty(this.text)) {
         this.results = [];
         return;

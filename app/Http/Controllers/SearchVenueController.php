@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Venue;
 use Illuminate\Http\Request;
 
-class SearchVenueController extends SearchController
+class SearchVenueController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct('venue');
-    }
 
-    protected function index(Request $request)
+    /**
+     * Filter the HTTP request here.
+     *
+     * @todo   needs test
+     * @param  Request $request HTTP request variables.
+     * @return Object       HTTP Json response.
+     */
+    protected function index(Request $request): \Illuminate\Http\JsonResponse
     {
-        $latlon = $request->latlon ?? $this->defaultLatLon;
+        $latlon = $request->latlon ?? '39.290385,-76.612189'; // Baltimore, MD
 
         if ($request->text === 'Current Location') {
             return $this->distance($latlon);
@@ -24,23 +27,29 @@ class SearchVenueController extends SearchController
         }
     }
 
+    /**
+     * A simple full text search.
+     *
+     * @todo   needs test
+     * @param  String $text Search text
+     * @return Object       HTTP Json response.
+     */
     protected function text(String $text): \Illuminate\Http\JsonResponse
     {
-        $results = Venue::search($text)->where('z_type', $this->z_type)->take($this->take)->get();
-
-        // If no results, provide option to search by current location only.
-        if (empty($results->toArray())) {
-            return response()->json([]);
-        }
-
-        return response()->json($results->load('city.states'));
+        return response()->json(Venue::search($text)
+            ->where('z_type', 'venue')
+            ->take(20)
+            ->get()
+            ->load('city.states'));
     }
 
-    // Just distance, sorted by closets
-    // https://www.elastic.co/guide/en/elasticsearch/reference/5.4/search-request-sort.html
-    // Search by location, then sort by distance.
-    // Default is to show all venues that are closest to current location.
-    // https://www.elastic.co/guide/en/elasticsearch/reference/5.4/search-request-sort.html
+    /**
+     * Sort search by distance.
+     *
+     * @todo   needs test
+     * @param  String $latlon A geo-point as a string.
+     * @return Object         HTTP Json response.
+     */
     protected function distance(String $latlon): \Illuminate\Http\JsonResponse
     {
         $results = Venue::search('', function ($engine, $query, $options) use ($latlon) {
@@ -52,7 +61,7 @@ class SearchVenueController extends SearchController
                 'distance_type' => 'arc',
             ];
             return $engine->search($options);
-        })->where('z_type', $this->z_type)->take($this->take)->get()->load('city.states');
+        })->where('z_type', 'venue')->take(200)->get()->load('city.states');
 
         return response()->json($results);
     }

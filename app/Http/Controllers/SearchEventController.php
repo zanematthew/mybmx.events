@@ -6,19 +6,18 @@ use App\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
-class SearchEventController extends SearchController
+class SearchEventController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct('event');
-    }
-
-    // Text search
-    // Date greater than today
-    // Sorted by proximity
+    /**
+     * Filter the HTTP request here.
+     *
+     * @todo   needs test
+     * @param  Request $request HTTP request variables.
+     * @return Object       HTTP Json response.
+     */
     protected function index(Request $request): \Illuminate\Http\JsonResponse
     {
-        $latlon = $request->latlon ?? $this->defaultLatLon;
+        $latlon = $request->latlon ?? '39.290385,-76.612189';
 
         if ($request->text === 'Current Location') {
             return $this->distance($latlon);
@@ -28,6 +27,16 @@ class SearchEventController extends SearchController
         }
     }
 
+    /**
+     * Search for an Event by text;
+     *   - filtered by Events greater than today
+     *   - sorted by geo location
+     *
+     * @todo   needs test
+     * @param  String $text    Search text.
+     * @param  String $latlong Geo-point as a string.
+     * @return Object[         HTTP Json response
+     */
     protected function text(String $text, String $latlong): \Illuminate\Http\JsonResponse
     {
         $results = Event::search($text, function($engine, $query, $options) use ($latlong) {
@@ -44,11 +53,18 @@ class SearchEventController extends SearchController
                 'distance_type' => 'arc',
             ];
             return $engine->search($options);
-        })->where('z_type', $this->z_type)->take($this->take)->get()->load('venue.city.states');
+        })->where('z_type', 'event')->take(20)->get()->load('venue.city.states');
 
         return response()->json($results);
     }
 
+    /**
+     * Sorted by distance, filtered by events from today.
+     *
+     * @todo   needs test
+     * @param  String $latlon Geo-point as a string
+     * @return Object         HTTP Json response
+     */
     protected function distance(String $latlon): \Illuminate\Http\JsonResponse
     {
         $results = Event::search('', function ($engine, $query, $options) use ($latlon) {
@@ -65,7 +81,7 @@ class SearchEventController extends SearchController
                 'distance_type' => 'arc',
             ];
             return $engine->search($options);
-        })->where('z_type', $this->z_type)->take($this->take)->get()->load('venue.city.states');
+        })->where('z_type', 'event')->take(20)->get()->load('venue.city.states');
 
         return response()->json($results);
     }

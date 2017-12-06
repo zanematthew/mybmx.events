@@ -10,7 +10,7 @@ export default {
       if (_.isUndefined(start_date)) {
         return 'N/A';
       }
-      var startDate = moment(start_date).format("ddd, MMM D");
+      var startDate = moment(start_date).format("ddd MMM D, YYYY");
       return startDate;
     },
     startEndDate(start_date, end_date) {

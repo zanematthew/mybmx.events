@@ -19,7 +19,8 @@
   <div class="row nav is-underlined is-tertiary">
     <router-link v-for="item in items" :key="item.id" :to="{
       name: 'search-results',
-      params: item.params
+      params: item.params,
+      query: query
     }" class="nav-item">{{ item.title }}</router-link>
   </div>
 
@@ -65,16 +66,19 @@ export default {
   },
   computed: {
     text: {
-      get () {
+      get() {
         return this.$store.state.search.text;
       },
-      set (value) {
+      set(value) {
         this.$store.commit('UPDATE_KEYWORD', value);
       }
     },
     type() {
       return this.$route.params.type;
-    }
+    },
+    query() {
+      return this.$store.state.route.query;
+    },
   },
   data() {
     return {
@@ -106,6 +110,15 @@ export default {
     }
   },
   mounted() {
+    if (this.$store.state.route.query.text && this.$store.state.route.query.latlon) {
+      this.$store.dispatch('setCurrentLocation', {
+        latlon: this.$store.state.route.query.text
+      }).then(() => {
+        this.triggerSearch(this.$store.state.route.query.text);
+      });
+    } else if (this.$store.state.route.query.text) {
+      this.triggerSearch(this.$store.state.route.query.text);
+    }
     this.toggleLocationText();
     this.updateSearchType();
   },
@@ -127,6 +140,7 @@ export default {
     search: _.debounce(function(){
       if (_.isEmpty(this.text)) {
         this.results = [];
+        this.$router.push({ query: ''});
         return;
       }
       this.results = [];
@@ -134,6 +148,10 @@ export default {
       this.$store.dispatch('getSearchResults').then(response => {
         this.results = this.$store.state.search.results;
         this.resultsCount = this.results[this.type].length;
+        this.$router.push({ query: {
+          text: this.text,
+          latlon: this.$store.state.search.position.latlon
+        }});
       });
     }, 500),
 
@@ -143,7 +161,7 @@ export default {
      * Note; "places", is not a model, its just a flag to narrow search
      * results based on a place, i.e., city, state.
      */
-    updateSearchType () {
+    updateSearchType() {
       this.$store.commit('UPDATE_SEARCH_TYPE', {
         type: this.$store.state.route.params.type
       });
@@ -171,8 +189,8 @@ export default {
      * sent to the API. So if we want to update search results we
      * must update the search text that is in our state.
      */
-    triggerSearch() {
-      this.$store.commit('UPDATE_KEYWORD', 'Current Location');
+    triggerSearch(text) {
+      this.$store.commit('UPDATE_KEYWORD', text);
     },
 
     /**
@@ -187,7 +205,7 @@ export default {
       this.toggleLocationText();
       this.$store.dispatch('setCurrentLocation').then(() => {
         this.toggleLocationText();
-        this.triggerSearch();
+        this.triggerSearch('Current Location');
       });
     },
   }

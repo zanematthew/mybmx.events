@@ -32,7 +32,16 @@ const actions = {
     });
   },
   setCurrentLocation({commit, state}) {
+    console.log(state);
     return new Promise((resolve, reject) => {
+      if (state.latlon) {
+        commit(types.UPDATE_POSITION, {
+          latlon: state.latlon,
+          accuracy: ''
+        });
+        resolve();
+      }
+
       function success(pos) {
         var crd = pos.coords;
         commit(types.UPDATE_POSITION, {

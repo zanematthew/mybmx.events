@@ -10,7 +10,8 @@ import * as types from '~/store/mutation-types';
 const state = {
   text: '',
   type: '',
-  results: {}
+  results: {},
+  position: {}
 };
 
 /**
@@ -29,6 +30,28 @@ const actions = {
         resolve(response);
       }, {...state});
     });
+  },
+  setCurrentLocation({commit, state}) {
+    return new Promise((resolve, reject) => {
+      function success(pos) {
+        var crd = pos.coords;
+        commit(types.UPDATE_POSITION, {
+          latlon: `${crd.latitude},${crd.longitude}`,
+          accuracy: crd.accuracy
+        });
+        resolve();
+      };
+
+      function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+      };
+
+      navigator.geolocation.getCurrentPosition(success, error, {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      });
+    });
   }
 };
 
@@ -44,6 +67,9 @@ const mutations = {
   },
   [types.UPDATE_SEARCH_RESULTS] (state, payload) {
     state.results[state.type] = payload;
+  },
+  [types.UPDATE_POSITION] (state, payload) {
+    state.position = payload;
   }
 };
 

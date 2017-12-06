@@ -29,8 +29,8 @@
   <div
     v-if="text === ''"
     class="link grid row is-item"
-    v-on:click.prevent="currentLocationResults">
-    <icon name="location-arrow"></icon> Near current location.
+    v-on:click.prevent="setCurrentLocationUpdateText">
+    <icon name="location-arrow"></icon> {{ locationText.current }}.
   </div>
 
   <!-- Has result state -->
@@ -98,9 +98,15 @@ export default {
       // Restructure results state as;
       // search.results[type] = [ count => 0, items = [] ];
       resultsCount: 0,
+      locationText: {
+        current: '',
+        action: 'Near current location',
+        updating: 'Getting current location...'
+      },
     }
   },
   mounted() {
+    this.toggleLocationText();
     this.updateSearchType();
   },
   watch: {
@@ -130,13 +136,59 @@ export default {
         this.resultsCount = this.results[this.type].length;
       });
     }, 500),
+
+    /**
+     * Simply put, our search type (sort of) maps to a model in the API.
+     *
+     * Note; "places", is not a model, its just a flag to narrow search
+     * results based on a place, i.e., city, state.
+     */
     updateSearchType () {
       this.$store.commit('UPDATE_SEARCH_TYPE', {
         type: this.$store.state.route.params.type
       });
     },
-    currentLocationResults() {
+
+    /**
+     * Next to the current location icon we want to display a message,
+     * that conveys the action that will take place, or the action
+     * that currently taking place. This action can be one of;
+     * "Near current location"
+     * "Getting current location..."
+     */
+    toggleLocationText() {
+      if (_.isEmpty(this.locationText.current)) {
+        this.locationText.current = this.locationText.action;
+      } else if (this.locationText.current === this.locationText.action) {
+        this.locationText.current = this.locationText.updating;
+      } else {
+        this.locationText.current = this.locationText.action;
+      }
+    },
+
+    /**
+     * Once the search text field is updated a new search request is
+     * sent to the API. So if we want to update search results we
+     * must update the search text that is in our state.
+     */
+    triggerSearch() {
       this.$store.commit('UPDATE_KEYWORD', 'Current Location');
+    },
+
+    /**
+     * Update the current location text to notify to the user
+     * what is taking place. Send the request to our state
+     * to set the current location.
+     *
+     * Once we have the current location available in our state
+     * we will trigger the search.
+     */
+    setCurrentLocationUpdateText() {
+      this.toggleLocationText();
+      this.$store.dispatch('setCurrentLocation').then(() => {
+        this.toggleLocationText();
+        this.triggerSearch();
+      });
     },
   }
 }

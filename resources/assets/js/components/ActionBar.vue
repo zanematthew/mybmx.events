@@ -25,7 +25,7 @@
           <router-link :to="{
           name: 'event-list-page',
           query: {
-            state: item.venue.city.states[0].abbr,
+            state: stateAbbr,
             this_month: true
           },
           params: {
@@ -33,7 +33,9 @@
           }
         }"
         v-if="item.venue"
-        class="not-active"> &bull; {{ item.venue.city.name }}<span v-if="item.venue.city.states[0]">, {{ item.venue.city.states[0].abbr }}</span></router-link>
+        class="not-active"> &bull; {{ item.venue.city.name }}
+        <span v-if="item.venue.city.states[0]">, {{ stateAbbr }}</span>
+        </router-link>
         </div>
     </router-link>
 
@@ -47,7 +49,8 @@
       <div
         class="not-title"
         v-if="item.city">
-        {{ item.city.name }}<span v-if="item.city.states[0]">, {{ item.city.states[0].abbr }}</span>
+        {{ item.city.name }}
+        <span v-if="item.city.states[0]">, {{ stateAbbr }}</span>
       </div>
     </router-link>
 
@@ -92,6 +95,20 @@ export default {
     },
     nameOrTitle() {
       return this.item.name || this.item.title;
+    },
+    // @todo I really need to fix this on the model level :\
+    stateAbbr() {
+      if (this.type === 'venue') {
+        if (this.item.city.states.length > 0) {
+          return this.item.city.states[0].abbr;
+        }
+      } else if (this.type === 'event') {
+        if (this.item.venue.city.states.length > 0) {
+          return this.item.venue.city.states[0].abbr;
+        }
+      } else {
+        return 'MD';
+      }
     }
   },
   components: {

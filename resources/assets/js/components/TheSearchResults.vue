@@ -30,7 +30,7 @@
     v-if="text === ''"
     class="link grid row is-item"
     v-on:click.prevent="setCurrentLocationUpdateText">
-    <icon name="location-arrow"></icon> {{ locationText.current }}.
+    <icon name="location-arrow"></icon> {{ locationText.current }}
   </div>
 
   <!-- Has result state -->

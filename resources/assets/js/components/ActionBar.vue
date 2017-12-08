@@ -33,8 +33,7 @@
           }
         }"
         v-if="item.venue"
-        class="not-active"> &bull; {{ item.venue.city.name }}
-        <span v-if="item.venue.city.states[0]">, {{ stateAbbr }}</span>
+        class="not-active"> &bull; {{ item.venue.city.name }}<span v-if="item.venue.city.states[0]">, {{ stateAbbr }}</span>
         </router-link>
         </div>
     </router-link>
@@ -49,8 +48,7 @@
       <div
         class="not-title"
         v-if="item.city">
-        {{ item.city.name }}
-        <span v-if="item.city.states[0]">, {{ stateAbbr }}</span>
+        {{ item.city.name }}<span v-if="item.city.states[0]">, {{ stateAbbr }}</span>
       </div>
     </router-link>
 

@@ -70,7 +70,11 @@ export default {
         return this.$store.state.search.text;
       },
       set(value) {
-        this.$store.commit('UPDATE_KEYWORD', value);
+        if (_.trim(value).length === 0) {
+          this.resetSearch();
+          return;
+        }
+        this.triggerSearch(value);
       }
     },
     type() {
@@ -208,6 +212,12 @@ export default {
         this.triggerSearch('Current Location');
       });
     },
+
+    resetSearch() {
+      this.$store.commit('UPDATE_KEYWORD', '');
+      this.$store.commit('UPDATE_SEARCH_RESULTS', []);
+      this.$store.commit('UPDATE_POSITION', {});
+    }
   }
 }
 </script>

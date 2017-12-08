@@ -165,6 +165,7 @@ export default {
       this.$store.commit('UPDATE_SEARCH_TYPE', {
         type: this.$store.state.route.params.type
       });
+      this.resetSearch();
     },
 
     /**
@@ -216,6 +217,7 @@ export default {
       this.$store.commit('UPDATE_KEYWORD', '');
       this.$store.commit('UPDATE_SEARCH_RESULTS', []);
       this.$store.commit('UPDATE_POSITION', {});
+      this.resultsCount = 0;
     }
   }
 }

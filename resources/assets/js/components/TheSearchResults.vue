@@ -192,6 +192,9 @@ export default {
      * must update the search text that is in our state.
      */
     triggerSearch(text) {
+      if (_.trim(text).length < 3) {
+        return;
+      }
       this.$store.commit('UPDATE_KEYWORD', text);
     },
 

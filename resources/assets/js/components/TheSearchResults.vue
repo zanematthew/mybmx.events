@@ -77,12 +77,10 @@ export default {
         this.triggerSearch(value);
       }
     },
-    type() {
-      return this.$route.params.type;
-    },
-    query() {
-      return this.$store.state.route.query;
-    },
+    ...mapState({
+      query: state => state.route.query,
+      type: state => state.route.params.type
+    })
   },
   data() {
     return {

@@ -42,7 +42,7 @@
     :type="type"
     :item="result"
     :key="result.id"
-    v-for="result in results[type]"
+    v-for="result in allCurrentResults[type]"
     class="row"></action-bar>
 
   <!-- Has no result state -->
@@ -79,7 +79,8 @@ export default {
     },
     ...mapState({
       query: state => state.route.query,
-      type: state => state.route.params.type
+      type: state => state.route.params.type,
+      allCurrentResults: state => state.search.results
     })
   },
   data() {
@@ -99,7 +100,6 @@ export default {
           params: { type: 'venue' }
         },
       ],
-      results: [],
       // @todo move count to be part of state.
       // Restructure results state as;
       // search.results[type] = [ count => 0, items = [] ];
@@ -127,12 +127,6 @@ export default {
   watch: {
     '$route' (to, from) {
       this.updateSearchType();
-      // If we have results for a given type
-      // and the search text has _not_ changed
-      // there is no need to re-run the search.
-      if (_.isUndefined(this.$store.state.search.results[this.type])) {
-        this.search();
-      }
     },
     currentText: function () {
       this.search();
@@ -143,15 +137,11 @@ export default {
       if (_.isEmpty(this.currentText)) {
         return;
       }
-      this.results = [];
-      this.resultsCount = 1;
+      this.resultsCount = 0;
       this.$store.dispatch('getSearchResults').then(response => {
-        this.results = this.$store.state.search.results;
-        this.resultsCount = this.results[this.type].length;
-        this.$router.push({ query: {
-          text: this.text,
-          latlon: this.$store.state.search.position.latlon
-        }});
+        if (this.allCurrentResults[this.type]) {
+          this.resultsCount = this.allCurrentResults[this.type].length;
+        }
       });
     }, 500),
 

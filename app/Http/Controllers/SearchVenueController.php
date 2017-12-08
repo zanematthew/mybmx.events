@@ -25,6 +25,7 @@ class SearchVenueController extends Controller
         if ($request->text) {
             return $this->text($request->text);
         }
+        return response()->json([]);
     }
 
     /**
@@ -61,7 +62,7 @@ class SearchVenueController extends Controller
                 'distance_type' => 'arc',
             ];
             return $engine->search($options);
-        })->where('z_type', 'venue')->take(200)->get()->load('city.states');
+        })->where('z_type', 'venue')->take(20)->get()->load('city.states');
 
         return response()->json($results);
     }

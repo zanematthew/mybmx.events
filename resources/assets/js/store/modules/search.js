@@ -8,7 +8,7 @@ import * as types from '~/store/mutation-types';
  * The initial state of our scheduling module.
  */
 const state = {
-  text: '',
+  text: { current: '', previous: '' }, // current text, previous text
   type: '',
   results: {},
   position: {}
@@ -28,7 +28,10 @@ const actions = {
       Search.results(response => {
         commit(types.UPDATE_SEARCH_RESULTS, response);
         resolve(response);
-      }, {...state});
+      }, {
+        type: state.type,
+        text: state.text.current
+      });
     });
   },
   setCurrentLocation({commit, state}) {
@@ -69,7 +72,7 @@ const actions = {
  */
 const mutations = {
   [types.UPDATE_KEYWORD] (state, payload) {
-    state.text = payload;
+    state.text.current = payload;
   },
   [types.UPDATE_SEARCH_TYPE] (state, payload) {
     state.type = payload.type;

@@ -11,7 +11,7 @@
     <input
       type="text"
       placeholder="Search..."
-      v-model="text"
+      v-model="currentText"
       />
   </form>
 
@@ -28,7 +28,7 @@
   <!-- When the search box is empty, present the -->
   <!-- user with the current location icon -->
   <div
-    v-if="text === ''"
+    v-if="currentText === ''"
     class="link grid row is-item"
     v-on:click.prevent="setCurrentLocationUpdateText">
     <icon name="location-arrow"></icon> {{ locationText.current }}
@@ -49,7 +49,7 @@
   <!-- If we have text, and no results are found -->
   <!-- then display a message. -->
   <div
-    v-if="text && resultsCount === 0"
+    v-if="currentText && resultsCount === 0"
     class="grid row is-item">
     No results
   </div>
@@ -65,9 +65,9 @@ export default {
     actionBar,
   },
   computed: {
-    text: {
+    currentText: {
       get() {
-        return this.$store.state.search.text;
+        return this.$store.state.search.text.current;
       },
       set(value) {
         if (_.trim(value).length === 0) {
@@ -112,15 +112,15 @@ export default {
     }
   },
   mounted() {
-    if (this.$store.state.route.query.text && this.$store.state.route.query.latlon) {
-      this.$store.dispatch('setCurrentLocation', {
-        latlon: this.$store.state.route.query.text
-      }).then(() => {
-        this.triggerSearch(this.$store.state.route.query.text);
-      });
-    } else if (this.$store.state.route.query.text) {
-      this.triggerSearch(this.$store.state.route.query.text);
-    }
+    // if (this.$store.state.route.query.text && this.$store.state.route.query.latlon) {
+    //   this.$store.dispatch('setCurrentLocation', {
+    //     latlon: this.$store.state.route.query.text
+    //   }).then(() => {
+    //     this.triggerSearch(this.$store.state.route.query.text);
+    //   });
+    // } else if (this.$store.state.route.query.text) {
+    //   this.triggerSearch(this.$store.state.route.query.text);
+    // }
     this.toggleLocationText();
     this.updateSearchType();
   },
@@ -134,15 +134,13 @@ export default {
         this.search();
       }
     },
-    text: function () {
+    currentText: function () {
       this.search();
     }
   },
   methods: {
-    search: _.debounce(function(){
-      if (_.isEmpty(this.text)) {
-        this.results = [];
-        this.$router.push({ query: ''});
+    search: _.debounce(function() {
+      if (_.isEmpty(this.currentText)) {
         return;
       }
       this.results = [];

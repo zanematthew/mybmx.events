@@ -193,7 +193,7 @@ export default {
     },
 
     resetSearch() {
-      this.$store.commit('UPDATE_KEYWORD', '');
+      this.$store.commit('CLEAR_KEYWORD');
       this.$store.commit('UPDATE_SEARCH_RESULTS', []);
       this.$store.commit('UPDATE_POSITION', {});
       this.resultsCount = 0;

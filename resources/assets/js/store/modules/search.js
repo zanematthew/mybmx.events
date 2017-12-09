@@ -74,8 +74,11 @@ const actions = {
  * The ONLY way to update the state of our store, is by committing a mutation.
  */
 const mutations = {
+  [types.CLEAR_KEYWORD] (state, payload) {
+    state.text.current = '';
+  },
   [types.UPDATE_KEYWORD] (state, payload) {
-    var searchText = _.trim(payload);
+    let searchText = _.trim(payload);
     if (searchText.length >= 3) {
       state.text.current = searchText;
     }

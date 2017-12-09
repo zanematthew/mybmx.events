@@ -86,6 +86,9 @@ const mutations = {
   [types.UPDATE_SEARCH_TYPE] (state, payload) {
     state.type = payload.type;
   },
+  [types.CLEAR_SEARCH_RESULTS] (state, payload) {
+    state.results[state.type] = [];
+  },
   [types.UPDATE_SEARCH_RESULTS] (state, payload) {
     state.results[state.type] = payload;
   },

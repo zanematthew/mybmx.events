@@ -140,6 +140,7 @@ export default {
   },
   methods: {
     search: _.debounce(function() {
+      this.$store.commit('CLEAR_SEARCH_RESULTS');
       this.doingSearch = true;
       if (_.isEmpty(this.currentText)) {
         return;

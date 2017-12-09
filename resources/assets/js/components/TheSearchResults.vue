@@ -49,7 +49,7 @@
   <!-- If we have text, and no results are found -->
   <!-- then display a message. -->
   <div
-    v-if="currentText && resultsCount === 0 && doingSearch === false"
+    v-if="didSearch && doingSearch === false"
     class="grid row is-item">
     No results
   </div>
@@ -83,6 +83,9 @@ export default {
         }
         this.$store.commit('UPDATE_KEYWORD', searchText);
       }
+    },
+    didSearch: function () {
+      return this.currentText && this.resultsCount === 0 ? true : false;
     }
   },
   data() {

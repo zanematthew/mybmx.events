@@ -142,10 +142,10 @@ export default {
   },
   methods: {
     search: _.debounce(function() {
-      this.$store.commit('CLEAR_SEARCH_RESULTS');
       if (_.isEmpty(this.currentText)) {
         return;
       }
+      this.$store.commit('CLEAR_SEARCH_RESULTS');
       this.$store.dispatch('getSearchResults').then(response => {
         if (this.allCurrentResults[this.type]) {
           this.resultsCount = this.allCurrentResults[this.type].length;
@@ -203,7 +203,7 @@ export default {
 
     resetSearch() {
       this.$store.commit('CLEAR_KEYWORD');
-      this.$store.commit('UPDATE_SEARCH_RESULTS', []);
+      this.$store.commit('CLEAR_SEARCH_RESULTS');
       this.$store.commit('UPDATE_POSITION', {});
       this.resultsCount = 0;
     }

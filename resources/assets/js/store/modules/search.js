@@ -78,10 +78,7 @@ const mutations = {
     state.text.current = '';
   },
   [types.UPDATE_KEYWORD] (state, payload) {
-    let searchText = _.trim(payload);
-    if (searchText.length >= 3) {
-      state.text.current = searchText;
-    }
+    state.text.current = payload;
   },
   [types.UPDATE_SEARCH_TYPE] (state, payload) {
     state.type = payload.type;

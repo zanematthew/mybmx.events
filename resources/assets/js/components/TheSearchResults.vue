@@ -76,12 +76,11 @@ export default {
         return this.searchText;
       },
       set(value) {
-        var searchText = _.trim(value);
-        if (searchText.length === 0) {
+        if (_.trim(value).length === 0) {
           this.resetSearch();
           return;
         }
-        this.$store.commit('UPDATE_KEYWORD', searchText);
+        this.$store.commit('UPDATE_KEYWORD', value);
       }
     },
     didSearch: function () {
@@ -151,7 +150,7 @@ export default {
           this.doingSearch = false;
         }
       });
-    }, 500),
+    }, 250),
 
     /**
      * Simply put, our search type (sort of) maps to a model in the API.

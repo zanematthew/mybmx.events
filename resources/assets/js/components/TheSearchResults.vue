@@ -91,6 +91,9 @@ export default {
   data() {
     return {
       // @todo places will be for state, city, zip
+      // @todo move count to be part of state.
+      // Restructure results state as;
+      // search.results[type] = [ count => 0, items = [] ];
       items: [
         {
           title: 'Places',
@@ -105,9 +108,6 @@ export default {
           params: { type: 'venue' }
         },
       ],
-      // @todo move count to be part of state.
-      // Restructure results state as;
-      // search.results[type] = [ count => 0, items = [] ];
       resultsCount: 0,
       locationText: {
         current: '',

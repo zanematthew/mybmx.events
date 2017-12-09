@@ -49,7 +49,7 @@
   <!-- If we have text, and no results are found -->
   <!-- then display a message. -->
   <div
-    v-if="currentText && resultsCount === 0"
+    v-if="currentText && resultsCount === 0 && doingSearch === false"
     class="grid row is-item">
     No results
   </div>
@@ -111,6 +111,7 @@ export default {
         action: 'Near current location',
         updating: 'Getting current location...'
       },
+      doingSearch: false
     }
   },
   mounted() {
@@ -136,12 +137,14 @@ export default {
   },
   methods: {
     search: _.debounce(function() {
+      this.doingSearch = true;
       if (_.isEmpty(this.currentText)) {
         return;
       }
       this.$store.dispatch('getSearchResults').then(response => {
         if (this.allCurrentResults[this.type]) {
           this.resultsCount = this.allCurrentResults[this.type].length;
+          this.doingSearch = false;
         }
       });
     }, 500),

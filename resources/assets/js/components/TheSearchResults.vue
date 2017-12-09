@@ -137,7 +137,6 @@ export default {
       if (_.isEmpty(this.currentText)) {
         return;
       }
-      this.resultsCount = 0;
       this.$store.dispatch('getSearchResults').then(response => {
         if (this.allCurrentResults[this.type]) {
           this.resultsCount = this.allCurrentResults[this.type].length;

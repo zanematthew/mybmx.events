@@ -65,23 +65,28 @@ export default {
     actionBar,
   },
   computed: {
+    ...mapState({
+      searchText:        state => state.search.text.current,
+      query:             state => state.route.query,
+      type:              state => state.route.params.type,
+      allCurrentResults: state => state.search.results
+    }),
     currentText: {
       get() {
-        return this.$store.state.search.text.current;
+        return this.searchText;
       },
       set(value) {
-        if (_.trim(value).length === 0) {
+        var searchText = _.trim(value);
+        if (searchText.length === 0) {
           this.resetSearch();
           return;
         }
-        this.triggerSearch(value);
+        if (searchText.length < 3) {
+          return;
+        }
+        this.$store.commit('UPDATE_KEYWORD', searchText);
       }
-    },
-    ...mapState({
-      query: state => state.route.query,
-      type: state => state.route.params.type,
-      allCurrentResults: state => state.search.results
-    })
+    }
   },
   data() {
     return {
@@ -175,18 +180,6 @@ export default {
     },
 
     /**
-     * Once the search text field is updated a new search request is
-     * sent to the API. So if we want to update search results we
-     * must update the search text that is in our state.
-     */
-    triggerSearch(text) {
-      if (_.trim(text).length < 3) {
-        return;
-      }
-      this.$store.commit('UPDATE_KEYWORD', text);
-    },
-
-    /**
      * Update the current location text to notify to the user
      * what is taking place. Send the request to our state
      * to set the current location.
@@ -198,7 +191,7 @@ export default {
       this.toggleLocationText();
       this.$store.dispatch('setCurrentLocation').then(() => {
         this.toggleLocationText();
-        this.triggerSearch('Current Location');
+        console.log('Do search');
       });
     },
 

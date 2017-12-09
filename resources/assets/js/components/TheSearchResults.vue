@@ -110,7 +110,7 @@ export default {
       resultsCount: 0,
       locationText: {
         current: '',
-        action: 'Near current location',
+        action: 'Current location',
         updating: 'Getting current location...'
       },
       doingSearch: false

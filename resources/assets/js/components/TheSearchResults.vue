@@ -191,7 +191,9 @@ export default {
       this.toggleLocationText();
       this.$store.dispatch('setCurrentLocation').then(() => {
         this.toggleLocationText();
-        console.log('Do search');
+        this.$store.commit('UPDATE_KEYWORD', 'Current Location');
+      }).then(() => {
+        this.search();
       });
     },
 

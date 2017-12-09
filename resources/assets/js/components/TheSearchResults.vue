@@ -76,6 +76,7 @@ export default {
         return this.searchText;
       },
       set(value) {
+        this.resultsCount = 1;
         if (_.trim(value).length === 0) {
           this.resetSearch();
           return;
@@ -85,6 +86,9 @@ export default {
     },
     didSearch: function () {
       return this.currentText && this.resultsCount === 0 ? true : false;
+    },
+    doingSearch: function () {
+      return this.currenText && this.resultsCount === 1 ? true : false;
     }
   },
   data() {
@@ -107,13 +111,12 @@ export default {
           params: { type: 'venue' }
         },
       ],
-      resultsCount: 0,
+      resultsCount: 0, // @todo hacky, notes to come.
       locationText: {
         current: '',
         action: 'Current location',
         updating: 'Getting current location...'
-      },
-      doingSearch: false
+      }
     }
   },
   mounted() {
@@ -140,14 +143,12 @@ export default {
   methods: {
     search: _.debounce(function() {
       this.$store.commit('CLEAR_SEARCH_RESULTS');
-      this.doingSearch = true;
       if (_.isEmpty(this.currentText)) {
         return;
       }
       this.$store.dispatch('getSearchResults').then(response => {
         if (this.allCurrentResults[this.type]) {
           this.resultsCount = this.allCurrentResults[this.type].length;
-          this.doingSearch = false;
         }
       });
     }, 250),

@@ -81,9 +81,6 @@ export default {
           this.resetSearch();
           return;
         }
-        if (searchText.length < 3) {
-          return;
-        }
         this.$store.commit('UPDATE_KEYWORD', searchText);
       }
     }

@@ -17,7 +17,11 @@ const state = {
 /**
  * Data that needs to be computed based on the current state of the application.
  */
-const getters = {};
+const getters = {
+  hasSearchResults: (state) => (type) => {
+    return _.isEmpty(state.results[type]) ? false : true;
+  }
+};
 
 /**
  * Actions commit mutations, these are to be used for asynchronous request.
@@ -35,7 +39,6 @@ const actions = {
     });
   },
   setCurrentLocation({commit, state}) {
-    console.log(state);
     return new Promise((resolve, reject) => {
       if (state.latlon) {
         commit(types.UPDATE_POSITION, {
@@ -72,7 +75,10 @@ const actions = {
  */
 const mutations = {
   [types.UPDATE_KEYWORD] (state, payload) {
-    state.text.current = payload;
+    var searchText = _.trim(payload);
+    if (searchText.length >= 3) {
+      state.text.current = searchText;
+    }
   },
   [types.UPDATE_SEARCH_TYPE] (state, payload) {
     state.type = payload.type;

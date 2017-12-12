@@ -26,6 +26,12 @@ Route::get('/test-search', function(){
                     'minimum_should_match' => 1
                 ]
             ],
+            'sort' => [ [
+                '_geo_distance' => [
+                    'latlon' => '39.2846225,-76.7605701',
+                    'order' => 'asc'
+                ]
+            ] ]
         ],
     ];
     $response = $client->search($params);

@@ -54,8 +54,6 @@ class ElasticsearchInstallTest extends TestCase
             'type'         => ['type' => 'keyword'],
             'registration' => ['type' => 'date'],
             'name'         => ['type' => 'text'],
-            'website'      => ['type' => 'text'],
-            'description'  => ['type' => 'text'],
             'zip_code'     => ['type' => 'integer'],
             'latitude'     => ['type' => 'float'],
             'longitude'    => ['type' => 'float'],

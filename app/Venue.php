@@ -55,9 +55,8 @@ class Venue extends Model
     public function toSearchableArray(): array
     {
         return [
+            'title'       => null,
             'name'        => $this->name,
-            'website'     => $this->website,
-            'description' => $this->description,
             'zip_code'    => $this->zip_code,
             'latitude'    => $this->lat,
             'longitude'   => $this->long,
@@ -72,9 +71,8 @@ class Venue extends Model
     public static function elasticsearchMapping()
     {
         return [
+            'title'        => ['type' => 'text'],
             'name'        => ['type' => 'text'],
-            'website'     => ['type' => 'text'],
-            'description' => ['type' => 'text'],
             'zip_code'    => ['type' => 'integer'],
             'latitude'    => ['type' => 'float'],
             'longitude'   => ['type' => 'float'],

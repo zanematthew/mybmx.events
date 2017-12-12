@@ -68,9 +68,8 @@ class ScoutInstallTest extends TestCase
         $venue = factory(\App\Venue::class)->create();
 
         $this->assertTrue([
+            'title',
             'name',
-            'website',
-            'description',
             'zip_code',
             'latitude',
             'longitude',

@@ -20,9 +20,9 @@ abstract class AbstractSearch extends Controller
     {
         if ($request->text === 'Current Location') {
             $latlon = $request->latlon ?? '32.1561235,-111.0238915';
-            return $this->proximity($latlon);
+            return $this->currentLocation($latlon);
         } elseif ($request->text && $request->latlon) {
-            return $this->textProximity($request->text, $request->latlon);
+            return $this->textCurrentLocation($request->text, $request->latlon);
         } elseif ($request->text) {
             return $this->text($request->text);
         } else {

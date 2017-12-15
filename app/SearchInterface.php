@@ -15,8 +15,8 @@ interface SearchInterface
     public function text($text): \Illuminate\Http\JsonResponse;
 
     // Text search with proximity
-    public function textProximity($text, $latlon): \Illuminate\Http\JsonResponse;
+    public function textCurrentLocation($text, $latlon): \Illuminate\Http\JsonResponse;
 
     // Proximity only
-    public function proximity($latlon): \Illuminate\Http\JsonResponse;
+    public function currentLocation($latlon): \Illuminate\Http\JsonResponse;
 }

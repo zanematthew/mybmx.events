@@ -25,6 +25,8 @@ abstract class AbstractSearch extends Controller
             return $this->textCurrentLocation($request->text, $request->latlon);
         } elseif ($request->text) {
             return $this->text($request->text);
+        } elseif ($request->latlon) {
+            return $this->currentLocation($request->latlon);
         } else {
             return response()->json([]);
         }

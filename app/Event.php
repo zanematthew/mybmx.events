@@ -70,6 +70,8 @@ class Event extends Model
             'state'        => $this->venue->city->states()->first()->name ?? null,
             'z_type'       => 'event',
             'created_at'   => date('Y-m-d\TH:i:s\Z', time()),
+            'id'           => $this->id,
+            'image_uri'    => $this->venue->image_uri,
         ];
     }
 
@@ -87,6 +89,8 @@ class Event extends Model
             'state'        => ['type' => 'keyword'],
             'z_type'       => ['type' => 'keyword'],
             'created_at'   => ['type' => 'date'],
+            'id'           => ['type' => 'integer'],
+            'image_uri'    => ['type' => 'text'],
         ];
     }
 }

@@ -10,14 +10,6 @@ use Illuminate\Support\Carbon;
 
 class SearchEventController extends AbstractSearch implements SearchInterface
 {
-    public function text($text): \Illuminate\Http\JsonResponse
-    {
-        return response()->json(Event::search($text)
-            ->where('z_type', 'event')
-            ->take($this->take)
-            ->get()
-            ->load('venue.city.states'));
-    }
 
     /**
      * Search for an Event by text;
@@ -29,34 +21,60 @@ class SearchEventController extends AbstractSearch implements SearchInterface
      * @param  String $latlon  Geo-point as a string.
      * @return Object[         HTTP Json response
      */
-    public function textProximity($text, $latlon): \Illuminate\Http\JsonResponse
+    public function phrase($text, $latlon): \Illuminate\Http\JsonResponse
     {
-        // Filter gte than today
-        // Sorted by date ASC
-        //
-        $results = Event::search($text, function($engine, $query, $options) use ($latlon) {
-            $options['body']['query']['bool']['filter'] = [
-                'range' => [
-                    'registration' => [
-                        'gte'=> Carbon::today()->toDateString()
+        $latlonArray = $this->latlonAsArray($latlon);
+        $client = \Elasticsearch\ClientBuilder::create()->build();
+        $response = $client->search([
+            'index' => env('ELASTICSEARCH_INDEX'),
+            'type' => 'doc',
+                'body' => [
+                'query' => [
+                'bool' => [
+                    'must' => [
+                        [
+                            'multi_match' => [
+                                'query' => $text,
+                                'type' => 'phrase_prefix',
+                                'fields' => ['title', 'type', 'city', 'state']
+                            ]
+                        ],
+                        [
+                            'range' => [
+                                'registration' => [
+                                    'gte' => 'now'
+                                ]
+                            ]
+                        ]
+                    ],
+                    'should' => [
+                        ['term' => [ 'z_type' => [ 'value' => 'event' ] ] ]],
+                        'minimum_should_match' => 1,
+                        'filter' => [
+                            'geo_distance' => [
+                                'distance' => '100mi',
+                                'latlon' => $latlon
+                            ]
+                        ]
                     ]
                 ],
-                '_geo_distance' => [
-                    'latlon'        => $latlon,
-                    'order'         => 'asc',
-                    'unit'          => 'km',
-                    'mode'          => 'min',
-                    'distance_type' => 'arc',
+                '_source' => true,
+                'script_fields' => [
+                    'distance_from' => [
+                        'script' => [
+                            'source' => 'doc[\'latlon\'].arcDistance(params.lat,params.lon) * 0.001',
+                            'lang' => 'painless',
+                            'params' => [
+                                'lat' => $latlonArray['lat'],
+                                'lon' => $latlonArray['lon'],
+                            ]
+                        ]
+                    ]
                 ]
-            ];
+            ],
+        ]);
 
-            $options['body']['sort']['registration'] = [
-                'order' => 'asc'
-            ];
-            return $engine->search($options);
-        })->where('z_type', 'event')->take($this->take)->get()->load('venue.city.states');
-
-        return response()->json($results);
+        return response()->json($this->formatResults($response));
     }
 
     /**
@@ -66,24 +84,51 @@ class SearchEventController extends AbstractSearch implements SearchInterface
      * @param  String $latlon Geo-point as a string
      * @return Object         HTTP Json response
      */
-    public function proximity($latlon): \Illuminate\Http\JsonResponse
+    public function currentLocation($latlon): \Illuminate\Http\JsonResponse
     {
-        $results = Event::search('', function ($engine, $query, $options) use ($latlon) {
-            $options['body']['query']['bool']['filter'] = [
-                'range' => ['registration' => [
-                    'gte'=> Carbon::today()->toDateString(),
-                ]]
-            ];
-            $options['body']['sort']['_geo_distance'] = [
-                'latlon'        => $latlon,
-                'order'         => 'asc',
-                'unit'          => 'mi',
-                'mode'          => 'min',
-                'distance_type' => 'arc',
-            ];
-            return $engine->search($options);
-        })->where('z_type', 'event')->take($this->take)->get()->load('venue.city.states');
+        $latlonArray = $this->latlonAsArray($latlon);
+        $client = \Elasticsearch\ClientBuilder::create()->build();
+        $response = $client->search([
+            'index' => env('ELASTICSEARCH_INDEX'),
+            'type' => 'doc',
+                'body' => [
+                'query' => [
+                'bool' => [
+                    'must' => [
+                        [
+                            'range' => [
+                                'registration' => [
+                                    'gte' => 'now'
+                                    ]
+                                ]
+                            ]
+                        ],
+                    'should' => [ ['term' => [ 'z_type' => [ 'value' => 'event' ] ] ]
+                    ],
+                    'filter' => [
+                        'geo_distance' => [
+                            'distance' => '500mi',
+                            'latlon' => $latlon
+                            ]
+                        ]
+                    ]
+                ],
+                '_source' => true,
+                'script_fields' => [
+                    'distance_from' => [
+                        'script' => [
+                            'source' => 'doc[\'latlon\'].arcDistance(params.lat,params.lon) * 0.001',
+                            'lang' => 'painless',
+                            'params' => [
+                                'lat' => $latlonArray['lat'],
+                                'lon' => $latlonArray['lon'],
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        ]);
 
-        return response()->json($results);
+        return response()->json($this->formatResults($response));
     }
 }

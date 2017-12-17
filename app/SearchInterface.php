@@ -12,7 +12,7 @@ interface SearchInterface
     public function index(Request $request): \Illuminate\Http\JsonResponse;
 
     // Simple text based search
-    public function text($text): \Illuminate\Http\JsonResponse;
+    public function phrase($text, $latlon): \Illuminate\Http\JsonResponse;
 
     // Text search with proximity
     // public function textCurrentLocation($text, $latlon): \Illuminate\Http\JsonResponse;

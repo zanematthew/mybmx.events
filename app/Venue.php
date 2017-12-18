@@ -66,7 +66,8 @@ class Venue extends Model
             'z_type'      => 'venue',
             'created_at'  => date('Y-m-d\TH:i:s\Z', time()),
             'id'          => $this->id,
-            'image_uri'   => $this->image_uri,
+            'type'        => null,
+            'registration' => null,
         ];
     }
 
@@ -84,7 +85,8 @@ class Venue extends Model
             'z_type'      => ['type' => 'keyword'],
             'created_at'  => ['type' => 'date'],
             'id'          => ['type' => 'integer'],
-            'image_uri'   => ['type' => 'text'],
+            'type'        => ['type' => 'keyword'],
+            'registration' => ['type' => 'date'],
         ];
     }
 }

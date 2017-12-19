@@ -28,6 +28,9 @@ export default {
         var endDate = moment(end_date).format("D");
         return startMonthDate + " \u2013 " + endDate + ", " + moment(end_date).format("YYYY");
       }
+    },
+    formatTime(time) {
+      return moment(time).format("ddd MMM D, YYYY");
     }
   }
 };

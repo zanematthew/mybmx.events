@@ -3,13 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\SearchInterface;
 use App\AbstractSearch;
+use App\SearchInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class SearchEventController extends AbstractSearch implements SearchInterface
 {
+    /**
+     * Filter the HTTP request here.
+     *
+     * @todo   needs test
+     * @param  Request $request HTTP request variables.
+     * @return Object       HTTP Json response.
+     */
+    public function index(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if ($request->text === 'Current Location' && $request->latlon) {
+            return $this->currentLocation($request->latlon);
+        } elseif ($request->text && $request->latlon) {
+            return $this->phrase($request->text, $request->latlon);
+        } else {
+            return response()->json([]);
+        }
+    }
 
     /**
      * Search for an Event by text;
@@ -52,9 +69,17 @@ class SearchEventController extends AbstractSearch implements SearchInterface
                         'minimum_should_match' => 1,
                         'filter' => [
                             'geo_distance' => [
-                                'distance' => '100mi',
+                                'distance' => '500mi',
                                 'latlon' => $latlon
                             ]
+                        ]
+                    ]
+                ],
+                'sort' => [
+                    [
+                        '_geo_distance' => [
+                            'latlon' => $latlon,
+                            'order' => 'asc'
                         ]
                     ]
                 ],
@@ -107,9 +132,17 @@ class SearchEventController extends AbstractSearch implements SearchInterface
                     ],
                     'filter' => [
                         'geo_distance' => [
-                            'distance' => '500mi',
+                            'distance' => '1000mi',
                             'latlon' => $latlon
                             ]
+                        ]
+                    ]
+                ],
+                'sort' => [
+                    [
+                        '_geo_distance' => [
+                            'latlon' => $latlon,
+                            'order' => 'asc'
                         ]
                     ]
                 ],

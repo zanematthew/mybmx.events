@@ -3,11 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Venue;
-use App\SearchInterface;
 use App\AbstractSearch;
+use App\SearchInterface;
+use Illuminate\Http\Request;
 
 class SearchVenueController extends AbstractSearch implements SearchInterface
 {
+
+    /**
+     * Filter the HTTP request here.
+     *
+     * @todo   needs test
+     * @param  Request $request HTTP request variables.
+     * @return Object       HTTP Json response.
+     */
+    public function index(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if ($request->latlon) {
+            return $this->currentLocation($request->latlon);
+        } elseif ($request->text) {
+            return $this->phrase($request->text, $request->latlon);
+        } else {
+            return response()->json([]);
+        }
+    }
 
     /**
      * A simple full text search.

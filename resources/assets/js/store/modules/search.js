@@ -34,7 +34,8 @@ const actions = {
         resolve(response);
       }, {
         type: state.type,
-        text: state.text.current
+        text: state.text.current,
+        latlon: state.position.latlon
       });
     });
   },

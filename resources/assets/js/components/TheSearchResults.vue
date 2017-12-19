@@ -19,8 +19,7 @@
   <div class="row nav is-underlined is-tertiary">
     <router-link v-for="item in items" :key="item.id" :to="{
       name: 'search-results',
-      params: item.params,
-      query: query
+      params: item.params
     }" class="nav-item">{{ item.title }}</router-link>
   </div>
 
@@ -37,13 +36,54 @@
   <!-- Has result state -->
   <!-- When we have results display the action-bar -->
   <!-- for each item in our result set. -->
-  <action-bar
+  <div
     v-if="resultsCount > 0"
     :type="type"
     :item="result"
     :key="result.id"
     v-for="result in allCurrentResults[type]"
-    class="row"></action-bar>
+    class="row is-item grid is-100">
+      <div v-if="type === 'event'">
+        <router-link v-if="type === 'event'"
+          :to="{
+            name: 'event-single-page',
+            params: { id: result.id, slug: result.slug, when: 'this-month' },
+            query: { venue_id: result.venue_id }
+          }"
+          exact>
+          <div class="title">{{ result.title }} at {{ result.venue_name }}</div>
+          <div class="not-title">
+            {{ fromNow(result.registration) }} &bull;
+            {{ formatTime(result.registration) }}
+            <div>{{ result.city }}, {{ result.state }}
+            <span v-if="result.distance_from">&bull; Distance {{ result.distance_from }}miles</span></div>
+          </div>
+        </router-link>
+      </div>
+      <div v-else-if="type === 'venue'">
+        <router-link v-if="type === 'venue'"
+          :to="{
+          name: 'venue-single-events',
+          params: { venue_id: result.id, slug: result.slug, when: 'this-month' }
+          }" class="title-click-area title" exact>
+
+          <div class="avatar">
+            <img :src="result.image_uri" itemprop="image" alt="Photo of Jane Joe">
+          </div>
+
+          <div class="title">{{ result.name }}</div>
+          <div class="not-title">
+            {{ result.city }}, {{ result.state }}
+            <span v-if="result.distance_from">
+              &bull; Distance {{ result.distance_from }}miles
+            </span>
+          </div>
+        </router-link>
+      </div>
+      <div v-else>
+        Type: {{ type }} not yet supported.
+      </div>
+    </div>
 
   <!-- Has no result state -->
   <!-- If we have text, and no results are found -->
@@ -58,16 +98,17 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import MyMixin from '~/mixin.js';
 import actionBar from '~/components/ActionBar';
 
 export default {
+  mixins: [MyMixin],
   components: {
     actionBar,
   },
   computed: {
     ...mapState({
       searchText:        state => state.search.text.current,
-      query:             state => state.route.query,
       type:              state => state.route.params.type,
       allCurrentResults: state => state.search.results
     }),
@@ -120,15 +161,6 @@ export default {
     }
   },
   mounted() {
-    // if (this.$store.state.route.query.text && this.$store.state.route.query.latlon) {
-    //   this.$store.dispatch('setCurrentLocation', {
-    //     latlon: this.$store.state.route.query.text
-    //   }).then(() => {
-    //     this.triggerSearch(this.$store.state.route.query.text);
-    //   });
-    // } else if (this.$store.state.route.query.text) {
-    //   this.triggerSearch(this.$store.state.route.query.text);
-    // }
     this.toggleLocationText();
     this.updateSearchType();
   },
@@ -236,5 +268,9 @@ export default {
     margin-right: 10px;
     color: $primary-focus-color;
   }
+}
+.avatar {
+  float: left;
+  margin-right: 20px;
 }
 </style>

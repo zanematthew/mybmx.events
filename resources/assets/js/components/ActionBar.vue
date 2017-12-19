@@ -33,7 +33,7 @@
           }
         }"
         v-if="item.venue"
-        class="not-active"> &bull; {{ item.venue.city.name }}<span v-if="item.venue.city.states[0]">, {{ stateAbbr }}</span>
+        class="not-active"> &bull; {{ item.venue.city.name }}<span v-if="stateAbbr">, {{ stateAbbr }}</span>
         </router-link>
         </div>
     </router-link>
@@ -48,7 +48,7 @@
       <div
         class="not-title"
         v-if="item.city">
-        {{ item.city.name }}<span v-if="item.city.states[0]">, {{ stateAbbr }}</span>
+        {{ item.city.name }}<span v-if="stateAbbr">, {{ stateAbbr }}</span>
       </div>
     </router-link>
 
@@ -97,6 +97,12 @@ export default {
     // @todo I really need to fix this on the model level :\
     stateAbbr() {
       if (this.type === 'venue') {
+        if (_.isEmpty(this.item.city)) {
+          return 'Missing City';
+        }
+        if (_.isEmpty(this.item.city.states)) {
+          return 'Missing State';
+        }
         if (this.item.city.states.length > 0) {
           return this.item.city.states[0].abbr;
         }
@@ -106,6 +112,13 @@ export default {
         }
       } else {
         return 'MD';
+      }
+    },
+    venueId() {
+      if (this.type === 'venue') {
+        return this.item.id;
+      } else {
+        return this.item.venue.id;
       }
     }
   },

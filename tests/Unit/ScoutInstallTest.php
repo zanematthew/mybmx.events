@@ -43,6 +43,10 @@ class ScoutInstallTest extends TestCase
             'z_type',
             'created_at',
             'id',
+            'image_uri',
+            'venue_name',
+            'slug',
+            'venue_id',
         ] === array_keys($event->toSearchableArray()));
     }
 
@@ -82,6 +86,8 @@ class ScoutInstallTest extends TestCase
             'id',
             'type',
             'registration',
+            'slug',
+            'image_uri',
         ] === array_keys($venue->toSearchableArray()));
     }
 }

@@ -71,6 +71,10 @@ class Event extends Model
             'z_type'       => 'event',
             'created_at'   => date('Y-m-d\TH:i:s\Z', time()),
             'id'           => $this->id,
+            'image_uri'    => $this->venue->image_uri,
+            'venue_name'   => $this->venue->name,
+            'slug'         => $this->slug,
+            'venue_id'     => $this->venue->id,
         ];
     }
 
@@ -89,6 +93,10 @@ class Event extends Model
             'z_type'       => ['type' => 'keyword'],
             'created_at'   => ['type' => 'date'],
             'id'           => ['type' => 'integer'],
+            'image_uri'    => ['type' => 'text'],
+            'venue_name'   => ['type' => 'text'],
+            'slug'         => ['type' => 'text'],
+            'venue_id'     => ['type' => 'integer'],
         ];
     }
 }

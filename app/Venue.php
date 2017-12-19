@@ -55,19 +55,21 @@ class Venue extends Model
     public function toSearchableArray(): array
     {
         return [
-            'title'       => null,
-            'name'        => $this->name,
-            'zip_code'    => $this->zip_code,
-            'latitude'    => $this->lat,
-            'longitude'   => $this->long,
-            'latlon'      => sprintf('%f,%f', $this->lat, $this->long),
-            'city'        => $this->city->name,
-            'state'       => $this->city->states()->first()->name ?? null,
-            'z_type'      => 'venue',
-            'created_at'  => date('Y-m-d\TH:i:s\Z', time()),
-            'id'          => $this->id,
-            'type'        => null,
+            'title'        => null,
+            'name'         => $this->name,
+            'zip_code'     => $this->zip_code,
+            'latitude'     => $this->lat,
+            'longitude'    => $this->long,
+            'latlon'       => sprintf('%f,%f', $this->lat, $this->long),
+            'city'         => $this->city->name,
+            'state'        => $this->city->states()->first()->name ?? null,
+            'z_type'       => 'venue',
+            'created_at'   => date('Y-m-d\TH:i:s\Z', time()),
+            'id'           => $this->id,
+            'type'         => null,
             'registration' => null,
+            'slug'         => $this->slug,
+            'image_uri'    => $this->image_uri,
         ];
     }
 
@@ -75,18 +77,20 @@ class Venue extends Model
     {
         return [
             'title'        => ['type' => 'text'],
-            'name'        => ['type' => 'text'],
-            'zip_code'    => ['type' => 'integer'],
-            'latitude'    => ['type' => 'float'],
-            'longitude'   => ['type' => 'float'],
-            'latlon'      => ['type' => 'geo_point'],
-            'city'        => ['type' => 'keyword'],
-            'state'       => ['type' => 'keyword'],
-            'z_type'      => ['type' => 'keyword'],
-            'created_at'  => ['type' => 'date'],
-            'id'          => ['type' => 'integer'],
-            'type'        => ['type' => 'keyword'],
+            'name'         => ['type' => 'text'],
+            'zip_code'     => ['type' => 'integer'],
+            'latitude'     => ['type' => 'float'],
+            'longitude'    => ['type' => 'float'],
+            'latlon'       => ['type' => 'geo_point'],
+            'city'         => ['type' => 'keyword'],
+            'state'        => ['type' => 'keyword'],
+            'z_type'       => ['type' => 'keyword'],
+            'created_at'   => ['type' => 'date'],
+            'id'           => ['type' => 'integer'],
+            'type'         => ['type' => 'keyword'],
             'registration' => ['type' => 'date'],
+            'slug'         => ['type' => 'text'],
+            'image_uri'    => ['type' => 'text'],
         ];
     }
 }

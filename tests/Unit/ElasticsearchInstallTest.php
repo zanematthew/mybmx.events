@@ -63,6 +63,10 @@ class ElasticsearchInstallTest extends TestCase
             'z_type'       => ['type' => 'keyword'],
             'created_at'   => ['type' => 'date'],
             'id'           => ['type' => 'integer'],
+            'slug'         => ['type' => 'text'],
+            'image_uri'    => ['type' => 'text'],
+            'venue_id'     => ['type' => 'integer'],
+            'venue_name'   => ['type' => 'text'],
         ];
 
         $config = config('elasticsearch.indexParams')['body']['mappings']['doc']['properties'];

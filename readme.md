@@ -121,3 +121,354 @@ Plus state abbr
 
 `.env`, DB_DATABASE_TEST mysql_testing
 `config/database.php`
+
+# Notes
+
+php artisan make:index-configurator MyIndexConfigurator
+php artisan elastic:create-index "App\EventIndexConfigurator"
+php artisan elastic:update-mapping App\\Event
+php artisan scout:import "App\Event"
+
+# Location Based search
+
+```
+App\Venue::search('', function($engine, $query, $options) {
+    $options['body']['query']['bool']['filter']['geo_distance'] = [
+        'distance' => '20km',
+        'latlon'   => ['lat' => 39.290385, 'lon' => -76.612189],
+    return $engine->search($options);
+})-get()->load('city.states')->toArray();
+```
+
+# Elsaticsearch Notes
+
+Just distance, sorted by closets
+https://www.elastic.co/guide/en/elasticsearch/reference/5.4/search-request-sort.html
+Search by location, then sort by distance.
+Default is to show all venues that are closest to current location.
+https://www.elastic.co/guide/en/elasticsearch/reference/5.4/search-request-sort.html
+
+# Geolocation
+
+Always uses geo-point as a string i.e., '123.45,-123.45'
+
+# SSL
+
+https://stackoverflow.com/a/44060726/714202
+https://github.com/laravel/homestead/pull/527
+Open the URL in question in Safari, allow the cert, restart Chrome, works.
+https://localhost:8080/css/app.css
+
+# ES Queries
+#
+# Event Text & Proximity Search
+#
+# pharse match prefix
+# Sorted by closets
+# Must be term "event"
+#
+GET /test_index/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Qual",
+            "type": "phrase_prefix",
+            "fields": ["title", "type", "city", "state"]
+          }
+        },
+        {
+          "range": {
+            "registration": {
+              "gte": "now"
+            }
+          }
+        }
+      ],
+      "should": [
+        {"term": { "z_type": { "value": "event" } } }
+      ],
+      "minimum_should_match": 1,
+      "filter": {
+        "geo_distance": {
+          "distance": "100mi",
+          "latlon": "39.2846225,-76.7605701"
+        }
+      }
+    }
+  },
+  "size": 200
+}
+
+#
+# Venue location search
+#
+# Show venus within a 100 mile radius, sorted by closest
+#
+GET /test_index/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match_all": {} }
+      ],
+      "filter": {
+        "geo_distance": {
+          "distance": "100mi",
+          "latlon": "39.2846225,-76.7605701"
+        }
+      },
+      "should": [
+        { "term": {
+          "z_type": {
+            "value": "venue"
+          }
+        }}
+      ],
+      "minimum_should_match": 1
+    }
+  },
+  "sort": [
+    {
+      "_geo_distance": {
+        "latlon": "39.2846225,-76.7605701",
+        "order": "asc"
+      }
+    }
+  ]
+}
+
+#
+# Venue Text search
+#
+# Search in; name
+#
+GET /test_index/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "z_type": { "value": "venue" }
+          }
+        },
+        {
+          "match_phrase_prefix": {"name": "mar"}
+        }
+      ]
+    }
+  }
+}
+
+GET /test_index/_search
+{
+  "query": {
+    "bool" : {
+      "must" : {
+        "range" : {
+          "registration" : { "gte" : "now" }
+        }
+      },
+      "should" : [
+        { "term" : { "state": "Maryland" } },
+        { "term" : { "name" : "Maryland" } },
+        { "bool": {
+          "must_not": [
+            { "exists": {
+              "field": "registration"
+            }}
+          ]
+        } }
+      ],
+      "minimum_should_match" : 1,
+      "boost" : 1.0
+    }
+  }
+}
+
+GET /test_index/_search
+{
+  "query": {
+    "multi_match" : {
+      "query":    "Maryland",
+      "fields": [ "state", "city" ]
+    }
+  },
+  "sort" : [
+        {
+            "_geo_distance" : {
+                "latlon" : "38.6364668,-77.2934339",
+                "order" : "asc",
+                "unit" : "km",
+                "mode" : "min",
+                "distance_type" : "arc"
+            }
+        }
+    ]
+}
+
+GET /test_index/_search
+{
+  "query": {
+    "multi_match" : {
+      "query":    "Maryland",
+      "fields": [ "state", "city" ]
+    }
+  }
+}
+
+GET /test_index/_search
+{
+  "query": {
+    "bool" : {
+      "should" : [
+        { "term" : { "state" : "Florida" } },
+        { "term" : { "city" : "St Augustine" } }
+      ],
+      "minimum_should_match" : 1,
+      "boost" : 1.0
+    }
+  }
+}
+
+GET /test_index/_search
+{
+    "query": {
+        "range" : {
+            "registration" : {
+                "gte" : "now-1d/d",
+                "lte" : "now/d",
+                "boost" : 2.0
+            }
+        }
+    }
+}
+
+GET /test_index/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "range" : {
+            "registration" : {
+                "gte" : "now-1d/d",
+                "lte" : "now/d",
+                "boost" : 2.0
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "term": { "state": "Maryland"}
+        }
+      ]
+    }
+  },
+    "sort" : [
+        {
+            "_geo_distance" : {
+                "latlon" : "38.6364668,-77.2934339",
+                "order" : "asc",
+                "unit" : "km",
+                "mode" : "min",
+                "distance_type" : "arc"
+            }
+        }
+    ]
+}
+
+
+GET /test_index/_search
+{
+  "query" : {
+    "bool": {
+      "must": [
+        {
+          "multi_match" : {
+            "query":    "BMX",
+            "fields": [ "state", "city", "name" ]
+          }
+        }
+      ]
+    }
+  },
+  "sort" : [
+        {
+            "_geo_distance" : {
+                "latlon" : "38.6364668,-77.2934339",
+                "order" : "asc",
+                "unit" : "km",
+                "mode" : "min",
+                "distance_type" : "arc"
+            }
+        }
+    ],
+    "size": 50
+}
+
+GET /test_index/_search
+{
+    "query": {
+        "bool" : {
+            "must" : {
+                "match_all" : {}
+            },
+            "filter" : {
+                "geo_distance" : {
+                    "distance" : "200km",
+                    "latlon" : {
+                        "lat" : 38.6364668,
+                        "lon" : -77.2934339
+                    }
+                }
+            }
+        }
+    },
+
+    "sort" : [
+        {
+            "_geo_distance" : {
+                "latlon" : "38.6364668,-77.2934339",
+                "order" : "asc",
+                "unit" : "km",
+                "mode" : "min",
+                "distance_type" : "arc"
+            }
+        }
+    ],
+    "size": 20
+}
+
+GET /test_index/_search
+{
+    "query": {
+        "bool" : {
+            "must" : {
+                "match_all" : {}
+            },
+            "filter" : {
+                "geo_distance" : {
+                    "distance" : "200km",
+                    "latlon" : "39.2628271,-76.6350047"
+                }
+            }
+        }
+    },
+    "sort" : [
+        {
+            "_geo_distance" : {
+                "latlon" : "39.2628271,-76.6350047",
+                "order" : "asc",
+                "unit" : "km",
+                "mode" : "min",
+                "distance_type" : "arc"
+            }
+        }
+    ],
+    "size": 20
+}

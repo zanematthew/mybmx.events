@@ -19,7 +19,7 @@ class SearchVenueController extends AbstractSearch implements SearchInterface
      */
     public function index(Request $request): \Illuminate\Http\JsonResponse
     {
-        if ($request->latlon) {
+        if ($request->text === 'Current Location' && $request->latlon) {
             return $this->currentLocation($request->latlon);
         } elseif ($request->text) {
             return $this->phrase($request->text, $request->latlon);

@@ -1,6 +1,7 @@
 'use strict';
 // User Mutations
 export const SET_AUTHUSER = 'SET_AUTHUSER';
+export const SET_USER_GEO_LOCATION = 'SET_USER_GEO_LOCATION';
 
 // Schedule Mutations
 export const TOGGLE_EVENT_TO_SCHEDULE = 'TOGGLE_EVENT_TO_SCHEDULE';
@@ -19,4 +20,3 @@ export const CLEAR_KEYWORD = 'CLEAR_KEYWORD';
 export const UPDATE_SEARCH_TYPE = 'UPDATE_SEARCH_TYPE';
 export const UPDATE_SEARCH_RESULTS = 'UPDATE_SEARCH_RESULTS';
 export const CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS';
-export const UPDATE_POSITION = 'UPDATE_POSITION';

@@ -10,8 +10,7 @@ import * as types from '~/store/mutation-types';
 const state = {
   text: { current: '', previous: '' }, // current text, previous text
   type: '',
-  results: {},
-  position: {}
+  results: {}
 };
 
 /**
@@ -27,7 +26,7 @@ const getters = {
  * Actions commit mutations, these are to be used for asynchronous request.
  */
 const actions = {
-  getSearchResults({commit, state}) {
+  getSearchResults({commit, state}, payload) {
     return new Promise((resolve, reject) => {
       Search.results(response => {
         commit(types.UPDATE_SEARCH_RESULTS, response);
@@ -35,37 +34,7 @@ const actions = {
       }, {
         type: state.type,
         text: state.text.current,
-        latlon: state.position.latlon
-      });
-    });
-  },
-  setCurrentLocation({commit, state}) {
-    return new Promise((resolve, reject) => {
-      if (state.latlon) {
-        commit(types.UPDATE_POSITION, {
-          latlon: state.latlon,
-          accuracy: ''
-        });
-        resolve();
-      }
-
-      function success(pos) {
-        var crd = pos.coords;
-        commit(types.UPDATE_POSITION, {
-          latlon: `${crd.latitude},${crd.longitude}`,
-          accuracy: crd.accuracy
-        });
-        resolve();
-      };
-
-      function error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
-      };
-
-      navigator.geolocation.getCurrentPosition(success, error, {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
+        latlon: payload.latlon
       });
     });
   }
@@ -89,9 +58,6 @@ const mutations = {
   },
   [types.UPDATE_SEARCH_RESULTS] (state, payload) {
     state.results[state.type] = payload;
-  },
-  [types.UPDATE_POSITION] (state, payload) {
-    state.position = payload;
   }
 };
 

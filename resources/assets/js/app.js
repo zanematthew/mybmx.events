@@ -61,6 +61,7 @@ import primaryNav from './components/ThePrimaryNav';
 import Clients from './components/passport/Clients';
 import AuthorizedClients from './components/passport/AuthorizedClients';
 import PersonalAccessTokens from './components/passport/PersonalAccessTokens';
+import geoLocation from './components/GeoLocation';
 
 import { sync } from 'vuex-router-sync';
 import store from './store';
@@ -80,7 +81,8 @@ const app = new Vue({
     primaryNav,
     'passport-clients': Clients,
     'passport-authorized-clients': AuthorizedClients,
-    'passport-personal-access-tokens': PersonalAccessTokens
+    'passport-personal-access-tokens': PersonalAccessTokens,
+    geoLocation
   },
   created: function () {
     // https://github.com/vue-bulma/nprogress/issues/13#issuecomment-312778499

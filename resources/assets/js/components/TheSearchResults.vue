@@ -29,7 +29,7 @@
   <div
     v-if="currentText === ''"
     class="link grid row is-item"
-    v-on:click.prevent="setCurrentLocationUpdateText">
+    v-on:click.prevent="searchCurrentLocation">
     <icon name="location-arrow"></icon> {{ locationText.current }}
   </div>
 
@@ -110,7 +110,8 @@ export default {
     ...mapState({
       searchText:        state => state.search.text.current,
       type:              state => state.route.params.type,
-      allCurrentResults: state => state.search.results
+      allCurrentResults: state => state.search.results,
+      coords:            state => state.user.geo_location.coords
     }),
     currentText: {
       get() {
@@ -178,7 +179,9 @@ export default {
         return;
       }
       this.$store.commit('CLEAR_SEARCH_RESULTS');
-      this.$store.dispatch('getSearchResults').then(response => {
+      this.$store.dispatch('getSearchResults', {
+        latlon: `${this.coords.lat},${this.coords.lon}`
+      }).then(response => {
         if (this.allCurrentResults[this.type]) {
           this.resultsCount = this.allCurrentResults[this.type].length;
         }
@@ -216,61 +219,51 @@ export default {
     },
 
     /**
-     * Update the current location text to notify to the user
-     * what is taking place. Send the request to our state
-     * to set the current location.
-     *
-     * Once we have the current location available in our state
-     * we will trigger the search.
+     * Just update the keyword with the flag:
+     * 'Current Location', then search.
      */
-    setCurrentLocationUpdateText() {
-      this.toggleLocationText();
-      this.$store.dispatch('setCurrentLocation').then(() => {
-        this.toggleLocationText();
-        this.$store.commit('UPDATE_KEYWORD', 'Current Location');
-      }).then(() => {
-        this.search();
-      });
+    searchCurrentLocation() {
+      this.$store.commit('UPDATE_KEYWORD', 'Current Location');
+      this.search();
     },
 
     resetSearch() {
       this.$store.commit('CLEAR_KEYWORD');
       this.$store.commit('CLEAR_SEARCH_RESULTS');
-      this.$store.commit('UPDATE_POSITION', {});
       this.resultsCount = 0;
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-@import "../../sass/variables";
-.icon-inside-field {
-  position: relative;
-  input[type="text"] {
-    padding-left: 30px;
+  @import "../../sass/variables";
+  .icon-inside-field {
+    position: relative;
+    input[type="text"] {
+      padding-left: 30px;
+    }
+    .fa-icon {
+      position: absolute;
+      top: 28px;
+      left: 30px;
+    }
   }
-  .fa-icon {
-    position: absolute;
-    top: 28px;
-    left: 30px;
+  .is-tertiary {
+    .nav-item {
+      float: left;
+      width: 33.33%;
+      text-align: center;
+    }
   }
-}
-.is-tertiary {
-  .nav-item {
-    float: left;
-    width: 33.33%;
-    text-align: center;
-  }
-}
-.link {
-  color: $primary-focus-color;
-  .fa-icon {
-    margin-right: 10px;
+  .link {
     color: $primary-focus-color;
+    .fa-icon {
+      margin-right: 10px;
+      color: $primary-focus-color;
+    }
   }
-}
-.avatar {
-  float: left;
-  margin-right: 20px;
-}
+  .avatar {
+    float: left;
+    margin-right: 20px;
+  }
 </style>

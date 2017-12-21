@@ -6,6 +6,7 @@ const state = {
   default: {},
   // @todo maybe move to module
   social_account: { facebook: { avatar: '' } },
+  geo_location: {}
 };
 
 const getters = {
@@ -24,6 +25,10 @@ const mutations = {
   [types.SET_AUTHUSER] (state, payload) {
     state.default = payload.default;
     state.social_account = payload.social_account;
+  },
+
+  [types.SET_USER_GEO_LOCATION] (state, payload) {
+    state.geo_location = payload;
   }
 };
 

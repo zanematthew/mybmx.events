@@ -13,6 +13,7 @@
     </head>
     <body>
         <div id="app">
+            <geo-location></geo-location>
             <div class="app-container">
                 @yield('content')
                 @auth

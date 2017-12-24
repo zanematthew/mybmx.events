@@ -1,5 +1,6 @@
 <template>
 <div>
+  <close></close>
   <!--
   This base form style should be used for;
     - search field
@@ -26,16 +27,16 @@
   <!-- Search Results -->
   <strong
     v-if="currentText === ''"
-    class="row is-item grid is-100 not-title">
+    class="row grid is-item is-100 not-title">
     Suggestions
   </strong>
 
   <div
-    v-if="activeSearchResults[type]"
+    v-if="activeSearchResults[type].length > 0"
     v-for="searchResult in activeSearchResults[type]"
     :item="searchResult"
     :key="searchResult.id"
-    class="row is-item grid is-100"
+    class="row is-item is-100"
     >
     <search-result-venue
       v-if="type === 'venue'"
@@ -45,8 +46,8 @@
       :item="searchResult"></search-result-event>
   </div>
 
-  <div v-else class="row is-item grid is-100">
-    Loading...
+  <div v-else class="align-center row is-item is-100">
+    <icon name="refresh" spin></icon>
   </div>
 
 </div>
@@ -55,11 +56,13 @@
 import { mapState } from 'vuex';
 import searchResultEvent from '~/components/SearchResultEvent';
 import searchResultVenue from '~/components/SearchResultVenue';
+import close from '~/components/Close';
 
 export default {
   components: {
     searchResultEvent,
     searchResultVenue,
+    close
   },
   computed: {
     ...mapState({

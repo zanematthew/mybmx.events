@@ -7,6 +7,7 @@
 <script>
 import scheduleButtonAdd from '~/components/ScheduleButtonAdd';
 import actionBar from '~/components/ActionBar';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -14,9 +15,9 @@ export default {
     actionBar
   },
   computed: {
-    schedules() {
-      return this.$store.state.schedule.schedules;
-    }
+    ...mapState({
+      schedules: state => state.schedule.schedules
+    })
   },
   metaInfo() {
     return {

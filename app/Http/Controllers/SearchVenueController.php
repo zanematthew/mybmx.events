@@ -95,7 +95,7 @@ class SearchVenueController extends AbstractSearch
                         ]
                     ]
                 ],
-                'size' => 4
+                'size' => 10
             ],
         ]);
 

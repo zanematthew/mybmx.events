@@ -36,20 +36,20 @@ import 'vue-awesome/icons';
 import Icon from 'vue-awesome/components/Icon';
 Vue.component('icon', Icon);
 
-import VueAnalytics from 'vue-analytics';
-Vue.use(VueAnalytics, {
-  id: 'UA-102119335-1',
-  router,
-  autoTracking: {
-    pageviewTemplate: function (route) {
-      return {
-        page: route.path,
-        title: document.title,
-        location: window.location.href
-      }
-    }
-  }
-});
+// import VueAnalytics from 'vue-analytics';
+// Vue.use(VueAnalytics, {
+//   id: 'UA-102119335-1',
+//   router,
+//   autoTracking: {
+//     pageviewTemplate: function (route) {
+//       return {
+//         page: route.path,
+//         title: document.title,
+//         location: window.location.href
+//       }
+//     }
+//   }
+// });
 
 var SocialSharing = require('vue-social-sharing');
 Vue.use(SocialSharing);

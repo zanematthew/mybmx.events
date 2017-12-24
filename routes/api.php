@@ -121,6 +121,10 @@ Route::group([
     'middleware' => 'auth:api',
     ], function() {
         Route::get('/event/', 'SearchEventController@index')->name('search.index');
+        Route::get('/event/suggestion/', 'SearchEventController@suggestion')->name('search.suggestion');
+
         Route::get('/venue/', 'SearchVenueController@index')->name('search.index');
+        Route::get('/venue/suggestion/', 'SearchVenueController@suggestion')->name('search.suggestion');
+
     }
 );

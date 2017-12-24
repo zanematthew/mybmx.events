@@ -8,5 +8,13 @@ class Search {
       }
     }).then(({data}) => then(data));
   }
+
+  static suggestion(then, payload) {
+    return axios.get(`/api/search/${payload.type}/suggestion`, {
+      params: {
+        latlon: payload.latlon
+      }
+    }).then(({data}) => then(data));
+  }
 }
 export default Search;

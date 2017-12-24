@@ -10,7 +10,9 @@ import * as types from '~/store/mutation-types';
 const state = {
   text: { current: '', previous: '' }, // current text, previous text
   type: '',
-  results: {}
+  results: {},
+  suggestedResults: {},
+  coords: {}
 };
 
 /**
@@ -26,18 +28,35 @@ const getters = {
  * Actions commit mutations, these are to be used for asynchronous request.
  */
 const actions = {
-  getSearchResults({commit, state}, payload) {
+  getSearchResults({commit, state}) {
+    if (_.isEmpty(state.coords)) {
+      return;
+    }
     return new Promise((resolve, reject) => {
       Search.results(response => {
         commit(types.UPDATE_SEARCH_RESULTS, response);
         resolve(response);
       }, {
-        type: state.type,
         text: state.text.current,
-        latlon: payload.latlon
+        type: state.type,
+        latlon: `${state.coords.lat},${state.coords.lon}`
       });
     });
-  }
+  },
+  getSearchSuggestedResults({commit, state}) {
+    if (_.isEmpty(state.coords)) {
+      return;
+    }
+    return new Promise((resolve, reject) => {
+      Search.suggestion(response => {
+        commit(types.UPDATE_SEARCH_SUGGESTED_RESULTS, response);
+        resolve(response);
+      }, {
+        type: state.type,
+        latlon: `${state.coords.lat},${state.coords.lon}`
+      });
+    });
+  },
 };
 
 /**
@@ -58,6 +77,12 @@ const mutations = {
   },
   [types.UPDATE_SEARCH_RESULTS] (state, payload) {
     state.results[state.type] = payload;
+  },
+  [types.UPDATE_SEARCH_SUGGESTED_RESULTS] (state, payload) {
+    state.suggestedResults[state.type] = payload;
+  },
+  [types.SET_SEARCH_COORDS] (state, payload) {
+    state.coords = payload;
   }
 };
 

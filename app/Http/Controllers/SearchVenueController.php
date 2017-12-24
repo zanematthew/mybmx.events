@@ -7,7 +7,7 @@ use App\AbstractSearch;
 use App\SearchInterface;
 use Illuminate\Http\Request;
 
-class SearchVenueController extends AbstractSearch implements SearchInterface
+class SearchVenueController extends AbstractSearch
 {
 
     /**
@@ -19,10 +19,8 @@ class SearchVenueController extends AbstractSearch implements SearchInterface
      */
     public function index(Request $request): \Illuminate\Http\JsonResponse
     {
-        if ($request->text === 'Current Location' && $request->latlon) {
-            return $this->currentLocation($request->latlon);
-        } elseif ($request->text) {
-            return $this->phrase($request->text, $request->latlon);
+        if ($request->text) {
+            return $this->phrase($request->text);
         } else {
             return response()->json([]);
         }
@@ -35,7 +33,7 @@ class SearchVenueController extends AbstractSearch implements SearchInterface
      * @param  String $text Search text
      * @return Object       HTTP Json response.
      */
-    public function phrase($text, $latlon): \Illuminate\Http\JsonResponse
+    public function phrase($text): \Illuminate\Http\JsonResponse
     {
         $client = \Elasticsearch\ClientBuilder::create()->build();
         $response = $client->search([
@@ -55,16 +53,9 @@ class SearchVenueController extends AbstractSearch implements SearchInterface
         return response()->json($this->formatResults($response));
     }
 
-    /**
-     * Sort search by proximity.
-     *
-     * @todo   needs test
-     * @param  String $latlon A geo-point as a string.
-     * @return Object         HTTP Json response.
-     */
-    public function currentLocation($latlon): \Illuminate\Http\JsonResponse
+    public function suggestion(Request $request): \Illuminate\Http\JsonResponse
     {
-        $latlonArray = $this->latlonAsArray($latlon);
+        $latlonArray = $this->latlonAsArray($request->latlon);
 
         $client = \Elasticsearch\ClientBuilder::create()->build();
         $response = $client->search([
@@ -77,7 +68,7 @@ class SearchVenueController extends AbstractSearch implements SearchInterface
                         'filter' => [
                             'geo_distance' => [
                                 'distance' => '200mi',
-                                'latlon' => $latlon
+                                'latlon' => $request->latlon
                             ]
                         ],
                         'should' => [
@@ -89,7 +80,7 @@ class SearchVenueController extends AbstractSearch implements SearchInterface
                 'sort' => [
                     [
                         '_geo_distance' => [
-                            'latlon' => $latlon,
+                            'latlon' => $request->latlon,
                             'order' => 'asc'
                         ]
                     ]
@@ -106,7 +97,8 @@ class SearchVenueController extends AbstractSearch implements SearchInterface
                             ]
                         ]
                     ]
-                ]
+                ],
+                'size' => 4
             ],
         ]);
 

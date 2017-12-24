@@ -7,7 +7,7 @@
       query: { venue_id: item.venue_id }
       }"
       exact>
-      <div class="title">{{ item.title }}</div>
+      <div class="title">{{ item.title }} at {{ item.venue_name }}, {{ item.state }}</div>
       <div class="not-title">{{ item.distance_from }} miles &bull; {{ fromNow(item.registration) }}</div>
     </router-link>
   </div>

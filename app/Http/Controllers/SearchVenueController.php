@@ -9,23 +9,6 @@ use Illuminate\Http\Request;
 
 class SearchVenueController extends AbstractSearch
 {
-
-    /**
-     * Filter the HTTP request here.
-     *
-     * @todo   needs test
-     * @param  Request $request HTTP request variables.
-     * @return Object       HTTP Json response.
-     */
-    public function index(Request $request): \Illuminate\Http\JsonResponse
-    {
-        if ($request->text) {
-            return $this->phrase($request->text);
-        } else {
-            return response()->json([]);
-        }
-    }
-
     /**
      * A simple full text search.
      *
@@ -33,9 +16,10 @@ class SearchVenueController extends AbstractSearch
      * @param  String $text Search text
      * @return Object       HTTP Json response.
      */
-    public function phrase($text): \Illuminate\Http\JsonResponse
+    public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         $client = \Elasticsearch\ClientBuilder::create()->build();
+        $latlonArray = $this->latlonAsArray($request->latlon);
         $response = $client->search([
             'index' => env('ELASTICSEARCH_INDEX'),
             'type' => 'doc',
@@ -44,7 +28,20 @@ class SearchVenueController extends AbstractSearch
                     'bool' => [
                         'must' => [
                             ['term' => ['z_type' => [ 'value' => 'venue' ]]],
-                            ['match_phrase_prefix' => ['name' => $text]]
+                            ['match_phrase_prefix' => ['name' => $request->text]]
+                        ]
+                    ]
+                ],
+                '_source' => true,
+                'script_fields' => [
+                    'distance_from' => [
+                        'script' => [
+                            'source' => 'doc[\'latlon\'].arcDistance(params.lat,params.lon) * 0.001',
+                            'lang' => 'painless',
+                            'params' => [
+                                'lat' => $latlonArray['lat'],
+                                'lon' => $latlonArray['lon'],
+                            ]
                         ]
                     ]
                 ],

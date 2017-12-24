@@ -60,6 +60,7 @@ class ElasticsearchInstallTest extends TestCase
             'latlon'       => ['type' => 'geo_point'],
             'city'         => ['type' => 'keyword'],
             'state'        => ['type' => 'keyword'],
+            'state_abbr'   => ['type' => 'keyword'],
             'z_type'       => ['type' => 'keyword'],
             'created_at'   => ['type' => 'date'],
             'id'           => ['type' => 'integer'],

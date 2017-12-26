@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="search-results-container">
   <close></close>
   <!--
   This base form style should be used for;
@@ -34,7 +34,6 @@
   <div
     v-if="activeSearchResults[type].length > 0"
     v-for="searchResult in activeSearchResults[type]"
-    :item="searchResult"
     :key="searchResult.id"
     class="row is-item is-100"
     >
@@ -168,13 +167,14 @@ export default {
   @import "../../sass/variables";
   .icon-inside-field {
     position: relative;
+    padding: 10px;
     input[type="text"] {
       padding-left: 30px;
     }
     .fa-icon {
       position: absolute;
-      top: 28px;
-      left: 30px;
+      top: 22px;
+      left: 20px;
     }
   }
   .is-tertiary {
@@ -194,5 +194,11 @@ export default {
   .avatar {
     float: left;
     margin-right: 20px;
+  }
+  .search-results-container {
+    input[type="text"] {
+      background-color: rgba(0, 0, 0, 0.04);
+      border: 0;
+    }
   }
 </style>

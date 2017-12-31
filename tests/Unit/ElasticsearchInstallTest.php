@@ -51,16 +51,16 @@ class ElasticsearchInstallTest extends TestCase
     {
         $map = [
             'title'        => ['type' => 'text'],
-            'type'         => ['type' => 'keyword'],
+            'type'         => ['type' => 'text'],
             'registration' => ['type' => 'date'],
             'name'         => ['type' => 'text'],
             'zip_code'     => ['type' => 'integer'],
             'latitude'     => ['type' => 'float'],
             'longitude'    => ['type' => 'float'],
             'latlon'       => ['type' => 'geo_point'],
-            'city'         => ['type' => 'keyword'],
-            'state'        => ['type' => 'keyword'],
-            'state_abbr'   => ['type' => 'keyword'],
+            'city'         => ['type' => 'text'],
+            'state'        => ['type' => 'text'],
+            'state_abbr'   => ['type' => 'text'],
             'z_type'       => ['type' => 'keyword'],
             'created_at'   => ['type' => 'date'],
             'id'           => ['type' => 'integer'],
@@ -70,7 +70,7 @@ class ElasticsearchInstallTest extends TestCase
             'venue_name'   => ['type' => 'text'],
         ];
 
-        $config = config('elasticsearch.indexParams')['body']['mappings']['doc']['properties'];
+        $config = config('elasticsearch.indexParams.body.mappings.doc.properties');
 
         $this->assertEquals(count($map), count($config));
         $this->assertArraySubset($map, $config);

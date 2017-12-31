@@ -120,11 +120,13 @@ Route::group([
     'prefix'     => 'search',
     'middleware' => 'auth:api',
     ], function() {
-        Route::get('/event/', 'SearchEventController@index')->name('search.index');
-        Route::get('/event/suggestion/', 'SearchEventController@suggestion')->name('search.suggestion');
+        Route::get('/event/', 'SearchEventController@index')->name('search.event.index');
+        Route::get('/event/date/', 'SearchEventController@date')->name('search.event.date');
+        Route::get('/event/suggestion/', 'SearchEventController@suggestion')->name('search.event.suggestion');
 
-        Route::get('/venue/', 'SearchVenueController@index')->name('search.index');
-        Route::get('/venue/suggestion/', 'SearchVenueController@suggestion')->name('search.suggestion');
+        Route::get('/venue/', 'SearchVenueController@index')->name('search.venue.index');
+        Route::get('/venue/suggestion/', 'SearchVenueController@suggestion')->name('search.venue.suggestion');
 
+        Route::get('/place/', 'SearchPlaceController@index')->name('search.index');
     }
 );

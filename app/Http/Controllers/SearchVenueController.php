@@ -18,88 +18,33 @@ class SearchVenueController extends AbstractSearch
      */
     public function index(Request $request): \Illuminate\Http\JsonResponse
     {
-        $client = \Elasticsearch\ClientBuilder::create()->build();
-        $latlonArray = $this->latlonAsArray($request->latlon);
-        $response = $client->search([
-            'index' => env('ELASTICSEARCH_INDEX'),
-            'type' => 'doc',
-                'body' => [
-                'query' => [
-                    'bool' => [
-                        'must' => [
-                            ['term' => ['z_type' => [ 'value' => 'venue' ]]],
-                            ['match_phrase_prefix' => ['name' => $request->text]]
-                        ]
-                    ]
-                ],
-                '_source' => true,
-                'script_fields' => [
-                    'distance_from' => [
-                        'script' => [
-                            'source' => 'doc[\'latlon\'].arcDistance(params.lat,params.lon) * 0.001',
-                            'lang' => 'painless',
-                            'params' => [
-                                'lat' => $latlonArray['lat'],
-                                'lon' => $latlonArray['lon'],
-                            ]
-                        ]
-                    ]
-                ],
-            ],
-        ]);
-        return response()->json($this->formatResults($response));
+        list($lat, $lon) = explode(',' , $request->latlon);
+        return response()->json($this->formatResults(\Elasticsearch::searchTemplate([
+            'body' => [
+                'id' => 'venue-phrase',
+                'params' => [
+                    'phrase'   => $request->text,
+                    'lat'      => $lat,
+                    'lon'      => $lon,
+                    'latlon'   => $request->latlon,
+                ]
+            ]
+        ])));
     }
 
     public function suggestion(Request $request): \Illuminate\Http\JsonResponse
     {
-        $latlonArray = $this->latlonAsArray($request->latlon);
-
-        $client = \Elasticsearch\ClientBuilder::create()->build();
-        $response = $client->search([
-        'index' => env('ELASTICSEARCH_INDEX'),
-            'type' => 'doc',
-                'body' => [
-                'query' => [
-                    'bool' => [
-                        'must' => [ [ 'match_all' => new \stdClass() ] ],
-                        'filter' => [
-                            'geo_distance' => [
-                                'distance' => '200mi',
-                                'latlon' => $request->latlon
-                            ]
-                        ],
-                        'should' => [
-                            [ 'term' => ['z_type' => ['value' => 'venue' ] ] ]
-                        ],
-                        'minimum_should_match' => 1
-                    ]
-                ],
-                'sort' => [
-                    [
-                        '_geo_distance' => [
-                            'latlon' => $request->latlon,
-                            'order' => 'asc'
-                        ]
-                    ]
-                ],
-                '_source' => true,
-                'script_fields' => [
-                    'distance_from' => [
-                        'script' => [
-                            'source' => 'doc[\'latlon\'].arcDistance(params.lat,params.lon) * 0.001',
-                            'lang' => 'painless',
-                            'params' => [
-                                'lat' => $latlonArray['lat'],
-                                'lon' => $latlonArray['lon'],
-                            ]
-                        ]
-                    ]
-                ],
-                'size' => 10
-            ],
-        ]);
-
-        $results = $this->formatResults($response);
-        return response()->json($results);
+        list($lat, $lon) = explode(',' , $request->latlon);
+        return response()->json($this->formatResults(\Elasticsearch::searchTemplate([
+            'body' => [
+                'id' => 'venue-suggest',
+                'params' => [
+                    'lat'      => $lat,
+                    'lon'      => $lon,
+                    'latlon'   => $request->latlon,
+                    'distance' => 500
+                ]
+            ]
+        ])));
     }
 }

@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
 
         Commands\ElasticsearchCreateIndexMapping::class,
 
+        Commands\ElasticsearchSaveTemplateCommand::class,
     ];
 
     /**

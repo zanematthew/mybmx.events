@@ -16,7 +16,7 @@ class SearchVenueController extends AbstractSearch
      * @param  String $text Search text
      * @return Object       HTTP Json response.
      */
-    public function index(Request $request): \Illuminate\Http\JsonResponse
+    public function phrase(Request $request): \Illuminate\Http\JsonResponse
     {
         list($lat, $lon) = explode(',' , $request->latlon);
         return response()->json($this->formatResults(\Elasticsearch::searchTemplate([
@@ -27,6 +27,7 @@ class SearchVenueController extends AbstractSearch
                     'lat'      => $lat,
                     'lon'      => $lon,
                     'latlon'   => $request->latlon,
+                    'distance' => 250,
                 ]
             ]
         ])));
@@ -42,7 +43,7 @@ class SearchVenueController extends AbstractSearch
                     'lat'      => $lat,
                     'lon'      => $lon,
                     'latlon'   => $request->latlon,
-                    'distance' => 500
+                    'distance' => 250,
                 ]
             ]
         ])));

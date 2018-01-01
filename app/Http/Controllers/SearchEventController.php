@@ -20,7 +20,7 @@ class SearchEventController extends AbstractSearch
      * @param  String $latlon  Geo-point as a string.
      * @return Object[         HTTP Json response
      */
-    public function index(Request $request): \Illuminate\Http\JsonResponse
+    public function phrase(Request $request): \Illuminate\Http\JsonResponse
     {
         list($lat, $lon) = explode(',' , $request->latlon);
         return response()->json($this->formatResults(\Elasticsearch::searchTemplate([
@@ -30,6 +30,7 @@ class SearchEventController extends AbstractSearch
                     'lat'      => $lat,
                     'lon'      => $lon,
                     'latlon'   => $request->latlon,
+                    'distance' => 250,
                 ]
             ]
         ])));
@@ -45,6 +46,7 @@ class SearchEventController extends AbstractSearch
                     'lat'      => $lat,
                     'lon'      => $lon,
                     'latlon'   => $request->latlon,
+                    'distance' => 250,
                 ]
             ]
         ])));
@@ -62,6 +64,7 @@ class SearchEventController extends AbstractSearch
                     'lat'      => $lat,
                     'lon'      => $lon,
                     'latlon'   => $request->latlon,
+                    'distance' => 250,
                 ]
             ]
         ])));

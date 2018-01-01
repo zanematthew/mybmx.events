@@ -25,9 +25,8 @@ class SearchEventController extends AbstractSearch
         list($lat, $lon) = explode(',' , $request->latlon);
         return response()->json($this->formatResults(\Elasticsearch::searchTemplate([
             'body' => [
-                'id' => 'event-phrase',
+                'id' => 'event-suggest',
                 'params' => [
-                    'phrase'   => $request->text,
                     'lat'      => $lat,
                     'lon'      => $lon,
                     'latlon'   => $request->latlon,

@@ -33,7 +33,7 @@ class ElasticsearchSearchTemplates
 {
     /**
      * Search Events by date (to, from),
-     * limited to a 500 mile radius,
+     * limited to a given mile radius,
      * sorted by date ASC.
      *
      * Params:
@@ -42,6 +42,7 @@ class ElasticsearchSearchTemplates
      *     {{lat}}
      *     {{lon}}
      *     {{latlon}}
+     *     {{distance}}
      */
     public function eventDate()
     {
@@ -50,7 +51,7 @@ class ElasticsearchSearchTemplates
             'body' => [
                 'script' => [
                     'lang'   => 'mustache',
-                    'source' => "{\"sort\":[{\"registration\":{\"order\":\"asc\"}}],\"query\":{\"bool\":{\"must\":[{\"range\":{\"registration\":{\"gte\":\"{{from}}\",\"lte\":\"{{to}}\"}}}],\"should\":[{\"term\":{\"z_type\":{\"value\":\"event\"}}}],\"minimum_should_match\":1,\"filter\":{\"geo_distance\":{\"distance\":\"500mi\",\"latlon\":\"39.2846225,-76.7605701\"}}}},\"_source\":true,\"script_fields\":{\"distance_from\":{\"script\":{\"source\":\"doc['latlon'].arcDistance(params.lat,params.lon) * 0.001\",\"lang\":\"painless\",\"params\":{\"lat\":{{lat}},\"lon\":{{lon}}}}}}}"
+                    'source' => "{\"sort\":[{\"registration\":{\"order\":\"asc\"}}],\"query\":{\"bool\":{\"must\":[{\"range\":{\"registration\":{\"gte\":\"{{from}}\",\"lte\":\"{{to}}\"}}}],\"should\":[{\"term\":{\"z_type\":{\"value\":\"event\"}}}],\"minimum_should_match\":1,\"filter\":{\"geo_distance\":{\"distance\":\"{{distance}}mi\",\"latlon\":\"39.2846225,-76.7605701\"}}}},\"_source\":true,\"script_fields\":{\"distance_from\":{\"script\":{\"source\":\"doc['latlon'].arcDistance(params.lat,params.lon) * 0.001\",\"lang\":\"painless\",\"params\":{\"lat\":{{lat}},\"lon\":{{lon}}}}}}}"
                 ]
             ]
         ];
@@ -59,7 +60,7 @@ class ElasticsearchSearchTemplates
     /**
      * Search for events by event title,
      * happening in the future,
-     * within a 500 mile radius,
+     * within a given mile radius,
      * sorted by closets.
      *
      * Params
@@ -67,6 +68,7 @@ class ElasticsearchSearchTemplates
      *     {{latlon}}
      *     {{lat}}
      *     {{lon}}
+     *     {{distance}}
      */
     public function eventPhrase()
     {
@@ -75,7 +77,7 @@ class ElasticsearchSearchTemplates
             'body' => [
                 'script' => [
                     'lang'   => 'mustache',
-                    'source' => "{\"query\":{\"bool\":{\"must\":[{\"range\":{\"registration\":{\"gte\":\"now\"}}},{\"multi_match\":{\"type\":\"phrase_prefix\",\"query\":\"{{phrase}}\",\"fields\":[\"title\"]}}],\"should\":[{\"term\":{\"z_type\":{\"value\":\"event\"}}}],\"minimum_should_match\":1,\"filter\":{\"geo_distance\":{\"distance\":\"500mi\",\"latlon\":\"{{latlon}}\"}}}},\"_source\":true,\"script_fields\":{\"distance_from\":{\"script\":{\"source\":\"doc['latlon'].arcDistance(params.lat,params.lon) * 0.001\",\"lang\":\"painless\",\"params\":{\"lat\":{{lat}},\"lon\":{{lon}}}}}}}"
+                    'source' => "{\"query\":{\"bool\":{\"must\":[{\"range\":{\"registration\":{\"gte\":\"now\"}}},{\"multi_match\":{\"type\":\"phrase_prefix\",\"query\":\"{{phrase}}\",\"fields\":[\"title\"]}}],\"should\":[{\"term\":{\"z_type\":{\"value\":\"event\"}}}],\"minimum_should_match\":1,\"filter\":{\"geo_distance\":{\"distance\":\"{{distance}}mi\",\"latlon\":\"{{latlon}}\"}}}},\"_source\":true,\"script_fields\":{\"distance_from\":{\"script\":{\"source\":\"doc['latlon'].arcDistance(params.lat,params.lon) * 0.001\",\"lang\":\"painless\",\"params\":{\"lat\":{{lat}},\"lon\":{{lon}}}}}}}"
                 ]
             ]
         ];
@@ -88,9 +90,10 @@ class ElasticsearchSearchTemplates
      *
      * Params
      *     {{params}}
-     *     {{latlong}}
+     *     {{latlon}}
      *     {{lat}}
      *     {{lon}}
+     *     {{distance}}
      */
     public function eventSuggest()
     {
@@ -99,7 +102,7 @@ class ElasticsearchSearchTemplates
             'body' => [
                 'script' => [
                     'lang' => 'mustache',
-                    'source' => "{\"query\":{\"bool\":{\"must\":[{\"range\":{\"registration\":{\"gte\":\"now\"}}}],\"should\":[{\"term\":{\"z_type\":{\"value\":\"event\"}}}],\"filter\":{\"geo_distance\":{\"distance\":\"{{distance}}mi\",\"latlon\":\"{{latlong}}\"}}}},\"sort\":[{\"_geo_distance\":{\"latlon\":\"{{latlong}}\",\"order\":\"asc\"}}],\"_source\":true,\"script_fields\":{\"distance_from\":{\"script\":{\"source\":\"doc['latlon'].arcDistance(params.lat,params.lon) * 0.001\",\"lang\":\"painless\",\"params\":{\"lat\":{{lat}},\"lon\":{{lon}}}}}}}"
+                    'source' => "{\"query\":{\"bool\":{\"must\":[{\"range\":{\"registration\":{\"gte\":\"now\"}}}],\"should\":[{\"term\":{\"z_type\":{\"value\":\"event\"}}}],\"filter\":{\"geo_distance\":{\"distance\":\"{{distance}}mi\",\"latlon\":\"{{latlon}}\"}}}},\"sort\":[{\"_geo_distance\":{\"latlon\":\"{{latlon}}\",\"order\":\"asc\"}}],\"_source\":true,\"script_fields\":{\"distance_from\":{\"script\":{\"source\":\"doc['latlon'].arcDistance(params.lat,params.lon) * 0.001\",\"lang\":\"painless\",\"params\":{\"lat\":{{lat}},\"lon\":{{lon}}}}}}}"
                 ]
             ]
         ];
@@ -111,7 +114,7 @@ class ElasticsearchSearchTemplates
      *
      * Params
      *     {{phrase}}
-     *     {{latlong}}
+     *     {{latlon}}
      *     {{lat}}
      *     {{lon}}
      */
@@ -122,7 +125,7 @@ class ElasticsearchSearchTemplates
             'body' => [
                 'script' => [
                     'lang' => 'mustache',
-                    'source' =>  "{\"query\":{\"bool\":{\"must\":[{\"multi_match\":{\"type\":\"phrase_prefix\",\"query\":\"{{phrase}}\",\"fields\":[\"name\",\"state\"]}}],\"should\":[{\"term\":{\"z_type\":{\"value\":\"venue\"}}}],\"minimum_should_match\":1}},\"sort\":[{\"_geo_distance\":{\"latlon\":\"{{latlong}}\"}}],\"_source\":true,\"script_fields\":{\"distance_from\":{\"script\":{\"source\":\"doc['latlon'].arcDistance(params.lat,params.lon) * 0.001\",\"lang\":\"painless\",\"params\":{\"lat\":{{lat}},\"lon\":{{lon}}}}}}}"
+                    'source' =>  "{\"query\":{\"bool\":{\"must\":[{\"multi_match\":{\"type\":\"phrase_prefix\",\"query\":\"{{phrase}}\",\"fields\":[\"name\",\"state\"]}}],\"should\":[{\"term\":{\"z_type\":{\"value\":\"venue\"}}}],\"minimum_should_match\":1}},\"sort\":[{\"_geo_distance\":{\"latlon\":\"{{latlon}}\"}}],\"_source\":true,\"script_fields\":{\"distance_from\":{\"script\":{\"source\":\"doc['latlon'].arcDistance(params.lat,params.lon) * 0.001\",\"lang\":\"painless\",\"params\":{\"lat\":{{lat}},\"lon\":{{lon}}}}}}}"
                 ]
             ]
         ];

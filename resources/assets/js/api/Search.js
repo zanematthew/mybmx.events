@@ -40,10 +40,9 @@ class Search {
    * @param  {object}  payload Object containing date range (to, from), text and latlon.
    * @return {array}           Event or Venue document from Elasticsearch.
    */
-  static date(then, when) {
+  static date(then, when, payload) {
 
-    let coords = JSON.parse(sessionStorage.getItem('location')),
-        range  = {};
+    let range  = {};
 
     // API date format 2017-12-10
     switch (when) {
@@ -76,7 +75,7 @@ class Search {
     return axios.get('/api/search/event/date', {
       params: {
         ...range,
-        latlon: `${coords.lat},${coords.lon}`
+        latlon: payload.latlon
       }
     }).then(({data}) => then(data));
   }

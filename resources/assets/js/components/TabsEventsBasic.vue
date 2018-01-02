@@ -60,7 +60,10 @@ export default {
   },
   methods: {
     getEvents() {
-      Search.date(response => this.events = response, this.when);
+      let coords = JSON.parse(sessionStorage.getItem('location'));
+      Search.date(response => this.events = response, this.when, {
+        latlon: `${coords.lat},${coords.lon}`
+      });
     }
   },
   watch: {

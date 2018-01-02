@@ -10,7 +10,7 @@ class Search {
    * @return {array}           Event or Venue document from Elasticsearch.
    */
   static phrase(then, payload) {
-    return axios.get(`/api/search/${payload.type}/`, {
+    return axios.get(`/api/search/${payload.type}/phrase`, {
       params: {
         text: payload.text,
         latlon: payload.latlon

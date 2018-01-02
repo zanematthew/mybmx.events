@@ -5,6 +5,7 @@ import TheRouterView from './components/TheRouterView';
 import TheSingleEvent from './components/TheSingleEvent';
 import TheListEvent from './components/TheListEvent';
 import TheSingleVenue from './components/TheSingleVenue';
+import TheListVenue from './components/TheListVenue';
 import TheListSchedule from './components/TheListSchedule';
 import TheSingleSchedule from './components/TheSingleSchedule';
 import TheAction from './components/TheAction';
@@ -49,6 +50,12 @@ const routes = [
         component: TheSingleVenue,
         name: 'venue-single-events',
         props: true,
+      },
+      {
+        path: ':state?',
+        name: 'venue-list-page',
+        component: TheListVenue,
+        props: true
       }
     ]
   },

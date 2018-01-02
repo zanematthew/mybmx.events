@@ -18,7 +18,7 @@
       params: { venue_id: item.id, slug: item.slug, when: 'this-month' }
       }"
       exact
-      class="grid is-70">
+      class="text-area">
       <div class="title">{{ item.name }}</div>
       <div class="not-title">{{ item.distance_from }} miles &bull; {{ item.city }}, {{ item.state_abbr }}</div>
     </router-link>
@@ -36,3 +36,10 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.text-area {
+  width: 75%;
+  padding: 0 15px;
+  float: left;
+}
+</style>

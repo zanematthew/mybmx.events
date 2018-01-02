@@ -37,6 +37,11 @@ export default {
             params: { 'when': 'this-month' }
           },
           {
+            name: 'Venues',
+            id: 'venues',
+            icon: 'map-o',
+          },
+          {
             name: 'Collections',
             id: 'collection',
             icon: 'star-o'
@@ -64,7 +69,7 @@ export default {
   .nav-item {
     padding: 10px 0 10px;
     text-align: center;
-    width: 25%;
+    width: 20%;
     float: left;
     margin-bottom: -1px;
   }

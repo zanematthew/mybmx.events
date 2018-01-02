@@ -33,7 +33,7 @@ const actions = {
       return;
     }
     return new Promise((resolve, reject) => {
-      Search.results(response => {
+      Search.phrase(response => {
         commit(types.UPDATE_SEARCH_RESULTS, response);
         resolve(response);
       }, {

@@ -92,10 +92,10 @@ export default {
       // Restructure results state as;
       // search.results[type] = [ count => 0, items = [] ];
       items: [
-        {
-          title: 'Places',
-          params: { type: 'place' }
-        },
+        // {
+        //   title: 'Places',
+        //   params: { type: 'place' }
+        // },
         {
           title: 'Events',
           params: { type: 'event' }
@@ -179,7 +179,7 @@ export default {
   .is-tertiary {
     .nav-item {
       float: left;
-      width: 33.33%;
+      width: 50%;
       text-align: center;
     }
   }

@@ -1,15 +1,15 @@
 <template>
 <div>
-  <tabs-events></tabs-events>
+  <tabs-events-basic></tabs-events-basic>
 </div>
 </template>
 <script>
 import moment from 'moment';
-import tabsEvents from '~/components/TabsEvents';
+import tabsEventsBasic from '~/components/TabsEventsBasic';
 
 export default {
   components: {
-    tabsEvents
+    tabsEventsBasic
   },
   props: {
     when: {
@@ -18,14 +18,9 @@ export default {
     },
     type: String
   },
-  computed: {
-    pageNumber() {
-      return this.$store.state.route.query.page || 1;
-    }
-  },
   metaInfo() {
     return {
-      title: `${this.getMonthName()} | Page ${this.pageNumber}`,
+      title: `${this.getMonthName()}`,
       titleTemplate: '%s | My BMX Events'
     }
   },

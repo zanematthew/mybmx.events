@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="row is-item is-100">
     <!-- Library Area -->
-    <library-item-toggle :item_id="item.id" :item_type="'venue'" class="grid is-15"></library-item-toggle>
+    <library-item-toggle :item_id="item.id" :item_type="'venue'"></library-item-toggle>
 
     <!-- Image Area -->
     <div class="grid is-15" v-if="item.image_uri">

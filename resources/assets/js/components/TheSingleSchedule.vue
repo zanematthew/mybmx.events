@@ -4,7 +4,7 @@
       <router-link :to="{ name: 'event-list-page', params: { when: 'this-month' } }" class="grid row is-item title align-center">Add Events to this Schedule.</router-link>
     </div>
     <div v-else>
-      <action-bar :type="'event'" :item="item" :key="item.id" v-for="item in schedule.events" class="row"></action-bar>
+      <action-bar :type="'event'" :item="item" :key="item.id" v-for="item in schedule.events"></action-bar>
     </div>
   </div>
   <div v-else class="align-center row is-item grid is-100">

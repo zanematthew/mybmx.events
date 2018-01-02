@@ -1,11 +1,11 @@
 <template>
-  <div class="action-bar" v-if="item.id">
+  <div v-if="item.id" class="row is-item">
 
     <!-- Library Area -->
-    <library-item-toggle :item_id="item.id" :item_type="type" class="grid is-15"></library-item-toggle>
+    <library-item-toggle :item_id="item.id" :item_type="type"></library-item-toggle>
 
     <!-- Image Area -->
-    <div class="grid is-15 image-area" v-if="imageUri">
+    <div class="avatar-container" v-if="imageUri">
       <div class="avatar">
         <img :src="imageUri" itemprop="image" alt="Photo of Jane Joe">
       </div>
@@ -18,7 +18,7 @@
       params: { id: item.id, slug: item.slug, when: 'this-month' },
       query: { venue_id: item.venue.id }
       }"
-      class="grid is-50 title-click-area" exact>
+      class="text-area" exact>
         <div class="title">{{ item.title }}</div>
         <div class="not-title" v-if="item.start_date">
           {{ startDate(item.start_date) }}
@@ -43,7 +43,7 @@
       :to="{
       name: 'venue-single-events',
       params: { venue_id: item.id, slug: item.slug, when: 'this-month' }
-      }" class="grid is-50 title-click-area title" exact>
+      }" class="text-area" exact>
       <div class="title">{{ item.name }}</div>
       <div
         class="not-title"
@@ -55,7 +55,7 @@
     <!-- Title Area (Schedule) -->
     <router-link v-if="type === 'schedule'" :to="{ name: 'schedule-single-page',
       params: { id: item.id, slug: item.slug }
-      }" class="grid is-70 title-click-area" exact>
+      }" class="text-area" exact>
       <div class="title">{{ item.name }}</div>
       <div class="not-title">Updated {{ fromNow(item.updated_at) }}</div>
     </router-link>
@@ -65,7 +65,7 @@
       name: 'action-main',
       params: { id: item.id, type: type },
       query: { slug: item.slug, name: nameOrTitle, venue_id: item.venue_id }
-    }" class="align-right grid is-15 detail-click-area"><icon name="ellipsis-h"></icon></router-link>
+    }" class="ellipsis-container"><icon name="ellipsis-h"></icon></router-link>
   </div>
   <div v-else class="align-center row is-item grid is-100">
     <icon name="refresh" spin></icon>
@@ -129,32 +129,23 @@ export default {
 </script>
 <style lang="scss">
 @import "../../sass/variables";
-.action-bar {
-  max-height: 80px;
-  min-height: 80px;
-  height: 80px;
-  .add-to-library {
-    line-height: 80px;
-    height: 100%;
-    text-align: center;
-  }
-}
-.title-click-area {
-  height: 100%;
-  padding-top: $padding;
-  padding-right: 0;
-}
-.detail-click-area {
-  height: 100%;
-  color: #000;
-  padding-top: $padding;
-}
-.image-area {
-  padding-top: $padding;
-  padding-bottom: $padding;
-  text-align: center;
-}
 .not-active {
   color: $link-gray;
+}
+.avatar-container {
+  float: left;
+  width: 15%;
+  text-align: center;
+}
+.ellipsis-container {
+  width: 15%;
+  float: right;
+  text-align: center;
+}
+.text-area {
+  width: 60%;
+  float: left;
+  padding-right: 10px;
+  padding-left: 5px;
 }
 </style>

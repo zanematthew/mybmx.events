@@ -1,6 +1,6 @@
 <template>
 <div>
-  <action-bar :type="'event'" :item="event" class="row"></action-bar>
+  <action-bar :type="'event'" :item="event"></action-bar>
 
   <!-- Event Detail -->
   <div class="row is-item grid is-100" v-if="event.fee">

@@ -1,5 +1,5 @@
 <template>
-  <a :class="added ? 'is-active' : ''" v-on:click.stop.prevent="toggle" class="star add-to-library">
+  <a :class="added ? 'is-active' : ''" v-on:click.stop.prevent="toggle" class="library-item-toggle star">
     <icon :name="added ? 'star' : 'star-o'"></icon>
   </a>
 </template>
@@ -30,3 +30,14 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  @import "../../sass/variables";
+  .library-item-toggle {
+    float: left;
+    width: 10%;
+    text-align: center;
+    position: relative;
+    top: 5px;
+    left: 10px;
+  }
+</style>

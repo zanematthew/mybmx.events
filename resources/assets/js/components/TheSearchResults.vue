@@ -35,7 +35,6 @@
     v-if="activeSearchResults[type].length > 0"
     v-for="searchResult in activeSearchResults[type]"
     :key="searchResult.id"
-    class="row is-item is-100"
     >
     <search-result-venue
       v-if="type === 'venue'"
@@ -183,17 +182,6 @@ export default {
       width: 33.33%;
       text-align: center;
     }
-  }
-  .link {
-    color: $primary-focus-color;
-    .fa-icon {
-      margin-right: 10px;
-      color: $primary-focus-color;
-    }
-  }
-  .avatar {
-    float: left;
-    margin-right: 20px;
   }
   .search-results-container {
     input[type="text"] {
